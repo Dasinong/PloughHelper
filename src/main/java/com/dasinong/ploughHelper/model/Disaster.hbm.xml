@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.dasinong.ploughHelper.model.Field" table="field" catalog="ploughHelper">
+        <id name="disasterId" type="java.lang.Long">
+            <column name="disasterId" />
+            <generator class="identity" />
+        </id>
+        <property name="disasterName" type="string">
+            <column name="disasterName" length="30" not-null="true" unique="true" />
+        </property>
+        <!--  
+	        <many-to-one name="apr" class="com.dasinong.ploughHelper.model.ActivePlantRecord" cascade="none" outer-join="auto"
+	                     update="true" insert="true" access="property" column="acitveplantrecord_id" not-null="true">
+	        </many-to-one>
+        -->
+    </class>
+</hibernate-mapping>
