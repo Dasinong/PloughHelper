@@ -96,16 +96,26 @@ public class HomeController {
 	
 	@RequestMapping(value = "/deleteFieldById", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
-	public String deleteFieldById(Locale locale, Model model) {
-		logger.info("DeleteFieldById", model);
+	public Object deleteFieldById(HttpServletRequest request, HttpServletResponse response) {
+		logger.info("DeleteFieldById: ");
 		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		FieldBo fieldBo = (FieldBo) ContextLoader.getCurrentWebApplicationContext().getBean("fieldBo");
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		String fieldName = (request.getParameter("fieldName")!=null) ? request.getParameter("fieldName") : "GuangZhou"; 
+		try {
+			Field field = fieldBo.findByFieldName(fieldName);
+			fieldBo.delete(field);
+    		result.put("status", "200");
+    	    result.put("field", field);
+    	    return result;
+    	}
+    	catch(Exception e)
+    	{
+    		result.put("status", "300");
+    		result.put("message", e.getMessage());
+    		return result;
+    	}	
 		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
-		return model.toString();
+
 	}
 }

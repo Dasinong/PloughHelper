@@ -22,6 +22,9 @@
      	<property name="mappingResources">
 			<list>
         	   <value>/com/dasinong/ploughHelper/model/Field.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/Variety.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/Crop.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/Location.hbm.xml</value>
 			</list>
     	</property>	
     </bean>

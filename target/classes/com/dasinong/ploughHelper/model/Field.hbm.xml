@@ -12,6 +12,15 @@
         <property name="fieldName" type="string">
             <column name="fieldName" length="30" not-null="true" unique="true" />
         </property>
+        <property name="isActive" type="java.lang.Boolean">
+            <column name="isActive" />
+        </property>
+        <many-to-one name="variety" class="com.dasinong.ploughHelper.model.Variety" fetch="select">
+        	<column name="varietyId" not-null="true"></column>
+        </many-to-one>
+        <many-to-one name="location" class="com.dasinong.ploughHelper.model.Location" fetch="select">
+        	<column name="locationId" not-null="false"></column>
+        </many-to-one>
         <property name="other" type="string">
             <column name="other" length="100" not-null="true" unique="true" />
         </property>
