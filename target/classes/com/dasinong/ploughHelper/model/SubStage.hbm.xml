@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.dasinong.ploughHelper.model.SubStage" table="subStage" catalog="ploughHelper">
+        <id name="subStageId" type="java.lang.Long">
+            <column name="subStageId" />
+            <generator class="identity" />
+        </id>
+        <property name="subStageName" type="string">
+            <column name="subStageName" length="30" not-null="true" unique="true" />
+        </property>
+        <property name="stageName" type="string">
+            <column name="stageName" length="30" not-null="true" />
+        </property>
+        <set name="varieties" table="variety_subStage" cascade="all" inverse="false">
+        	<key column = "subStageId"></key>
+        	<many-to-many class="com.dasinong.ploughHelper.model.Variety" column="varietyId"></many-to-many>
+        </set>
+        <set name="natDiss" table="subStage_natDis" cascade="all" inverse="false" lazy="false">
+        	<key column = "subStageId"></key>
+        	<many-to-many class="com.dasinong.ploughHelper.model.NatDis" column="natDisId"></many-to-many>
+        </set>
+        
+    </class>
+</hibernate-mapping>

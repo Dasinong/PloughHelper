@@ -11,8 +11,10 @@ public class Variety implements Serializable{
 	private Long varietyId;
 	private String varietyName;
 	private Set<Field> fields = new HashSet<Field>();
+	private Set<SubStage> subStages = new HashSet<SubStage>();
 	private Crop crop;
 	private String other;
+	
 	public Long getVarietyId() {
 		return varietyId;
 	}
@@ -42,5 +44,12 @@ public class Variety implements Serializable{
 	}
 	public void setCrop(Crop crop) {
 		this.crop = crop;
+	}
+	
+	public Set<SubStage> getSubStages() {
+		return subStages;
+	}
+	public void setSubStages(Set<SubStage> subStages) {
+		this.subStages = subStages;
 	}
 }

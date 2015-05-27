@@ -11,6 +11,8 @@
 		<config>src/main/webapp/WEB-INF/spring/beans/Variety.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/beans/Crop.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/beans/Location.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/beans/SubStage.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/beans/NatDis.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml</config>

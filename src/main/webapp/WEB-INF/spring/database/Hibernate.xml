@@ -25,6 +25,8 @@
         	   <value>/com/dasinong/ploughHelper/model/Variety.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/Crop.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/Location.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/SubStage.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/NatDis.hbm.xml</value>
 			</list>
     	</property>	
     </bean>

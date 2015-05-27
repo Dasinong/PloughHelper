@@ -20,10 +20,14 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.bo.CropBo;
 import com.dasinong.ploughHelper.bo.FieldBo;
 import com.dasinong.ploughHelper.bo.LocationBo;
+import com.dasinong.ploughHelper.bo.NatDisBo;
+import com.dasinong.ploughHelper.bo.SubStageBo;
 import com.dasinong.ploughHelper.bo.VarietyBo;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
+import com.dasinong.ploughHelper.model.NatDis;
+import com.dasinong.ploughHelper.model.SubStage;
 import com.dasinong.ploughHelper.model.Variety;
 
 @Controller
@@ -177,6 +181,99 @@ public class TestController {
 		{
 			result.put("status", "500");
 			result.put("info","Run /testIniCroFieVar first");
+			result.put("cause", e.getCause());
+			return result;
+		}
+	}
+	
+	
+	
+	@RequestMapping(value = "/tesiVarSuS", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	public Object tiVarSuS(HttpServletRequest request, HttpServletResponse response) {
+		
+		VarietyBo varietyBo = (VarietyBo) ContextLoader.getCurrentWebApplicationContext().getBean("varietyBo");
+		SubStageBo subStageBo = (SubStageBo) ContextLoader.getCurrentWebApplicationContext().getBean("subStageBo");
+		
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			Variety variety1 = varietyBo.findByVarietyName("TestVariety1");
+			Variety variety2 = varietyBo.findByVarietyName("TestVariety2");
+			SubStage ss1 = new SubStage();
+			SubStage ss2 = new SubStage();
+			ss1.setSubStageName("m1s1");
+			ss1.setStageName("m1");
+			ss2.setSubStageName("m1s2");
+			ss2.setStageName("m1");
+			ss1.getVarieties().add(variety1);
+			ss1.getVarieties().add(variety2);
+			ss2.getVarieties().add(variety1);
+			subStageBo.save(ss1);
+			subStageBo.save(ss2);
+			variety1.getSubStages().add(ss1);
+			variety1.getSubStages().add(ss2);
+			variety2.getSubStages().add(ss1);
+
+		    
+			System.out.println("Done");
+			result.put("test","testoutputcheck");
+			result.put("status",200);
+			
+		return result;
+		}
+		catch(Exception e)
+		{
+			result.put("status", "500");
+			result.put("cause", e.getCause());
+			return result;
+		}
+	}
+	
+	
+	
+	@RequestMapping(value = "/tesiSusDis", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	public Object tiSuSDis(HttpServletRequest request, HttpServletResponse response) {
+		
+		
+		SubStageBo subStageBo = (SubStageBo) ContextLoader.getCurrentWebApplicationContext().getBean("subStageBo");
+		NatDisBo natDisBo = (NatDisBo) ContextLoader.getCurrentWebApplicationContext().getBean("natDisBo");
+		
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			SubStage ss1 = subStageBo.findBySubStageName("m1s1");
+			SubStage ss2 = subStageBo.findBySubStageName("m1s2");
+			
+			NatDis natDis1 = new NatDis();
+			NatDis natDis2 = new NatDis();
+			natDis1.setNatDisName("一号病");
+			natDis2.setNatDisName("二号病");
+			natDis1.getSubStages().add(ss1);
+			natDis1.getSubStages().add(ss2);
+			natDis2.getSubStages().add(ss1);
+			
+			natDisBo.save(natDis1);
+			natDisBo.save(natDis2);
+			
+
+			ss1.getNatDiss().add(natDis1);
+			ss1.getNatDiss().add(natDis2);
+			ss2.getNatDiss().add(natDis1);
+			
+			for (NatDis di:ss1.getNatDiss()){
+				System.out.println(di.getNatDisName());
+			}
+			
+		    
+			System.out.println("Done");
+			result.put("test","testoutputcheck");
+			result.put("status",200);
+			
+		return result;
+		}
+		catch(Exception e)
+		{
+			result.put("status", "500");
 			result.put("cause", e.getCause());
 			return result;
 		}

@@ -3,7 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
-	
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
 	    <property name="messageConverters">  
 	        <list>  
@@ -25,4 +24,6 @@
 	<import resource="/beans/Variety.xml"></import>
 	<import resource="/beans/Crop.xml"></import>
 	<import resource="/beans/Location.xml"></import>
+	<import resource="/beans/SubStage.xml"></import>
+	<import resource="/beans/NatDis.xml"></import>
 </beans>
