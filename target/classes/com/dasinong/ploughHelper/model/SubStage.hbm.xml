@@ -23,6 +23,10 @@
         	<key column = "subStageId"></key>
         	<many-to-many class="com.dasinong.ploughHelper.model.NatDis" column="natDisId"></many-to-many>
         </set>
+        <set name="petDiss" table="subStage_petDis" cascade="all" inverse="false" lazy="false">
+        	<key column = "subStageId"></key>
+        	<many-to-many class="com.dasinong.ploughHelper.model.PetDis" column="petDisId"></many-to-many>
+        </set>
         
     </class>
 </hibernate-mapping>

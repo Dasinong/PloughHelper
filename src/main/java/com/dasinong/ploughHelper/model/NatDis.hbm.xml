@@ -17,5 +17,10 @@
         	<key column = "natDisId"></key>
         	<many-to-many class="com.dasinong.ploughHelper.model.SubStage" column="SubStageId"></many-to-many>
         </set>
+        <set name="locations" table="location_natDis" cascade="all" inverse="true">
+        	<key column = "natDisId"></key>
+        	<many-to-many class="com.dasinong.ploughHelper.model.Location" column="LocationId"></many-to-many>
+        </set>
+        
     </class>
 </hibernate-mapping>

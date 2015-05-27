@@ -11,6 +11,7 @@ public class SubStage {
 	private String stageName;
     private Set<Variety> varieties = new HashSet<Variety>();
     private Set<NatDis> natDiss = new HashSet<NatDis>();
+    private Set<PetDis> petDiss = new HashSet<PetDis>();
 
 	public Long getSubStageId() {
 		return subStageId;
@@ -41,6 +42,12 @@ public class SubStage {
 	}
 	public void setNatDiss(Set<NatDis> natDiss) {
 		this.natDiss = natDiss;
+	}
+	public Set<PetDis> getPetDiss() {
+		return petDiss;
+	}
+	public void setPetDiss(Set<PetDis> petDiss) {
+		this.petDiss = petDiss;
 	}
   
 

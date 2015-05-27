@@ -26,4 +26,5 @@
 	<import resource="/beans/Location.xml"></import>
 	<import resource="/beans/SubStage.xml"></import>
 	<import resource="/beans/NatDis.xml"></import>
+	<import resource="/beans/PetDis.xml"></import>
 </beans>

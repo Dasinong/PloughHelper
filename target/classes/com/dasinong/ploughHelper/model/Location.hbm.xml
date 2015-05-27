@@ -18,6 +18,16 @@
         	</key>
         	<one-to-many class="com.dasinong.ploughHelper.model.Field"></one-to-many>
         </set>
+        
+        <set name="natDiss" table="location_natDis" cascade="all" inverse="false" lazy="false">
+        	<key column = "locationId"></key>
+        	<many-to-many class="com.dasinong.ploughHelper.model.NatDis" column="natDisId"></many-to-many>
+        </set>
+        <set name="petDiss" table="location_petDis" cascade="all" inverse="false" lazy="false">
+        	<key column = "locationId"></key>
+        	<many-to-many class="com.dasinong.ploughHelper.model.PetDis" column="petDisId"></many-to-many>
+        </set>
+        
         <property name="other" type="string">
             <column name="other" length="100" not-null="true" unique="true" />
         </property>

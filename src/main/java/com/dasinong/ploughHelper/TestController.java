@@ -278,5 +278,40 @@ public class TestController {
 			return result;
 		}
 	}
+	
+	@RequestMapping(value = "/teslLocNaD", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	public Object tlLocNaD(HttpServletRequest request, HttpServletResponse response) {
+		
+		
+		LocationBo locationBo = (LocationBo) ContextLoader.getCurrentWebApplicationContext().getBean("locationBo");
+		NatDisBo natDisBo = (NatDisBo) ContextLoader.getCurrentWebApplicationContext().getBean("natDisBo");
+		
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			Location l1 = locationBo.findByLocationName("上海");
+
+			
+			NatDis natDis1 = natDisBo.findByNatDisName("一号病");
+			NatDis natDis2 = natDisBo.findByNatDisName("二号病");
+
+            l1.getNatDiss().add(natDis1);
+            l1.getNatDiss().add(natDis2);
+			
+            locationBo.update(l1);
+			
+			System.out.println("Done");
+			result.put("test","testoutputcheck");
+			result.put("status",200);
+            return result;
+		}
+		catch(Exception e)
+		{
+			result.put("status", "500");
+			result.put("cause", e.getCause());
+			return result;
+		}
+	}
+
 
 }

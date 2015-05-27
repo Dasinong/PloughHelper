@@ -4,21 +4,21 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="com.dasinong.ploughHelper.model.NatDis" table="natDis" catalog="ploughHelper">
-        <id name="natDisId" type="java.lang.Long">
-            <column name="natDisId" />
+    <class name="com.dasinong.ploughHelper.model.PetDis" table="petDis" catalog="ploughHelper">
+        <id name="petDisId" type="java.lang.Long">
+            <column name="petDisId" />
             <generator class="identity" />
         </id>
-        <property name="natDisName" type="string">
-            <column name="natDisName" length="30" not-null="true" unique="true" />
+        <property name="petDisName" type="string">
+            <column name="petDisName" length="30" not-null="true" unique="true" />
         </property>
 
-        <set name="subStages" table="subStage_natDis" cascade="all" inverse="true">
-        	<key column = "natDisId"></key>
+        <set name="subStages" table="subStage_petDis" cascade="all" inverse="true">
+        	<key column = "petDisId"></key>
         	<many-to-many class="com.dasinong.ploughHelper.model.SubStage" column="SubStageId"></many-to-many>
         </set>
-        <set name="locations" table="location_natDis" cascade="all" inverse="true">
-        	<key column = "natDisId"></key>
+        <set name="locations" table="location_petDis" cascade="all" inverse="true">
+        	<key column = "petDisId"></key>
         	<many-to-many class="com.dasinong.ploughHelper.model.Location" column="LocationId"></many-to-many>
         </set>
         
