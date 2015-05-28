@@ -21,13 +21,21 @@ import com.dasinong.ploughHelper.bo.CropBo;
 import com.dasinong.ploughHelper.bo.FieldBo;
 import com.dasinong.ploughHelper.bo.LocationBo;
 import com.dasinong.ploughHelper.bo.NatDisBo;
+import com.dasinong.ploughHelper.bo.PetDisBo;
+import com.dasinong.ploughHelper.bo.QualityItemBo;
+import com.dasinong.ploughHelper.bo.StepBo;
 import com.dasinong.ploughHelper.bo.SubStageBo;
+import com.dasinong.ploughHelper.bo.TaskSpecBo;
 import com.dasinong.ploughHelper.bo.VarietyBo;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.NatDis;
+import com.dasinong.ploughHelper.model.PetDis;
+import com.dasinong.ploughHelper.model.QualityItem;
+import com.dasinong.ploughHelper.model.Step;
 import com.dasinong.ploughHelper.model.SubStage;
+import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.model.Variety;
 
 @Controller
@@ -312,6 +320,159 @@ public class TestController {
 			return result;
 		}
 	}
+	
+	
+	@RequestMapping(value = "/tesiPeDLocSta", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	public Object tiPeDLocSta(HttpServletRequest request, HttpServletResponse response) {
+		
+		
+		LocationBo locationBo = (LocationBo) ContextLoader.getCurrentWebApplicationContext().getBean("locationBo");
+		PetDisBo petDisBo = (PetDisBo) ContextLoader.getCurrentWebApplicationContext().getBean("petDisBo");
+		SubStageBo subStageBo = (SubStageBo) ContextLoader.getCurrentWebApplicationContext().getBean("subStageBo") ;
+		
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			Location l1 = locationBo.findByLocationName("上海");
+			SubStage ss1 = subStageBo.findBySubStageName("m1s1");
+			SubStage ss2 = subStageBo.findBySubStageName("m1s2");
+			
+			PetDis petDis1 = new PetDis();
+			PetDis petDis2 = new PetDis();
+			petDis1.setPetDisName("刮风");
+			petDis2.setPetDisName("下雨");
 
+			petDisBo.save(petDis1);
+			petDisBo.save(petDis2);
+			
+            l1.getPetDiss().add(petDis1);
+            l1.getPetDiss().add(petDis2);
+			locationBo.update(l1);
+			
+            ss1.getPetDiss().add(petDis1);
+            ss2.getPetDiss().add(petDis1);
+            ss2.getPetDiss().add(petDis2);
+            
+			System.out.println("Done");
+			result.put("test","testoutputcheck");
+			result.put("status",200);
+            return result;
+		}
+		catch(Exception e)
+		{
+			result.put("status", "500");
+			result.put("cause", e.getCause());
+			return result;
+		}
+	}
 
+	@RequestMapping(value = "/tesiCroQuI", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	public Object tiCroQuI(HttpServletRequest request, HttpServletResponse response) {
+		
+		CropBo cropBo = (CropBo) ContextLoader.getCurrentWebApplicationContext().getBean("cropBo");
+		QualityItemBo qualityItemBo = (QualityItemBo) ContextLoader.getCurrentWebApplicationContext().getBean("qualityItemBo");
+		
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			Crop crop = cropBo.findByCropName("水稻");
+			QualityItem qi1 = new QualityItem();
+			QualityItem qi2 = new QualityItem();
+			QualityItem qi3 = new QualityItem();
+			qi1.setQualityItemName("香味");
+			qi1.setCrop(crop);
+			qi2.setQualityItemName("抗药性");
+			qi2.setCrop(crop);
+			qi3.setQualityItemName("抗旱");
+			qi3.setCrop(crop);
+			qualityItemBo.save(qi1);
+			qualityItemBo.save(qi2);
+			qualityItemBo.save(qi3);
+			
+			for(QualityItem q: crop.getQualityItems()){
+				System.out.println(q.getQualityItemName());
+			}
+			crop.getQualityItems().add(qi1);
+			crop.getQualityItems().add(qi2);
+			crop.getQualityItems().add(qi3);
+			for(QualityItem q: crop.getQualityItems()){
+				System.out.println(q.getQualityItemName());
+			}
+			
+		    
+			System.out.println("Done");
+			result.put("test","testoutputcheck");
+			result.put("status",200);
+			
+		return result;
+		}
+		catch(Exception e)
+		{
+			result.put("status", "500");
+			result.put("cause", e.getCause());
+			return result;
+		}
+	}
+	
+	
+	@RequestMapping(value = "/tesiSuSTaSSte", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	public Object tiSuSTaSSte(HttpServletRequest request, HttpServletResponse response) {
+		
+		SubStageBo subStageBo = (SubStageBo) ContextLoader.getCurrentWebApplicationContext().getBean("subStageBo");
+		TaskSpecBo taskSpecBo = (TaskSpecBo) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecBo");
+		StepBo stepBo = (StepBo) ContextLoader.getCurrentWebApplicationContext().getBean("stepBo");
+		
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			SubStage ss1 = subStageBo.findBySubStageName("m1s1");
+			SubStage ss2 = subStageBo.findBySubStageName("m1s2");
+			TaskSpec task1 = new TaskSpec();
+			TaskSpec task2 = new TaskSpec();
+			task1.setTaskSpecName("种田");
+			task1.setSubStage(ss1);
+			ss1.getTaskSpecs().add(task1);
+					
+			task2.setTaskSpecName("浇水");
+			task2.setSubStage(ss2);
+			ss2.getTaskSpecs().add(task2);
+			
+			taskSpecBo.save(task1);
+			taskSpecBo.save(task2);
+			
+			Step step11 = new Step();
+			step11.setStepName("种田1");
+			step11.setTaskSpec(task1);
+			task1.getSteps().add(step11);
+			Step step12 = new Step();
+			step12.setStepName("种田2");
+			step12.setTaskSpec(task1);
+			task1.getSteps().add(step12);
+			Step step21 = new Step();
+			step21.setStepName("浇水1");
+			step21.setTaskSpec(task2);
+			task2.getSteps().add(step21);
+			Step step22 = new Step();
+			step22.setStepName("浇水2");
+			step22.setTaskSpec(task2);
+			task2.getSteps().add(step22);
+			
+			stepBo.save(step11);
+			stepBo.save(step12);
+			stepBo.save(step21);
+			stepBo.save(step22);
+			
+			System.out.println("Done");
+			result.put("test","testoutputcheck");
+			result.put("status",200);
+			
+		return result;
+		}
+		catch(Exception e)
+		{
+			result.put("status", "500");
+			result.put("cause", e.getCause());
+			return result;
+		}
+	}
 }

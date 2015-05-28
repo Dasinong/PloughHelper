@@ -27,6 +27,12 @@
         	<key column = "subStageId"></key>
         	<many-to-many class="com.dasinong.ploughHelper.model.PetDis" column="petDisId"></many-to-many>
         </set>
+        <set name="taskSpecs" table="taskSpec" inverse="true" lazy="false" fetch="select">
+        	<key>
+        		<column name="subStageId" not-null="true" />
+        	</key>
+        	<one-to-many class="com.dasinong.ploughHelper.model.TaskSpec"></one-to-many>
+        </set>
         
     </class>
 </hibernate-mapping>

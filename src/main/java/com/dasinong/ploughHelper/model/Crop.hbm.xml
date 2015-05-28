@@ -18,6 +18,12 @@
         	</key>
         	<one-to-many class="com.dasinong.ploughHelper.model.Variety"></one-to-many>
         </set>
+        <set name="qualityItems" table="qualityItem" inverse="true" lazy="false" fetch="select">
+        	<key>
+        		<column name="cropId" not-null="true" />
+        	</key>
+        	<one-to-many class="com.dasinong.ploughHelper.model.QualityItem"></one-to-many>
+        </set>
         <property name="other" type="string">
             <column name="other" length="100" not-null="true" unique="true" />
         </property>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.dasinong.ploughHelper.model.TaskSpec" table="taskSpec" catalog="ploughHelper">
+        <id name="taskSpecId" type="java.lang.Long">
+            <column name="taskSpecId" />
+            <generator class="identity" />
+        </id>
+        <property name="taskSpecName" type="string">
+            <column name="taskSpecName" length="30" not-null="true" unique="true" />
+        </property>
+        <many-to-one name="subStage" class="com.dasinong.ploughHelper.model.SubStage" fetch="select">
+        	<column name="subStageId" not-null="true"></column>
+        </many-to-one>
+        
+        <set name="steps" table="step" inverse="true" lazy="false" fetch="select">
+        	<key>
+        		<column name="taskSpecId" not-null="true" />
+        	</key>
+        	<one-to-many class="com.dasinong.ploughHelper.model.Step"></one-to-many>
+        </set>
+        
+    </class>
+</hibernate-mapping>

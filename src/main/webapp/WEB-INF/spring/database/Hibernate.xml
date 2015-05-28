@@ -28,6 +28,9 @@
         	   <value>/com/dasinong/ploughHelper/model/SubStage.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/NatDis.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/PetDis.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/QualityItem.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/TaskSpec.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/Step.hbm.xml</value>
 			</list>
     	</property>	
     </bean>

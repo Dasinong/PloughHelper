@@ -11,6 +11,7 @@ public class Crop implements Serializable {
 	private Long cropId;
 	private String cropName;
 	private Set<Variety> varieties = new HashSet<Variety>();
+	private Set<QualityItem> qualityItems = new HashSet<QualityItem>();
 	private String other;
 	
 	public Long getCropId() {
@@ -37,6 +38,12 @@ public class Crop implements Serializable {
 	}
 	public void setVarieties(Set<Variety> varieties) {
 		this.varieties = varieties;
+	}
+	public Set<QualityItem> getQualityItems() {
+		return qualityItems;
+	}
+	public void setQualityItems(Set<QualityItem> qualityItems) {
+		this.qualityItems = qualityItems;
 	} 
 
 }

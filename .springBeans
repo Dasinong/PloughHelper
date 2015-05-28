@@ -14,6 +14,9 @@
 		<config>src/main/webapp/WEB-INF/spring/beans/SubStage.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/beans/NatDis.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/beans/PetDis.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/beans/QualityItem.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/beans/TaskSpec.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/beans/Step.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml</config>
