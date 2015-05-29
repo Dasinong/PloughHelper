@@ -26,8 +26,8 @@
         	   <value>/com/dasinong/ploughHelper/model/Crop.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/Location.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/SubStage.hbm.xml</value>
-        	   <value>/com/dasinong/ploughHelper/model/NatDis.hbm.xml</value>
-        	   <value>/com/dasinong/ploughHelper/model/PetDis.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/NatDisSpec.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/PetDisSpec.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/QualityItem.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/TaskSpec.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/Step.hbm.xml</value>

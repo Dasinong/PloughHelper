@@ -1,4 +1,4 @@
-CREATE TABLE location_petDis (
+CREATE TABLE location_petDisSpec (
   locationId Long NOT NULL,
-  petDisId Long NOT NULL
+  petDisSpecId Long NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

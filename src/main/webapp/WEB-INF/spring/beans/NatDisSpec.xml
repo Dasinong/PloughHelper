@@ -3,13 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-   <!-- PetDis business object -->
-   <bean id="petDisBo" class="com.dasinong.ploughHelper.bo.PetDisBo" >
-   		<property name="petDisDao" ref="petDisDao" />
+   <!-- NatDisSpec business object -->
+   <bean id="natDisSpecBo" class="com.dasinong.ploughHelper.bo.NatDisSpecBo" >
+   		<property name="natDisSpecDao" ref="natDisSpecDao" />
    </bean>
  
-   <!-- PetDis Data Access Object -->
-   <bean id="petDisDao" class="com.dasinong.ploughHelper.dao.PetDisDao" >
+   <!-- NatDisSpec Data Access Object -->
+   <bean id="natDisSpecDao" class="com.dasinong.ploughHelper.dao.NatDisSpecDao" >
    		<property name="sessionFactory" ref="sessionFactory"></property>
    </bean>
 

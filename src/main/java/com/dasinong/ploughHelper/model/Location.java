@@ -11,8 +11,8 @@ public class Location implements Serializable {
 	private Long locationId;
 	private String locationName;
 	private Set<Field> fields = new HashSet<Field>();
-	private Set<NatDis> natDiss = new HashSet<NatDis>();
-	private Set<PetDis> petDiss = new HashSet<PetDis>();
+	private Set<NatDisSpec> natDisSpecs = new HashSet<NatDisSpec>();
+	private Set<PetDisSpec> petDisSpecs = new HashSet<PetDisSpec>();
 	private String other;
 	
 	public Long getLocationId() {
@@ -39,18 +39,20 @@ public class Location implements Serializable {
 	public void setOther(String other) {
 		this.other = other;
 	}
-	public Set<NatDis> getNatDiss() {
-		return natDiss;
+	public Set<NatDisSpec> getNatDisSpecs() {
+		return natDisSpecs;
 	}
-	public void setNatDiss(Set<NatDis> natDiss) {
-		this.natDiss = natDiss;
+	public void setNatDisSpecs(Set<NatDisSpec> natDisSpecs) {
+		this.natDisSpecs = natDisSpecs;
 	}
-	public Set<PetDis> getPetDiss() {
-		return petDiss;
+	public Set<PetDisSpec> getPetDisSpecs() {
+		return petDisSpecs;
 	}
-	public void setPetDiss(Set<PetDis> petDiss) {
-		this.petDiss = petDiss;
-	} 
+	public void setPetDisSpecs(Set<PetDisSpec> petDisSpecs) {
+		this.petDisSpecs = petDisSpecs;
+	}
+
+	
 	
 	
 }

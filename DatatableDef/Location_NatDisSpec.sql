@@ -1,4 +1,4 @@
-CREATE TABLE location_natDis (
+CREATE TABLE location_natDisSpec (
   locationId Long NOT NULL,
-  natDisId Long NOT NULL
+  natDisSpecId Long NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

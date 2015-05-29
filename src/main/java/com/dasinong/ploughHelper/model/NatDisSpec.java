@@ -4,24 +4,24 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class PetDis {
+public class NatDisSpec {
 	private static final long serialVersionUID = 1L;
 	
-	private Long petDisId;
-	private String petDisName;
+	private Long natDisSpecId;
+	private String natDisSpecName;
 	private Set<SubStage> subStages = new HashSet<SubStage>();
 	private Set<Location> locations = new HashSet<Location>();
-	public Long getPetDisId() {
-		return petDisId;
+	public Long getNatDisSpecId() {
+		return natDisSpecId;
 	}
-	public void setPetDisId(Long petDisId) {
-		this.petDisId = petDisId;
+	public void setNatDisSpecId(Long natDisSpecId) {
+		this.natDisSpecId = natDisSpecId;
 	}
-	public String getPetDisName() {
-		return petDisName;
+	public String getNatDisSpecName() {
+		return natDisSpecName;
 	}
-	public void setPetDisName(String petDisName) {
-		this.petDisName = petDisName;
+	public void setNatDisSpecName(String natDisSpecName) {
+		this.natDisSpecName = natDisSpecName;
 	}
 	public Set<SubStage> getSubStages() {
 		return subStages;
@@ -35,6 +35,7 @@ public class PetDis {
 	public void setLocations(Set<Location> locations) {
 		this.locations = locations;
 	}
+
 	
 	
 }

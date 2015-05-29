@@ -20,8 +20,8 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.bo.CropBo;
 import com.dasinong.ploughHelper.bo.FieldBo;
 import com.dasinong.ploughHelper.bo.LocationBo;
-import com.dasinong.ploughHelper.bo.NatDisBo;
-import com.dasinong.ploughHelper.bo.PetDisBo;
+import com.dasinong.ploughHelper.bo.NatDisSpecBo;
+import com.dasinong.ploughHelper.bo.PetDisSpecBo;
 import com.dasinong.ploughHelper.bo.QualityItemBo;
 import com.dasinong.ploughHelper.bo.QualityItemValueBo;
 import com.dasinong.ploughHelper.bo.StepBo;
@@ -32,8 +32,8 @@ import com.dasinong.ploughHelper.bo.VarietyBo;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
-import com.dasinong.ploughHelper.model.NatDis;
-import com.dasinong.ploughHelper.model.PetDis;
+import com.dasinong.ploughHelper.model.NatDisSpec;
+import com.dasinong.ploughHelper.model.PetDisSpec;
 import com.dasinong.ploughHelper.model.QualityItem;
 import com.dasinong.ploughHelper.model.QualityItemValue;
 import com.dasinong.ploughHelper.model.Step;
@@ -249,17 +249,17 @@ public class TestController {
 		
 		
 		SubStageBo subStageBo = (SubStageBo) ContextLoader.getCurrentWebApplicationContext().getBean("subStageBo");
-		NatDisBo natDisBo = (NatDisBo) ContextLoader.getCurrentWebApplicationContext().getBean("natDisBo");
+		NatDisSpecBo natDisBo = (NatDisSpecBo) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecBo");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
 			SubStage ss1 = subStageBo.findBySubStageName("m1s1");
 			SubStage ss2 = subStageBo.findBySubStageName("m1s2");
 			
-			NatDis natDis1 = new NatDis();
-			NatDis natDis2 = new NatDis();
-			natDis1.setNatDisName("一号病");
-			natDis2.setNatDisName("二号病");
+			NatDisSpec natDis1 = new NatDisSpec();
+			NatDisSpec natDis2 = new NatDisSpec();
+			natDis1.setNatDisSpecName("刮风");
+			natDis2.setNatDisSpecName("下雨");
 			natDis1.getSubStages().add(ss1);
 			natDis1.getSubStages().add(ss2);
 			natDis2.getSubStages().add(ss1);
@@ -268,12 +268,14 @@ public class TestController {
 			natDisBo.save(natDis2);
 			
 
-			ss1.getNatDiss().add(natDis1);
-			ss1.getNatDiss().add(natDis2);
-			ss2.getNatDiss().add(natDis1);
+			ss1.getNatDisSpecs().add(natDis1);
+			ss1.getNatDisSpecs().add(natDis2);
+			ss2.getNatDisSpecs().add(natDis1);
+			subStageBo.update(ss1);
+			subStageBo.update(ss2);
 			
-			for (NatDis di:ss1.getNatDiss()){
-				System.out.println(di.getNatDisName());
+			for (NatDisSpec di:ss1.getNatDisSpecs()){
+				System.out.println(di.getNatDisSpecName());
 			}
 			
 		    
@@ -297,18 +299,18 @@ public class TestController {
 		
 		
 		LocationBo locationBo = (LocationBo) ContextLoader.getCurrentWebApplicationContext().getBean("locationBo");
-		NatDisBo natDisBo = (NatDisBo) ContextLoader.getCurrentWebApplicationContext().getBean("natDisBo");
+		NatDisSpecBo natDisBo = (NatDisSpecBo) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecBo");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
 			Location l1 = locationBo.findByLocationName("上海");
 
 			
-			NatDis natDis1 = natDisBo.findByNatDisName("一号病");
-			NatDis natDis2 = natDisBo.findByNatDisName("二号病");
+			NatDisSpec natDis1 = natDisBo.findByNatDisName("刮风");
+			NatDisSpec natDis2 = natDisBo.findByNatDisName("下雨");
 
-            l1.getNatDiss().add(natDis1);
-            l1.getNatDiss().add(natDis2);
+            l1.getNatDisSpecs().add(natDis1);
+            l1.getNatDisSpecs().add(natDis2);
 			
             locationBo.update(l1);
 			
@@ -332,7 +334,7 @@ public class TestController {
 		
 		
 		LocationBo locationBo = (LocationBo) ContextLoader.getCurrentWebApplicationContext().getBean("locationBo");
-		PetDisBo petDisBo = (PetDisBo) ContextLoader.getCurrentWebApplicationContext().getBean("petDisBo");
+		PetDisSpecBo petDisBo = (PetDisSpecBo) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecBo");
 		SubStageBo subStageBo = (SubStageBo) ContextLoader.getCurrentWebApplicationContext().getBean("subStageBo") ;
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
@@ -341,21 +343,23 @@ public class TestController {
 			SubStage ss1 = subStageBo.findBySubStageName("m1s1");
 			SubStage ss2 = subStageBo.findBySubStageName("m1s2");
 			
-			PetDis petDis1 = new PetDis();
-			PetDis petDis2 = new PetDis();
-			petDis1.setPetDisName("刮风");
-			petDis2.setPetDisName("下雨");
+			PetDisSpec petDis1 = new PetDisSpec();
+			PetDisSpec petDis2 = new PetDisSpec();
+			petDis1.setPetDisSpecName("一号病");
+			petDis2.setPetDisSpecName("二号病");
 
 			petDisBo.save(petDis1);
 			petDisBo.save(petDis2);
 			
-            l1.getPetDiss().add(petDis1);
-            l1.getPetDiss().add(petDis2);
+            l1.getPetDisSpecs().add(petDis1);
+            l1.getPetDisSpecs().add(petDis2);
 			locationBo.update(l1);
 			
-            ss1.getPetDiss().add(petDis1);
-            ss2.getPetDiss().add(petDis1);
-            ss2.getPetDiss().add(petDis2);
+            ss1.getPetDisSpecs().add(petDis1);
+            ss2.getPetDisSpecs().add(petDis1);
+            ss2.getPetDisSpecs().add(petDis2);
+            subStageBo.update(ss1);
+            subStageBo.update(ss2);
             
 			System.out.println("Done");
 			result.put("test","testoutputcheck");

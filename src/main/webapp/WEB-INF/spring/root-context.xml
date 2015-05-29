@@ -25,8 +25,8 @@
 	<import resource="/beans/Crop.xml"></import>
 	<import resource="/beans/Location.xml"></import>
 	<import resource="/beans/SubStage.xml"></import>
-	<import resource="/beans/NatDis.xml"></import>
-	<import resource="/beans/PetDis.xml"></import>
+	<import resource="/beans/NatDisSpec.xml"></import>
+	<import resource="/beans/PetDisSpec.xml"></import>
 	<import resource="/beans/QualityItem.xml"></import>
 	<import resource="/beans/TaskSpec.xml"></import>
 	<import resource="/beans/Step.xml"></import>

@@ -19,13 +19,13 @@
         	<one-to-many class="com.dasinong.ploughHelper.model.Field"></one-to-many>
         </set>
         
-        <set name="natDiss" table="location_natDis" cascade="all" inverse="false" lazy="false">
+        <set name="natDisSpecs" table="location_natDisSpec" cascade="all" inverse="false" lazy="false">
         	<key column = "locationId"></key>
-        	<many-to-many class="com.dasinong.ploughHelper.model.NatDis" column="natDisId"></many-to-many>
+        	<many-to-many class="com.dasinong.ploughHelper.model.NatDisSpec" column="natDisSpecId"></many-to-many>
         </set>
-        <set name="petDiss" table="location_petDis" cascade="all" inverse="false" lazy="false">
+        <set name="petDisSpecs" table="location_petDisSpec" cascade="all" inverse="false" lazy="false">
         	<key column = "locationId"></key>
-        	<many-to-many class="com.dasinong.ploughHelper.model.PetDis" column="petDisId"></many-to-many>
+        	<many-to-many class="com.dasinong.ploughHelper.model.PetDisSpec" column="petDisSpecId"></many-to-many>
         </set>
         
         <property name="other" type="string">
