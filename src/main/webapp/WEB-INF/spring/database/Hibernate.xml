@@ -33,6 +33,8 @@
         	   <value>/com/dasinong/ploughHelper/model/Step.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/QualityItemValue.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/Task.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/PetDis.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/NatDis.hbm.xml</value>
 			</list>
     	</property>	
     </bean>

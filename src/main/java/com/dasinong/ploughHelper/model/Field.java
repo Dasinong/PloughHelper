@@ -2,7 +2,6 @@ package com.dasinong.ploughHelper.model;
 
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Set;
 
 public class Field implements Serializable{
 
@@ -14,6 +13,8 @@ public class Field implements Serializable{
 	private Variety variety;
 	private Location location;
 	private Map<Long, Task> tasks;
+	private Map<Long, PetDis> petDiss;
+	private Map<Long, NatDis> natDiss;
 	
 	private String other; 
 	
@@ -53,10 +54,23 @@ public class Field implements Serializable{
 	public void setIsActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	public Map getTasks() {
+	public Map<Long, Task> getTasks() {
 		return tasks;
 	}
-	public void setTasks(Map tasks) {
+	public void setTasks(Map<Long, Task> tasks) {
 		this.tasks = tasks;
 	}
+	public Map<Long, PetDis> getPetDiss() {
+		return petDiss;
+	}
+	public void setPetDiss(Map<Long, PetDis> petDiss) {
+		this.petDiss = petDiss;
+	}
+	public Map<Long, NatDis> getNatDiss() {
+		return natDiss;
+	}
+	public void setNatDiss(Map<Long, NatDis> natDiss) {
+		this.natDiss = natDiss;
+	}
+
 }

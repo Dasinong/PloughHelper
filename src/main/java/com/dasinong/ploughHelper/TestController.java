@@ -20,7 +20,9 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.bo.CropBo;
 import com.dasinong.ploughHelper.bo.FieldBo;
 import com.dasinong.ploughHelper.bo.LocationBo;
+import com.dasinong.ploughHelper.bo.NatDisBo;
 import com.dasinong.ploughHelper.bo.NatDisSpecBo;
+import com.dasinong.ploughHelper.bo.PetDisBo;
 import com.dasinong.ploughHelper.bo.PetDisSpecBo;
 import com.dasinong.ploughHelper.bo.QualityItemBo;
 import com.dasinong.ploughHelper.bo.QualityItemValueBo;
@@ -32,7 +34,9 @@ import com.dasinong.ploughHelper.bo.VarietyBo;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
+import com.dasinong.ploughHelper.model.NatDis;
 import com.dasinong.ploughHelper.model.NatDisSpec;
+import com.dasinong.ploughHelper.model.PetDis;
 import com.dasinong.ploughHelper.model.PetDisSpec;
 import com.dasinong.ploughHelper.model.QualityItem;
 import com.dasinong.ploughHelper.model.QualityItemValue;
@@ -561,6 +565,94 @@ public class TestController {
 			set2.put(qiv22.getQualityItemId(), qiv22);
 			variety2.setQualityItemValues(set2);
 			varietybo.update(variety2);
+			
+		return result;
+		}
+		catch(Exception e)
+		{
+			result.put("status", "500");
+			result.put("cause", e.getCause());
+			return result;
+		}
+	}
+	
+	
+	
+	@RequestMapping(value = "/tesmPeDs", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	public Object tmPeD(HttpServletRequest request, HttpServletResponse response) {
+		FieldBo fieldbo = (FieldBo) ContextLoader.getCurrentWebApplicationContext().getBean("fieldBo");
+		Field field1 = fieldbo.findByFieldName("上海1");
+		Field field2 = fieldbo.findByFieldName("上海历史");
+		PetDisBo petDisbo = (PetDisBo) ContextLoader.getCurrentWebApplicationContext().getBean("petDisBo");
+		
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			HashMap<Long, PetDis> set1 = new HashMap<Long, PetDis>();
+			PetDis petDis11=new PetDis(false);
+			PetDis petDis12=new PetDis(false);
+			PetDis petDis21=new PetDis(false);
+			PetDis petDis22=new PetDis(true);
+			
+			petDisbo.save(petDis11);
+			petDisbo.save(petDis12);
+			petDisbo.save(petDis21);
+			petDisbo.save(petDis22);
+			
+			set1.put(10L, petDis11);
+			set1.put(11L, petDis12);
+			
+			field1.setPetDiss(set1);
+			fieldbo.update(field1);
+			
+			HashMap<Long, PetDis> set2 = new HashMap<Long, PetDis>();
+			set2.put(11L, petDis21);
+			set2.put(12L, petDis22);
+			field2.setPetDiss(set2);
+			fieldbo.update(field2);
+			
+		return result;
+		}
+		catch(Exception e)
+		{
+			result.put("status", "500");
+			result.put("cause", e.getCause());
+			return result;
+		}
+	}
+	
+	@RequestMapping(value = "/tesmNaDs", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	public Object tmNaD(HttpServletRequest request, HttpServletResponse response) {
+		FieldBo fieldbo = (FieldBo) ContextLoader.getCurrentWebApplicationContext().getBean("fieldBo");
+		Field field1 = fieldbo.findByFieldName("上海1");
+		Field field2 = fieldbo.findByFieldName("上海历史");
+		NatDisBo natDisbo = (NatDisBo) ContextLoader.getCurrentWebApplicationContext().getBean("natDisBo");
+		
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			HashMap<Long, NatDis> set1 = new HashMap<Long, NatDis>();
+			NatDis natDis11=new NatDis(false);
+			NatDis natDis12=new NatDis(false);
+			NatDis natDis21=new NatDis(false);
+			NatDis natDis22=new NatDis(true);
+			
+			natDisbo.save(natDis11);
+			natDisbo.save(natDis12);
+			natDisbo.save(natDis21);
+			natDisbo.save(natDis22);
+			
+			set1.put(10L, natDis11);
+			set1.put(11L, natDis12);
+			
+			field1.setNatDiss(set1);
+			fieldbo.update(field1);
+			
+			HashMap<Long, NatDis> set2 = new HashMap<Long, NatDis>();
+			set2.put(11L, natDis21);
+			set2.put(12L, natDis22);
+			field2.setNatDiss(set2);
+			fieldbo.update(field2);
 			
 		return result;
 		}

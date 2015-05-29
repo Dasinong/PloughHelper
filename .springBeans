@@ -19,6 +19,8 @@
 		<config>src/main/webapp/WEB-INF/spring/beans/Task.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/beans/NatDisSpec.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/beans/PetDisSpec.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/beans/PetDis.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/beans/NatDis.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml</config>

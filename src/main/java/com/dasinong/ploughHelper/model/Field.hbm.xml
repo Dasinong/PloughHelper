@@ -27,6 +27,16 @@
         	<index column="taskSpecId" type="java.lang.Long"></index>
         	<one-to-many class="com.dasinong.ploughHelper.model.Task"></one-to-many>
         </map>
+        <map name="petDiss" cascade="all">
+        	<key column="fieldId"/>
+        	<index column="petDisSpecId" type="java.lang.Long"></index>
+        	<one-to-many class="com.dasinong.ploughHelper.model.PetDis"></one-to-many>
+        </map>
+        <map name="natDiss" cascade="all">
+        	<key column="fieldId"/>
+        	<index column="natDisSpecId" type="java.lang.Long"></index>
+        	<one-to-many class="com.dasinong.ploughHelper.model.NatDis"></one-to-many>
+        </map>
         <property name="other" type="string">
             <column name="other" length="100" not-null="true" unique="true" />
         </property>
