@@ -24,6 +24,7 @@ import com.dasinong.ploughHelper.bo.NatDisBo;
 import com.dasinong.ploughHelper.bo.NatDisSpecBo;
 import com.dasinong.ploughHelper.bo.PetDisBo;
 import com.dasinong.ploughHelper.bo.PetDisSpecBo;
+import com.dasinong.ploughHelper.bo.PetSoluBo;
 import com.dasinong.ploughHelper.bo.QualityItemBo;
 import com.dasinong.ploughHelper.bo.QualityItemValueBo;
 import com.dasinong.ploughHelper.bo.StepBo;
@@ -38,6 +39,7 @@ import com.dasinong.ploughHelper.model.NatDis;
 import com.dasinong.ploughHelper.model.NatDisSpec;
 import com.dasinong.ploughHelper.model.PetDis;
 import com.dasinong.ploughHelper.model.PetDisSpec;
+import com.dasinong.ploughHelper.model.PetSolu;
 import com.dasinong.ploughHelper.model.QualityItem;
 import com.dasinong.ploughHelper.model.QualityItemValue;
 import com.dasinong.ploughHelper.model.Step;
@@ -522,7 +524,11 @@ public class TestController {
 			field2.setTasks(set2);
 			fieldbo.update(field2);
 			
-		return result;
+			System.out.println("Done");
+			result.put("test","testoutputcheck");
+			result.put("status",200);
+			
+			return result;
 		}
 		catch(Exception e)
 		{
@@ -566,7 +572,11 @@ public class TestController {
 			variety2.setQualityItemValues(set2);
 			varietybo.update(variety2);
 			
-		return result;
+			
+			System.out.println("Done");
+			result.put("test","testoutputcheck");
+			result.put("status",200);
+			return result;
 		}
 		catch(Exception e)
 		{
@@ -611,7 +621,11 @@ public class TestController {
 			field2.setPetDiss(set2);
 			fieldbo.update(field2);
 			
-		return result;
+			System.out.println("Done");
+			result.put("test","testoutputcheck");
+			result.put("status",200);
+			
+			return result;
 		}
 		catch(Exception e)
 		{
@@ -654,7 +668,79 @@ public class TestController {
 			field2.setNatDiss(set2);
 			fieldbo.update(field2);
 			
-		return result;
+			
+			System.out.println("Done");
+			result.put("test","testoutputcheck");
+			result.put("status",200);
+			
+			return result;
+		}
+		catch(Exception e)
+		{
+			result.put("status", "500");
+			result.put("cause", e.getCause());
+			return result;
+		}
+	}
+	
+	
+	
+	@RequestMapping(value = "/tesiPDSSol", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	public Object tiPDSSol(HttpServletRequest request, HttpServletResponse response) {
+		PetDisSpecBo petDisSpecbo = (PetDisSpecBo) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecBo");
+		PetSoluBo psbo = (PetSoluBo) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluBo");
+		
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			HashMap<Long, PetDis> set1 = new HashMap<Long, PetDis>();
+			PetDisSpec ps1 = petDisSpecbo.findByPetDisName("一号病");
+			PetDisSpec ps2 = petDisSpecbo.findByPetDisName("二号病");
+			
+			PetSolu petSolu11 = new PetSolu();
+			PetSolu petSolu12 = new PetSolu();
+			PetSolu petSolu21 = new PetSolu();
+			PetSolu petSolu22 = new PetSolu();
+			PetSolu petSolu23 = new PetSolu();
+			petSolu11.setPetSoluName("治疗一号病1");
+			petSolu11.setPetDisSpec(ps1);
+			petSolu11.setCure(true);
+			petSolu11.setOther("This is for test");
+			petSolu12.setPetSoluName("预防一号病2");
+			petSolu12.setPetDisSpec(ps1);
+			petSolu12.setCure(false);
+			petSolu12.setOther("This is for test");
+			petSolu21.setPetSoluName("治疗二号病1");
+			petSolu21.setPetDisSpec(ps2);
+			petSolu21.setCure(true);
+			petSolu21.setOther("This is for test");
+			petSolu22.setPetSoluName("预防二号病2");
+			petSolu22.setPetDisSpec(ps2);
+			petSolu22.setCure(false);
+			petSolu22.setOther("This is for test");
+			petSolu23.setPetSoluName("治疗二号病3");
+			petSolu23.setPetDisSpec(ps2);
+			petSolu23.setCure(true);
+			petSolu23.setOther("This is for test");
+			
+			psbo.save(petSolu11);
+			psbo.save(petSolu12);
+			psbo.save(petSolu21);
+			psbo.save(petSolu22);
+			psbo.save(petSolu23);
+			
+            ps1.getPetSolus().add(petSolu11);
+            ps1.getPetSolus().add(petSolu12);
+            ps2.getPetSolus().add(petSolu21);
+            ps2.getPetSolus().add(petSolu22);
+            ps2.getPetSolus().add(petSolu23);
+            
+			
+			System.out.println("Done");
+			result.put("test","testoutputcheck");
+			result.put("status",200);
+			
+			return result;
 		}
 		catch(Exception e)
 		{

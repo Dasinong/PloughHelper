@@ -1,10 +1,11 @@
 package com.dasinong.ploughHelper.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 
-public class NatDisSpec {
+public class NatDisSpec implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long natDisSpecId;

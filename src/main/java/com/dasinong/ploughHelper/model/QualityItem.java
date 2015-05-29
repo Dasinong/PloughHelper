@@ -1,7 +1,10 @@
 package com.dasinong.ploughHelper.model;
 
-public class QualityItem {
+import java.io.Serializable;
+
+public class QualityItem implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private Long qualityItemId;
 	private String qualityItemName;
 	private Crop crop;

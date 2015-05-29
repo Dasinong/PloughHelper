@@ -1,9 +1,10 @@
 package com.dasinong.ploughHelper.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SubStage {
+public class SubStage implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long subStageId;

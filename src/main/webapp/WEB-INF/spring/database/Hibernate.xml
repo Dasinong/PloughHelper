@@ -35,6 +35,7 @@
         	   <value>/com/dasinong/ploughHelper/model/Task.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/PetDis.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/NatDis.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/PetSolu.hbm.xml</value>
 			</list>
     	</property>	
     </bean>

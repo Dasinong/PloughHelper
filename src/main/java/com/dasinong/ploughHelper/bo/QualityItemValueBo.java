@@ -1,7 +1,6 @@
 package com.dasinong.ploughHelper.bo;
 
 import java.util.Map;
-import java.util.Set;
 
 import com.dasinong.ploughHelper.dao.QualityItemValueDao;
 import com.dasinong.ploughHelper.model.QualityItemValue;

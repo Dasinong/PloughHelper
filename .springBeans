@@ -21,6 +21,7 @@
 		<config>src/main/webapp/WEB-INF/spring/beans/PetDisSpec.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/beans/PetDis.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/beans/NatDis.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/beans/PetSolu.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml</config>

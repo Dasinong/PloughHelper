@@ -22,5 +22,12 @@
         	<many-to-many class="com.dasinong.ploughHelper.model.Location" column="LocationId"></many-to-many>
         </set>
         
+        <set name="petSolus" table="petSolu" inverse="false" lazy="false" fetch="select">
+        	<key>
+        		<column name="petDisSpecId" not-null="true" />
+        	</key>
+        	<one-to-many class="com.dasinong.ploughHelper.model.PetSolu"></one-to-many>
+        </set>
+        
     </class>
 </hibernate-mapping>
