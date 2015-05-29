@@ -23,8 +23,10 @@ import com.dasinong.ploughHelper.bo.LocationBo;
 import com.dasinong.ploughHelper.bo.NatDisBo;
 import com.dasinong.ploughHelper.bo.PetDisBo;
 import com.dasinong.ploughHelper.bo.QualityItemBo;
+import com.dasinong.ploughHelper.bo.QualityItemValueBo;
 import com.dasinong.ploughHelper.bo.StepBo;
 import com.dasinong.ploughHelper.bo.SubStageBo;
+import com.dasinong.ploughHelper.bo.TaskBo;
 import com.dasinong.ploughHelper.bo.TaskSpecBo;
 import com.dasinong.ploughHelper.bo.VarietyBo;
 import com.dasinong.ploughHelper.model.Crop;
@@ -33,8 +35,10 @@ import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.NatDis;
 import com.dasinong.ploughHelper.model.PetDis;
 import com.dasinong.ploughHelper.model.QualityItem;
+import com.dasinong.ploughHelper.model.QualityItemValue;
 import com.dasinong.ploughHelper.model.Step;
 import com.dasinong.ploughHelper.model.SubStage;
+import com.dasinong.ploughHelper.model.Task;
 import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.model.Variety;
 
@@ -465,6 +469,94 @@ public class TestController {
 			System.out.println("Done");
 			result.put("test","testoutputcheck");
 			result.put("status",200);
+			
+		return result;
+		}
+		catch(Exception e)
+		{
+			result.put("status", "500");
+			result.put("cause", e.getCause());
+			return result;
+		}
+	}
+	
+	
+	@RequestMapping(value = "/tesmTask", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	public Object tmTask(HttpServletRequest request, HttpServletResponse response) {
+		FieldBo fieldbo = (FieldBo) ContextLoader.getCurrentWebApplicationContext().getBean("fieldBo");
+		Field field1 = fieldbo.findByFieldName("上海1");
+		Field field2 = fieldbo.findByFieldName("上海历史");
+		TaskBo taskbo = (TaskBo) ContextLoader.getCurrentWebApplicationContext().getBean("taskBo");
+		
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			HashMap<Long, Task> set1 = new HashMap<Long, Task>();
+			Task task11=new Task(false);
+			Task task12=new Task(false);
+			Task task21=new Task(false);
+			Task task22=new Task(true);
+			
+			taskbo.save(task11);
+			taskbo.save(task12);
+			taskbo.save(task21);
+			taskbo.save(task22);
+			
+			set1.put(10L, task11);
+			set1.put(11L, task12);
+			
+			field1.setTasks(set1);
+			fieldbo.update(field1);
+			
+			HashMap<Long, Task> set2 = new HashMap<Long, Task>();
+			set2.put(11L, task21);
+			set2.put(12L, task22);
+			field2.setTasks(set2);
+			fieldbo.update(field2);
+			
+		return result;
+		}
+		catch(Exception e)
+		{
+			result.put("status", "500");
+			result.put("cause", e.getCause());
+			return result;
+		}
+	}
+	
+	
+	@RequestMapping(value = "/tesmQIV", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	public Object tmQIV(HttpServletRequest request, HttpServletResponse response) {
+		VarietyBo varietybo = (VarietyBo) ContextLoader.getCurrentWebApplicationContext().getBean("varietyBo");
+		Variety variety1 = varietybo.findByVarietyName("TestVariety1");
+		Variety variety2 = varietybo.findByVarietyName("TestVariety2");
+		QualityItemValueBo qivbo = (QualityItemValueBo) ContextLoader.getCurrentWebApplicationContext().getBean("qualityItemValueBo");
+		
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			HashMap<Long, QualityItemValue> set1 = new HashMap<Long, QualityItemValue>();
+			QualityItemValue qiv11=new QualityItemValue(10L,"1");
+			QualityItemValue qiv12=new QualityItemValue(11L,"1");
+			QualityItemValue qiv21=new QualityItemValue(10L,"1");
+			QualityItemValue qiv22=new QualityItemValue(12L,"1");
+			
+			qivbo.save(qiv11);
+			qivbo.save(qiv12);
+			qivbo.save(qiv21);
+			qivbo.save(qiv22);
+			
+			set1.put(qiv11.getQualityItemId(), qiv11);
+			set1.put(qiv12.getQualityItemId(), qiv12);
+			
+			variety1.setQualityItemValues(set1);
+			varietybo.update(variety1);
+			
+			HashMap<Long, QualityItemValue> set2 = new HashMap<Long, QualityItemValue>();
+			set2.put(qiv21.getQualityItemId(), qiv21);
+			set2.put(qiv22.getQualityItemId(), qiv22);
+			variety2.setQualityItemValues(set2);
+			varietybo.update(variety2);
 			
 		return result;
 		}

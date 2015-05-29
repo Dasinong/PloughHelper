@@ -29,6 +29,11 @@
         	<column name="cropId" not-null="true"></column>
         </many-to-one>
         
+        <map name="qualityItemValues" cascade="all">
+        	<key column="varietyId"/>
+        	<index column="qualityItemId" type="java.lang.Long"></index>
+        	<one-to-many class="com.dasinong.ploughHelper.model.QualityItemValue"></one-to-many>
+        </map>
         <property name="other" type="string">
             <column name="other" length="100" not-null="true" unique="true" />
         </property>

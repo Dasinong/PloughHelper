@@ -30,4 +30,6 @@
 	<import resource="/beans/QualityItem.xml"></import>
 	<import resource="/beans/TaskSpec.xml"></import>
 	<import resource="/beans/Step.xml"></import>
+	<import resource="/beans/QualityItemValue.xml"></import>
+	<import resource="/beans/Task.xml"></import>
 </beans>

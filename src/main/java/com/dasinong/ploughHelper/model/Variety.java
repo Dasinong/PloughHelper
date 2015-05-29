@@ -2,6 +2,7 @@ package com.dasinong.ploughHelper.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class Variety implements Serializable{
@@ -13,7 +14,9 @@ public class Variety implements Serializable{
 	private Set<Field> fields = new HashSet<Field>();
 	private Set<SubStage> subStages = new HashSet<SubStage>();
 	private Crop crop;
+	private Map<Long,QualityItemValue> qualityItemValues;
 	private String other;
+
 	
 	public Long getVarietyId() {
 		return varietyId;
@@ -52,4 +55,11 @@ public class Variety implements Serializable{
 	public void setSubStages(Set<SubStage> subStages) {
 		this.subStages = subStages;
 	}
+	public Map<Long,QualityItemValue> getQualityItemValues() {
+		return qualityItemValues;
+	}
+	public void setQualityItemValues(Map<Long,QualityItemValue> qualityItemValues) {
+		this.qualityItemValues = qualityItemValues;
+	}
+
 }
