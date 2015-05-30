@@ -14,6 +14,11 @@ public class Crop implements Serializable {
 	private Set<QualityItem> qualityItems = new HashSet<QualityItem>();
 	private String other;
 	
+	public Crop(){}
+	public Crop(String cropName){
+		this.cropName = cropName;
+	}
+	
 	public Long getCropId() {
 		return cropId;
 	}

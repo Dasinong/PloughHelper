@@ -12,6 +12,13 @@ public class TaskSpec implements Serializable{
 	private String taskSpecName;
 	private SubStage subStage;
 	private Set<Step> steps = new HashSet<Step>();
+	
+	public TaskSpec(){}
+	public TaskSpec(String taskSpecName, SubStage subStage){
+		this.taskSpecName = taskSpecName;
+		this.subStage = subStage;
+	}
+	
 	public Long getTaskSpecId() {
 		return taskSpecId;
 	}

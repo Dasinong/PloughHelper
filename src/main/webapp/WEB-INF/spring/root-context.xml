@@ -20,19 +20,5 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<import resource="/database/DataSource.xml"></import>	
 	<import resource="/database/Hibernate.xml"></import>
-	<import resource="/beans/Field.xml"></import>
-	<import resource="/beans/Variety.xml"></import>
-	<import resource="/beans/Crop.xml"></import>
-	<import resource="/beans/Location.xml"></import>
-	<import resource="/beans/SubStage.xml"></import>
-	<import resource="/beans/NatDisSpec.xml"></import>
-	<import resource="/beans/PetDisSpec.xml"></import>
-	<import resource="/beans/QualityItem.xml"></import>
-	<import resource="/beans/TaskSpec.xml"></import>
-	<import resource="/beans/Step.xml"></import>
-	<import resource="/beans/QualityItemValue.xml"></import>
-	<import resource="/beans/Task.xml"></import>
-	<import resource="/beans/PetDis.xml"></import>
-	<import resource="/beans/NatDis.xml"></import>
-	<import resource="/beans/PetSolu.xml"></import>
+	<import resource="/beans/ModelBeans.xml"></import>
 </beans>

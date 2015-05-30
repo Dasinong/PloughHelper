@@ -1,9 +1,6 @@
 package com.dasinong.ploughHelper;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,27 +8,28 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.bo.CropBo;
-import com.dasinong.ploughHelper.bo.FieldBo;
-import com.dasinong.ploughHelper.bo.LocationBo;
-import com.dasinong.ploughHelper.bo.NatDisBo;
-import com.dasinong.ploughHelper.bo.NatDisSpecBo;
-import com.dasinong.ploughHelper.bo.PetDisBo;
-import com.dasinong.ploughHelper.bo.PetDisSpecBo;
-import com.dasinong.ploughHelper.bo.PetSoluBo;
-import com.dasinong.ploughHelper.bo.QualityItemBo;
-import com.dasinong.ploughHelper.bo.QualityItemValueBo;
-import com.dasinong.ploughHelper.bo.StepBo;
-import com.dasinong.ploughHelper.bo.SubStageBo;
-import com.dasinong.ploughHelper.bo.TaskBo;
-import com.dasinong.ploughHelper.bo.TaskSpecBo;
-import com.dasinong.ploughHelper.bo.VarietyBo;
+import com.dasinong.ploughHelper.dao.CropDao;
+import com.dasinong.ploughHelper.dao.FieldDao;
+import com.dasinong.ploughHelper.dao.LocationDao;
+import com.dasinong.ploughHelper.dao.NatDisDao;
+import com.dasinong.ploughHelper.dao.NatDisSpecDao;
+import com.dasinong.ploughHelper.dao.PetDisDao;
+import com.dasinong.ploughHelper.dao.PetDisSpecDao;
+import com.dasinong.ploughHelper.dao.PetSoluDao;
+import com.dasinong.ploughHelper.dao.QualityItemDao;
+import com.dasinong.ploughHelper.dao.QualityItemValueDao;
+import com.dasinong.ploughHelper.dao.StepDao;
+import com.dasinong.ploughHelper.dao.SubStageDao;
+import com.dasinong.ploughHelper.dao.TaskDao;
+import com.dasinong.ploughHelper.dao.TaskSpecDao;
+import com.dasinong.ploughHelper.dao.UserDao;
+import com.dasinong.ploughHelper.dao.VarietyDao;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
@@ -46,99 +44,110 @@ import com.dasinong.ploughHelper.model.Step;
 import com.dasinong.ploughHelper.model.SubStage;
 import com.dasinong.ploughHelper.model.Task;
 import com.dasinong.ploughHelper.model.TaskSpec;
+import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.Variety;
 
 @Controller
 public class TestController {
 	private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
-	@RequestMapping(value = "/testIniCroFieVar", method = RequestMethod.GET,produces="application/json")
+	@RequestMapping(value = "/testIniUseCroFieLocVar", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
+	@Transactional
 	public Object tIniCroFieVar(HttpServletRequest request, HttpServletResponse response) {
-	
-		FieldBo fieldBo = (FieldBo) ContextLoader.getCurrentWebApplicationContext().getBean("fieldBo");
-		VarietyBo varietyBo = (VarietyBo) ContextLoader.getCurrentWebApplicationContext().getBean("varietyBo");
-		CropBo cropBo = (CropBo) ContextLoader.getCurrentWebApplicationContext().getBean("cropBo");
+	    System.out.println("For test");
+		UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+		LocationDao locationDao = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		try{
-			Crop crop = new Crop();
-			crop.setCropName("水稻");
-			crop.setOther("Big father");
-			cropBo.save(crop);
+
+		
+		User user2 = new User();
+		user2.setAddress("beijing");
+		user2.setCellPhone("13112345678");
+		user2.setPassword("11111111");
+		user2.setUserName("Xiyao3");
+		userDao.save(user2);
+		
+		User user1 = new User();
+		user1.setAddress("beijing");
+		user1.setCellPhone("13112345678");
+		user1.setPassword("11111111");
+		user1.setUserName("Xiyao2");
+		userDao.save(user1);
 			
-			Variety variety1 = new Variety();
-			variety1.setVarietyName("TestVariety1");
-			variety1.setCrop(crop);
-			variety1.setOther("This is for test1");
-			varietyBo.save(variety1);
+		User user = new User();
+		user.setAddress("beijing");
+		user.setCellPhone("13112345678");
+		user.setPassword("11111111");
+		user.setUserName("Xiyao");
+		userDao.save(user);
 		
-			Variety variety2 = new Variety();
-			variety2.setVarietyName("TestVariety2");
-			variety2.setCrop(crop);
-			variety2.setOther("This is for test2.Two field assotication with this one");
-			varietyBo.save(variety2);
+		Location location = new Location("上海");
+		location.setOther("Has field 1 and field 2.");
+		locationDao.save(location);
+			
+			
+		Crop crop = new Crop("水稻");
+		crop.setOther("Big father");
+		cropDao.save(crop);
+		
+		Variety variety1 = new Variety("TestVariety1",crop);
+		variety1.setOther("This is for test1");
+		varietyDao.save(variety1);
+		
+		Variety variety2 = new Variety("TestVariety2",crop);
+		variety2.setOther("This is for test2.Two field assotication with this one");
+		varietyDao.save(variety2);
 				
-		    Field field = new Field();
-		    field.setFieldName("Test field 1");
-		    field.setVariety(variety1);
-		    field.setOther("Associate with variety1");
-		    variety1.getFields().add(field);
-		    fieldBo.save(field);
+	    Field field = new Field("Test field 1", variety1, user, location);
+	    field.setOther("Associate with variety1");
+
+	    variety1.getFields().add(field);
+		fieldDao.save(field);
 		
 		    
-		    field = new Field();
-		    field.setFieldName("Test field 2");
-		    field.setVariety(variety2);
-		    field.setOther("Associate with variety2");
-		    variety2.getFields().add(field);
-		    fieldBo.save(field);
+		field = new Field("Test field 2",variety2,user,location);
+		variety2.getFields().add(field);
+		fieldDao.save(field);
 		    
-		    field = new Field();
-		    field.setFieldName("Test field 3");
-		    field.setVariety(variety2);
-		    field.setOther("Associate with variety2");
-		    variety2.getFields().add(field);
-		    fieldBo.save(field);
+		field = new Field("Test field 3",variety2,user,location);
+		variety2.getFields().add(field);
+		fieldDao.save(field);
+		   
 		    
-		    
-			System.out.println("Done");
-			result.put("test","testoutputcheck");
-			result.put("status",200);
+		System.out.println("Done");
+		result.put("test","testoutputcheck");
+		result.put("status",200);
 			
 		return result;
-		}
-		catch(Exception e)
-		{
-			result.put("status", "500");
-			result.put("cause", e.getCause());
-			return result;
-		}
 	}
 	
 	@RequestMapping(value = "/testChaCroVar", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tChaCroVar(HttpServletRequest request, HttpServletResponse response) {
 		
-		CropBo cropBo = (CropBo) ContextLoader.getCurrentWebApplicationContext().getBean("cropBo");
-		VarietyBo varietyBo = (VarietyBo) ContextLoader.getCurrentWebApplicationContext().getBean("varietyBo");
+		CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-		  Crop cropo = cropBo.findByCropName("水稻");
+		  Crop cropo = cropDao.findByCropName("水稻");
 		  
-		  Crop crop = new Crop();
-		  crop.setCropName("水稻2");
+		  Crop crop = new Crop("水稻2");
 		  crop.setOther("Big father2");
-		  cropBo.save(crop);
+		  cropDao.save(crop);
 		  
-		  Variety variety1 = varietyBo.findByVarietyName("TestVariety1");
+		  Variety variety1 = varietyDao.findByVarietyName("TestVariety1");
 		  variety1.setCrop(crop);
 		  
 		  cropo.getVarieties().remove(variety1);
 		  crop.getVarieties().add(variety1);
 
-		  varietyBo.update(variety1);
+		  varietyDao.update(variety1);
 
 		  System.out.println("Done");
 		  result.put("test","testoutputcheck");
@@ -160,35 +169,40 @@ public class TestController {
 	@ResponseBody
 	public Object tiLocFie(HttpServletRequest request, HttpServletResponse response) {
 		
-		LocationBo locationBo = (LocationBo) ContextLoader.getCurrentWebApplicationContext().getBean("locationBo");
-		FieldBo fieldBo = (FieldBo) ContextLoader.getCurrentWebApplicationContext().getBean("fieldBo");
-		VarietyBo varietyBo = (VarietyBo) ContextLoader.getCurrentWebApplicationContext().getBean("varietyBo");
+		UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+		LocationDao locationDao = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-	      Location location1 = new Location();
-	      location1.setLocationName("上海");
+			
+		  User user = userDao.findByUserName("Xiyao");
+	      Location location1 = new Location("上海");
 	      location1.setOther("has field 1 and 2");
-	      locationBo.save(location1);
+	      locationDao.save(location1);
 	          
-		  Field field = new Field();
+	      
+	      Variety variety1=varietyDao.findByVarietyName("TestVariety1");
+		  Field field = new Field("上海1",variety1,user,location1);
 		  field.setIsActive(true);
-		  field.setFieldName("上海1");
-		  field.setLocation(location1);
-		  Variety variety1=varietyBo.findByVarietyName("TestVariety1");
-		  field.setVariety(variety1);
 		  field.setOther("特殊他");
-		  fieldBo.save(field);
+		  fieldDao.save(field);
+		  variety1.getFields().add(field);
 		  
-		  field = new Field();
+		  Variety variety2=varietyDao.findByVarietyName("TestVariety2");
+		  field = new Field("上海历史",variety2,user,location1);
 		  field.setIsActive(false);
-		  field.setFieldName("上海历史");
-		  field.setLocation(location1);
-		  Variety variety2=varietyBo.findByVarietyName("TestVariety2");
-		  field.setVariety(variety2);
 		  field.setOther("特殊地");
-		  fieldBo.save(field);
-    
+		  fieldDao.save(field);
+		  
+          //Dose reverse happen automatically?
+		  for( Field f : variety2.getFields()){
+			  System.out.println(f.getFieldName());
+		  }
+		  variety2.getFields().add(field);
+		  
+		  
 		  System.out.println("Done");
 		  result.put("test","testoutputcheck");
 		  result.put("status",200);
@@ -210,24 +224,20 @@ public class TestController {
 	@ResponseBody
 	public Object tiVarSuS(HttpServletRequest request, HttpServletResponse response) {
 		
-		VarietyBo varietyBo = (VarietyBo) ContextLoader.getCurrentWebApplicationContext().getBean("varietyBo");
-		SubStageBo subStageBo = (SubStageBo) ContextLoader.getCurrentWebApplicationContext().getBean("subStageBo");
+		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-			Variety variety1 = varietyBo.findByVarietyName("TestVariety1");
-			Variety variety2 = varietyBo.findByVarietyName("TestVariety2");
-			SubStage ss1 = new SubStage();
-			SubStage ss2 = new SubStage();
-			ss1.setSubStageName("m1s1");
-			ss1.setStageName("m1");
-			ss2.setSubStageName("m1s2");
-			ss2.setStageName("m1");
+			Variety variety1 = varietyDao.findByVarietyName("TestVariety1");
+			Variety variety2 = varietyDao.findByVarietyName("TestVariety2");
+			SubStage ss1 = new SubStage("m1s1","m1");
+			SubStage ss2 = new SubStage("m1s2","m1");
 			ss1.getVarieties().add(variety1);
 			ss1.getVarieties().add(variety2);
 			ss2.getVarieties().add(variety1);
-			subStageBo.save(ss1);
-			subStageBo.save(ss2);
+			subStageDao.save(ss1);
+			subStageDao.save(ss2);
 			variety1.getSubStages().add(ss1);
 			variety1.getSubStages().add(ss2);
 			variety2.getSubStages().add(ss1);
@@ -252,33 +262,28 @@ public class TestController {
 	@RequestMapping(value = "/tesiSusDis", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tiSuSDis(HttpServletRequest request, HttpServletResponse response) {
-		
-		
-		SubStageBo subStageBo = (SubStageBo) ContextLoader.getCurrentWebApplicationContext().getBean("subStageBo");
-		NatDisSpecBo natDisBo = (NatDisSpecBo) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecBo");
+		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
+		NatDisSpecDao natDisDao = (NatDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-			SubStage ss1 = subStageBo.findBySubStageName("m1s1");
-			SubStage ss2 = subStageBo.findBySubStageName("m1s2");
+			SubStage ss1 = subStageDao.findBySubStageName("m1s1");
+			SubStage ss2 = subStageDao.findBySubStageName("m1s2");
 			
-			NatDisSpec natDis1 = new NatDisSpec();
-			NatDisSpec natDis2 = new NatDisSpec();
-			natDis1.setNatDisSpecName("刮风");
-			natDis2.setNatDisSpecName("下雨");
+			NatDisSpec natDis1 = new NatDisSpec("刮风");
+			NatDisSpec natDis2 = new NatDisSpec("下雨");
 			natDis1.getSubStages().add(ss1);
 			natDis1.getSubStages().add(ss2);
 			natDis2.getSubStages().add(ss1);
 			
-			natDisBo.save(natDis1);
-			natDisBo.save(natDis2);
-			
+			natDisDao.save(natDis1);
+			natDisDao.save(natDis2);
 
 			ss1.getNatDisSpecs().add(natDis1);
 			ss1.getNatDisSpecs().add(natDis2);
 			ss2.getNatDisSpecs().add(natDis1);
-			subStageBo.update(ss1);
-			subStageBo.update(ss2);
+			subStageDao.update(ss1);
+			subStageDao.update(ss2);
 			
 			for (NatDisSpec di:ss1.getNatDisSpecs()){
 				System.out.println(di.getNatDisSpecName());
@@ -302,23 +307,20 @@ public class TestController {
 	@RequestMapping(value = "/teslLocNaD", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tlLocNaD(HttpServletRequest request, HttpServletResponse response) {
-		
-		
-		LocationBo locationBo = (LocationBo) ContextLoader.getCurrentWebApplicationContext().getBean("locationBo");
-		NatDisSpecBo natDisBo = (NatDisSpecBo) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecBo");
+		LocationDao locationDao = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+		NatDisSpecDao natDisDao = (NatDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-			Location l1 = locationBo.findByLocationName("上海");
-
+			Location l1 = locationDao.findByLocationName("上海");
 			
-			NatDisSpec natDis1 = natDisBo.findByNatDisName("刮风");
-			NatDisSpec natDis2 = natDisBo.findByNatDisName("下雨");
+			NatDisSpec natDis1 = natDisDao.findByNatDisName("刮风");
+			NatDisSpec natDis2 = natDisDao.findByNatDisName("下雨");
 
             l1.getNatDisSpecs().add(natDis1);
             l1.getNatDisSpecs().add(natDis2);
 			
-            locationBo.update(l1);
+            locationDao.update(l1);
 			
 			System.out.println("Done");
 			result.put("test","testoutputcheck");
@@ -338,34 +340,31 @@ public class TestController {
 	@ResponseBody
 	public Object tiPeDLocSta(HttpServletRequest request, HttpServletResponse response) {
 		
-		
-		LocationBo locationBo = (LocationBo) ContextLoader.getCurrentWebApplicationContext().getBean("locationBo");
-		PetDisSpecBo petDisBo = (PetDisSpecBo) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecBo");
-		SubStageBo subStageBo = (SubStageBo) ContextLoader.getCurrentWebApplicationContext().getBean("subStageBo") ;
+		LocationDao locationDao = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+		PetDisSpecDao petDisDao = (PetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao") ;
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-			Location l1 = locationBo.findByLocationName("上海");
-			SubStage ss1 = subStageBo.findBySubStageName("m1s1");
-			SubStage ss2 = subStageBo.findBySubStageName("m1s2");
+			Location l1 = locationDao.findByLocationName("上海");
+			SubStage ss1 = subStageDao.findBySubStageName("m1s1");
+			SubStage ss2 = subStageDao.findBySubStageName("m1s2");
 			
-			PetDisSpec petDis1 = new PetDisSpec();
-			PetDisSpec petDis2 = new PetDisSpec();
-			petDis1.setPetDisSpecName("一号病");
-			petDis2.setPetDisSpecName("二号病");
+			PetDisSpec petDis1 = new PetDisSpec("一号病");
+			PetDisSpec petDis2 = new PetDisSpec("二号病");
 
-			petDisBo.save(petDis1);
-			petDisBo.save(petDis2);
+			petDisDao.save(petDis1);
+			petDisDao.save(petDis2);
 			
             l1.getPetDisSpecs().add(petDis1);
             l1.getPetDisSpecs().add(petDis2);
-			locationBo.update(l1);
+			locationDao.update(l1);
 			
             ss1.getPetDisSpecs().add(petDis1);
             ss2.getPetDisSpecs().add(petDis1);
             ss2.getPetDisSpecs().add(petDis2);
-            subStageBo.update(ss1);
-            subStageBo.update(ss2);
+            subStageDao.update(ss1);
+            subStageDao.update(ss2);
             
 			System.out.println("Done");
 			result.put("test","testoutputcheck");
@@ -384,24 +383,18 @@ public class TestController {
 	@ResponseBody
 	public Object tiCroQuI(HttpServletRequest request, HttpServletResponse response) {
 		
-		CropBo cropBo = (CropBo) ContextLoader.getCurrentWebApplicationContext().getBean("cropBo");
-		QualityItemBo qualityItemBo = (QualityItemBo) ContextLoader.getCurrentWebApplicationContext().getBean("qualityItemBo");
+		CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+		QualityItemDao qualityItemDao = (QualityItemDao) ContextLoader.getCurrentWebApplicationContext().getBean("qualityItemDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-			Crop crop = cropBo.findByCropName("水稻");
-			QualityItem qi1 = new QualityItem();
-			QualityItem qi2 = new QualityItem();
-			QualityItem qi3 = new QualityItem();
-			qi1.setQualityItemName("香味");
-			qi1.setCrop(crop);
-			qi2.setQualityItemName("抗药性");
-			qi2.setCrop(crop);
-			qi3.setQualityItemName("抗旱");
-			qi3.setCrop(crop);
-			qualityItemBo.save(qi1);
-			qualityItemBo.save(qi2);
-			qualityItemBo.save(qi3);
+			Crop crop = cropDao.findByCropName("水稻");
+			QualityItem qi1 = new QualityItem("香味",crop);
+			QualityItem qi2 = new QualityItem("抗药性",crop);
+			QualityItem qi3 = new QualityItem("抗旱",crop);
+			qualityItemDao.save(qi1);
+			qualityItemDao.save(qi2);
+			qualityItemDao.save(qi3);
 			
 			for(QualityItem q: crop.getQualityItems()){
 				System.out.println(q.getQualityItemName());
@@ -412,13 +405,12 @@ public class TestController {
 			for(QualityItem q: crop.getQualityItems()){
 				System.out.println(q.getQualityItemName());
 			}
-			
+			cropDao.update(crop);
 		    
 			System.out.println("Done");
 			result.put("test","testoutputcheck");
 			result.put("status",200);
-			
-		return result;
+			return result;
 		}
 		catch(Exception e)
 		{
@@ -433,48 +425,35 @@ public class TestController {
 	@ResponseBody
 	public Object tiSuSTaSSte(HttpServletRequest request, HttpServletResponse response) {
 		
-		SubStageBo subStageBo = (SubStageBo) ContextLoader.getCurrentWebApplicationContext().getBean("subStageBo");
-		TaskSpecBo taskSpecBo = (TaskSpecBo) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecBo");
-		StepBo stepBo = (StepBo) ContextLoader.getCurrentWebApplicationContext().getBean("stepBo");
+		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
+		TaskSpecDao taskSpecDao = (TaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
+		StepDao stepDao = (StepDao) ContextLoader.getCurrentWebApplicationContext().getBean("stepDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-			SubStage ss1 = subStageBo.findBySubStageName("m1s1");
-			SubStage ss2 = subStageBo.findBySubStageName("m1s2");
-			TaskSpec task1 = new TaskSpec();
-			TaskSpec task2 = new TaskSpec();
-			task1.setTaskSpecName("种田");
-			task1.setSubStage(ss1);
+			SubStage ss1 = subStageDao.findBySubStageName("m1s1");
+			SubStage ss2 = subStageDao.findBySubStageName("m1s2");
+			TaskSpec task1 = new TaskSpec("种田",ss1);
+			TaskSpec task2 = new TaskSpec("浇水",ss2);
 			ss1.getTaskSpecs().add(task1);
-					
-			task2.setTaskSpecName("浇水");
-			task2.setSubStage(ss2);
 			ss2.getTaskSpecs().add(task2);
 			
-			taskSpecBo.save(task1);
-			taskSpecBo.save(task2);
+			taskSpecDao.save(task1);
+			taskSpecDao.save(task2);
 			
-			Step step11 = new Step();
-			step11.setStepName("种田1");
-			step11.setTaskSpec(task1);
+			Step step11 = new Step("种田1",task1);
 			task1.getSteps().add(step11);
-			Step step12 = new Step();
-			step12.setStepName("种田2");
-			step12.setTaskSpec(task1);
+			Step step12 = new Step("种田2",task1);
 			task1.getSteps().add(step12);
-			Step step21 = new Step();
-			step21.setStepName("浇水1");
-			step21.setTaskSpec(task2);
+			Step step21 = new Step("浇水1",task2);
 			task2.getSteps().add(step21);
-			Step step22 = new Step();
-			step22.setStepName("浇水2");
-			step22.setTaskSpec(task2);
+			Step step22 = new Step("浇水2",task2);
 			task2.getSteps().add(step22);
 			
-			stepBo.save(step11);
-			stepBo.save(step12);
-			stepBo.save(step21);
-			stepBo.save(step22);
+			stepDao.save(step11);
+			stepDao.save(step12);
+			stepDao.save(step21);
+			stepDao.save(step22);
 			
 			System.out.println("Done");
 			result.put("test","testoutputcheck");
@@ -494,10 +473,10 @@ public class TestController {
 	@RequestMapping(value = "/tesmTask", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tmTask(HttpServletRequest request, HttpServletResponse response) {
-		FieldBo fieldbo = (FieldBo) ContextLoader.getCurrentWebApplicationContext().getBean("fieldBo");
+		FieldDao fieldbo = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		Field field1 = fieldbo.findByFieldName("上海1");
 		Field field2 = fieldbo.findByFieldName("上海历史");
-		TaskBo taskbo = (TaskBo) ContextLoader.getCurrentWebApplicationContext().getBean("taskBo");
+		TaskDao taskbo = (TaskDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -542,10 +521,10 @@ public class TestController {
 	@RequestMapping(value = "/tesmQIV", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tmQIV(HttpServletRequest request, HttpServletResponse response) {
-		VarietyBo varietybo = (VarietyBo) ContextLoader.getCurrentWebApplicationContext().getBean("varietyBo");
+		VarietyDao varietybo = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 		Variety variety1 = varietybo.findByVarietyName("TestVariety1");
 		Variety variety2 = varietybo.findByVarietyName("TestVariety2");
-		QualityItemValueBo qivbo = (QualityItemValueBo) ContextLoader.getCurrentWebApplicationContext().getBean("qualityItemValueBo");
+		QualityItemValueDao qivbo = (QualityItemValueDao) ContextLoader.getCurrentWebApplicationContext().getBean("qualityItemValueDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -591,10 +570,10 @@ public class TestController {
 	@RequestMapping(value = "/tesmPeDs", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tmPeD(HttpServletRequest request, HttpServletResponse response) {
-		FieldBo fieldbo = (FieldBo) ContextLoader.getCurrentWebApplicationContext().getBean("fieldBo");
+		FieldDao fieldbo = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		Field field1 = fieldbo.findByFieldName("上海1");
 		Field field2 = fieldbo.findByFieldName("上海历史");
-		PetDisBo petDisbo = (PetDisBo) ContextLoader.getCurrentWebApplicationContext().getBean("petDisBo");
+		PetDisDao petDisbo = (PetDisDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -638,10 +617,10 @@ public class TestController {
 	@RequestMapping(value = "/tesmNaDs", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tmNaD(HttpServletRequest request, HttpServletResponse response) {
-		FieldBo fieldbo = (FieldBo) ContextLoader.getCurrentWebApplicationContext().getBean("fieldBo");
+		FieldDao fieldbo = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		Field field1 = fieldbo.findByFieldName("上海1");
 		Field field2 = fieldbo.findByFieldName("上海历史");
-		NatDisBo natDisbo = (NatDisBo) ContextLoader.getCurrentWebApplicationContext().getBean("natDisBo");
+		NatDisDao natDisbo = (NatDisDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -688,8 +667,8 @@ public class TestController {
 	@RequestMapping(value = "/tesiPDSSol", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tiPDSSol(HttpServletRequest request, HttpServletResponse response) {
-		PetDisSpecBo petDisSpecbo = (PetDisSpecBo) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecBo");
-		PetSoluBo psbo = (PetSoluBo) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluBo");
+		PetDisSpecDao petDisSpecbo = (PetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		PetSoluDao psbo = (PetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -697,12 +676,11 @@ public class TestController {
 			PetDisSpec ps1 = petDisSpecbo.findByPetDisName("一号病");
 			PetDisSpec ps2 = petDisSpecbo.findByPetDisName("二号病");
 			
-			PetSolu petSolu11 = new PetSolu();
+			PetSolu petSolu11 = new PetSolu("治疗一号病1",ps1);
 			PetSolu petSolu12 = new PetSolu();
 			PetSolu petSolu21 = new PetSolu();
 			PetSolu petSolu22 = new PetSolu();
 			PetSolu petSolu23 = new PetSolu();
-			petSolu11.setPetSoluName("治疗一号病1");
 			petSolu11.setPetDisSpec(ps1);
 			petSolu11.setCure(true);
 			petSolu11.setOther("This is for test");

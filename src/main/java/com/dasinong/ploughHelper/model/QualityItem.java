@@ -8,6 +8,13 @@ public class QualityItem implements Serializable{
 	private Long qualityItemId;
 	private String qualityItemName;
 	private Crop crop;
+	
+	public QualityItem(){}
+	public QualityItem(String qualityItemName, Crop crop){
+		this.qualityItemName = qualityItemName;
+		this.crop = crop;
+	}
+	
 	public Long getQualityItemId() {
 		return qualityItemId;
 	}

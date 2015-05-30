@@ -15,6 +15,11 @@ public class SubStage implements Serializable{
     private Set<PetDisSpec> petDisSpecs = new HashSet<PetDisSpec>();
     private Set<TaskSpec> taskSpecs = new HashSet<TaskSpec>();
 
+    public SubStage(){}
+    public SubStage(String subStageName,String stageName){
+    	this.subStageName = subStageName;
+    	this.stageName = stageName;
+    }
 	public Long getSubStageId() {
 		return subStageId;
 	}

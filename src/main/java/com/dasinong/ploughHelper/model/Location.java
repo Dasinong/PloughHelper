@@ -15,6 +15,13 @@ public class Location implements Serializable {
 	private Set<PetDisSpec> petDisSpecs = new HashSet<PetDisSpec>();
 	private String other;
 	
+	public Location(){
+		
+	}
+	public Location(String locationName){
+		this.locationName = locationName;
+	}
+	
 	public Long getLocationId() {
 		return locationId;
 	}

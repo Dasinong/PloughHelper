@@ -13,6 +13,12 @@ public class PetDisSpec implements Serializable{
 	private Set<SubStage> subStages = new HashSet<SubStage>();
 	private Set<Location> locations = new HashSet<Location>();
 	private Set<PetSolu> petSolus = new HashSet<PetSolu>();
+	
+	public PetDisSpec(){}
+	public PetDisSpec(String petDisSpecId){
+		this.petDisSpecName = petDisSpecId;
+	}
+	
 	public Long getPetDisSpecId() {
 		return petDisSpecId;
 	}

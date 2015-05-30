@@ -11,12 +11,21 @@ public class Field implements Serializable{
 	private String fieldName;
 	private boolean isActive;
 	private Variety variety;
+	private User user;
 	private Location location;
 	private Map<Long, Task> tasks;
 	private Map<Long, PetDis> petDiss;
 	private Map<Long, NatDis> natDiss;
 	
 	private String other; 
+	
+	public Field(){};
+	public Field(String fieldName,Variety variety,User user,Location location){
+		this.fieldName=fieldName;
+		this.variety = variety;
+		this.user = user;
+		this.location = location;
+	}
 	
 	public Long getFieldId() {
 		return fieldId;
@@ -71,6 +80,12 @@ public class Field implements Serializable{
 	}
 	public void setNatDiss(Map<Long, NatDis> natDiss) {
 		this.natDiss = natDiss;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

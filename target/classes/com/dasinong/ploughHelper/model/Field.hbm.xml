@@ -18,6 +18,9 @@
         <many-to-one name="variety" class="com.dasinong.ploughHelper.model.Variety" fetch="select">
         	<column name="varietyId" not-null="true"></column>
         </many-to-one>
+        <many-to-one name="user" class="com.dasinong.ploughHelper.model.User" fetch="select">
+        	<column name="userId" not-null="true"></column>
+        </many-to-one>
         <many-to-one name="location" class="com.dasinong.ploughHelper.model.Location" fetch="select">
         	<column name="locationId" not-null="false"></column>
         </many-to-one>

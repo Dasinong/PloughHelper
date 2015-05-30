@@ -13,6 +13,12 @@ public class PetSolu implements Serializable{
 	private PetDisSpec petDisSpec;
 	private boolean cure; //true for cure, false for prevent
 	
+	public PetSolu(){}
+	public PetSolu(String petSoluName, PetDisSpec petDisSpec){
+		this.petSoluName = petSoluName;
+		this.petDisSpec = petDisSpec;
+	}
+	
 	private String other;
 
 	public Long getPetSoluId() {

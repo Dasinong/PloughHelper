@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+	    <property name="messageConverters">  
+	        <list>  
+	            <bean class="org.springframework.http.converter.StringHttpMessageConverter">  
+	                <property name="supportedMediaTypes">  
+	                    <list>  
+	                        <value>text/plain;charset=UTF-8</value>  
+	                    </list>  
+	                </property>  
+	            </bean>  
+	            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />  
+	        </list>  
+	    </property>  
+    </bean>
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<import resource="/database/DataSource.xml"></import>	
+	<import resource="/database/Hibernate.xml"></import>
+	<import resource="/beans/Field.xml"></import>
+	<import resource="/beans/Variety.xml"></import>
+	<import resource="/beans/Crop.xml"></import>
+	<import resource="/beans/Location.xml"></import>
+	<import resource="/beans/SubStage.xml"></import>
+	<import resource="/beans/NatDisSpec.xml"></import>
+	<import resource="/beans/PetDisSpec.xml"></import>
+	<import resource="/beans/QualityItem.xml"></import>
+	<import resource="/beans/TaskSpec.xml"></import>
+	<import resource="/beans/Step.xml"></import>
+	<import resource="/beans/QualityItemValue.xml"></import>
+	<import resource="/beans/Task.xml"></import>
+	<import resource="/beans/PetDis.xml"></import>
+	<import resource="/beans/NatDis.xml"></import>
+	<import resource="/beans/PetSolu.xml"></import>
+	<import resource="/beans/User.xml"></import>
+</beans>

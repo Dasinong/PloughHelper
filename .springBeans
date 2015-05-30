@@ -7,21 +7,7 @@
 	</configSuffixes>
 	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
-		<config>src/main/webapp/WEB-INF/spring/beans/Field.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/Variety.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/Crop.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/Location.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/SubStage.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/QualityItem.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/TaskSpec.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/Step.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/QualityItemValue.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/Task.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/NatDisSpec.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/PetDisSpec.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/PetDis.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/NatDis.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/beans/PetSolu.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml</config>

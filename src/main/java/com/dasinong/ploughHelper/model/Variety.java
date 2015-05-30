@@ -16,7 +16,13 @@ public class Variety implements Serializable{
 	private Crop crop;
 	private Map<Long,QualityItemValue> qualityItemValues;
 	private String other;
-
+	
+	public Variety (){}
+	
+	public Variety (String varietyName, Crop crop){
+		this.varietyName = varietyName;
+		this.crop = crop;
+	}
 	
 	public Long getVarietyId() {
 		return varietyId;

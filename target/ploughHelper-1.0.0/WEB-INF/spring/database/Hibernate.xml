@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+	    <property name="dataSource">
+    	  <ref bean="dataSource"/>
+    	</property>
+ 
+  	   <property name="hibernateProperties">
+     	  <props>
+        	 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+         	 <prop key="hibernate.show_sql">true</prop>
+         	 <prop key="use_outer_join">true</prop>
+    	     <prop key="transaction.factory_class">net.sf.hibernate.transaction.JDBCTransactionFactory</prop>
+	         <prop key="hibernate.jdbc.batch_size">25</prop>
+       	  </props>
+     	</property>
+ 
+     	<property name="mappingResources">
+			<list>
+        	   <value>/com/dasinong/ploughHelper/model/Field.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/Variety.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/Crop.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/Location.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/SubStage.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/NatDisSpec.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/PetDisSpec.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/QualityItem.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/TaskSpec.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/Step.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/QualityItemValue.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/Task.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/PetDis.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/NatDis.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/PetSolu.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/User.hbm.xml</value>
+			</list>
+    	</property>	
+    </bean>
+</beans>

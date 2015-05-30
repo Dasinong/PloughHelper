@@ -12,6 +12,12 @@ public class NatDisSpec implements Serializable{
 	private String natDisSpecName;
 	private Set<SubStage> subStages = new HashSet<SubStage>();
 	private Set<Location> locations = new HashSet<Location>();
+	
+	public NatDisSpec(){}
+	public NatDisSpec(String natDisSpecName){
+		this.natDisSpecName = natDisSpecName;
+	}
+	
 	public Long getNatDisSpecId() {
 		return natDisSpecId;
 	}

@@ -9,6 +9,13 @@ public class Step implements Serializable{
 	private Long stepId;
 	private String stepName;
 	private TaskSpec taskSpec;
+	
+	public Step(){}
+	public Step(String stepName, TaskSpec taskSpec){
+		this.stepName = stepName;
+		this.taskSpec = taskSpec;
+	}
+	
 	public Long getStepId() {
 		return stepId;
 	}

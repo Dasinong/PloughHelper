@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.bo.FieldBo;
+import com.dasinong.ploughHelper.dao.FieldDao;
 import com.dasinong.ploughHelper.model.Field;
 
 /**
@@ -45,7 +45,7 @@ public class HomeController {
 	public Object insertField(HttpServletRequest request, HttpServletResponse response) {
 		logger.info("InsertField: ");
 		
-		FieldBo fieldBo = (FieldBo) ContextLoader.getCurrentWebApplicationContext().getBean("fieldBo");
+		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		Field field = new Field();
 		String fieldName = (request.getParameter("fieldName")!=null) ? request.getParameter("fieldName") : "GuangZhou";
@@ -53,7 +53,7 @@ public class HomeController {
 		String other = (request.getParameter("other")!=null) ? request.getParameter("other") : "other";
 		field.setOther(other);
 		try{
-			fieldBo.save(field);
+			fieldDao.save(field);
 			result.put("status", "200");
 			result.put("field", field);
 			return result;
@@ -70,11 +70,11 @@ public class HomeController {
 	public Object showFieldById(HttpServletRequest request, HttpServletResponse response) {
 		logger.info("showField: ");
 		
-		FieldBo fieldBo = (FieldBo) ContextLoader.getCurrentWebApplicationContext().getBean("fieldBo");
+		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		String fieldName = (request.getParameter("fieldName")!=null) ? request.getParameter("fieldName") : "GuangZhou"; 
 		try {
-			Field field = fieldBo.findByFieldName(fieldName);
+			Field field = fieldDao.findByFieldName(fieldName);
     		result.put("status", "200");
     	    result.put("field", field);
     	    return result;
@@ -92,12 +92,12 @@ public class HomeController {
 	public Object deleteFieldById(HttpServletRequest request, HttpServletResponse response) {
 		logger.info("DeleteFieldById: ");
 		
-		FieldBo fieldBo = (FieldBo) ContextLoader.getCurrentWebApplicationContext().getBean("fieldBo");
+		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		String fieldName = (request.getParameter("fieldName")!=null) ? request.getParameter("fieldName") : "GuangZhou"; 
 		try {
-			Field field = fieldBo.findByFieldName(fieldName);
-			fieldBo.delete(field);
+			Field field = fieldDao.findByFieldName(fieldName);
+			fieldDao.delete(field);
     		result.put("status", "200");
     	    result.put("field", field);
     	    return result;
