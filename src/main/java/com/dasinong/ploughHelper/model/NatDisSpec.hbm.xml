@@ -21,6 +21,13 @@
         	<key column = "natDisSpecId"></key>
         	<many-to-many class="com.dasinong.ploughHelper.model.Location" column="LocationId"></many-to-many>
         </set>
+        <set name="crops" table="crop_natDisSpec" cascade="all" inverse="true">
+        	<key column = "natDisSpecId"></key>
+        	<many-to-many class="com.dasinong.ploughHelper.model.Crop" column="cropId"></many-to-many>
+        </set>
         
+        <property name="solution" type="string">
+        	<column name="solution" length="200"></column>
+        </property>
     </class>
 </hibernate-mapping>

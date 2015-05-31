@@ -10,6 +10,7 @@ public class NatDis implements Serializable{
 	private Long natDisSpecId;
 	private Long fieldId;
 	private boolean natDisStatus;
+	
 	public NatDis(){}
 	public NatDis(boolean natDisStatus){
 		this.natDisStatus = natDisStatus;

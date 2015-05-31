@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.dasinong.ploughHelper.model.CPProduct" table="cPProduct" catalog="ploughHelper">
+        <id name="cPProductId" type="java.lang.Long">
+            <column name="cPProductId" />
+            <generator class="identity" />
+        </id>
+        <property name="cPProductName" type="string">
+            <column name="cPProductName" length="30" not-null="true" unique="true" />
+        </property>
+        <set name="petSolus" table="petSolu_CPProduct" cascade="all" inverse="true">
+        	<key column = "cPProductId"></key>
+        	<many-to-many class="com.dasinong.ploughHelper.model.PetSolu" column="petSoluId"></many-to-many>
+        </set>
+        <property name="activeIngredient" type="string">
+            <column name="activeIngredient" length="30"/>
+        </property>
+        <property name="type" type="string">
+            <column name="type" length="10"/>
+        </property>
+        <property name="crop" type="string">
+            <column name="crop" length="30"/>
+        </property>
+        <property name="disease" type="string">
+            <column name="disease" length="30"/>
+        </property>
+        <property name="volume" type="string">
+            <column name="volume" length="30"/>
+        </property>
+        <property name="guideline" type="string">
+            <column name="guideline" length="100"/>
+        </property>
+        <property name="tip" type="string">
+            <column name="tip" length="200"/>
+        </property>
+    </class>
+</hibernate-mapping>

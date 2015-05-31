@@ -52,6 +52,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    <bean id="varietyDao" class="com.dasinong.ploughHelper.dao.VarietyDao" >
    		<property name="sessionFactory" ref="sessionFactory"></property>
    </bean>
+   <bean id="cPProductDao" class="com.dasinong.ploughHelper.dao.CPProductDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
    
  
 </beans>

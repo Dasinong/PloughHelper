@@ -1,0 +1,13 @@
+CREATE TABLE cPProduct (
+  cPProductId INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (cPProductId) USING BTREE,
+  cPProductName VARCHAR(30) NOT NULL,
+  UNIQUE KEY UNI_CPPRONAME (cPProductName),
+  activeIngredient VARCHAR(30),
+  type VARCHAR(10),
+  crop VARCHAR(30),
+  disease VARCHAR(30), 
+  volume VARCHAR(30),
+  guideline VARCHAR(100),
+  tip VARCHAR(200)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;

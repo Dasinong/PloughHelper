@@ -24,6 +24,14 @@
         	</key>
         	<one-to-many class="com.dasinong.ploughHelper.model.QualityItem"></one-to-many>
         </set>
+        <set name="petDisSpecs" table="crop_petDisSpec" cascade="all" inverse="false" lazy="false">
+        	<key column = "cropId"></key>
+        	<many-to-many class="com.dasinong.ploughHelper.model.PetDisSpec" column="petDisSpecId"></many-to-many>
+        </set>
+        <set name="natDisSpecs" table="crop_natDisSpec" cascade="all" inverse="false" lazy="false">
+        	<key column = "cropId"></key>
+        	<many-to-many class="com.dasinong.ploughHelper.model.NatDisSpec" column="natDisSpecId"></many-to-many>
+        </set>
         <property name="other" type="string">
             <column name="other" length="100" not-null="true" unique="true" />
         </property>

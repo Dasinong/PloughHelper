@@ -18,5 +18,6 @@
         <property name="natDisStatus" type="java.lang.Boolean">
             <column name="natDisStatus" />
         </property>
+
     </class>
 </hibernate-mapping>

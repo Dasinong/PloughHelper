@@ -9,17 +9,22 @@
             <column name="petSoluId" />
             <generator class="identity" />
         </id>
-        <property name="petSoluName" type="string">
-            <column name="petSoluName" length="30" not-null="true" unique="true" />
+        <property name="petSoluDes" type="string">
+            <column name="petSoluDes" length="300" not-null="true"/>
         </property>
         <many-to-one name="petDisSpec" class="com.dasinong.ploughHelper.model.PetDisSpec" fetch="select">
         	<column name="petDisSpecId" not-null="true"></column>
         </many-to-one>
-        <property name="cure" type="java.lang.Boolean">
-            <column name="cure" />
+        <set name="cPProducts" table="petSolu_CPProduct" cascade="all" inverse="false" lazy="false">
+        	<key column = "petSoluId"></key>
+        	<many-to-many class="com.dasinong.ploughHelper.model.CPProduct" column="cPProductId"></many-to-many>
+        </set>
+        
+        <property name="isCure" type="java.lang.Boolean">
+            <column name="isCure" />
         </property>
-        <property name="other" type="string">
-            <column name="other" length="100" not-null="true" unique="true" />
+        <property name="isCPSolu" type="java.lang.Boolean">
+            <column name="isCPSolu" />
         </property>
     </class>
 </hibernate-mapping>

@@ -12,6 +12,8 @@ public class NatDisSpec implements Serializable{
 	private String natDisSpecName;
 	private Set<SubStage> subStages = new HashSet<SubStage>();
 	private Set<Location> locations = new HashSet<Location>();
+	private Set<Crop> crops = new HashSet<Crop>();
+	private String solution;
 	
 	public NatDisSpec(){}
 	public NatDisSpec(String natDisSpecName){
@@ -42,6 +44,19 @@ public class NatDisSpec implements Serializable{
 	public void setLocations(Set<Location> locations) {
 		this.locations = locations;
 	}
+	public Set<Crop> getCrops() {
+		return crops;
+	}
+	public void setCrops(Set<Crop> crops) {
+		this.crops = crops;
+	}
+	public String getSolution() {
+		return solution;
+	}
+	public void setSolution(String solution) {
+		this.solution = solution;
+	}
+
 
 	
 	

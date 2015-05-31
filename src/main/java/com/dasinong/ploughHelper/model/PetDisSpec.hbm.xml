@@ -21,6 +21,10 @@
         	<key column = "petDisSpecId"></key>
         	<many-to-many class="com.dasinong.ploughHelper.model.Location" column="LocationId"></many-to-many>
         </set>
+        <set name="crops" table="crop_petDisSpec" cascade="all" inverse="true">
+        	<key column = "petDisSpecId"></key>
+        	<many-to-many class="com.dasinong.ploughHelper.model.Crop" column="cropId"></many-to-many>
+        </set>
         
         <set name="petSolus" table="petSolu" inverse="false" lazy="false" fetch="select">
         	<key>
@@ -28,6 +32,40 @@
         	</key>
         	<one-to-many class="com.dasinong.ploughHelper.model.PetSolu"></one-to-many>
         </set>
+        
+        <property name="type" type="string">
+            <column name="type" length="10"/>
+        </property>
+        <property name="alias" type="string">
+            <column name="alias" length="10"/>
+        </property>
+        <property name="severity" type="int">
+            <column name="severity" length="10"/>
+        </property>
+        <property name="commonImpactonYield" type="int">
+            <column name="commonImpactonYield" length="10"  />
+        </property>
+        <property name="maxImpactonYield" type="int">
+            <column name="maxImpactonYield" length="10"/>
+        </property>
+        <property name="preventionorRemedy" type="string">
+            <column name="preventionorRemedy" length="10"/>
+        </property>
+        <property name="indvidualorGroup" type="string">
+            <column name="indvidualorGroup" length="10"/>
+        </property>
+        <property name="impactedArea" type="string">
+            <column name="impactedArea" length="10"/>
+        </property>
+        <property name="color" type="string">
+            <column name="color" length="10"/>
+        </property>     
+        <property name="shape" type="string">
+            <column name="shape" length="10"/>
+        </property>  
+        <property name="description" type="string">
+            <column name="description" length="200"/>
+        </property>     
         
     </class>
 </hibernate-mapping>

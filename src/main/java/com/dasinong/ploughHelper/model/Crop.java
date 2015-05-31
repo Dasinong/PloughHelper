@@ -12,6 +12,8 @@ public class Crop implements Serializable {
 	private String cropName;
 	private Set<Variety> varieties = new HashSet<Variety>();
 	private Set<QualityItem> qualityItems = new HashSet<QualityItem>();
+	private Set<PetDisSpec> petDisSpecs = new HashSet<PetDisSpec>();
+	private Set<NatDisSpec> natDisSpecs = new HashSet<NatDisSpec>();
 	private String other;
 	
 	public Crop(){}
@@ -49,6 +51,18 @@ public class Crop implements Serializable {
 	}
 	public void setQualityItems(Set<QualityItem> qualityItems) {
 		this.qualityItems = qualityItems;
+	}
+	public Set<PetDisSpec> getPetDisSpecs() {
+		return petDisSpecs;
+	}
+	public void setPetDisSpecs(Set<PetDisSpec> petDisSpecs) {
+		this.petDisSpecs = petDisSpecs;
+	}
+	public Set<NatDisSpec> getNatDisSpecs() {
+		return natDisSpecs;
+	}
+	public void setNatDisSpecs(Set<NatDisSpec> natDisSpecs) {
+		this.natDisSpecs = natDisSpecs;
 	} 
 
 }

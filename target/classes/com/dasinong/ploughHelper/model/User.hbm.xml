@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.dasinong.ploughHelper.model.User" table="user" catalog="ploughHelper">
+        <id name="userId" type="java.lang.Long">
+            <column name="userId" />
+            <generator class="identity" />
+        </id>
+        <property name="userName" type="string">
+            <column name="userName" length="30" not-null="true" unique="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="30" not-null="true" unique="true" />
+        </property>
+        <property name="cellPhone" type="string">
+            <column name="cellPhone" length="30" unique="true" />
+        </property>        
+        <property name="address" type="string">
+            <column name="address" length="30" unique="true" />
+        </property>
+        <set name="fields" table="field" inverse="false" lazy="false" fetch="select">
+        	<key>
+        		<column name="userId" not-null="true" />
+        	</key>
+        	<one-to-many class="com.dasinong.ploughHelper.model.Field"></one-to-many>
+        </set>
+        
+ 
+    </class>
+</hibernate-mapping>

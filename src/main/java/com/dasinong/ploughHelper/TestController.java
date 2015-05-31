@@ -30,6 +30,7 @@ import com.dasinong.ploughHelper.dao.TaskDao;
 import com.dasinong.ploughHelper.dao.TaskSpecDao;
 import com.dasinong.ploughHelper.dao.UserDao;
 import com.dasinong.ploughHelper.dao.VarietyDao;
+import com.dasinong.ploughHelper.dummyData.IniPetSolCPP;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
@@ -666,6 +667,7 @@ public class TestController {
 	
 	@RequestMapping(value = "/tesiPDSSol", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
+	@Transactional
 	public Object tiPDSSol(HttpServletRequest request, HttpServletResponse response) {
 		PetDisSpecDao petDisSpecbo = (PetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
 		PetSoluDao psbo = (PetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
@@ -682,24 +684,23 @@ public class TestController {
 			PetSolu petSolu22 = new PetSolu();
 			PetSolu petSolu23 = new PetSolu();
 			petSolu11.setPetDisSpec(ps1);
-			petSolu11.setCure(true);
-			petSolu11.setOther("This is for test");
-			petSolu12.setPetSoluName("预防一号病2");
+			petSolu11.setIsCure(true);
+
+			petSolu12.setPetSoluDes("预防一号病2");
 			petSolu12.setPetDisSpec(ps1);
-			petSolu12.setCure(false);
-			petSolu12.setOther("This is for test");
-			petSolu21.setPetSoluName("治疗二号病1");
+			petSolu12.setIsCure(false);
+
+			petSolu21.setPetSoluDes("治疗二号病1");
 			petSolu21.setPetDisSpec(ps2);
-			petSolu21.setCure(true);
-			petSolu21.setOther("This is for test");
-			petSolu22.setPetSoluName("预防二号病2");
+			petSolu21.setIsCure(true);
+
+			petSolu22.setPetSoluDes("预防二号病2");
 			petSolu22.setPetDisSpec(ps2);
-			petSolu22.setCure(false);
-			petSolu22.setOther("This is for test");
-			petSolu23.setPetSoluName("治疗二号病3");
+			petSolu22.setIsCure(false);
+
+			petSolu23.setPetSoluDes("治疗二号病3");
 			petSolu23.setPetDisSpec(ps2);
-			petSolu23.setCure(true);
-			petSolu23.setOther("This is for test");
+			petSolu23.setIsCure(true);
 			
 			psbo.save(petSolu11);
 			psbo.save(petSolu12);
@@ -713,6 +714,29 @@ public class TestController {
             ps2.getPetSolus().add(petSolu22);
             ps2.getPetSolus().add(petSolu23);
             
+			
+			System.out.println("Done");
+			result.put("test","testoutputcheck");
+			result.put("status",200);
+			
+			return result;
+		}
+		catch(Exception e)
+		{
+			result.put("status", "500");
+			result.put("cause", e.getCause());
+			return result;
+		}
+	}
+	
+	@RequestMapping(value = "/tesddd", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	public Object tesddd(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+
+            IniPetSolCPP  ipsl = new IniPetSolCPP();
+            ipsl.test();
 			
 			System.out.println("Done");
 			result.put("test","testoutputcheck");

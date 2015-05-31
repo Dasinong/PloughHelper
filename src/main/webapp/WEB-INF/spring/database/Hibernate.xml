@@ -39,6 +39,7 @@
         	   <value>/com/dasinong/ploughHelper/model/NatDis.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/PetSolu.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/User.hbm.xml</value>
+        	   <value>/com/dasinong/ploughHelper/model/CPProduct.hbm.xml</value>
 			</list>
     	</property>	
     </bean>

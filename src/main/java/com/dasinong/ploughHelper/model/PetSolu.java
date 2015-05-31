@@ -1,6 +1,8 @@
 package com.dasinong.ploughHelper.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 
 //PestDisasterSolution
@@ -9,17 +11,27 @@ public class PetSolu implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long petSoluId;
-	private String petSoluName;
+	private String petSoluDes;
 	private PetDisSpec petDisSpec;
-	private boolean cure; //true for cure, false for prevent
+	private Set<CPProduct> cPProducts = new HashSet<>();
 	
+	private boolean isCure; //true for cure, false for prevent
+	private boolean isCPSolu;
+	
+	public PetSolu(String petSoluDes, PetDisSpec petDisSpec, boolean isCure,
+			boolean isCPSolu) {
+		super();
+		this.petSoluDes = petSoluDes;
+		this.petDisSpec = petDisSpec;
+		this.isCure = isCure;
+		this.isCPSolu = isCPSolu;
+	}
+
 	public PetSolu(){}
 	public PetSolu(String petSoluName, PetDisSpec petDisSpec){
-		this.petSoluName = petSoluName;
+		this.setPetSoluDes(petSoluName);
 		this.petDisSpec = petDisSpec;
 	}
-	
-	private String other;
 
 	public Long getPetSoluId() {
 		return petSoluId;
@@ -29,28 +41,13 @@ public class PetSolu implements Serializable{
 		this.petSoluId = petSoluId;
 	}
 
-	public String getPetSoluName() {
-		return petSoluName;
+
+	public boolean getIsCure() {
+		return isCure;
 	}
 
-	public void setPetSoluName(String petSoluName) {
-		this.petSoluName = petSoluName;
-	}
-
-	public boolean getCure() {
-		return cure;
-	}
-
-	public void setCure(boolean cure) {
-		this.cure = cure;
-	}
-
-	public String getOther() {
-		return other;
-	}
-
-	public void setOther(String other) {
-		this.other = other;
+	public void setIsCure(boolean isCure) {
+		this.isCure = isCure;
 	}
 
 	public PetDisSpec getPetDisSpec() {
@@ -59,5 +56,23 @@ public class PetSolu implements Serializable{
 
 	public void setPetDisSpec(PetDisSpec petDisSpec) {
 		this.petDisSpec = petDisSpec;
+	}
+	public Set<CPProduct> getcPProducts() {
+		return cPProducts;
+	}
+	public void setcPProducts(Set<CPProduct> cPProducts) {
+		this.cPProducts = cPProducts;
+	}
+	public boolean getIsCPSolu() {
+		return isCPSolu;
+	}
+	public void setIsCPSolu(boolean isCPSolu) {
+		this.isCPSolu = isCPSolu;
+	}
+	public String getPetSoluDes() {
+		return petSoluDes;
+	}
+	public void setPetSoluDes(String petSoluDes) {
+		this.petSoluDes = petSoluDes;
 	}
 }
