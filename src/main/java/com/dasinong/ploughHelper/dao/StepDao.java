@@ -24,6 +24,9 @@ public class StepDao extends HibernateDaoSupport{
 	public Step findByStepName(String stepName) {
 		List list = getHibernateTemplate().find(
 				"from Step where stepName=?",stepName);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
 		return (Step) list.get(0);
 	}
 

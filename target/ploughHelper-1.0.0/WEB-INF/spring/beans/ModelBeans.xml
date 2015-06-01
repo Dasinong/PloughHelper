@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+ 
+   <bean id="cropDao" class="com.dasinong.ploughHelper.dao.CropDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="fieldDao" class="com.dasinong.ploughHelper.dao.FieldDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="locationDao" class="com.dasinong.ploughHelper.dao.LocationDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="natDisDao" class="com.dasinong.ploughHelper.dao.NatDisDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="natDisSpecDao" class="com.dasinong.ploughHelper.dao.NatDisSpecDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="petDisDao" class="com.dasinong.ploughHelper.dao.PetDisDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="petDisSpecDao" class="com.dasinong.ploughHelper.dao.PetDisSpecDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="petSoluDao" class="com.dasinong.ploughHelper.dao.PetSoluDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="qualityItemDao" class="com.dasinong.ploughHelper.dao.QualityItemDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="qualityItemValueDao" class="com.dasinong.ploughHelper.dao.QualityItemValueDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="stepDao" class="com.dasinong.ploughHelper.dao.StepDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="subStageDao" class="com.dasinong.ploughHelper.dao.SubStageDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="taskDao" class="com.dasinong.ploughHelper.dao.TaskDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="taskSpecDao" class="com.dasinong.ploughHelper.dao.TaskSpecDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="userDao" class="com.dasinong.ploughHelper.dao.UserDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="varietyDao" class="com.dasinong.ploughHelper.dao.VarietyDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="cPProductDao" class="com.dasinong.ploughHelper.dao.CPProductDao" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   
+ 
+</beans>

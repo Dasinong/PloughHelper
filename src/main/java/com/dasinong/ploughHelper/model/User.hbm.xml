@@ -10,13 +10,13 @@
             <generator class="identity" />
         </id>
         <property name="userName" type="string">
-            <column name="userName" length="30" not-null="true" unique="true" />
+            <column name="userName" length="30" not-null="true"/>
         </property>
         <property name="password" type="string">
-            <column name="password" length="30" not-null="true" unique="true" />
+            <column name="password" length="30" not-null="true"/>
         </property>
         <property name="cellPhone" type="string">
-            <column name="cellPhone" length="30" unique="true" />
+            <column name="cellPhone" length="30" not-null="true" unique="true" />
         </property>        
         <property name="address" type="string">
             <column name="address" length="30" unique="true" />

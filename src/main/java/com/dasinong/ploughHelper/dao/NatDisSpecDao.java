@@ -24,6 +24,9 @@ public class NatDisSpecDao extends HibernateDaoSupport{
 	public NatDisSpec findByNatDisName(String natDisSpecName) {
 		List list = getHibernateTemplate().find(
 				"from NatDisSpec where natDisSpecName=?",natDisSpecName);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
 		return (NatDisSpec) list.get(0);
 	}
 

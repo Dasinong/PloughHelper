@@ -23,6 +23,9 @@ public class VarietyDao extends HibernateDaoSupport {
 	public Variety findByVarietyName(String varietyName) {
 		List list = getHibernateTemplate().find(
 				"from Variety where varietyName=?",varietyName);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
 		return (Variety) list.get(0);
 	}
 }

@@ -24,6 +24,9 @@ public class SubStageDao extends HibernateDaoSupport{
 	public SubStage findBySubStageName(String subStageName) {
 		List list = getHibernateTemplate().find(
 				"from SubStage where subStageName=?",subStageName);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
 		return (SubStage) list.get(0);
 	}
 

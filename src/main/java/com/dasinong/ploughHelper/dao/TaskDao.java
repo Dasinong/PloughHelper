@@ -24,6 +24,9 @@ public class TaskDao extends HibernateDaoSupport{
 	public Task findByTaskName(String taskName) {
 		List list = getHibernateTemplate().find(
 				"from Task where taskName=?",taskName);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
 		return (Task) list.get(0);
 	}
 

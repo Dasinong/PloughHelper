@@ -29,6 +29,9 @@ public class QualityItemValueDao extends HibernateDaoSupport{
 		Map<Long,String> result = new HashMap<Long,String>();
 		List list = getHibernateTemplate().find(
 				"from QualityItemValue where varietyId=?",varietyId);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
 		for (Object i : list){
 			QualityItemValue qiv = (QualityItemValue) i;
 			result.put(qiv.getQualityItemId(),qiv.getItemValue());

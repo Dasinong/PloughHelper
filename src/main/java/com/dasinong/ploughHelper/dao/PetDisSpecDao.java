@@ -24,6 +24,9 @@ public class PetDisSpecDao extends HibernateDaoSupport{
 	public PetDisSpec findByPetDisName(String petDisSpecName) {
 		List list = getHibernateTemplate().find(
 				"from PetDisSpec where petDisSpecName=?",petDisSpecName);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
 		return (PetDisSpec) list.get(0);
 	}
 

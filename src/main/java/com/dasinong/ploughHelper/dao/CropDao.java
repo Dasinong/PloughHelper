@@ -24,6 +24,9 @@ public class CropDao extends HibernateDaoSupport{
 	public Crop findByCropName(String cropName) {
 		List list = getHibernateTemplate().find(
 				"from Crop where cropName=?",cropName);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
 		return (Crop) list.get(0);
 	}
 

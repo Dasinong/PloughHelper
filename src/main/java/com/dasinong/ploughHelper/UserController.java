@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
+
+
 import com.dasinong.ploughHelper.dao.CropDao;
 import com.dasinong.ploughHelper.dao.FieldDao;
 import com.dasinong.ploughHelper.dao.UserDao;
@@ -22,6 +24,7 @@ import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.Variety;
+import com.dasinong.ploughHelper.security.Token;
 
 
 @Controller
@@ -40,76 +43,61 @@ public class UserController {
 			User user= (new UserParser(request)).getUser();
 			userdao.save(user);
 						
-			result.put("test",user);
-			result.put("status",200);
+			result.put("user",user);
+			result.put("respCode",200);
+			result.put("message","注册成功");
 			
 			return result;
 		}
 		catch(Exception e)
 		{
-			result.put("status", "500");
-			result.put("cause", e.getCause());
+			result.put("respCode", "500");
+			result.put("message", e.getMessage());
 			return result;
 		}
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET,produces="application/json")
+	@RequestMapping(value = "/login",produces="application/json")
 	@ResponseBody
 	public Object login(HttpServletRequest request, HttpServletResponse response) {
 	
-		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
-		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
-		CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
-		
+		UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+	
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-			Crop crop = new Crop();
-			crop.setCropName("ˮ��");
-			cropDao.save(crop);
+			Token token = (Token) request.getSession().getAttribute("Token");
+			if (token!=null){
+				result.put("respCode", 100);
+				result.put("message", "已经登录");
+				return result;
+			}
 			
-			Variety variety1 = new Variety();
-			variety1.setVarietyName("TestVariety1");
-			variety1.setCrop(crop);
-			varietyDao.save(variety1);
+			String userName = request.getParameter("userName");
+			User user = userDao.findByUserName(userName);
+			if (user==null){
+				result.put("respCode",110);
+				result.put("message", "用户不存在");
+				return result;
+			}
 		
-			Variety variety2 = new Variety();
-			variety2.setVarietyName("TestVariety2");
-			variety2.setCrop(crop);
-			varietyDao.save(variety2);
-				
-		    Field field = new Field();
-		    field.setFieldName("Test field 1");
-		    field.setVariety(variety1);
-		    field.setOther("Associate with variety1");
-		    variety1.getFields().add(field);
-		    fieldDao.save(field);
-		
-		    
-		    field = new Field();
-		    field.setFieldName("Test field 2");
-		    field.setVariety(variety2);
-		    field.setOther("Associate with variety2");
-		    variety2.getFields().add(field);
-		    fieldDao.save(field);
-		    
-		    field = new Field();
-		    field.setFieldName("Test field 3");
-		    field.setVariety(variety2);
-		    field.setOther("Associate with variety2");
-		    variety2.getFields().add(field);
-		    fieldDao.save(field);
-		    
-		    
-			System.out.println("Done");
-			result.put("test","testoutputcheck");
-			result.put("status",200);
-			
-		return result;
+			String passWord = request.getParameter("password");
+			if (user.getPassword().equals(passWord)){
+				token = new Token(user.getUserId());
+				request.getSession().setAttribute("Token", token);
+				result.put("respCode",200);
+				result.put("message", "登陆成功");
+				return result;
+			}
+			else{
+				result.put("respCode", 120);
+				result.put("message", "密码错误");
+				return result;
+			}
 		}
 		catch(Exception e)
 		{
-			result.put("status", "500");
-			result.put("cause", e.getCause());
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
 			return result;
 		}
 	}

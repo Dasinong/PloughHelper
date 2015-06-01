@@ -24,6 +24,9 @@ public class UserDao extends HibernateDaoSupport{
 	public User findByUserName(String userName) {
 		List list = getHibernateTemplate().find(
 				"from User where userName=?",userName);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
 		return (User) list.get(0);
 	}
 

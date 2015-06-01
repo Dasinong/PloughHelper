@@ -24,6 +24,9 @@ public class CPProductDao extends HibernateDaoSupport{
 	public CPProduct findByCPProductName(String cPProductName) {
 		List list = getHibernateTemplate().find(
 				"from CPProduct where cPProductName=?",cPProductName);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
 		return (CPProduct) list.get(0);
 	}
 

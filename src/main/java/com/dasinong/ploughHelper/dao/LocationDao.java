@@ -24,6 +24,9 @@ public class LocationDao extends HibernateDaoSupport{
 	public Location findByLocationName(String locationName) {
 		List list = getHibernateTemplate().find(
 				"from Location where locationName=?",locationName);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
 		return (Location) list.get(0);
 	}
 

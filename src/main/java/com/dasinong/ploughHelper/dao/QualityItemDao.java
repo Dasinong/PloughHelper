@@ -24,6 +24,9 @@ public class QualityItemDao extends HibernateDaoSupport{
 	public QualityItem findByQualityItemName(String qualityItemName) {
 		List list = getHibernateTemplate().find(
 				"from QualityItem where qualityItemName=?",qualityItemName);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
 		return (QualityItem) list.get(0);
 	}
 
