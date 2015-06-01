@@ -7,5 +7,14 @@ CREATE TABLE  variety (
   KEY FK_TRANSACTION_CROP_ID (cropId),
   CONSTRAINT FK_TRANSACTION_CROP_ID FOREIGN KEY (cropId)
   REFERENCES crop (cropId) ON DELETE CASCADE ON UPDATE CASCADE,
-  other VARCHAR(100)
+  
+  type VARCHAR(10),
+  genoType VARCHAR(10),
+  maturityType VARCHAR(20),
+  suitableArea VARCHAR(40),
+  totalAccumulatedTempNeeded INT(10),
+  fullCycleDuration INT(10),
+  typicalYield INT(10),
+  seedUnit VARCHAR(20),
+  nationalStandard VARCHAR(20)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;

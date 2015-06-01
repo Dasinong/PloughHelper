@@ -15,13 +15,14 @@
         <many-to-one name="subStage" class="com.dasinong.ploughHelper.model.SubStage" fetch="select">
         	<column name="subStageId" not-null="true"></column>
         </many-to-one>
-        
         <set name="steps" table="step" inverse="true" lazy="false" fetch="select">
         	<key>
         		<column name="taskSpecId" not-null="true" />
         	</key>
         	<one-to-many class="com.dasinong.ploughHelper.model.Step"></one-to-many>
         </set>
-        
+        <property name="type" type="string">
+            <column name="type" length="10"/>
+        </property>
     </class>
 </hibernate-mapping>

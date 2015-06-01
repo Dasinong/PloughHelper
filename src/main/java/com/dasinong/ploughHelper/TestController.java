@@ -87,21 +87,18 @@ public class TestController {
 		user.setUserName("Xiyao");
 		userDao.save(user);
 		
-		Location location = new Location("上海");
-		location.setOther("Has field 1 and field 2.");
+		
+		Location location = new Location("华东","上海","上海","上海","虹口区","四平路",31.111111,131.111111);
 		locationDao.save(location);
 			
 			
 		Crop crop = new Crop("水稻");
-		crop.setOther("Big father");
 		cropDao.save(crop);
 		
 		Variety variety1 = new Variety("TestVariety1",crop);
-		variety1.setOther("This is for test1");
 		varietyDao.save(variety1);
 		
 		Variety variety2 = new Variety("TestVariety2",crop);
-		variety2.setOther("This is for test2.Two field assotication with this one");
 		varietyDao.save(variety2);
 				
 	    Field field = new Field("Test field 1", variety1, user, location);
@@ -139,7 +136,6 @@ public class TestController {
 		  Crop cropo = cropDao.findByCropName("水稻");
 		  
 		  Crop crop = new Crop("水稻2");
-		  crop.setOther("Big father2");
 		  cropDao.save(crop);
 		  
 		  Variety variety1 = varietyDao.findByVarietyName("TestVariety1");
@@ -179,8 +175,7 @@ public class TestController {
 		try{
 			
 		  User user = userDao.findByUserName("Xiyao");
-	      Location location1 = new Location("上海");
-	      location1.setOther("has field 1 and 2");
+		  Location location1 = new Location("华东","上海","上海","上海","徐汇区","徐家汇",31.111111,131.111111);
 	      locationDao.save(location1);
 	          
 	      

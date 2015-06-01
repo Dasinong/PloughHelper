@@ -12,6 +12,7 @@ public class TaskSpec implements Serializable{
 	private String taskSpecName;
 	private SubStage subStage;
 	private Set<Step> steps = new HashSet<Step>();
+	private String type;
 	
 	public TaskSpec(){}
 	public TaskSpec(String taskSpecName, SubStage subStage){
@@ -42,6 +43,12 @@ public class TaskSpec implements Serializable{
 	}
 	public void setSteps(Set<Step> steps) {
 		this.steps = steps;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 }

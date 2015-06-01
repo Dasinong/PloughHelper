@@ -15,7 +15,17 @@ public class Variety implements Serializable{
 	private Set<SubStage> subStages = new HashSet<SubStage>();
 	private Crop crop;
 	private Map<Long,QualityItemValue> qualityItemValues;
-	private String other;
+
+    private String type;
+    private String genoType;
+    private String maturityType;
+    private String suitableArea;
+    private int totalAccumulatedTempNeeded;
+    private int fullCycleDuration;
+    private int typicalYield;
+    private String seedUnit;
+    private String nationalStandard;
+    
 	
 	public Variety (){}
 	
@@ -42,12 +52,7 @@ public class Variety implements Serializable{
 	public void setFields(Set<Field> fields) {
 		this.fields = fields;
 	}
-	public String getOther() {
-		return other;
-	}
-	public void setOther(String other) {
-		this.other = other;
-	}
+
 	public Crop getCrop() {
 		return crop;
 	}
@@ -66,6 +71,78 @@ public class Variety implements Serializable{
 	}
 	public void setQualityItemValues(Map<Long,QualityItemValue> qualityItemValues) {
 		this.qualityItemValues = qualityItemValues;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getGenoType() {
+		return genoType;
+	}
+
+	public void setGenoType(String genoType) {
+		this.genoType = genoType;
+	}
+
+	public String getMaturityType() {
+		return maturityType;
+	}
+
+	public void setMaturityType(String maturityType) {
+		this.maturityType = maturityType;
+	}
+
+	public String getSuitableArea() {
+		return suitableArea;
+	}
+
+	public void setSuitableArea(String suitableArea) {
+		this.suitableArea = suitableArea;
+	}
+
+	public int getTotalAccumulatedTempNeeded() {
+		return totalAccumulatedTempNeeded;
+	}
+
+	public void setTotalAccumulatedTempNeeded(int totalAccumulatedTempNeeded) {
+		this.totalAccumulatedTempNeeded = totalAccumulatedTempNeeded;
+	}
+
+	public int getFullCycleDuration() {
+		return fullCycleDuration;
+	}
+
+	public void setFullCycleDuration(int fullCycleDuration) {
+		this.fullCycleDuration = fullCycleDuration;
+	}
+
+	public int getTypicalYield() {
+		return typicalYield;
+	}
+
+	public void setTypicalYield(int typicalYield) {
+		this.typicalYield = typicalYield;
+	}
+
+	public String getSeedUnit() {
+		return seedUnit;
+	}
+
+	public void setSeedUnit(String seedUnit) {
+		this.seedUnit = seedUnit;
+	}
+
+	public String getNationalStandard() {
+		return nationalStandard;
+	}
+
+	public void setNationalStandard(String nationalStandard) {
+		this.nationalStandard = nationalStandard;
 	}
 
 }

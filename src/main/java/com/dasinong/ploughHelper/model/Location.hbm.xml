@@ -9,9 +9,7 @@
             <column name="locationId" />
             <generator class="identity" />
         </id>
-        <property name="locationName" type="string">
-            <column name="locationName" length="30" not-null="true" unique="true" />
-        </property>
+        
         <set name="fields" table="field" inverse="true" lazy="false" fetch="select">
         	<key>
         		<column name="locationId" not-null="true" />
@@ -28,8 +26,30 @@
         	<many-to-many class="com.dasinong.ploughHelper.model.PetDisSpec" column="petDisSpecId"></many-to-many>
         </set>
         
-        <property name="other" type="string">
-            <column name="other" length="100" not-null="true" unique="true" />
+        <property name="region" type="string">
+            <column name="region" length="30"/>
         </property>
+        <property name="province" type="string">
+            <column name="province" length="20"/>
+        </property>
+        <property name="city" type="string">
+            <column name="city" length="20"/>
+        </property>
+        <property name="country" type="string">
+            <column name="country" length="20"/>
+        </property>
+        <property name="district" type="string">
+            <column name="district" length="20"/>
+        </property>
+        <property name="community" type="string">
+            <column name="community" length="20"/>
+        </property>
+        <property name="latitude" type="double">
+            <column name="latitude" length="20"/>
+        </property>
+        <property name="longtitude" type="double">
+            <column name="longtitude" length="20"/>
+        </property>
+
     </class>
 </hibernate-mapping>

@@ -14,7 +14,9 @@ public class Crop implements Serializable {
 	private Set<QualityItem> qualityItems = new HashSet<QualityItem>();
 	private Set<PetDisSpec> petDisSpecs = new HashSet<PetDisSpec>();
 	private Set<NatDisSpec> natDisSpecs = new HashSet<NatDisSpec>();
-	private String other;
+	
+	private String type;
+	private String suitableArea;
 	
 	public Crop(){}
 	public Crop(String cropName){
@@ -34,12 +36,6 @@ public class Crop implements Serializable {
 		this.cropName = cropName;
 	}
 	
-	public String getOther() {
-		return other;
-	}
-	public void setOther(String other) {
-		this.other = other;
-	}
 	public Set<Variety> getVarieties() {
 		return varieties;
 	}
@@ -63,6 +59,18 @@ public class Crop implements Serializable {
 	}
 	public void setNatDisSpecs(Set<NatDisSpec> natDisSpecs) {
 		this.natDisSpecs = natDisSpecs;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getSuitableArea() {
+		return suitableArea;
+	}
+	public void setSuitableArea(String suitableArea) {
+		this.suitableArea = suitableArea;
 	} 
 
 }

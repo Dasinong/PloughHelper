@@ -65,19 +65,16 @@ public class UserController {
 		try{
 			Crop crop = new Crop();
 			crop.setCropName("Ë®µ¾");
-			crop.setOther("Big father");
 			cropDao.save(crop);
 			
 			Variety variety1 = new Variety();
 			variety1.setVarietyName("TestVariety1");
 			variety1.setCrop(crop);
-			variety1.setOther("This is for test1");
 			varietyDao.save(variety1);
 		
 			Variety variety2 = new Variety();
 			variety2.setVarietyName("TestVariety2");
 			variety2.setCrop(crop);
-			variety2.setOther("This is for test2.Two field assotication with this one");
 			varietyDao.save(variety2);
 				
 		    Field field = new Field();

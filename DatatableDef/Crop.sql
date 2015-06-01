@@ -3,5 +3,6 @@ CREATE TABLE crop (
   PRIMARY KEY (cropId) USING BTREE,
   cropName VARCHAR(30) NOT NULL,
   UNIQUE KEY UNI_FIELDNAME (cropName),
-  other VARCHAR(100)
+  type varchar(10),
+  suitableArea varchar(50)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;

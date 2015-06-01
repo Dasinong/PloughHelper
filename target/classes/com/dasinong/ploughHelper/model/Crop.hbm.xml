@@ -32,8 +32,11 @@
         	<key column = "cropId"></key>
         	<many-to-many class="com.dasinong.ploughHelper.model.NatDisSpec" column="natDisSpecId"></many-to-many>
         </set>
-        <property name="other" type="string">
-            <column name="other" length="100" not-null="true" unique="true" />
+        <property name="type" type="string">
+            <column name="type" length="10"/>
+        </property>
+        <property name="suitableArea" type="string">
+            <column name="suitableArea" length="40"/>
         </property>
     </class>
 </hibernate-mapping>

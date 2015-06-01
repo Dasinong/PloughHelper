@@ -34,5 +34,24 @@
         	<one-to-many class="com.dasinong.ploughHelper.model.TaskSpec"></one-to-many>
         </set>
         
+        
+        <property name="triggerAccumulatedTemp" type="int">
+            <column name="triggerAccumulatedTemp" length="10"/>
+        </property>
+        <property name="reqMinTemp" type="int">
+            <column name="reqMinTemp" length="10"/>
+        </property>
+        <property name="reqAvgTemp" type="int">
+            <column name="reqAvgTemp" length="10"/>
+        </property>
+        <property name="maxFieldHumidity" type="int">
+            <column name="maxFieldHumidity" length="10"/>
+        </property>
+        <property name="minFieldHumidity" type="int">
+            <column name="minFieldHumidity" length="10"/>
+        </property>
+        <property name="duration" type="int">
+            <column name="duration" length="10"/>
+        </property>
     </class>
 </hibernate-mapping>

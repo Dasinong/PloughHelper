@@ -14,7 +14,17 @@ public class SubStage implements Serializable{
     private Set<NatDisSpec> natDisSpecs = new HashSet<NatDisSpec>();
     private Set<PetDisSpec> petDisSpecs = new HashSet<PetDisSpec>();
     private Set<TaskSpec> taskSpecs = new HashSet<TaskSpec>();
+    
+    private int triggerAccumulatedTemp;
+    private int reqMinTemp;
+    private int reqAvgTemp;
+    private int maxFieldHumidity;
+    private int minFieldHumidity;
+    private int duration;
 
+    
+    
+    
     public SubStage(){}
     public SubStage(String subStageName,String stageName){
     	this.subStageName = subStageName;
@@ -61,6 +71,42 @@ public class SubStage implements Serializable{
 	}
 	public void setPetDisSpecs(Set<PetDisSpec> petDisSpecs) {
 		this.petDisSpecs = petDisSpecs;
+	}
+	public int getTriggerAccumulatedTemp() {
+		return triggerAccumulatedTemp;
+	}
+	public void setTriggerAccumulatedTemp(int triggerAccumulatedTemp) {
+		this.triggerAccumulatedTemp = triggerAccumulatedTemp;
+	}
+	public int getReqMinTemp() {
+		return reqMinTemp;
+	}
+	public void setReqMinTemp(int reqMinTemp) {
+		this.reqMinTemp = reqMinTemp;
+	}
+	public int getReqAvgTemp() {
+		return reqAvgTemp;
+	}
+	public void setReqAvgTemp(int reqAvgTemp) {
+		this.reqAvgTemp = reqAvgTemp;
+	}
+	public int getMaxFieldHumidity() {
+		return maxFieldHumidity;
+	}
+	public void setMaxFieldHumidity(int maxFieldHumidity) {
+		this.maxFieldHumidity = maxFieldHumidity;
+	}
+	public int getMinFieldHumidity() {
+		return minFieldHumidity;
+	}
+	public void setMinFieldHumidity(int minFieldHumidity) {
+		this.minFieldHumidity = minFieldHumidity;
+	}
+	public int getDuration() {
+		return duration;
+	}
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
   
 

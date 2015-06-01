@@ -6,5 +6,8 @@ CREATE TABLE step (
   taskSpecId int(10) unsigned not null,
   KEY FK_STEP_TS_ID (taskSpecId),
   CONSTRAINT FK_STEP_TS_ID FOREIGN KEY (taskSpecId)
-  REFERENCES taskSpec (taskSpecId) ON DELETE CASCADE ON UPDATE CASCADE
+  REFERENCES taskSpec (taskSpecId) ON DELETE CASCADE ON UPDATE CASCADE,
+  
+  description VARCHAR(200),
+  picture VARCHAR(20)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;

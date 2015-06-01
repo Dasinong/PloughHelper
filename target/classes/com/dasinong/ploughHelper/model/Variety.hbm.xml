@@ -34,8 +34,32 @@
         	<index column="qualityItemId" type="java.lang.Long"></index>
         	<one-to-many class="com.dasinong.ploughHelper.model.QualityItemValue"></one-to-many>
         </map>
-        <property name="other" type="string">
-            <column name="other" length="100" not-null="true" unique="true" />
+        <property name="type" type="string">
+            <column name="type" length="10"/>
+        </property>
+        <property name="genoType" type="string">
+            <column name="genoType" length="10"/>
+        </property>
+        <property name="maturityType" type="string">
+            <column name="maturityType" length="20"/>
+        </property>
+        <property name="suitableArea" type="string">
+            <column name="suitableArea" length="40"/>
+        </property>
+        <property name="totalAccumulatedTempNeeded" type="int">
+            <column name="totalAccumulatedTempNeeded" length="10"/>
+        </property>
+        <property name="fullCycleDuration" type="int">
+            <column name="fullCycleDuration" length="10"/>
+        </property>
+        <property name="typicalYield" type="int">
+            <column name="typicalYield" length="10"/>
+        </property>
+        <property name="seedUnit" type="string">
+            <column name="seedUnit" length="20"/>
+        </property>
+        <property name="nationalStandard" type="string">
+            <column name="nationalStandard" length="20"/>
         </property>
     </class>
 </hibernate-mapping>
