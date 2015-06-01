@@ -1,6 +1,7 @@
 package com.dasinong.ploughHelper.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Map;
 
 public class Field implements Serializable{
@@ -17,7 +18,14 @@ public class Field implements Serializable{
 	private Map<Long, PetDis> petDiss;
 	private Map<Long, NatDis> natDiss;
 	
-	private String other; 
+	private long currentStageID;
+	private Date startDate;
+	private Date endDate;
+	private long yield;
+	//MonitorLocationID
+    //SoilType	SoilN	SoilK	SoilP	SoilOrganic	SoilPH	SoilS	SoilMg	SoilCa	SoilFe	SoilMo	SoilB	SoilMn	Soilzn	SoilCu	SoilCI	
+		
+
 	
 	public Field(){};
 	public Field(String fieldName,Variety variety,User user,Location location){
@@ -39,12 +47,7 @@ public class Field implements Serializable{
 	public void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
 	}
-	public String getOther() {
-		return other;
-	}
-	public void setOther(String other) {
-		this.other = other;
-	}
+
 	public Variety getVariety() {
 		return variety;
 	}
@@ -86,6 +89,30 @@ public class Field implements Serializable{
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public long getCurrentStageID() {
+		return currentStageID;
+	}
+	public void setCurrentStageID(long currentStageID) {
+		this.currentStageID = currentStageID;
+	}
+	public Date getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	public Date getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+	public long getYield() {
+		return yield;
+	}
+	public void setYield(long yield) {
+		this.yield = yield;
 	}
 
 }

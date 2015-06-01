@@ -40,8 +40,18 @@
         	<index column="natDisSpecId" type="java.lang.Long"></index>
         	<one-to-many class="com.dasinong.ploughHelper.model.NatDis"></one-to-many>
         </map>
-        <property name="other" type="string">
-            <column name="other" length="100" not-null="true" unique="true" />
+        <property name="currentStageID" type="java.lang.Long">
+            <column name="currentStageID" length="10" />
         </property>
+        <property name="startDate" type="timestamp">
+            <column name="startDate"/>
+        </property>
+        <property name="endDate" type="timestamp">
+            <column name="endDate"/>
+        </property>
+        <property name="yield" type="java.lang.Long">
+            <column name="yield" length="10"/>
+        </property>
+
     </class>
 </hibernate-mapping>

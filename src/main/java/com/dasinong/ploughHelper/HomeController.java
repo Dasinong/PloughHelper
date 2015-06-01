@@ -50,8 +50,6 @@ public class HomeController {
 		Field field = new Field();
 		String fieldName = (request.getParameter("fieldName")!=null) ? request.getParameter("fieldName") : "GuangZhou";
 		field.setFieldName(fieldName);
-		String other = (request.getParameter("other")!=null) ? request.getParameter("other") : "other";
-		field.setOther(other);
 		try{
 			fieldDao.save(field);
 			result.put("status", "200");

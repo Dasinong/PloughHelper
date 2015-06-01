@@ -102,7 +102,6 @@ public class TestController {
 		varietyDao.save(variety2);
 				
 	    Field field = new Field("Test field 1", variety1, user, location);
-	    field.setOther("Associate with variety1");
 
 	    variety1.getFields().add(field);
 		fieldDao.save(field);
@@ -182,14 +181,12 @@ public class TestController {
 	      Variety variety1=varietyDao.findByVarietyName("TestVariety1");
 		  Field field = new Field("上海1",variety1,user,location1);
 		  field.setIsActive(true);
-		  field.setOther("特殊他");
 		  fieldDao.save(field);
 		  variety1.getFields().add(field);
 		  
 		  Variety variety2=varietyDao.findByVarietyName("TestVariety2");
 		  field = new Field("上海历史",variety2,user,location1);
 		  field.setIsActive(false);
-		  field.setOther("特殊地");
 		  fieldDao.save(field);
 		  
           //Dose reverse happen automatically?
@@ -669,7 +666,6 @@ public class TestController {
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-			HashMap<Long, PetDis> set1 = new HashMap<Long, PetDis>();
 			PetDisSpec ps1 = petDisSpecbo.findByPetDisName("一号病");
 			PetDisSpec ps2 = petDisSpecbo.findByPetDisName("二号病");
 			
