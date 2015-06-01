@@ -25,5 +25,35 @@
 	<import resource="/beans/ModelBeans.xml"></import>
 	
 	
-	
+	<bean id="myJob" class="com.dasinong.ploughHelper.task.SampleTask" />
+ 
+    <bean name="startQuertz" lazy-init="false" autowire="no"  
+        class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="triggers">  
+            <list>  
+                <ref bean="myJobTrigger" />  
+            </list>  
+        </property>  
+    </bean>  
+    
+    <bean id="myJobTrigger"  
+        class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail">  
+            <ref bean="myJobDetail" />  
+        </property>  
+        <property name="cronExpression">  
+            <value>0/1 * * * * ?</value>  
+        </property>  
+    </bean>  
+
+    <bean id="myJobDetail"  
+        class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <property name="targetObject">  
+            <ref bean="myJob" />  
+        </property>  
+        <property name="targetMethod">  
+            <value>work</value>  
+        </property>  
+    </bean>  
+
 </beans>
