@@ -29,5 +29,14 @@ public class UserDao extends HibernateDaoSupport{
 		}
 		return (User) list.get(0);
 	}
+	
+	public User findByCellphone(String cellphone) {
+		List list = getHibernateTemplate().find(
+				"from User where cellphone=?",cellphone);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
+		return (User) list.get(0);
+	}
 
 }

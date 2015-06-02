@@ -43,10 +43,11 @@ public class UserController {
 			User user= (new UserParser(request)).getUser();
 			userdao.save(user);
 						
-			result.put("user",user);
+			result.put("data",user);
 			result.put("respCode",200);
 			result.put("message","注册成功");
-			
+			Token token = new Token(user.getUserId());
+			request.getSession().setAttribute("Token", token);
 			return result;
 		}
 		catch(Exception e)
@@ -67,7 +68,7 @@ public class UserController {
 		try{
 			Token token = (Token) request.getSession().getAttribute("Token");
 			if (token!=null){
-				result.put("respCode", 100);
+				result.put("respCode", 200);
 				result.put("message", "已经登录");
 				return result;
 			}
@@ -93,6 +94,55 @@ public class UserController {
 				result.put("message", "密码错误");
 				return result;
 			}
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
+	@RequestMapping(value = "/authRegLog",produces="application/json")
+	@ResponseBody
+	public Object authRegLog(HttpServletRequest request, HttpServletResponse response) {
+	
+		UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+	
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			Token token = (Token) request.getSession().getAttribute("Token");
+			if (token!=null){
+				result.put("respCode", 200);
+				result.put("message", "已经登录");
+				return result;
+			}
+			
+			String cellphone = request.getParameter("cellphone");
+			User user = userDao.findByCellphone(cellphone);
+			if (user!=null){
+				token = new Token(user.getUserId());
+				request.getSession().setAttribute("Token", token );
+				result.put("respCode",200);
+				result.put("message", "用户已存在,登陆");
+				result.put("data",user);
+				return result;
+			}
+			else{
+				user = new User();
+				user.setCellPhone(cellphone);
+				user.setUserName(cellphone);
+				user.setPassword(cellphone.substring(cellphone.length()-6));
+
+				userDao.save(user);
+				token = new Token(user.getUserId());
+				request.getSession().setAttribute("Token", token);
+				result.put("respCode", 200);
+				result.put("message", "注册成功");
+				result.put("data", user);
+				return result;
+			}
+		    
 		}
 		catch(Exception e)
 		{
