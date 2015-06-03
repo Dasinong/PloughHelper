@@ -29,5 +29,8 @@
         <property name="solution" type="string">
         	<column name="solution" length="200"></column>
         </property>
+        <property name="alertInfo" type="string">
+        	<column name="alertInfo" length="200"></column>
+        </property>
     </class>
 </hibernate-mapping>

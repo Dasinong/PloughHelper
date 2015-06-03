@@ -35,8 +35,5 @@
         <property name="type" type="string">
             <column name="type" length="10"/>
         </property>
-        <property name="suitableArea" type="string">
-            <column name="suitableArea" length="40"/>
-        </property>
     </class>
 </hibernate-mapping>

@@ -16,7 +16,6 @@ public class Crop implements Serializable {
 	private Set<NatDisSpec> natDisSpecs = new HashSet<NatDisSpec>();
 	
 	private String type;
-	private String suitableArea;
 	
 	public Crop(){}
 	public Crop(String cropName){
@@ -66,11 +65,5 @@ public class Crop implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getSuitableArea() {
-		return suitableArea;
-	}
-	public void setSuitableArea(String suitableArea) {
-		this.suitableArea = suitableArea;
-	} 
 
 }

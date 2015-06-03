@@ -13,6 +13,7 @@ public class TaskSpec implements Serializable{
 	private SubStage subStage;
 	private Set<Step> steps = new HashSet<Step>();
 	private String type;
+	private String fitRegion;
 	
 	public TaskSpec(){}
 	public TaskSpec(String taskSpecName, SubStage subStage){
@@ -50,5 +51,12 @@ public class TaskSpec implements Serializable{
 	public void setType(String type) {
 		this.type = type;
 	}
+	public String getFitRegion() {
+		return fitRegion;
+	}
+	public void setFitRegion(String fitRegion) {
+		this.fitRegion = fitRegion;
+	}
+
 	
 }

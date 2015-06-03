@@ -23,8 +23,9 @@ public class Variety implements Serializable{
     private int totalAccumulatedTempNeeded;
     private int fullCycleDuration;
     private int typicalYield;
-    private String seedUnit;
+    private String owner;
     private String nationalStandard;
+    private int yearofReg;
     
 	
 	public Variety (){}
@@ -129,20 +130,28 @@ public class Variety implements Serializable{
 		this.typicalYield = typicalYield;
 	}
 
-	public String getSeedUnit() {
-		return seedUnit;
-	}
-
-	public void setSeedUnit(String seedUnit) {
-		this.seedUnit = seedUnit;
-	}
-
 	public String getNationalStandard() {
 		return nationalStandard;
 	}
 
 	public void setNationalStandard(String nationalStandard) {
 		this.nationalStandard = nationalStandard;
+	}
+
+	public int getYearofReg() {
+		return yearofReg;
+	}
+
+	public void setYearofReg(int yearofReg) {
+		this.yearofReg = yearofReg;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 
 }

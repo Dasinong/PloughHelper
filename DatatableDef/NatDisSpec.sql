@@ -3,5 +3,6 @@ CREATE TABLE  natDisSpec (
   PRIMARY KEY (`natDisSpecId`) USING BTREE,
   natDisSpecName VARCHAR(30) NOT NULL,
   UNIQUE KEY `UNI_NDSNAME` (`natDisSpecName`),
-  solution VARCHAR(200)
+  solution VARCHAR(200),
+  alertInfo VARCHAR(200)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;

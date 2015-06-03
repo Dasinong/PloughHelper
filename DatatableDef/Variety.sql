@@ -15,6 +15,7 @@ CREATE TABLE  variety (
   totalAccumulatedTempNeeded INT(10),
   fullCycleDuration INT(10),
   typicalYield INT(10),
-  seedUnit VARCHAR(20),
-  nationalStandard VARCHAR(20)
+  owner VARCHAR(20),
+  nationalStandard VARCHAR(20),
+  yearofReg INT(6)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;

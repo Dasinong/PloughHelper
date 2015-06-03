@@ -675,23 +675,23 @@ public class TestController {
 			PetSolu petSolu22 = new PetSolu();
 			PetSolu petSolu23 = new PetSolu();
 			petSolu11.setPetDisSpec(ps1);
-			petSolu11.setIsCure(true);
+			petSolu11.setIsRemedy(true);
 
 			petSolu12.setPetSoluDes("预防一号病2");
 			petSolu12.setPetDisSpec(ps1);
-			petSolu12.setIsCure(false);
+			petSolu12.setIsRemedy(false);
 
 			petSolu21.setPetSoluDes("治疗二号病1");
 			petSolu21.setPetDisSpec(ps2);
-			petSolu21.setIsCure(true);
+			petSolu21.setIsRemedy(true);
 
 			petSolu22.setPetSoluDes("预防二号病2");
 			petSolu22.setPetDisSpec(ps2);
-			petSolu22.setIsCure(false);
+			petSolu22.setIsRemedy(false);
 
 			petSolu23.setPetSoluDes("治疗二号病3");
 			petSolu23.setPetDisSpec(ps2);
-			petSolu23.setIsCure(true);
+			petSolu23.setIsRemedy(true);
 			
 			psbo.save(petSolu11);
 			psbo.save(petSolu12);

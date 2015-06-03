@@ -27,6 +27,11 @@ public class PetDisSpec implements Serializable{
 	private String shape;
 	private String description;
 
+	private String sympthon;
+	private String forms;
+	private String habits;
+	private String rules;
+	private String pictureIds;
 	
 	public PetDisSpec(){}
 	public PetDisSpec(String petDisSpecName){
@@ -154,6 +159,36 @@ public class PetDisSpec implements Serializable{
 	}
 	public void setAlias(String alias) {
 		this.alias = alias;
+	}
+	public String getSympthon() {
+		return sympthon;
+	}
+	public void setSympthon(String sympthon) {
+		this.sympthon = sympthon;
+	}
+	public String getForms() {
+		return forms;
+	}
+	public void setForms(String forms) {
+		this.forms = forms;
+	}
+	public String getHabits() {
+		return habits;
+	}
+	public void setHabits(String habits) {
+		this.habits = habits;
+	}
+	public String getRules() {
+		return rules;
+	}
+	public void setRules(String rules) {
+		this.rules = rules;
+	}
+	public String getPictureIds() {
+		return pictureIds;
+	}
+	public void setPictureIds(String pictureIds) {
+		this.pictureIds = pictureIds;
 	}
 	
 	

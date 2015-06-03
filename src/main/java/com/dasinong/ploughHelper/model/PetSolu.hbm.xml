@@ -20,11 +20,14 @@
         	<many-to-many class="com.dasinong.ploughHelper.model.CPProduct" column="cPProductId"></many-to-many>
         </set>
         
-        <property name="isCure" type="java.lang.Boolean">
-            <column name="isCure" />
+        <property name="isRemedy" type="java.lang.Boolean">
+            <column name="isRemedy" />
         </property>
         <property name="isCPSolu" type="java.lang.Boolean">
             <column name="isCPSolu" />
+        </property>
+        <property name="rank" type="int">
+            <column name="rank" />
         </property>
     </class>
 </hibernate-mapping>

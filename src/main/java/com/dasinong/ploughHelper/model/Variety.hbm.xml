@@ -55,11 +55,14 @@
         <property name="typicalYield" type="int">
             <column name="typicalYield" length="10"/>
         </property>
-        <property name="seedUnit" type="string">
-            <column name="seedUnit" length="20"/>
+        <property name="owner" type="string">
+            <column name="owner" length="20"/>
         </property>
         <property name="nationalStandard" type="string">
             <column name="nationalStandard" length="20"/>
+        </property>
+        <property name="yearofReg" type="int">
+            <column name="yearofReg" length="6"/>
         </property>
     </class>
 </hibernate-mapping>

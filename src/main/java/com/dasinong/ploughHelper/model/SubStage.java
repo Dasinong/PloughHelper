@@ -21,9 +21,6 @@ public class SubStage implements Serializable{
     private int maxFieldHumidity;
     private int minFieldHumidity;
     private int duration;
-
-    
-    
     
     public SubStage(){}
     public SubStage(String subStageName,String stageName){

@@ -15,15 +15,16 @@ public class PetSolu implements Serializable{
 	private PetDisSpec petDisSpec;
 	private Set<CPProduct> cPProducts = new HashSet<>();
 	
-	private boolean isCure; //true for cure, false for prevent
+	private boolean isRemedy; //true for cure, false for prevent
 	private boolean isCPSolu;
+	private int rank;
 	
-	public PetSolu(String petSoluDes, PetDisSpec petDisSpec, boolean isCure,
+	public PetSolu(String petSoluDes, PetDisSpec petDisSpec, boolean isRemedy,
 			boolean isCPSolu) {
 		super();
 		this.petSoluDes = petSoluDes;
 		this.petDisSpec = petDisSpec;
-		this.isCure = isCure;
+		this.isRemedy = isRemedy;
 		this.isCPSolu = isCPSolu;
 	}
 
@@ -39,15 +40,6 @@ public class PetSolu implements Serializable{
 
 	public void setPetSoluId(Long petSoluId) {
 		this.petSoluId = petSoluId;
-	}
-
-
-	public boolean getIsCure() {
-		return isCure;
-	}
-
-	public void setIsCure(boolean isCure) {
-		this.isCure = isCure;
 	}
 
 	public PetDisSpec getPetDisSpec() {
@@ -74,5 +66,21 @@ public class PetSolu implements Serializable{
 	}
 	public void setPetSoluDes(String petSoluDes) {
 		this.petSoluDes = petSoluDes;
+	}
+
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+
+	public boolean getIsRemedy() {
+		return isRemedy;
+	}
+
+	public void setIsRemedy(boolean isRemedy) {
+		this.isRemedy = isRemedy;
 	}
 }
