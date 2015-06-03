@@ -20,6 +20,11 @@ public class PetDis implements Serializable{
 		this.petDisStatus = petDisStatus;
 	}
 	
+	public PetDis(PetDisSpec petDisSpec, boolean petDisStatus){
+		this.petDisSpecId = petDisSpec.getPetDisSpecId();
+		this.petDisStatus = petDisStatus;
+	}
+	
 	public Long getPetDisId() {
 		return petDisId;
 	}

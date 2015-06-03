@@ -15,6 +15,11 @@ public class Task implements Serializable{
 		this.taskStatus = taskStatus;
 	}
 	
+	public Task(TaskSpec taskSpec, boolean taskStatus){
+		this.taskSpecId = taskSpec.getTaskSpecId();
+		this.taskStatus = taskStatus;
+	}
+	
 	public Task(Long taskSpecId, boolean taskStatus){
 		this.taskSpecId = taskSpecId;
 		this.taskStatus = taskStatus;

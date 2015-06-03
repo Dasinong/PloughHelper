@@ -21,7 +21,7 @@ public class PetDisSpecDao extends HibernateDaoSupport{
 		getHibernateTemplate().delete(petDisSpec);
 	}
 
-	public PetDisSpec findByPetDisName(String petDisSpecName) {
+	public PetDisSpec findByPetDisSpecName(String petDisSpecName) {
 		List list = getHibernateTemplate().find(
 				"from PetDisSpec where petDisSpecName=?",petDisSpecName);
 		if (list==null||list.isEmpty()){

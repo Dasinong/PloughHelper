@@ -30,6 +30,7 @@ import com.dasinong.ploughHelper.dao.TaskDao;
 import com.dasinong.ploughHelper.dao.TaskSpecDao;
 import com.dasinong.ploughHelper.dao.UserDao;
 import com.dasinong.ploughHelper.dao.VarietyDao;
+import com.dasinong.ploughHelper.dummyData.HomeRelated;
 import com.dasinong.ploughHelper.dummyData.IniPetSolCPP;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Field;
@@ -307,8 +308,8 @@ public class TestController {
 		try{
 			Location l1 = locationDao.findByLocationName("上海");
 			
-			NatDisSpec natDis1 = natDisDao.findByNatDisName("刮风");
-			NatDisSpec natDis2 = natDisDao.findByNatDisName("下雨");
+			NatDisSpec natDis1 = natDisDao.findByNatDisSpecName("刮风");
+			NatDisSpec natDis2 = natDisDao.findByNatDisSpecName("下雨");
 
             l1.getNatDisSpecs().add(natDis1);
             l1.getNatDisSpecs().add(natDis2);
@@ -666,8 +667,8 @@ public class TestController {
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-			PetDisSpec ps1 = petDisSpecbo.findByPetDisName("一号病");
-			PetDisSpec ps2 = petDisSpecbo.findByPetDisName("二号病");
+			PetDisSpec ps1 = petDisSpecbo.findByPetDisSpecName("一号病");
+			PetDisSpec ps2 = petDisSpecbo.findByPetDisSpecName("二号病");
 			
 			PetSolu petSolu11 = new PetSolu("治疗一号病1",ps1);
 			PetSolu petSolu12 = new PetSolu();
@@ -741,5 +742,39 @@ public class TestController {
 			result.put("cause", e.getCause());
 			return result;
 		}
+	}
+	
+	
+	@RequestMapping(value = "/iniHomeKP",produces="application/json")
+	@ResponseBody
+	public Object iniHomeKP(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		
+		
+		HomeRelated hr = new HomeRelated();
+		hr.initKnowledgePool();
+		
+		
+			
+		System.out.println("Done");
+		result.put("test","testoutputcheck");
+		result.put("status",200);
+			
+		return result;
+	}
+	
+	@RequestMapping(value = "/iniHomeBO",produces="application/json")
+	@ResponseBody
+	public Object iniHomeBO(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		
+		HomeRelated hr = new HomeRelated();
+		hr.initBussinessObject();
+			
+		System.out.println("Done");
+		result.put("test","testoutputcheck");
+		result.put("status",200);
+			
+		return result;
 	}
 }

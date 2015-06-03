@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.Location;
+import com.dasinong.ploughHelper.model.User;
 
 public class LocationDao extends HibernateDaoSupport{
 	public void save(Location location) {
@@ -28,6 +29,11 @@ public class LocationDao extends HibernateDaoSupport{
 			return null;
 		}
 		return (Location) list.get(0);
+	}
+	
+	
+	public Location findById(Long id) {
+		return (Location) this.getHibernateTemplate().get(Location.class,id);
 	}
 
 }

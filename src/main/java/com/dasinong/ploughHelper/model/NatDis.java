@@ -15,6 +15,10 @@ public class NatDis implements Serializable{
 	public NatDis(boolean natDisStatus){
 		this.natDisStatus = natDisStatus;
 	}
+	public NatDis(NatDisSpec natDisSpec, boolean natDisStatus){
+		this.natDisSpecId = natDisSpec.getNatDisSpecId();
+		this.natDisStatus = natDisStatus;
+	}
 	
 	public NatDis(Long natDisSpecId, boolean natDisStatus){
 		this.natDisSpecId = natDisSpecId;

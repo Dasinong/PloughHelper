@@ -14,6 +14,19 @@ public class User implements Serializable{
 	private String address;
 	private Set<Field> fields;
 
+	public User(){}
+	
+	public User(String userName, String password, String cellPhone,
+			String address) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.cellPhone = cellPhone;
+		this.address = address;
+	}
+
+
+
 	public Long getUserId() {
 		return userId;
 	}

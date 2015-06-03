@@ -22,10 +22,7 @@ public class Location implements Serializable {
     private double latitude;
     private double longtitude;
     
-	
 	public Location(){}
-	
-	
 	
 	public Location(String region, String province, String city,
 			String country, String district, String community, double latitude,

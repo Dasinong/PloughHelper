@@ -21,7 +21,7 @@ public class NatDisSpecDao extends HibernateDaoSupport{
 		getHibernateTemplate().delete(natDisSpec);
 	}
 
-	public NatDisSpec findByNatDisName(String natDisSpecName) {
+	public NatDisSpec findByNatDisSpecName(String natDisSpecName) {
 		List list = getHibernateTemplate().find(
 				"from NatDisSpec where natDisSpecName=?",natDisSpecName);
 		if (list==null||list.isEmpty()){

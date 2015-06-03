@@ -21,6 +21,13 @@ public class NatDisSpec implements Serializable{
 	public NatDisSpec(String natDisSpecName){
 		this.natDisSpecName = natDisSpecName;
 	}
+	public NatDisSpec(String natDisSpecName, String solution, String alertInfo) {
+		super();
+		this.natDisSpecName = natDisSpecName;
+		this.solution = solution;
+		this.alertInfo = alertInfo;
+	}
+	
 	
 	public Long getNatDisSpecId() {
 		return natDisSpecId;

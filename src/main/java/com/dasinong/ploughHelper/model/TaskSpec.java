@@ -21,6 +21,15 @@ public class TaskSpec implements Serializable{
 		this.subStage = subStage;
 	}
 	
+	public TaskSpec(String taskSpecName, SubStage subStage, String type,
+			String fitRegion) {
+		super();
+		this.taskSpecName = taskSpecName;
+		this.subStage = subStage;
+		this.type = type;
+		this.fitRegion = fitRegion;
+	}
+	
 	public Long getTaskSpecId() {
 		return taskSpecId;
 	}
@@ -57,6 +66,4 @@ public class TaskSpec implements Serializable{
 	public void setFitRegion(String fitRegion) {
 		this.fitRegion = fitRegion;
 	}
-
-	
 }
