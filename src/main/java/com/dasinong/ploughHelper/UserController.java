@@ -15,6 +15,7 @@ import org.springframework.web.context.ContextLoader;
 
 
 
+
 import com.dasinong.ploughHelper.dao.CropDao;
 import com.dasinong.ploughHelper.dao.FieldDao;
 import com.dasinong.ploughHelper.dao.UserDao;
@@ -24,6 +25,7 @@ import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.Variety;
+import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
 import com.dasinong.ploughHelper.security.Token;
 
 
@@ -42,12 +44,13 @@ public class UserController {
 		try{
 			User user= (new UserParser(request)).getUser();
 			userdao.save(user);
-						
-			result.put("data",user);
+				
+			UserWrapper userWrapper = new UserWrapper(user);
+			result.put("data",userWrapper);
 			result.put("respCode",200);
 			result.put("message","注册成功");
-			Token token = new Token(user.getUserId());
-			request.getSession().setAttribute("Token", token);
+			
+			request.getSession().setAttribute("User", user);
 			return result;
 		}
 		catch(Exception e)
@@ -66,15 +69,17 @@ public class UserController {
 	
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-			Token token = (Token) request.getSession().getAttribute("Token");
-			if (token!=null){
+			User user = (User) request.getSession().getAttribute("User");
+			if (user!=null){
 				result.put("respCode", 200);
 				result.put("message", "已经登录");
+				UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",userWrapper);
 				return result;
 			}
 			
 			String userName = request.getParameter("userName");
-			User user = userDao.findByUserName(userName);
+			user = userDao.findByUserName(userName);
 			if (user==null){
 				result.put("respCode",110);
 				result.put("message", "用户不存在");
@@ -83,10 +88,11 @@ public class UserController {
 		
 			String passWord = request.getParameter("password");
 			if (user.getPassword().equals(passWord)){
-				token = new Token(user.getUserId());
-				request.getSession().setAttribute("Token", token);
+				request.getSession().setAttribute("User", user);
 				result.put("respCode",200);
 				result.put("message", "登陆成功");
+				UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",userWrapper);
 				return result;
 			}
 			else{
@@ -103,7 +109,7 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value = "/authRegLog",produces="application/json")
+	@RequestMapping(value = "/authRegLog",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public Object authRegLog(HttpServletRequest request, HttpServletResponse response) {
 	
@@ -111,21 +117,23 @@ public class UserController {
 	
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-			Token token = (Token) request.getSession().getAttribute("Token");
-			if (token!=null){
+			User user = (User) request.getSession().getAttribute("User");
+			if (user!=null){
 				result.put("respCode", 200);
 				result.put("message", "已经登录");
+				UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",userWrapper);
 				return result;
 			}
 			
 			String cellphone = request.getParameter("cellphone");
-			User user = userDao.findByCellphone(cellphone);
+			user = userDao.findByCellphone(cellphone);
 			if (user!=null){
-				token = new Token(user.getUserId());
-				request.getSession().setAttribute("Token", token );
+				request.getSession().setAttribute("User", user);
 				result.put("respCode",200);
 				result.put("message", "用户已存在,登陆");
-				result.put("data",user);
+				UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",userWrapper);
 				return result;
 			}
 			else{
@@ -135,14 +143,88 @@ public class UserController {
 				user.setPassword(cellphone.substring(cellphone.length()-6));
 
 				userDao.save(user);
-				token = new Token(user.getUserId());
-				request.getSession().setAttribute("Token", token);
+				request.getSession().setAttribute("User", user);
 				result.put("respCode", 200);
 				result.put("message", "注册成功");
-				result.put("data", user);
+				UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",userWrapper);
 				return result;
 			}
 		    
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "/logout",produces="application/json")
+	@ResponseBody
+	public Object logout(HttpServletRequest request, HttpServletResponse response) {
+	
+		UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+	
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			User user = (User) request.getSession().getAttribute("User");
+			if (user!=null){
+				result.put("respCode", 200);
+				result.put("message", "注销成功");
+				request.getSession().removeAttribute("User");
+				return result;
+			}
+			else{
+				result.put("respCode", 110);
+				result.put("message", "用户尚未登陆");
+				return result;
+			}
+ 		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
+	
+	@RequestMapping(value = "/checkUser",produces="application/json")
+	@ResponseBody
+	public Object checkUser(HttpServletRequest request, HttpServletResponse response) {
+	
+		UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+	
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			User user = (User) request.getSession().getAttribute("User");
+			if (user!=null){
+				result.put("respCode", 200);
+				result.put("message", "已经登录");
+				UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",userWrapper);
+				return result;
+			}
+			
+			String cellphone = request.getParameter("cellphone");
+			user = userDao.findByCellphone(cellphone);
+			if (user!=null){
+				request.getSession().setAttribute("User", user);
+				result.put("respCode",200);
+				result.put("message", "用户已存在");
+				UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",userWrapper);
+				return result;
+			}
+			else{
+				result.put("respCode", 100);
+				result.put("message", "用户不存在，请先注册");
+				return result;
+			}
 		}
 		catch(Exception e)
 		{

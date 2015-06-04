@@ -38,8 +38,6 @@ public class Location implements Serializable {
 		this.longtitude = longtitude;
 	}
 
-
-
 	public Long getLocationId() {
 		return locationId;
 	}

@@ -1,6 +1,7 @@
 package com.dasinong.ploughHelper.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 public class User implements Serializable{
@@ -12,7 +13,7 @@ public class User implements Serializable{
 	private String password;
 	private String cellPhone;
 	private String address;
-	private Set<Field> fields;
+	private Set<Field> fields= new HashSet<Field>();
 
 	public User(){}
 	
@@ -24,8 +25,6 @@ public class User implements Serializable{
 		this.cellPhone = cellPhone;
 		this.address = address;
 	}
-
-
 
 	public Long getUserId() {
 		return userId;

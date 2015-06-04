@@ -2,8 +2,11 @@ package com.dasinong.ploughHelper.dao;
 
 
 import java.util.List;
+
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
 import com.dasinong.ploughHelper.model.Field;
+import com.dasinong.ploughHelper.model.Location;
 
 public class FieldDao extends HibernateDaoSupport{
 
@@ -28,6 +31,10 @@ public class FieldDao extends HibernateDaoSupport{
 			return null;
 		}
 		return (Field) list.get(0);
+	}
+	
+	public Field findById(Long id) {
+		return (Field) this.getHibernateTemplate().get(Field.class,id);
 	}
 
 }
