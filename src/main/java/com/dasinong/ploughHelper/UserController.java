@@ -9,25 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
-
-
-
-import com.dasinong.ploughHelper.dao.CropDao;
-import com.dasinong.ploughHelper.dao.FieldDao;
 import com.dasinong.ploughHelper.dao.UserDao;
-import com.dasinong.ploughHelper.dao.VarietyDao;
 import com.dasinong.ploughHelper.inputParser.UserParser;
-import com.dasinong.ploughHelper.model.Crop;
-import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.User;
-import com.dasinong.ploughHelper.model.Variety;
 import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
-import com.dasinong.ploughHelper.security.Token;
-
 
 @Controller
 public class UserController {
@@ -55,7 +43,7 @@ public class UserController {
 		}
 		catch(Exception e)
 		{
-			result.put("respCode", "500");
+			result.put("respCode", 500);
 			result.put("message", e.getMessage());
 			return result;
 		}
@@ -219,7 +207,7 @@ public class UserController {
 				return result;
 			}
 			else{
-				result.put("respCode", 100);
+				result.put("respCode", 110);
 				result.put("message", "用户不存在，请先注册");
 				return result;
 			}

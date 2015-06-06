@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.model.Variety;
 
 
@@ -27,5 +28,9 @@ public class VarietyDao extends HibernateDaoSupport {
 			return null;
 		}
 		return (Variety) list.get(0);
+	}
+	
+	public Variety findById(Long id) {
+		return (Variety) this.getHibernateTemplate().get(Variety.class,id);
 	}
 }

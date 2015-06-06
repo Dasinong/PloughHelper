@@ -2,8 +2,11 @@ package com.dasinong.ploughHelper.dao;
 
 
 import java.util.List;
+
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
 import com.dasinong.ploughHelper.model.SubStage;
+import com.dasinong.ploughHelper.model.Variety;
 
 public class SubStageDao extends HibernateDaoSupport{
 
@@ -30,4 +33,8 @@ public class SubStageDao extends HibernateDaoSupport{
 		return (SubStage) list.get(0);
 	}
 
+	
+	public SubStage findById(Long id) {
+		return (SubStage) this.getHibernateTemplate().get(SubStage.class,id);
+	}
 }

@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.FieldDao;
-import com.dasinong.ploughHelper.dao.TaskDao;
-import com.dasinong.ploughHelper.dao.UserDao;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Task;
 import com.dasinong.ploughHelper.model.User;
