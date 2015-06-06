@@ -8,9 +8,9 @@ public class UserParser {
 	boolean isValid;
 	private User user;
 	public UserParser(HttpServletRequest request ) throws Exception{
-		String userName =  request.getParameter("userName");
+		String userName =  request.getParameter("username");
 		String password =  request.getParameter("password");
-		String cellPhone =  request.getParameter("cellPhone");
+		String cellPhone =  request.getParameter("cellphone");
         String address = request.getParameter("address");
         
         if (password==null || password.isEmpty()){

@@ -2,7 +2,10 @@ package com.dasinong.ploughHelper.dao;
 
 
 import java.util.List;
+
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.Task;
 
 public class TaskDao extends HibernateDaoSupport{
@@ -28,6 +31,10 @@ public class TaskDao extends HibernateDaoSupport{
 			return null;
 		}
 		return (Task) list.get(0);
+	}
+	
+	public Task findById(Long id) {
+		return (Task) this.getHibernateTemplate().get(Task.class,id);
 	}
 
 }

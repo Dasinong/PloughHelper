@@ -1,8 +1,9 @@
 CREATE TABLE  variety (
   varietyId INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`varietyId`) USING BTREE,
-  varietyName VARCHAR(30) NOT NULL,
-  UNIQUE KEY `UNI_VARIETYNAME` (`varietyName`),
+  varietyName VARCHAR(12) NOT NULL,
+  subId VARCHAR(12),
+  UNIQUE KEY `UNI_VARIETYNAME` (`varietyName`,`varietyId`),
   cropId int(10) unsigned not null,
   KEY FK_TRANSACTION_CROP_ID (cropId),
   CONSTRAINT FK_TRANSACTION_CROP_ID FOREIGN KEY (cropId)

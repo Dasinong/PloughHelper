@@ -22,11 +22,13 @@ public class Field implements Serializable{
 	private Date startDate;
 	private Date endDate;
 	private long yield;
+	
+	private double area; //in mu
+	private boolean seedortrans;
+
 	//MonitorLocationID
     //SoilType	SoilN	SoilK	SoilP	SoilOrganic	SoilPH	SoilS	SoilMg	SoilCa	SoilFe	SoilMo	SoilB	SoilMn	Soilzn	SoilCu	SoilCI	
 		
-
-	
 	public Field(){};
 	public Field(String fieldName,Variety variety,User user,Location location){
 		this.fieldName=fieldName;
@@ -113,6 +115,18 @@ public class Field implements Serializable{
 	}
 	public void setYield(long yield) {
 		this.yield = yield;
+	}
+	public double getArea() {
+		return area;
+	}
+	public void setArea(double area) {
+		this.area = area;
+	}
+	public boolean isSeedortrans() {
+		return seedortrans;
+	}
+	public void setSeedortrans(boolean seedortrans) {
+		this.seedortrans = seedortrans;
 	}
 
 }

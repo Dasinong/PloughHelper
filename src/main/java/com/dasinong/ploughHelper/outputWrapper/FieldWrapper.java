@@ -4,21 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.dasinong.ploughHelper.model.Field;
-import com.dasinong.ploughHelper.model.Location;
-import com.dasinong.ploughHelper.model.NatDis;
-import com.dasinong.ploughHelper.model.PetDis;
-import com.dasinong.ploughHelper.model.Task;
-import com.dasinong.ploughHelper.model.User;
-import com.dasinong.ploughHelper.model.Variety;
 
 public class FieldWrapper implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long fieldId;
-	private String fieldName="";
+	private String fieldName;
 	private boolean isActive;
 	private long varietyId;
 	private long userId;
@@ -34,7 +27,7 @@ public class FieldWrapper implements Serializable{
 	
 	public FieldWrapper(Field field){
 		this.setFieldId(field.getFieldId());
-		this.setFieldName(field.getFieldName());
+		this.fieldName = (field.getFieldName()==null)?"":field.getFieldName();
 		this.setActive(field.getIsActive());
 		this.setVarietyId(field.getVariety().getVarietyId());
 		this.setUserId(field.getUser().getUserId());
@@ -55,8 +48,8 @@ public class FieldWrapper implements Serializable{
 			}
 		}
 		this.setCurrentStageID(field.getCurrentStageID());
-		this.setStartDate(field.getStartDate());
-		this.setEndDate(field.getEndDate());
+		this.startDate = (field.getStartDate()==null)?null:field.getStartDate();
+		this.endDate = (field.getEndDate()==null)?null:field.getEndDate();
 		this.setYield(field.getYield());
 	}
 
