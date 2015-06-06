@@ -78,7 +78,7 @@ public class UserController {
 				return result;
 			}
 			
-			String userName = request.getParameter("userName");
+			String userName = request.getParameter("username");
 			user = userDao.findByUserName(userName);
 			if (user==null){
 				result.put("respCode",110);
@@ -166,8 +166,6 @@ public class UserController {
 	@RequestMapping(value = "/logout",produces="application/json")
 	@ResponseBody
 	public Object logout(HttpServletRequest request, HttpServletResponse response) {
-	
-		UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 	
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{

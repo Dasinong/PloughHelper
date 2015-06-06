@@ -10,7 +10,10 @@
             <generator class="identity" />
         </id>
         <property name="varietyName" type="string">
-            <column name="varietyName" length="30" not-null="true" unique="true" />
+            <column name="varietyName" length="30" not-null="true"/>
+        </property>
+        <property name="subId" type="string">
+            <column name="subId" length="30"/>
         </property>
         <set name="fields" table="field" inverse="true" lazy="false" fetch="select">
         	<key>

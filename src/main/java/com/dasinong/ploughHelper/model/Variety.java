@@ -11,6 +11,7 @@ public class Variety implements Serializable{
 	
 	private Long varietyId;
 	private String varietyName;
+	private String subId;
 	private Set<Field> fields = new HashSet<Field>();
 	private Set<SubStage> subStages = new HashSet<SubStage>();
 	private Crop crop;
@@ -152,6 +153,14 @@ public class Variety implements Serializable{
 
 	public void setOwner(String owner) {
 		this.owner = owner;
+	}
+
+	public String getSubId() {
+		return subId;
+	}
+
+	public void setSubId(String subId) {
+		this.subId = subId;
 	}
 
 }

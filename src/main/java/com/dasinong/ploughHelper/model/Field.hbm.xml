@@ -52,6 +52,11 @@
         <property name="yield" type="java.lang.Long">
             <column name="yield" length="10"/>
         </property>
-
+        <property name="area" type="double">
+        	<column name="area" length="10"></column>
+        </property>
+        <property name="seedortrans" type="java.lang.Boolean" >
+        	<column name="seedortrans"></column>
+        </property>
     </class>
 </hibernate-mapping>

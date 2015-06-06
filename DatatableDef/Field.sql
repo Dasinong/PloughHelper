@@ -20,5 +20,7 @@ CREATE TABLE field (
   currentStageID int(10),
   startDate DATETIME,
   endDate DATETIME,
-  yield int(10)
+  yield int(10),
+  area DOUBLE(10,2),
+  seedortrans int(1)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;

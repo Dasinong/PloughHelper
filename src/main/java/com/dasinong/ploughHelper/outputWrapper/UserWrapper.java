@@ -19,10 +19,10 @@ public class UserWrapper implements Serializable {
 	private List<Long> fields = new ArrayList<Long>();
 	public UserWrapper(User user){
 		this.userId= user.getUserId();
-		this.userName=user.getUserName();
-		this.password=user.getPassword();
-		this.address=user.getAddress();
-		this.cellPhone = user.getCellPhone();
+		this.userName= (user.getUserName()==null)?"":user.getUserName();
+		this.password= (user.getPassword()==null)?"":user.getPassword();
+		this.address=(user.getAddress()==null)?"":user.getAddress();
+		this.cellPhone = (user.getCellPhone()==null)?"":user.getCellPhone();
 		if (user.getFields()!=null){
 			for (Field f :  user.getFields()){
 				getFields().add(f.getFieldId());
