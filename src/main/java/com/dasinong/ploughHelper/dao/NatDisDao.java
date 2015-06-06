@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.NatDis;
+import com.dasinong.ploughHelper.model.Task;
 
 public class NatDisDao extends HibernateDaoSupport{
 	public void save(NatDis natDis) {
@@ -29,5 +30,6 @@ public class NatDisDao extends HibernateDaoSupport{
 		}
 		return (NatDis) list.get(0);
 	}
+
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.PetDisSpec;
+import com.dasinong.ploughHelper.model.Task;
 
 public class PetDisSpecDao extends HibernateDaoSupport{
 	public void save(PetDisSpec petDisSpec) {
@@ -28,6 +29,10 @@ public class PetDisSpecDao extends HibernateDaoSupport{
 			return null;
 		}
 		return (PetDisSpec) list.get(0);
+	}
+
+	public PetDisSpec findById(Long id) {
+		return (PetDisSpec) this.getHibernateTemplate().get(PetDisSpec.class,id);
 	}
 
 }

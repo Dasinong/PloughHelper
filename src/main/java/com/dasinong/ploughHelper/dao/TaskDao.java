@@ -2,10 +2,7 @@ package com.dasinong.ploughHelper.dao;
 
 
 import java.util.List;
-
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
-import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.Task;
 
 public class TaskDao extends HibernateDaoSupport{
@@ -13,7 +10,6 @@ public class TaskDao extends HibernateDaoSupport{
 	public void save(Task task) {
 		getHibernateTemplate().save(task);
 	}
-
 
 	public void update(Task task) {
 		getHibernateTemplate().update(task);

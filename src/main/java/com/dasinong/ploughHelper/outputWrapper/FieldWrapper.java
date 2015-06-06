@@ -3,9 +3,13 @@ package com.dasinong.ploughHelper.outputWrapper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.dasinong.ploughHelper.model.Field;
+import com.dasinong.ploughHelper.model.NatDis;
+import com.dasinong.ploughHelper.model.PetDis;
+import com.dasinong.ploughHelper.model.Task;
 
 public class FieldWrapper implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -16,9 +20,9 @@ public class FieldWrapper implements Serializable{
 	private long varietyId;
 	private long userId;
 	private long locationId;
-	private List<Long> taskIds = new ArrayList<Long>();
-	private List<Long> petDisIds =  new ArrayList<Long>();
-	private List<Long> natDisIds = new ArrayList<Long>();
+	private List<TaskWrapper> taskws = new ArrayList<TaskWrapper>();
+	private List<PetDisWrapper> petdisws =  new ArrayList<PetDisWrapper>();
+	private List<NatDisWrapper> natdisws = new ArrayList<NatDisWrapper>();
 	
 	private long currentStageID;
 	private Date startDate;
@@ -33,18 +37,18 @@ public class FieldWrapper implements Serializable{
 		this.setUserId(field.getUser().getUserId());
 		this.setLocationId(field.getLocation().getLocationId());
 		if (field.getTasks()!=null){
-			for (Long tid : field.getTasks().keySet()){
-				getTaskIds().add(tid);
+			for (Task t : field.getTasks().values()){
+				taskws.add(new TaskWrapper(t));
 			}
 		}
 		if (field.getNatDiss()!=null){
-			for (Long pdid :  field.getNatDiss().keySet()){
-				getPetDisIds().add(pdid);
+			for (NatDis nd :  field.getNatDiss().values()){
+				natdisws.add(new NatDisWrapper(nd));
 			}
 		}
 		if (field.getPetDiss()!=null){
-			for (Long ndid : field.getPetDiss().keySet()){
-				getNatDisIds().add(ndid);
+			for (PetDis pd : field.getPetDiss().values()){
+				petdisws.add(new PetDisWrapper(pd));
 			}
 		}
 		this.setCurrentStageID(field.getCurrentStageID());
@@ -133,27 +137,29 @@ public class FieldWrapper implements Serializable{
 		this.yield = yield;
 	}
 
-	public List<Long> getTaskIds() {
-		return taskIds;
+	public List<TaskWrapper> getTaskws() {
+		return taskws;
 	}
 
-	public void setTaskIds(List<Long> taskIds) {
-		this.taskIds = taskIds;
+	public void setTaskws(List<TaskWrapper> taskws) {
+		this.taskws = taskws;
 	}
 
-	public List<Long> getPetDisIds() {
-		return petDisIds;
+	public List<PetDisWrapper> getPetdisws() {
+		return petdisws;
 	}
 
-	public void setPetDisIds(List<Long> petDisIds) {
-		this.petDisIds = petDisIds;
+	public void setPetdisws(List<PetDisWrapper> petdisws) {
+		this.petdisws = petdisws;
 	}
 
-	public List<Long> getNatDisIds() {
-		return natDisIds;
+	public List<NatDisWrapper> getNatdisws() {
+		return natdisws;
 	}
 
-	public void setNatDisIds(List<Long> natDisIds) {
-		this.natDisIds = natDisIds;
+	public void setNatdisws(List<NatDisWrapper> natdisws) {
+		this.natdisws = natdisws;
 	}
+
+
 }

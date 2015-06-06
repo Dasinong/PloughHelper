@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.NatDisSpec;
+import com.dasinong.ploughHelper.model.Task;
 
 public class NatDisSpecDao extends HibernateDaoSupport{
 	public void save(NatDisSpec natDisSpec) {
@@ -28,6 +29,10 @@ public class NatDisSpecDao extends HibernateDaoSupport{
 			return null;
 		}
 		return (NatDisSpec) list.get(0);
+	}
+
+	public NatDisSpec findById(Long id) {
+		return (NatDisSpec) this.getHibernateTemplate().get(NatDisSpec.class,id);
 	}
 
 }
