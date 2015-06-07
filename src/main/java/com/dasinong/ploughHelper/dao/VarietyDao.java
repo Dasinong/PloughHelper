@@ -33,4 +33,10 @@ public class VarietyDao extends HibernateDaoSupport {
 	public Variety findById(Long id) {
 		return (Variety) this.getHibernateTemplate().get(Variety.class,id);
 	}
+	
+	public List<Variety> findByCropRegion(long cropId, String suitableArea){
+		List list = getHibernateTemplate().find(
+				"from Variety where cropId=? and suitableArea like '%"+suitableArea + "%'",cropId);
+		return list;
+	}
 }

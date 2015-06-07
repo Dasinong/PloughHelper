@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.FieldDao;
+import com.dasinong.ploughHelper.inputParser.FieldParser;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.User;
+import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
 
 
 
@@ -25,7 +27,7 @@ public class FieldController {
 	
 	@RequestMapping(value = "/createField", produces="application/json")
 	@ResponseBody
-	public Object createField(HttpServletRequest request, HttpServletResponse response) {
+	public Object createField(HttpServletRequest request, HttpServletResponse response)  {
 		User user = (User) request.getSession().getAttribute("User");
 		Map<String,Object> result = new HashMap<String,Object>();
 		if (user==null){
@@ -35,10 +37,22 @@ public class FieldController {
 		}
 	    FieldDao fd = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 	   
-	    Field field = new Field();
-		
-		
-		return result;
+	    try {
+			FieldParser fieldp = new FieldParser(request);
+			Field f = fieldp.getField();
+			f.setUser(user);
+			fd.save(f);
+			user.getFields().add(f);
+			FieldWrapper fw = new FieldWrapper(f);
+			result.put("respCode", 200);
+			result.put("message", "添加田地成功");
+			result.put("data",fw);
+			return result;
+		} catch (Exception e) {
+			result.put("respCode",500);
+			result.put("message", e.getCause());
+			return result;
+		}
 	}
 		
 }

@@ -48,12 +48,14 @@ private static final Logger logger = LoggerFactory.getLogger(Test1Controller.cla
 		
 		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		
+		
 		String fieldId =  request.getParameter("fieldId");
-		List<Long> fieldIds = new ArrayList<Long>();
+		
+		HashMap<String,Long> fieldList = new HashMap<String,Long>();
 		for (Field f: user.getFields()){
-			fieldIds.add(f.getFieldId());
+			fieldList.put(f.getFieldName(),f.getFieldId());
 		}
-		result.put("fieldIds",fieldIds);
+		result.put("fieldList",fieldList);
 		
 		if (fieldId==null || fieldId.equals("")){
 			result.put("respCode", 200);

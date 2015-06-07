@@ -33,7 +33,7 @@ public class LoadVariety {
 	public final static String SECTIONNAME_SEPARATOR = ":|：";
 	public ClassLoader classLoader = getClass().getClassLoader();
 //	public final File FILEFOLDER = new File(classLoader.getResource("sourcefiles").getFile());
-	public final File FILEFOLDER = new File(new File("C:/Users/Jason Wu/workspace/PloughHelper/").getAbsoluteFile(), "sourcefiles");
+	public final File FILEFOLDER = new File(new File("E:/git/PloughHelper/").getAbsoluteFile(), "sourcefiles");
 	public final String FILENAME = "种子库.txt";
 	public final File FILE = new File(FILEFOLDER, FILENAME);
 	public final String SAMPLE_FILENAME = "种子库_sample.txt";

@@ -187,17 +187,8 @@ public class UserController {
 	
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
-			User user = (User) request.getSession().getAttribute("User");
-			if (user!=null){
-				result.put("respCode", 200);
-				result.put("message", "已经登录");
-				UserWrapper userWrapper = new UserWrapper(user);
-				result.put("data",userWrapper);
-				return result;
-			}
-			
 			String cellphone = request.getParameter("cellphone");
-			user = userDao.findByCellphone(cellphone);
+			User user = userDao.findByCellphone(cellphone);
 			if (user!=null){
 				request.getSession().setAttribute("User", user);
 				result.put("respCode",200);
