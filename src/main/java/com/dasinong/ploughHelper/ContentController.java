@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dasinong.ploughHelper.contentLoader.LoadLocation;
+import com.dasinong.ploughHelper.contentLoader.LoadVariety;
 
 @Controller
 public class ContentController {
@@ -38,5 +39,28 @@ private static final Logger logger = LoggerFactory.getLogger(Test1Controller.cla
 	  
 	  return "OK";
 	}
+	
+	@RequestMapping(value = "/loadVariety", produces="application/json")
+	@ResponseBody
+	public Object loadVariety(HttpServletRequest request, HttpServletResponse response) {
+	  LoadVariety lv = new LoadVariety();
+	  try {
+		lv.readFile();;
+	} catch (FileNotFoundException e) {
+		e.printStackTrace();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	  
+	  return "OK";
+	}
 
+	@RequestMapping(value = "/testVariety", produces="application/json")
+	@ResponseBody
+	public Object testVariety(HttpServletRequest request, HttpServletResponse response) {
+	  LoadVariety lv = new LoadVariety();
+	  lv.test();
+	  
+	  return "OK";
+	}
 }

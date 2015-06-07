@@ -12,21 +12,32 @@ public class Variety implements Serializable{
 	private Long varietyId;
 	private String varietyName;
 	private String subId;
+
 	private Set<Field> fields = new HashSet<Field>();
 	private Set<SubStage> subStages = new HashSet<SubStage>();
+	private String cropName;
 	private Crop crop;
 	private Map<Long,QualityItemValue> qualityItemValues;
-
-    private String type;
-    private String genoType;
-    private String maturityType;
-    private String suitableArea;
-    private int totalAccumulatedTempNeeded;
-    private int fullCycleDuration;
-    private int typicalYield;
-    private String owner;
-    private String nationalStandard;
-    private int yearofReg;
+// 	Data from source file, core variables lossless information	
+	private String registerationId = "";
+//	private String yearOfRegisteration = "";
+    private int yearofReg = 0;
+	private String issuedBy = "";
+//	private String createdBy = "";
+    private String owner = "";
+	private String varietySource = ""; // 品种来源
+	private boolean isTransgenic = false; // 是否转基因
+	private String suitableArea = "";
+	private String characteristics = ""; // 特征特性
+	private String yieldPerformance = ""; // 产量表现
+// 	Derived entries	
+    private String type = "";
+    private String genoType = "";
+    private String maturityType = "";
+    private int totalAccumulatedTempNeeded = 0;
+    private double fullCycleDuration = 0;
+    private int typicalYield = 0;
+    private String nationalStandard = "";
     
 	
 	public Variety (){}
@@ -34,6 +45,24 @@ public class Variety implements Serializable{
 	public Variety (String varietyName, Crop crop){
 		this.varietyName = varietyName;
 		this.crop = crop;
+	}
+	
+	public String toString(){
+		String output = "";
+		output += "cropName: "+cropName+"\n";
+		output += "varietyName: "+varietyName+"\n";
+		output += "registerationId: "+registerationId+"\n";
+		output += "yearOfRegisteration: "+yearofReg+"\n";
+		output += "issuedBy: "+issuedBy+"\n";
+		output += "owner: "+owner+"\n";
+		output += "varietySource: "+varietySource+"\n";
+		output += "isTransgenic: "+isTransgenic+"\n";
+		output += "characteristics: "+characteristics+"\n";
+		output += "yieldPerformance: "+yieldPerformance+"\n";
+		output += "suitableArea: "+suitableArea+"\n";
+		output += "==========================================================================";
+		
+		return output;
 	}
 	
 	public Long getVarietyId() {
@@ -60,6 +89,14 @@ public class Variety implements Serializable{
 	}
 	public void setCrop(Crop crop) {
 		this.crop = crop;
+	}
+	
+	public String getCropName() {
+		return cropName;
+	}
+
+	public void setCropName(String cropName) {
+		this.cropName = cropName;
 	}
 	
 	public Set<SubStage> getSubStages() {
@@ -115,11 +152,11 @@ public class Variety implements Serializable{
 		this.totalAccumulatedTempNeeded = totalAccumulatedTempNeeded;
 	}
 
-	public int getFullCycleDuration() {
+	public double getFullCycleDuration() {
 		return fullCycleDuration;
 	}
 
-	public void setFullCycleDuration(int fullCycleDuration) {
+	public void setFullCycleDuration(double fullCycleDuration) {
 		this.fullCycleDuration = fullCycleDuration;
 	}
 
@@ -163,4 +200,52 @@ public class Variety implements Serializable{
 		this.subId = subId;
 	}
 
+	public String getRegisterationId() {
+		return registerationId;
+	}
+
+	public void setRegisterationId(String registerationId) {
+		this.registerationId = registerationId;
+	}
+
+	public String getIssuedBy() {
+		return issuedBy;
+	}
+
+	public void setIssuedBy(String issuedBy) {
+		this.issuedBy = issuedBy;
+	}
+
+	public String getVarietySource() {
+		return varietySource;
+	}
+
+	public void setVarietySource(String varietySource) {
+		this.varietySource = varietySource;
+	}
+
+	public boolean getIsTransgenic() {
+		return isTransgenic;
+	}
+
+	public void setIsTransgenic(boolean isTransgenic) {
+		this.isTransgenic = isTransgenic;
+	}
+
+	public String getCharacteristics() {
+		return characteristics;
+	}
+
+	public void setCharacteristics(String characteristics) {
+		this.characteristics = characteristics;
+	}
+
+	public String getYieldPerformance() {
+		return yieldPerformance;
+	}
+
+	public void setYieldPerformance(String yieldPerformance) {
+		this.yieldPerformance = yieldPerformance;
+	}
+	
 }

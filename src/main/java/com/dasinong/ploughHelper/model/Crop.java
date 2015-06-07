@@ -15,7 +15,7 @@ public class Crop implements Serializable {
 	private Set<PetDisSpec> petDisSpecs = new HashSet<PetDisSpec>();
 	private Set<NatDisSpec> natDisSpecs = new HashSet<NatDisSpec>();
 	
-	private String type;
+	private String type = "";
 	
 	public Crop(){}
 	public Crop(String cropName){

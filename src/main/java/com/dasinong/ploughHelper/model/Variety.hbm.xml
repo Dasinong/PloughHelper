@@ -10,10 +10,13 @@
             <generator class="identity" />
         </id>
         <property name="varietyName" type="string">
-            <column name="varietyName" length="30" not-null="true"/>
+            <column name="varietyName" length="50" not-null="true"/>
         </property>
         <property name="subId" type="string">
-            <column name="subId" length="30"/>
+            <column name="subId" length="50"/>
+        </property>
+        <property name="registerationId" type="string">
+            <column name="registerationId" length="30" not-null="true" unique="true" />
         </property>
         <set name="fields" table="field" inverse="true" lazy="false" fetch="select">
         	<key>
@@ -37,6 +40,30 @@
         	<index column="qualityItemId" type="java.lang.Long"></index>
         	<one-to-many class="com.dasinong.ploughHelper.model.QualityItemValue"></one-to-many>
         </map>
+       <property name="yearofReg" type="int">
+            <column name="yearofReg" length="6"/>
+        </property>
+        <property name="issuedBy" type="string">
+            <column name="issuedBy" length="5000" />
+        </property>
+        <property name="owner" type="string">
+            <column name="owner" length="5000" />
+        </property>
+        <property name="varietySource" type="string">
+            <column name="varietySource" length="5000" />
+        </property>
+        <property name="isTransgenic" type="java.lang.Boolean">
+            <column name="isTransgenic" />
+        </property>
+        <property name="suitableArea" type="string">
+            <column name="suitableArea" length="5000" />
+        </property>
+        <property name="characteristics" type="string">
+            <column name="characteristics" />
+        </property>
+        <property name="yieldPerformance" type="string">
+            <column name="yieldPerformance" />
+        </property>
         <property name="type" type="string">
             <column name="type" length="10"/>
         </property>
@@ -46,26 +73,17 @@
         <property name="maturityType" type="string">
             <column name="maturityType" length="20"/>
         </property>
-        <property name="suitableArea" type="string">
-            <column name="suitableArea" length="40"/>
-        </property>
         <property name="totalAccumulatedTempNeeded" type="int">
             <column name="totalAccumulatedTempNeeded" length="10"/>
         </property>
-        <property name="fullCycleDuration" type="int">
+        <property name="fullCycleDuration" type="double">
             <column name="fullCycleDuration" length="10"/>
         </property>
         <property name="typicalYield" type="int">
             <column name="typicalYield" length="10"/>
         </property>
-        <property name="owner" type="string">
-            <column name="owner" length="20"/>
-        </property>
         <property name="nationalStandard" type="string">
             <column name="nationalStandard" length="20"/>
-        </property>
-        <property name="yearofReg" type="int">
-            <column name="yearofReg" length="6"/>
         </property>
     </class>
 </hibernate-mapping>
