@@ -27,17 +27,17 @@
         
         <map name="tasks" cascade="all" lazy="false" inverse="false">
          	<key column="fieldId"/>
-        	<index column="taskSpecId" type="java.lang.Long"></index>
+        	<index column="taskId" type="java.lang.Long"></index>
         	<one-to-many class="com.dasinong.ploughHelper.model.Task"></one-to-many>
         </map>
         <map name="petDiss" cascade="all" lazy="false" inverse="false">
         	<key column="fieldId"/>
-        	<index column="petDisSpecId" type="java.lang.Long"></index>
+        	<index column="petDisId" type="java.lang.Long"></index>
         	<one-to-many class="com.dasinong.ploughHelper.model.PetDis"></one-to-many>
         </map>
         <map name="natDiss" cascade="all" lazy="false" inverse="false">
         	<key column="fieldId"/>
-        	<index column="natDisSpecId" type="java.lang.Long"></index>
+        	<index column="natDisId" type="java.lang.Long"></index>
         	<one-to-many class="com.dasinong.ploughHelper.model.NatDis"></one-to-many>
         </map>
         <property name="currentStageID" type="java.lang.Long">
