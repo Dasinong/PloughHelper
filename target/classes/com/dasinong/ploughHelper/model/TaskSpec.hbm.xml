@@ -15,17 +15,15 @@
         <many-to-one name="subStage" class="com.dasinong.ploughHelper.model.SubStage" fetch="select">
         	<column name="subStageId" not-null="true"></column>
         </many-to-one>
-        <set name="steps" table="step" inverse="true" lazy="false" fetch="select">
+        <list name="steps" table="step" cascade="all" fetch="select">
         	<key>
         		<column name="taskSpecId" not-null="true" />
         	</key>
+        	<list-index column="idx"></list-index>
         	<one-to-many class="com.dasinong.ploughHelper.model.Step"></one-to-many>
-        </set>
+        </list>
         <property name="type" type="string">
             <column name="type" length="10"/>
-        </property>
-        <property name="fitRegion" type="string">
-            <column name="fitRegion" length="10"/>
         </property>
     </class>
 </hibernate-mapping>

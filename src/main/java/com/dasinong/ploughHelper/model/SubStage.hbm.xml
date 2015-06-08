@@ -50,8 +50,14 @@
         <property name="minFieldHumidity" type="int">
             <column name="minFieldHumidity" length="10"/>
         </property>
-        <property name="duration" type="int">
-            <column name="duration" length="10"/>
+        <property name="durationLow" type="double">
+            <column name="durationLow" length="10"/>
+        </property>
+        <property name="durationMid" type="double">
+            <column name="durationMid" length="10"/>
+        </property>
+        <property name="durationHigh" type="double">
+            <column name="durationHigh" length="10"/>
         </property>
     </class>
 </hibernate-mapping>

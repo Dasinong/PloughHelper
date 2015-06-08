@@ -7,11 +7,13 @@ public class Step implements Serializable{
 	private static final long serialVersionUID = 1L;
 		
 	private Long stepId;
-	private String stepName;
+	private String stepName = "";
 	private TaskSpec taskSpec;
+	private String fitRegion = "";
 	
-	private String description;
-	private String picture;
+	private String description = "";
+	private String picture = "";
+	private int idx = -1;
 	
 	public Step(){}
 	public Step(String stepName, TaskSpec taskSpec){
@@ -48,6 +50,18 @@ public class Step implements Serializable{
 	}
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+	public int getIdx() {
+		return idx;
+	}
+	public void setIdx(int idx) {
+		this.idx = idx;
+	}
+	public String getFitRegion() {
+		return fitRegion;
+	}
+	public void setFitRegion(String fitRegion) {
+		this.fitRegion = fitRegion;
 	}
 	
 	

@@ -2,12 +2,12 @@ CREATE TABLE step (
   stepId INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (stepId) USING BTREE,
   stepName VARCHAR(30) NOT NULL,
-  UNIQUE KEY UNI_SUBSTAGENAME (stepName),
   taskSpecId int(10) unsigned not null,
   KEY FK_STEP_TS_ID (taskSpecId),
   CONSTRAINT FK_STEP_TS_ID FOREIGN KEY (taskSpecId)
   REFERENCES taskSpec (taskSpecId) ON DELETE CASCADE ON UPDATE CASCADE,
-  
-  description VARCHAR(200),
-  picture VARCHAR(20)
+  fitRegion VARCHAR(10),
+  description VARCHAR(2000),
+  picture VARCHAR(200),
+  idx INT(10)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;

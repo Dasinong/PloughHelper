@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dasinong.ploughHelper.contentLoader.LoadLocation;
+import com.dasinong.ploughHelper.contentLoader.LoadStep;
 import com.dasinong.ploughHelper.contentLoader.LoadVariety;
 
 @Controller
@@ -34,6 +35,21 @@ private static final Logger logger = LoggerFactory.getLogger(Test1Controller.cla
 		e.printStackTrace();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	  
+	  return "OK";
+	}
+	
+	@RequestMapping(value = "/loadStep", produces="application/json")
+	@ResponseBody
+	public Object loadStep(HttpServletRequest request, HttpServletResponse response) {
+	  LoadStep ls = new LoadStep();
+	  try {
+		ls.readFile();
+	} catch (FileNotFoundException e) {
+		e.printStackTrace();
+	} catch (IOException e) {
 		e.printStackTrace();
 	}
 	  

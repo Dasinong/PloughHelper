@@ -100,7 +100,7 @@ public class HomeRelated {
         varietyDao.update(variety);
 	    
 	    
-	    TaskSpec ts11 = new TaskSpec("播种1任务1",s1,"田地管理","华东");
+	    TaskSpec ts11 = new TaskSpec("播种1任务1",s1,"田地管理");
 	    TaskSpec ts12 = new TaskSpec("播种1任务2",s1);
 	    TaskSpec ts21 = new TaskSpec("播种2任务1",s2);
 	    TaskSpec ts22 = new TaskSpec("播种2任务2",s2);

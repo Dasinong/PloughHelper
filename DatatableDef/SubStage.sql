@@ -9,5 +9,7 @@ CREATE TABLE subStage (
   reqAvgTemp INT(10),
   maxFieldHumidity INT(10),
   minFieldHumidity INT(10),
-  duration INT(10)
+  durationLow DOUBLE(10),
+  durationMid DOUBLE(10),
+  durationHigh DOUBLE(10)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;

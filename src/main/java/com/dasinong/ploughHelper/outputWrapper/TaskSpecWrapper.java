@@ -16,7 +16,7 @@ public class TaskSpecWrapper implements Serializable{
 	private SubStage subStage;
 	private List<Long> stepIds =  new ArrayList<Long>();
 	private String type;
-	private String fitRegion;
+//	private String fitRegion;
 	
 	public TaskSpecWrapper(TaskSpec ts){
 		
@@ -29,7 +29,7 @@ public class TaskSpecWrapper implements Serializable{
 			}
 		}
 		this.setType(ts.getType());
-		this.setFitRegion(ts.getFitRegion());
+//		this.setFitRegion(ts.getFitRegion());
 	}
 
 	public Long getTaskSpecId() {
@@ -72,11 +72,11 @@ public class TaskSpecWrapper implements Serializable{
 		this.type = type;
 	}
 
-	public String getFitRegion() {
-		return fitRegion;
-	}
-
-	public void setFitRegion(String fitRegion) {
-		this.fitRegion = fitRegion;
-	}
+//	public String getFitRegion() {
+//		return fitRegion;
+//	}
+//
+//	public void setFitRegion(String fitRegion) {
+//		this.fitRegion = fitRegion;
+//	}
 }
