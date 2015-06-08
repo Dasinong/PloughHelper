@@ -1,15 +1,24 @@
 package com.dasinong.ploughHelper.contentLoader;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.sql.DataSource;
+
 import org.junit.Test;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.CropDao;
@@ -28,17 +37,110 @@ public class LoadStep {
 	public final File FILEFOLDER = new File(new File("C:/Users/Jason Wu/workspace/PloughHelper").getAbsoluteFile(), "sourcefiles");
 	public final File FILE_STAGE = new File(FILEFOLDER, "stage.csv");
 	public final File FILE_STEP = new File(FILEFOLDER, "task_step.csv");
+	public final File FILE_LINK = new File(FILEFOLDER, "variety_subStage.csv");
 	public Map<Long, SubStage> subStageMap = new HashMap<Long, SubStage>();
 	public Map<Long, TaskSpec> taskSpecMap = new HashMap<Long, TaskSpec>();
+	// get Datasource
+	DataSource dataSource = (DataSource) ContextLoader.getCurrentWebApplicationContext().getBean("dataSource");
+	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
 	@Test
 	public void test(){
 		
 	}
 	
+	public void linkVarietySubstage() throws IOException {
+		//get cropId for 稻 
+		CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+		Crop crop = cropDao.findByCropName("稻");
+		Long cropId = crop.getCropId();
+		
+//		get all varieties of 稻
+		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		List list = varietyDao.getHibernateTemplate().find(
+				"FROM Variety WHERE cropId=?",43);
+		ArrayList<Long> varietyIds = new ArrayList<Long>();
+		for (int i = 0; i < list.size(); i++) {
+			Variety variety = (Variety)list.get(i);
+			varietyIds.add(variety.getVarietyId());
+		}
+		
+//		get all subStageIds
+		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
+		String hql = "from SubStage";
+		list = subStageDao.getHibernateTemplate().find(hql);
+		ArrayList<Long> subStageIds = new ArrayList<Long>();
+		for (int i = 0; i < list.size(); i++) {
+			SubStage subStage = (SubStage)list.get(i);
+			subStageIds.add(subStage.getSubStageId());
+		}
+		
+		System.out.println(varietyIds.size());
+		System.out.println(subStageIds.size());
+		
+		FileWriter fw = new FileWriter(FILE_LINK);
+		BufferedWriter bw = new BufferedWriter(fw);
+		
+		for (int i = 0; i < subStageIds.size(); i++) {
+			Long subStageId = subStageIds.get(i);
+			for (int j = 0; j < varietyIds.size(); j++) {
+				Long varietyId = varietyIds.get(j);
+				if ( (i==subStageIds.size()-1)&&(j==varietyIds.size()-1) ) {
+					bw.write(varietyId+","+subStageId);
+				}
+				else {
+					bw.write(varietyId+","+subStageId+"\n");
+				}
+			}
+			
+			System.out.println(i);
+		}
+		bw.flush();
+		bw.close();
+		fw.close();
+
+//		Execute LinkVarietySubstage.sql file
+		
+	}
+	
+	public void insertBatch(final Long subStageId, final List<Long> varietyIds) {
+		String sql = "INSERT INTO variety_subStage" +
+				"(varietyId,subStageId) VALUES (?,?)";
+		jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+			
+			@Override
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				Long varietyId = varietyIds.get(i);
+				ps.setLong(1, varietyId);
+				ps.setLong(2, subStageId);
+			}
+			
+			@Override
+			public int getBatchSize() {
+				return varietyIds.size();
+			}
+		});
+		
+	}
+	
+	
 	public void readFile() throws IOException {
 		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
 		TaskSpecDao taskSpecDao = (TaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
+		//read in stage file
+		
+		//get cropId for 稻 
+//		CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+//		Crop crop = cropDao.findByCropName("稻");
+//		Long cropId = crop.getCropId();
+		
+		// get all varieties of 稻
+//		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+//		List list = varietyDao.getHibernateTemplate().find(
+//				"FROM Variety WHERE cropId=?",43);
+//		Set<Variety> varieties = new HashSet<Variety>(list);
+		
+		
 		
 		CSVReader reader = new CSVReader(new FileReader(FILE_STAGE), ',', '\"',1);  // first line is title
 		List entries = reader.readAll();
@@ -48,8 +150,20 @@ public class LoadStep {
 			SubStage subStage = generateSubStage(items);
 			subStageDao.save(subStage);
 		}
+		
+		
 		// subStageMap 构造完成
 		// All subStages have been saved to database, correctly linked to their corresponding steps
+		
+		
+		
+//		SubStage subStage = subStageDao.findBySubStageName("播种");
+//		subStage.setVarieties(varieties);
+//		subStageDao.update(subStage);
+//		
+//		System.out.println(subStage.getVarieties().size());
+		
+		
 		
 		reader = new CSVReader(new FileReader(FILE_STEP), ',', '\"',1);  // first line is title
 		entries = reader.readAll();
