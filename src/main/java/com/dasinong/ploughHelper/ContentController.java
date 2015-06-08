@@ -56,6 +56,15 @@ private static final Logger logger = LoggerFactory.getLogger(Test1Controller.cla
 	  return "OK";
 	}
 	
+	@RequestMapping(value = "/testStep", produces="application/json")
+	@ResponseBody
+	public Object testStep(HttpServletRequest request, HttpServletResponse response) {
+	  LoadStep ls = new LoadStep();
+	  ls.test();
+	  
+	  return "OK";
+	}
+	
 	@RequestMapping(value = "/linkVarietySubStage", produces="application/json")
 	@ResponseBody
 	public Object linkVarietySubStage(HttpServletRequest request, HttpServletResponse response) {

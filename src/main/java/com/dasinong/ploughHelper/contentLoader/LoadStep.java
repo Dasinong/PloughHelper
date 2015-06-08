@@ -44,9 +44,13 @@ public class LoadStep {
 	DataSource dataSource = (DataSource) ContextLoader.getCurrentWebApplicationContext().getBean("dataSource");
 	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-	@Test
 	public void test(){
-		
+//		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
+//		System.out.println(subStageDao.findBySubStageName("播种").getVarieties().size());
+		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		Variety variety = varietyDao.findById(8849L);
+		System.out.println(variety.getVarietyName());
+		System.out.println(variety.getSubStages().size());
 	}
 	
 	public void linkVarietySubstage() throws IOException {

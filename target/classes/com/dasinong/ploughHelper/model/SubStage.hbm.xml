@@ -15,7 +15,7 @@
         <property name="stageName" type="string">
             <column name="stageName" length="30" not-null="true" />
         </property>
-        <set name="varieties" table="variety_subStage" cascade="all" inverse="false">
+        <set name="varieties" table="variety_subStage" cascade="all" inverse="false" lazy="false" fetch="join">
         	<key column = "subStageId"></key>
         	<many-to-many class="com.dasinong.ploughHelper.model.Variety" column="varietyId"></many-to-many>
         </set>
