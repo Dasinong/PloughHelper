@@ -62,7 +62,7 @@ public class LoadStep {
 //		get all varieties of 稻
 		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 		List list = varietyDao.getHibernateTemplate().find(
-				"FROM Variety WHERE cropId=?",43);
+				"FROM Variety WHERE cropId=?",cropId);
 		ArrayList<Long> varietyIds = new ArrayList<Long>();
 		for (int i = 0; i < list.size(); i++) {
 			Variety variety = (Variety)list.get(i);
@@ -143,7 +143,6 @@ public class LoadStep {
 //		List list = varietyDao.getHibernateTemplate().find(
 //				"FROM Variety WHERE cropId=?",43);
 //		Set<Variety> varieties = new HashSet<Variety>(list);
-		
 		
 		
 		CSVReader reader = new CSVReader(new FileReader(FILE_STAGE), ',', '\"',1);  // first line is title
