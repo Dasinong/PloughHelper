@@ -2,7 +2,9 @@ package com.dasinong.ploughHelper;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +21,10 @@ import com.dasinong.ploughHelper.contentLoader.LoadLocation;
 import com.dasinong.ploughHelper.dao.FieldDao;
 import com.dasinong.ploughHelper.inputParser.FieldParser;
 import com.dasinong.ploughHelper.model.Field;
+import com.dasinong.ploughHelper.model.Task;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
+import com.dasinong.ploughHelper.outputWrapper.TaskWrapper;
 
 
 @Controller
@@ -56,9 +60,15 @@ public class TaskController {
 				return result;
 			}
 		    
+		    
+			List<TaskWrapper> data = new ArrayList<TaskWrapper>();
+			for (Task t : fd.getTasks().values()){
+				TaskWrapper tw = new TaskWrapper(t);
+				data.add(tw);
+			}
 			result.put("respCode", 200);
-			result.put("message", "添加田地成功");
-			result.put("data",fd.getTasks());
+			result.put("message", "获取任务成功");
+			result.put("data", data);
 			return result;
 		} catch (Exception e) {
 			result.put("respCode",500);
@@ -98,9 +108,14 @@ public class TaskController {
 				return result;
 			}
 		    
+			List<TaskWrapper> data = new ArrayList<TaskWrapper>();
+			for (Task t : fd.getTasks().values()){
+				TaskWrapper tw = new TaskWrapper(t);
+				data.add(tw);
+			}
 			result.put("respCode", 200);
-			result.put("message", "添加田地成功");
-			result.put("data",fd.getTasks());
+			result.put("message", "获取任务成功");
+			result.put("data", data);
 			return result;
 		} catch (Exception e) {
 			result.put("respCode",500);
