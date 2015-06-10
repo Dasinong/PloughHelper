@@ -12,13 +12,17 @@ public class CPProduct implements Serializable {
 	private String cPProductName;
 	private Set<PetSolu> petSolus = new HashSet<PetSolu>();
 	
+	private String registerationId;
 	private String activeIngredient;
 	private String type;
+	private String manufacturer;
 	private String crop;
 	private String disease;
 	private String volume;
+	private String method;
 	private String guideline;
 	private String tip;
+	private String model;
 	
 	public CPProduct(){}
 
@@ -114,6 +118,38 @@ public class CPProduct implements Serializable {
 
 	public void setVolume(String volume) {
 		this.volume = volume;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public String getRegisterationId() {
+		return registerationId;
+	}
+
+	public void setRegisterationId(String registerationId) {
+		this.registerationId = registerationId;
+	}
+
+	public String getManufacturer() {
+		return manufacturer;
+	}
+
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
+	}
+
+	public String getMethod() {
+		return method;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
 	}
 
 	
