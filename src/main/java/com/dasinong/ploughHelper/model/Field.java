@@ -29,6 +29,8 @@ public class Field implements Serializable{
 	//MonitorLocationID
     //SoilType	SoilN	SoilK	SoilP	SoilOrganic	SoilPH	SoilS	SoilMg	SoilCa	SoilFe	SoilMo	SoilB	SoilMn	Soilzn	SoilCu	SoilCI	
 		
+
+	
 	public Field(){};
 	public Field(String fieldName,Variety variety,User user,Location location){
 		this.fieldName=fieldName;

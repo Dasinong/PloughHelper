@@ -16,6 +16,11 @@ public class UserWrapper implements Serializable {
 	private String password="";
 	private String cellPhone="";
 	private String address="";
+	
+	private boolean authenticated = false;
+	private String pictureId;
+	private String telephone;
+	
 	private List<Long> fields = new ArrayList<Long>();
 	public UserWrapper(User user){
 		this.userId= user.getUserId();
@@ -28,6 +33,10 @@ public class UserWrapper implements Serializable {
 				getFields().add(f.getFieldId());
 			}
 		}
+		
+		this.setAuthenticated(user.isAuthenticated());
+		this.pictureId = (user.getPictureId()==null)?"":user.getPictureId();
+		this.telephone = (user.getTelephone()==null)?"":user.getTelephone();
 	}
 	public Long getUserId() {
 		return userId;
@@ -64,6 +73,24 @@ public class UserWrapper implements Serializable {
 	}
 	public void setFields(List<Long> fields) {
 		this.fields = fields;
+	}
+	public boolean isAuthenticated() {
+		return authenticated;
+	}
+	public void setAuthenticated(boolean authenticated) {
+		this.authenticated = authenticated;
+	}
+	public String getPictureId() {
+		return pictureId;
+	}
+	public void setPictureId(String pictureId) {
+		this.pictureId = pictureId;
+	}
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 
 }

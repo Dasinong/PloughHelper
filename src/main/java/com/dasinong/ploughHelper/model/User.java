@@ -14,6 +14,10 @@ public class User implements Serializable{
 	private String cellPhone;
 	private String address;
 	private Set<Field> fields= new HashSet<Field>();
+	
+	private boolean authenticated = false;
+	private String pictureId="default.jpg";
+	private String telephone;
 
 	public User(){}
 	
@@ -61,6 +65,30 @@ public class User implements Serializable{
 	}
 	public void setFields(Set<Field> fields) {
 		this.fields = fields;
+	}
+
+	public boolean isAuthenticated() {
+		return authenticated;
+	}
+
+	public void setAuthenticated(boolean authenticated) {
+		this.authenticated = authenticated;
+	}
+
+	public String getPictureId() {
+		return pictureId;
+	}
+
+	public void setPictureId(String pictureId) {
+		this.pictureId = pictureId;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 
 }

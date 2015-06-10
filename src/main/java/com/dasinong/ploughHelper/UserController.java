@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.dasinong.ploughHelper.dao.UserDao;
 import com.dasinong.ploughHelper.inputParser.UserParser;
@@ -202,6 +204,129 @@ public class UserController {
 				result.put("message", "用户不存在，请先注册");
 				return result;
 			}
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
+	@RequestMapping(value = "/loadUserProfile",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object loadUserProfile(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			User user = (User) request.getSession().getAttribute("User");
+			if (user==null){
+				result.put("respCode", 100);
+				result.put("message", "尚未登陆");
+				return result;
+			}
+		    result.put("respCode", 200);
+		    result.put("message", "获取成功");
+		    UserWrapper userwrapper = new UserWrapper(user);
+		    result.put("data",userwrapper);
+		    return result;
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
+	
+	@RequestMapping(value = "/updateProfile",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object updateProfile(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			User user = (User) request.getSession().getAttribute("User");
+			if (user==null){
+				result.put("respCode", 100);
+				result.put("message", "尚未登陆");
+				return result;
+			}
+			UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+			
+			String userName = request.getParameter("username");
+			String cellphone = request.getParameter("cellphone");
+			String password = request.getParameter("password");
+			String address = request.getParameter("address");
+			String pictureId = request.getParameter("pictureId");
+			String telephone = request.getParameter("telephone");
+			
+			user.setUserName(userName);
+			user.setAddress(address);
+			user.setCellPhone(cellphone);
+			user.setPassword(password);
+			user.setPictureId(pictureId);
+			user.setTelephone(telephone);
+			userDao.update(user);
+			
+		    result.put("respCode", 200);
+		    result.put("message", "更新成功");
+		    UserWrapper userwrapper = new UserWrapper(user);
+		    result.put("data",userwrapper);
+		    return result;
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
+	@RequestMapping(value = "/isAuth",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object isAuth(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			User user = (User) request.getSession().getAttribute("User");
+			if (user==null){
+				result.put("respCode", 100);
+				result.put("message", "尚未登陆");
+				return result;
+			}
+			
+			if (user.isAuthenticated()){
+			    result.put("respCode", 200);
+			    result.put("message", "已验证");
+			    return result;
+			}
+			else{
+				result.put("respCode", 120);
+				result.put("message", "尚未验证");
+				return result;
+			}
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
+	
+	@RequestMapping(value = "/uploadPicture",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object uploadPicture(MultipartHttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			User user = (User) request.getSession().getAttribute("User");
+			if (user==null){
+				result.put("respCode", 100);
+				result.put("message", "尚未登陆");
+				return result;
+			}
+
+			MultipartFile imgFile = request.getFile("pic");
+		    return result;
 		}
 		catch(Exception e)
 		{

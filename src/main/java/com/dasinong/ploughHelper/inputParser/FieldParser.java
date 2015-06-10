@@ -37,7 +37,25 @@ public class FieldParser {
        	double ar = Double.parseDouble(area);
        	long lId = Long.parseLong(locationId);
        	long vId = Long.parseLong(varietyId);
-       	long cSd = Long.parseLong(currentStageId);
+       	
+
+       	
+        Location location = ldDao.findById(lId);
+        Variety variety = varietyDao.findById(vId);
+        if (location==null || variety ==null){
+         	Exception e = new Exception("参数无效");
+          	throw e;
+        }
+       	if (fieldName==null){ 
+       		fieldName = location.getCommunity()+ variety.getVarietyName(); 
+       	}
+       	long cSId;
+       	if (currentStageId != null){
+       		cSId = Long.parseLong(currentStageId);
+       	}
+       	else{
+       		cSId = variety.getSubStages().iterator().next().getSubStageId();
+       	}
        	field = new Field();
         field.setFieldName(fieldName);
         field.setIsActive(isA);
@@ -46,15 +64,10 @@ public class FieldParser {
         /*
         field.setStartDate(startDate);
         */
-        Location location = ldDao.findById(lId);
-        Variety variety = varietyDao.findById(vId);
-        if (location==null || variety ==null){
-         	Exception e = new Exception("参数无效");
-          	throw e;
-        }
+
         field.setLocation(location);
         field.setVariety(variety);
-        field.setCurrentStageID(cSd);
+        field.setCurrentStageID(cSId);
         
         Date date = new Date(startDate);
        

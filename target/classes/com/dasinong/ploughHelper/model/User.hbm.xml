@@ -27,7 +27,14 @@
         	</key>
         	<one-to-many class="com.dasinong.ploughHelper.model.Field"></one-to-many>
         </set>
-        
- 
+        <property name="authenticated" type="boolean">
+        	<column name="authenticated"></column>
+        </property>
+        <property name="pictureId" type="string">
+        	<column name="pictureId"></column>
+        </property>
+        <property name="telephone" type="string">
+        	<column name="telephone" length="15"></column>
+        </property>
     </class>
 </hibernate-mapping>
