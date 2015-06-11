@@ -1,10 +1,14 @@
 package com.dasinong.ploughHelper.contentLoader;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,7 +38,7 @@ import com.dasinong.ploughHelper.model.Variety;
 import au.com.bytecode.opencsv.CSVReader;
 
 public class LoadStep {
-	public final File FILEFOLDER = new File(new File("C:/Users/Jason Wu/workspace/PloughHelper").getAbsoluteFile(), "sourcefiles");
+	public final File FILEFOLDER = new File(new File("E:/git/PloughHelper/").getAbsoluteFile(), "sourcefiles");
 	public final File FILE_STAGE = new File(FILEFOLDER, "stage.csv");
 	public final File FILE_STEP = new File(FILEFOLDER, "task_step.csv");
 	public final File FILE_LINK = new File(FILEFOLDER, "variety_subStage.csv");
@@ -144,8 +148,10 @@ public class LoadStep {
 //				"FROM Variety WHERE cropId=?",43);
 //		Set<Variety> varieties = new HashSet<Variety>(list);
 		
-		
-		CSVReader reader = new CSVReader(new FileReader(FILE_STAGE), ',', '\"',1);  // first line is title
+		//CSVReader reader = new CSVReader(new FileReader(FILE_STAGE), ',', '\"',1);  // first line is title
+		FileInputStream fr = new FileInputStream(FILEFOLDER+"/stage.csv");
+		//BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
+		CSVReader reader = new CSVReader(new InputStreamReader(fr,"UTF-8"), ',', '\"',1); 
 		List entries = reader.readAll();
 		for (int i = 0; i < entries.size(); i++) {
 			// create a subStage object for each entry
@@ -167,8 +173,10 @@ public class LoadStep {
 //		System.out.println(subStage.getVarieties().size());
 		
 		
-		
-		reader = new CSVReader(new FileReader(FILE_STEP), ',', '\"',1);  // first line is title
+		fr = new FileInputStream(FILE_STEP);
+		//BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
+		reader = new CSVReader(new InputStreamReader(fr,"UTF-8"), ',', '\"',1); 
+		//reader = new CSVReader(new FileReader(FILE_STEP), ',', '\"',1);  // first line is title
 		entries = reader.readAll();
 		for (int i = 0; i < entries.size(); i++) {
 			// create a subStage object for each entry

@@ -9,37 +9,39 @@ public class PetDisSpec implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long petDisSpecId;
-	private String petDisSpecName;
+	private String petDisSpecName = "";
 	private Set<SubStage> subStages = new HashSet<SubStage>();
 	private Set<Location> locations = new HashSet<Location>();
 	private Set<PetSolu> petSolus = new HashSet<PetSolu>();
 	private Set<Crop> crops = new HashSet<Crop>();
 	
-	private String type;
-	private String alias;
-	private int severity;
-	private int commonImpactonYield;
-	private int maxImpactonYield;
-	private String preventionorRemedy;
-	private String indvidualorGroup;
-	private String impactedArea;
-	private String color;
-	private String shape;
-	private String description;
+	private String type = "";
+	private String alias = "";
+	private String cropName = "";
+	private int severity = 0;
+	private String commonImpactonYield = "";
+	private String maxImpactonYield = "";
+	private String preventionorRemedy = "";
+	private String indvidualorGroup = "";
+	private String impactedArea = "";
+	private String color = "";
+	private String shape = "";
+	private String description = "";
 
-	private String sympthon;
-	private String forms;
-	private String habits;
-	private String rules;
-	private String pictureIds;
+	private String sympthon = "";
+	private String forms = "";
+	private String habits = "";
+	private String rules = "";
+	private String pictureIds = "";
 	
 	public PetDisSpec(){}
+	
 	public PetDisSpec(String petDisSpecName){
 		this.petDisSpecName = petDisSpecName;
 	}
 	
 	public PetDisSpec(String petDisSpecName, String type, String alias,
-			int severity, int commonImpactonYield, int maxImpactonYield,
+			int severity, String commonImpactonYield, String maxImpactonYield,
 			String preventionorRemedy, String indvidualorGroup,
 			String impactedArea, String color, String shape, String description) {
 		super();
@@ -106,16 +108,16 @@ public class PetDisSpec implements Serializable{
 	public void setSeverity(int severity) {
 		this.severity = severity;
 	}
-	public int getCommonImpactonYield() {
+	public String getCommonImpactonYield() {
 		return commonImpactonYield;
 	}
-	public void setCommonImpactonYield(int commonImpactonYield) {
+	public void setCommonImpactonYield(String commonImpactonYield) {
 		this.commonImpactonYield = commonImpactonYield;
 	}
-	public int getMaxImpactonYield() {
+	public String getMaxImpactonYield() {
 		return maxImpactonYield;
 	}
-	public void setMaxImpactonYield(int maxImpactonYield) {
+	public void setMaxImpactonYield(String maxImpactonYield) {
 		this.maxImpactonYield = maxImpactonYield;
 	}
 	public String getPreventionorRemedy() {
@@ -189,6 +191,12 @@ public class PetDisSpec implements Serializable{
 	}
 	public void setPictureIds(String pictureIds) {
 		this.pictureIds = pictureIds;
+	}
+	public String getCropName() {
+		return cropName;
+	}
+	public void setCropName(String cropName) {
+		this.cropName = cropName;
 	}
 	
 	

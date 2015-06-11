@@ -48,6 +48,7 @@ import com.dasinong.ploughHelper.model.Task;
 import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.Variety;
+import com.dasinong.ploughHelper.util.GeoUtil;
 
 @Controller
 public class TestController {

@@ -11,13 +11,14 @@ public class PetSolu implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long petSoluId;
-	private String petSoluDes;
+	private String petSoluDes = "";
+	private String providedBy = "";
 	private PetDisSpec petDisSpec;
-	private Set<CPProduct> cPProducts = new HashSet<>();
+	private Set<CPProduct> cPProducts = new HashSet<CPProduct>();
 	
-	private boolean isRemedy; //true for cure, false for prevent
-	private boolean isCPSolu;
-	private int rank;
+	private boolean isRemedy = true; //true for cure, false for prevent
+	private boolean isCPSolu = true;
+	private int rank = 0;
 	
 	public PetSolu(String petSoluDes, PetDisSpec petDisSpec, boolean isRemedy,
 			boolean isCPSolu) {
@@ -82,5 +83,13 @@ public class PetSolu implements Serializable{
 
 	public void setIsRemedy(boolean isRemedy) {
 		this.isRemedy = isRemedy;
+	}
+
+	public String getProvidedBy() {
+		return providedBy;
+	}
+
+	public void setProvidedBy(String providedBy) {
+		this.providedBy = providedBy;
 	}
 }

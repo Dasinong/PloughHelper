@@ -10,7 +10,7 @@
             <generator class="identity" />
         </id>
         <property name="petSoluDes" type="string">
-            <column name="petSoluDes" length="300" not-null="true"/>
+            <column name="petSoluDes" length="2000" not-null="true"/>
         </property>
         <many-to-one name="petDisSpec" class="com.dasinong.ploughHelper.model.PetDisSpec" fetch="select">
         	<column name="petDisSpecId" not-null="true"></column>
@@ -20,6 +20,9 @@
         	<many-to-many class="com.dasinong.ploughHelper.model.CPProduct" column="cPProductId"></many-to-many>
         </set>
         
+        <property name="providedBy" type="string">
+            <column name="providedBy" length="50" not-null="true"/>
+        </property>
         <property name="isRemedy" type="java.lang.Boolean">
             <column name="isRemedy" />
         </property>

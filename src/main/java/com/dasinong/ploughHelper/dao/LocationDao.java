@@ -40,5 +40,9 @@ public class LocationDao extends HibernateDaoSupport{
 		return getHibernateTemplate().find(
 				"from Location where province=? and city=? and country=? and district=?",province,city,country,district);
 	}
+	
+	public List getAll() {
+		return getHibernateTemplate().find("from Location");
+	}
 
 }
