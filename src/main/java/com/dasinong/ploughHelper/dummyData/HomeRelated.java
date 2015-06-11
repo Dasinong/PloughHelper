@@ -49,11 +49,11 @@ public class HomeRelated {
 		CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
 		
 		//This part supposed to be loaded from knowledge pool
-		PetDisSpec pds1 = new PetDisSpec("稻瘟病","病害","黑旋风1",5,100,500,"预防","个体","根部","褐色","三角形","这是一个很严重的病。");
-		PetDisSpec pds2 = new PetDisSpec("稻瘟病1","病害","黑旋风2",5,100,500,"预防","个体","根部","褐色","三角形","这是一个很严重的病。");
-		PetDisSpec pds3 = new PetDisSpec("虫害1","虫害","黑旋风",5,100,500,"治疗","个体","叶部","黄色","散点","这是一个很严重的病。");
-		PetDisSpec pds4 = new PetDisSpec("草害1","草害","黑旋风",5,100,500,"治疗","群体","根部","黑色","三角形","这是一个很严重的病。");
-		PetDisSpec pds5 = new PetDisSpec("草害2","草害","黑旋风",5,100,500,"预防","群体","根部","褐色","三角形","这是一个很严重的病。");
+		PetDisSpec pds1 = new PetDisSpec("稻瘟病","病害","黑旋风1",5,"100","500","预防","个体","根部","褐色","三角形","这是一个很严重的病。");
+		PetDisSpec pds2 = new PetDisSpec("稻瘟病1","病害","黑旋风2",5,"100","500","预防","个体","根部","褐色","三角形","这是一个很严重的病。");
+		PetDisSpec pds3 = new PetDisSpec("虫害1","虫害","黑旋风",5,"100","500","治疗","个体","叶部","黄色","散点","这是一个很严重的病。");
+		PetDisSpec pds4 = new PetDisSpec("草害1","草害","黑旋风",5,"100","500","治疗","群体","根部","黑色","三角形","这是一个很严重的病。");
+		PetDisSpec pds5 = new PetDisSpec("草害2","草害","黑旋风",5,"100","500","预防","群体","根部","褐色","三角形","这是一个很严重的病。");
 		
 	    petDisSpecDao.save(pds1);
 	    petDisSpecDao.save(pds2);

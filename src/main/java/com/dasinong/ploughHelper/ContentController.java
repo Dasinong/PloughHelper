@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dasinong.ploughHelper.contentLoader.LoadDiseaseAndSolution;
 import com.dasinong.ploughHelper.contentLoader.LoadLocation;
 import com.dasinong.ploughHelper.contentLoader.LoadStep;
 import com.dasinong.ploughHelper.contentLoader.LoadVariety;
@@ -38,6 +39,16 @@ private static final Logger logger = LoggerFactory.getLogger(Test1Controller.cla
 		e.printStackTrace();
 	}
 	  
+	  return "OK";
+	}
+	
+	@RequestMapping(value = "/loadDiseaseSolution", produces="application/json")
+	@ResponseBody
+	public Object loadDiseaseSolution(HttpServletRequest request, HttpServletResponse response) {
+	  LoadDiseaseAndSolution ld = new LoadDiseaseAndSolution();
+	  
+	  ld.run();
+		
 	  return "OK";
 	}
 	

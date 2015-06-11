@@ -10,7 +10,7 @@
             <generator class="identity" />
         </id>
         <property name="petDisSpecName" type="string">
-            <column name="petDisSpecName" length="30" not-null="true" unique="true" />
+            <column name="petDisSpecName" length="30" />
         </property>
 
         <set name="subStages" table="subStage_petDisSpec" cascade="all" inverse="true">
@@ -26,7 +26,7 @@
         	<many-to-many class="com.dasinong.ploughHelper.model.Crop" column="cropId"></many-to-many>
         </set>
         
-        <set name="petSolus" table="petSolu" inverse="false" lazy="false" fetch="select">
+        <set name="petSolus" table="petSolu" inverse="false" cascade="all" lazy="false" fetch="select">
         	<key>
         		<column name="petDisSpecId" not-null="true" />
         	</key>
@@ -34,19 +34,22 @@
         </set>
         
         <property name="type" type="string">
-            <column name="type" length="10"/>
+            <column name="type" length="50"/>
         </property>
         <property name="alias" type="string">
-            <column name="alias" length="10"/>
+            <column name="alias" length="100"/>
+        </property>
+        <property name="cropName" type="string">
+            <column name="cropName" length="10"/>
         </property>
         <property name="severity" type="int">
             <column name="severity" length="10"/>
         </property>
-        <property name="commonImpactonYield" type="int">
-            <column name="commonImpactonYield" length="10"  />
+        <property name="commonImpactonYield" type="string">
+            <column name="commonImpactonYield" length="100"  />
         </property>
-        <property name="maxImpactonYield" type="int">
-            <column name="maxImpactonYield" length="10"/>
+        <property name="maxImpactonYield" type="string">
+            <column name="maxImpactonYield" length="100"/>
         </property>
         <property name="preventionorRemedy" type="string">
             <column name="preventionorRemedy" length="10"/>
@@ -55,31 +58,31 @@
             <column name="indvidualorGroup" length="10"/>
         </property>
         <property name="impactedArea" type="string">
-            <column name="impactedArea" length="10"/>
+            <column name="impactedArea" length="50"/>
         </property>
         <property name="color" type="string">
-            <column name="color" length="10"/>
+            <column name="color" length="2000"/>
         </property>     
         <property name="shape" type="string">
-            <column name="shape" length="10"/>
+            <column name="shape" length="2000"/>
         </property>  
         <property name="description" type="string">
-            <column name="description" length="200"/>
+            <column name="description" length="2000"/>
         </property> 
         <property name="sympthon" type="string">
-            <column name="sympthon" length="200"/>
+            <column name="sympthon" length="2000"/>
         </property>     
         <property name="forms" type="string">
-            <column name="forms" length="200"/>
+            <column name="forms" length="2000"/>
         </property>     
         <property name="habits" type="string">
-            <column name="habits" length="200"/>
+            <column name="habits" length="2000"/>
         </property>     
         <property name="rules" type="string">
-            <column name="rules" length="200"/>
+            <column name="rules" length="2000"/>
         </property>     
         <property name="pictureIds" type="string">
-            <column name="pictureIds" length="200"/>
+            <column name="pictureIds" length="2000"/>
         </property>      
     </class>
 </hibernate-mapping>
