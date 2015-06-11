@@ -1,5 +1,6 @@
 package com.dasinong.ploughHelper;
 
+import java.io.File;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -293,7 +294,7 @@ public class UserController {
 				return result;
 			}
 			
-			if (user.isAuthenticated()){
+			if (user.getAuthenticated()){
 			    result.put("respCode", 200);
 			    result.put("message", "已验证");
 			    return result;
@@ -326,6 +327,13 @@ public class UserController {
 			}
 
 			MultipartFile imgFile = request.getFile("pic");
+			if (!imgFile.isEmpty()){
+				String fileName = user.getCellPhone()+imgFile.getContentType();
+				System.out.println(fileName);
+				File dest = new File(fileName);
+				imgFile.transferTo(dest);
+				user.setPictureId(fileName);
+			}
 		    return result;
 		}
 		catch(Exception e)

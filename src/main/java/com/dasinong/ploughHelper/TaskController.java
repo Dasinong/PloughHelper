@@ -19,11 +19,14 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.contentLoader.LoadLocation;
 import com.dasinong.ploughHelper.dao.FieldDao;
+import com.dasinong.ploughHelper.dao.TaskSpecDao;
 import com.dasinong.ploughHelper.inputParser.FieldParser;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Task;
+import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
+import com.dasinong.ploughHelper.outputWrapper.SubStageWrapper;
 import com.dasinong.ploughHelper.outputWrapper.TaskWrapper;
 
 
@@ -60,12 +63,27 @@ public class TaskController {
 				return result;
 			}
 		    
-		    
+		    /*
 			List<TaskWrapper> data = new ArrayList<TaskWrapper>();
 			for (Task t : fd.getTasks().values()){
 				TaskWrapper tw = new TaskWrapper(t);
 				data.add(tw);
+			}*/
+			
+			Map<Long,List<TaskWrapper>> data = new HashMap<Long,List<TaskWrapper>>();
+			for (Task t : fd.getTasks().values()){
+				TaskWrapper tw = new TaskWrapper(t);
+				if (data.get(tw.getSubStageId())==null)
+				{
+					List<TaskWrapper> tl = new ArrayList<TaskWrapper>();
+					tl.add(tw);
+					data.put(tw.getSubStageId(),tl);
+				}
+				else{
+					data.get(tw.getSubStageId()).add(tw);
+				}
 			}
+			
 			result.put("respCode", 200);
 			result.put("message", "获取任务成功");
 			result.put("data", data);

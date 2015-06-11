@@ -67,7 +67,7 @@ public class User implements Serializable{
 		this.fields = fields;
 	}
 
-	public boolean isAuthenticated() {
+	public boolean getAuthenticated() {
 		return authenticated;
 	}
 

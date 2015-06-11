@@ -34,7 +34,7 @@ public class UserWrapper implements Serializable {
 			}
 		}
 		
-		this.setAuthenticated(user.isAuthenticated());
+		this.setAuthenticated(user.getAuthenticated());
 		this.pictureId = (user.getPictureId()==null)?"":user.getPictureId();
 		this.telephone = (user.getTelephone()==null)?"":user.getTelephone();
 	}

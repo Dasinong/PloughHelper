@@ -17,6 +17,9 @@ public class TaskWrapper implements Serializable{
 	private Long fieldId;
 	private String taskSpecName;
 	private boolean taskStatus;
+	private Long subStageId;
+	private String subStageName;
+	private String stageName;
 	
 	public TaskWrapper(Task task){
 	   this.setTaskId(task.getTaskId());
@@ -26,6 +29,9 @@ public class TaskWrapper implements Serializable{
 	   TaskSpecDao taskSpecDao = (TaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
 	   TaskSpec taskspec = taskSpecDao.findById(task.getTaskSpecId());
 	   this.setTaskSpecName(taskspec.getTaskSpecName());
+	   this.setSubStageId(taskspec.getSubStage().getSubStageId());
+	   this.setSubStageName(taskspec.getSubStage().getSubStageName());
+	   this.setStageName(taskspec.getSubStage().getStageName());
 	}
 
 	public Long getTaskId() {
@@ -66,6 +72,30 @@ public class TaskWrapper implements Serializable{
 
 	public void setTaskStatus(boolean taskStatus) {
 		this.taskStatus = taskStatus;
+	}
+
+	public Long getSubStageId() {
+		return subStageId;
+	}
+
+	public void setSubStageId(Long subStageId) {
+		this.subStageId = subStageId;
+	}
+
+	public String getSubStageName() {
+		return subStageName;
+	}
+
+	public void setSubStageName(String subStageName) {
+		this.subStageName = subStageName;
+	}
+
+	public String getStageName() {
+		return stageName;
+	}
+
+	public void setStageName(String stageName) {
+		this.stageName = stageName;
 	}
 	
 }

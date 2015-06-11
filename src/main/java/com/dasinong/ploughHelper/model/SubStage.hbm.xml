@@ -27,7 +27,7 @@
         	<key column = "subStageId"></key>
         	<many-to-many class="com.dasinong.ploughHelper.model.PetDisSpec" column="petDisSpecId"></many-to-many>
         </set>
-        <set name="taskSpecs" table="taskSpec" inverse="true" lazy="false" fetch="select">
+        <set name="taskSpecs" table="taskSpec" inverse="false" lazy="false" fetch="select">
         	<key>
         		<column name="subStageId" not-null="true" />
         	</key>
