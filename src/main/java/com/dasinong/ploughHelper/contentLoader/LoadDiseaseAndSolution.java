@@ -128,6 +128,7 @@ public class LoadDiseaseAndSolution {
 				if (updateMap.containsKey(key)) {
 					PetDisSpec petDisSpec = updateMap.get(key);
 					PetSolu petSolu = new PetSolu(items[1]+"："+items[3], petDisSpec,true,true);
+					petSolu.setProvidedBy(items[2].trim());
 					petSolu.setIsCPSolu(items[7].trim().equals("1"));
 					petSolu.setRank(Integer.parseInt(items[8].trim()));
 					petDisSpec.getPetSolus().add(petSolu);
