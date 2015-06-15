@@ -58,5 +58,11 @@
         <property name="seedortrans" type="java.lang.Boolean" >
         	<column name="seedortrans"></column>
         </property>
+        <set name="soilTestReports" table="soilTestReport" inverse="true" lazy="false" fetch="select">
+        	<key>
+        		<column name="fieldId" not-null="true" />
+        	</key>
+        	<one-to-many class="com.dasinong.ploughHelper.model.SoilTestReport"></one-to-many>
+        </set>
     </class>
 </hibernate-mapping>

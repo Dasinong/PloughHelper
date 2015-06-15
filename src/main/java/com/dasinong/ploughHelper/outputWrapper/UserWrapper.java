@@ -13,7 +13,6 @@ public class UserWrapper implements Serializable {
 
 	private Long userId;
 	private String userName="";
-	private String password="";
 	private String cellPhone="";
 	private String address="";
 	
@@ -25,7 +24,6 @@ public class UserWrapper implements Serializable {
 	public UserWrapper(User user){
 		this.userId= user.getUserId();
 		this.userName= (user.getUserName()==null)?"":user.getUserName();
-		this.password= (user.getPassword()==null)?"":user.getPassword();
 		this.address=(user.getAddress()==null)?"":user.getAddress();
 		this.cellPhone = (user.getCellPhone()==null)?"":user.getCellPhone();
 		if (user.getFields()!=null){
@@ -43,12 +41,6 @@ public class UserWrapper implements Serializable {
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	public String getCellPhone() {
 		return cellPhone;

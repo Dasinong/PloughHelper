@@ -10,8 +10,8 @@ public class User implements Serializable{
 
 	private Long userId;
 	private String userName;
-	private String password;
 	private String cellPhone;
+	private String password;
 	private String address;
 	private Set<Field> fields= new HashSet<Field>();
 	

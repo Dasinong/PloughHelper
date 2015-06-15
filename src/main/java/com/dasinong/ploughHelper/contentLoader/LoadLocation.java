@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.LocationDao;
+import com.dasinong.ploughHelper.dao.ILocationDao;
 import com.dasinong.ploughHelper.dao.PetDisSpecDao;
 import com.dasinong.ploughHelper.dao.PetSoluDao;
 import com.dasinong.ploughHelper.model.Location;
@@ -24,7 +24,7 @@ public class LoadLocation {
 	
 	@Transactional
 	public void loadLocation() throws FileNotFoundException, IOException{
-		LocationDao ld = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+		ILocationDao ld = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
 		
 		File file = new File("C:\\Data\\lo1.txt");
 		

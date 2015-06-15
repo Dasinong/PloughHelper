@@ -6,21 +6,37 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.User;
 
-public class UserDao extends HibernateDaoSupport{
+public class UserDao extends HibernateDaoSupport implements IUserDao{
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.IUserDao#save(com.dasinong.ploughHelper.model.User)
+	 */
+	@Override
 	public void save(User user) {
 		getHibernateTemplate().save(user);
 	}
 
 
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.IUserDao#update(com.dasinong.ploughHelper.model.User)
+	 */
+	@Override
 	public void update(User user) {
 		getHibernateTemplate().update(user);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.IUserDao#delete(com.dasinong.ploughHelper.model.User)
+	 */
+	@Override
 	public void delete(User user) {
 		getHibernateTemplate().delete(user);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.IUserDao#findByUserName(java.lang.String)
+	 */
+	@Override
 	public User findByUserName(String userName) {
 		List list = getHibernateTemplate().find(
 				"from User where userName=?",userName);
@@ -30,6 +46,10 @@ public class UserDao extends HibernateDaoSupport{
 		return (User) list.get(0);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.IUserDao#findByCellphone(java.lang.String)
+	 */
+	@Override
 	public User findByCellphone(String cellphone) {
 		List list = getHibernateTemplate().find(
 				"from User where cellphone=?",cellphone);

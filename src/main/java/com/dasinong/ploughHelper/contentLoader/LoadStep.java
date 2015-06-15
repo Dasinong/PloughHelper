@@ -25,9 +25,11 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.CropDao;
+import com.dasinong.ploughHelper.dao.ICropDao;
+import com.dasinong.ploughHelper.dao.ISubStageDao;
+import com.dasinong.ploughHelper.dao.ITaskSpecDao;
+import com.dasinong.ploughHelper.dao.IVarietyDao;
 import com.dasinong.ploughHelper.dao.SubStageDao;
-import com.dasinong.ploughHelper.dao.TaskSpecDao;
 import com.dasinong.ploughHelper.dao.VarietyDao;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Step;
@@ -51,7 +53,7 @@ public class LoadStep {
 	public void test(){
 //		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
 //		System.out.println(subStageDao.findBySubStageName("播种").getVarieties().size());
-		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 		Variety variety = varietyDao.findById(8849L);
 		System.out.println(variety.getVarietyName());
 		System.out.println(variety.getSubStages().size());
@@ -59,7 +61,7 @@ public class LoadStep {
 	
 	public void linkVarietySubstage() throws IOException {
 		//get cropId for 稻 
-		CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+		ICropDao cropDao = (ICropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
 		Crop crop = cropDao.findByCropName("稻");
 		Long cropId = crop.getCropId();
 		
@@ -133,8 +135,8 @@ public class LoadStep {
 	
 	
 	public void readFile() throws IOException {
-		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
-		TaskSpecDao taskSpecDao = (TaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
+		ISubStageDao subStageDao = (ISubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
+		ITaskSpecDao taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
 		//read in stage file
 		
 		//get cropId for 稻 

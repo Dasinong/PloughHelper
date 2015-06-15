@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.dao.ILocationDao;
 import com.dasinong.ploughHelper.dao.LocationDao;
 import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.User;
@@ -47,7 +48,7 @@ public class LocationController {
 				return result;
 			}
 		
-			LocationDao ld = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+			ILocationDao ld = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
 			List<Location> ls =(List<Location>) ld.getIdList(province, city, country,district);
 			Map<String,Long> idlist = new HashMap<String,Long>();
 			for(Location l:ls){

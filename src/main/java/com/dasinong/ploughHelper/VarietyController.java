@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.CropDao;
-import com.dasinong.ploughHelper.dao.LocationDao;
+import com.dasinong.ploughHelper.dao.ICropDao;
+import com.dasinong.ploughHelper.dao.ILocationDao;
+import com.dasinong.ploughHelper.dao.IVarietyDao;
 import com.dasinong.ploughHelper.dao.UserDao;
-import com.dasinong.ploughHelper.dao.VarietyDao;
 import com.dasinong.ploughHelper.inputParser.UserParser;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Location;
@@ -35,7 +35,7 @@ public class VarietyController {
 	@RequestMapping(value = "/getVarietyList",produces="application/json")
 	@ResponseBody
 	public Object getVariety(HttpServletRequest request, HttpServletResponse response) {
-		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
 			String cropName = request.getParameter("cropName");
@@ -50,7 +50,7 @@ public class VarietyController {
 			
 			long cId;
 			if (cropId==null){
-				CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+				ICropDao cropDao = (ICropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
 				Crop crop = cropDao.findByCropName(cropName);
 				cId = crop.getCropId();
 			}
@@ -59,7 +59,7 @@ public class VarietyController {
 			}
 			String p;
 			if (province==null){
-				LocationDao locationDao = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+				ILocationDao locationDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
 				Location l = locationDao.findById(Long.parseLong(locationId));
 				p = l.getProvince();
 			}

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.PetDisSpecDao;
+import com.dasinong.ploughHelper.dao.IPetDisSpecDao;
 import com.dasinong.ploughHelper.model.PetDis;
 import com.dasinong.ploughHelper.model.PetDisSpec;
 
@@ -22,7 +22,7 @@ public class PetDisWrapper implements Serializable{
 		this.petDisSpecId = pd.getPetDisSpecId();
 		this.fieldId = pd.getFieldId();
 		this.petDisStatus = pd.getPetDisStatus();
-		PetDisSpecDao pdsd = (PetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		IPetDisSpecDao pdsd = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
 		PetDisSpec pds = pdsd.findById(petDisSpecId);
 		this.petDisSpecName = pds.getPetDisSpecName();
 	}

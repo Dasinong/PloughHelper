@@ -2,38 +2,82 @@ package com.dasinong.ploughHelper.dao;
 
 import java.util.List;
 
+import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dasinong.ploughHelper.model.Task;
 import com.dasinong.ploughHelper.model.TaskSpec;
 
-public class TaskSpecDao extends HibernateDaoSupport{
+public class TaskSpecDao implements ITaskSpecDao{
+	private SessionFactory sessionFactory;
+	
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.ITaskSpecDao#getSessionFactory()
+	 */
+	@Override
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
 
+
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.ITaskSpecDao#setSessionFactory(org.hibernate.SessionFactory)
+	 */
+	@Override
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.ITaskSpecDao#save(com.dasinong.ploughHelper.model.TaskSpec)
+	 */
+	@Override
 	public void save(TaskSpec taskSpec) {
-		getHibernateTemplate().save(taskSpec);
+		this.getSessionFactory().getCurrentSession().save(taskSpec);
 	}
 
 
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.ITaskSpecDao#update(com.dasinong.ploughHelper.model.TaskSpec)
+	 */
+	@Override
 	public void update(TaskSpec taskSpec) {
-		getHibernateTemplate().update(taskSpec);
+		this.getSessionFactory().getCurrentSession().update(taskSpec);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.ITaskSpecDao#delete(com.dasinong.ploughHelper.model.TaskSpec)
+	 */
+	@Override
 	public void delete(TaskSpec taskSpec) {
-		getHibernateTemplate().delete(taskSpec);
+		this.getSessionFactory().getCurrentSession().delete(taskSpec);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.ITaskSpecDao#findByTaskSpecName(java.lang.String)
+	 */
+	@Override
 	public TaskSpec findByTaskSpecName(String taskSpecName) {
-		List list = getHibernateTemplate().find(
-				"from TaskSpec where taskSpecName=?",taskSpecName);
+		List list = this.getSessionFactory().getCurrentSession().createQuery(
+				"from TaskSpec where taskSpecName=:specName").setString("specName", taskSpecName).list();
 		if (list==null||list.isEmpty()){
 			return null;
 		}
 		return (TaskSpec) list.get(0);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.ITaskSpecDao#findById(java.lang.Long)
+	 */
+	@Override
+	@Transactional
 	public TaskSpec findById(Long id) {
-		return (TaskSpec) this.getHibernateTemplate().get(TaskSpec.class,id);
+		TaskSpec spec= (TaskSpec) this.getSessionFactory().getCurrentSession().get(TaskSpec.class,id);
+		spec.getSubStage().getDurationHigh();
+		return spec;
 	}
 
 }

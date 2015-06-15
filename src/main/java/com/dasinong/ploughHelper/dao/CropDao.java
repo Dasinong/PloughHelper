@@ -6,21 +6,37 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.Crop;
 
-public class CropDao extends HibernateDaoSupport{
+public class CropDao extends HibernateDaoSupport implements ICropDao{
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.ICropDao#save(com.dasinong.ploughHelper.model.Crop)
+	 */
+	@Override
 	public void save(Crop crop) {
 		getHibernateTemplate().save(crop);
 	}
 
 
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.ICropDao#update(com.dasinong.ploughHelper.model.Crop)
+	 */
+	@Override
 	public void update(Crop crop) {
 		getHibernateTemplate().update(crop);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.ICropDao#delete(com.dasinong.ploughHelper.model.Crop)
+	 */
+	@Override
 	public void delete(Crop crop) {
 		getHibernateTemplate().delete(crop);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.ICropDao#findByCropName(java.lang.String)
+	 */
+	@Override
 	public Crop findByCropName(String cropName) {
 		List list = getHibernateTemplate().find(
 				"from Crop where cropName=?",cropName);

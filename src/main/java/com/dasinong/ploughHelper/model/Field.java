@@ -3,6 +3,7 @@ package com.dasinong.ploughHelper.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 
 public class Field implements Serializable{
 
@@ -28,7 +29,7 @@ public class Field implements Serializable{
 
 	//MonitorLocationID
     //SoilType	SoilN	SoilK	SoilP	SoilOrganic	SoilPH	SoilS	SoilMg	SoilCa	SoilFe	SoilMo	SoilB	SoilMn	Soilzn	SoilCu	SoilCI	
-		
+	private Set<SoilTestReport> soilTestReports;
 
 	
 	public Field(){};
@@ -129,6 +130,12 @@ public class Field implements Serializable{
 	}
 	public void setSeedortrans(boolean seedortrans) {
 		this.seedortrans = seedortrans;
+	}
+	public Set<SoilTestReport> getSoilTestReports() {
+		return soilTestReports;
+	}
+	public void setSoilTestReports(Set<SoilTestReport> soilTestReports) {
+		this.soilTestReports = soilTestReports;
 	}
 
 }

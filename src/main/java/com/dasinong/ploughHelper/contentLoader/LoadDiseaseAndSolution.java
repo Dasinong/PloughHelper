@@ -26,8 +26,8 @@ import org.springframework.web.context.ContextLoader;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-import com.dasinong.ploughHelper.dao.PetDisSpecDao;
-import com.dasinong.ploughHelper.dao.PetSoluDao;
+import com.dasinong.ploughHelper.dao.IPetDisSpecDao;
+import com.dasinong.ploughHelper.dao.IPetSoluDao;
 import com.dasinong.ploughHelper.model.PetDisSpec;
 import com.dasinong.ploughHelper.model.PetSolu;
 import com.dasinong.ploughHelper.model.SubStage;
@@ -85,8 +85,8 @@ public class LoadDiseaseAndSolution {
 		}
 		
 		// updates DONE! Next, write into database
-		PetDisSpecDao petDisSpecDao = (PetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
-		PetSoluDao petSoluDao = (PetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
+		IPetDisSpecDao petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		IPetSoluDao petSoluDao = (IPetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
 		
 		Iterator<PetDisSpec> it = petDisSpecMap.values().iterator();
 		while (it.hasNext()) {
@@ -434,8 +434,8 @@ public class LoadDiseaseAndSolution {
 	}
 	
 	public void readPestFile(File file){
-		PetDisSpecDao petDisSpecDao = (PetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
-		PetSoluDao petSoluDao = (PetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
+		IPetDisSpecDao petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		IPetSoluDao petSoluDao = (IPetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
 		
 		ArrayList<ArrayList<String>> blocks = LoadFileUtil.generateBlocks(file, BLOCK_SEPARATOR);
 		

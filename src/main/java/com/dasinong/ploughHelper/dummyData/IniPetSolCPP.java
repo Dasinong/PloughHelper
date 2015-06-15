@@ -3,9 +3,9 @@ package com.dasinong.ploughHelper.dummyData;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.CPProductDao;
-import com.dasinong.ploughHelper.dao.PetDisSpecDao;
-import com.dasinong.ploughHelper.dao.PetSoluDao;
+import com.dasinong.ploughHelper.dao.ICPProductDao;
+import com.dasinong.ploughHelper.dao.IPetDisSpecDao;
+import com.dasinong.ploughHelper.dao.IPetSoluDao;
 import com.dasinong.ploughHelper.model.CPProduct;
 import com.dasinong.ploughHelper.model.PetDisSpec;
 import com.dasinong.ploughHelper.model.PetSolu;
@@ -13,9 +13,9 @@ import com.dasinong.ploughHelper.model.PetSolu;
 public class IniPetSolCPP {
 	@Transactional
 	public void test(){
-		PetDisSpecDao petDisSpecDao = (PetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
-		PetSoluDao petSoluDao = (PetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
-		CPProductDao cPProductDao = (CPProductDao) ContextLoader.getCurrentWebApplicationContext().getBean("cPProductDao");
+		IPetDisSpecDao petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		IPetSoluDao petSoluDao = (IPetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
+		ICPProductDao cPProductDao = (ICPProductDao) ContextLoader.getCurrentWebApplicationContext().getBean("cPProductDao");
 		
 		
 		PetDisSpec pds1 = new PetDisSpec("稻瘟病","病害","黑旋风1",5,"100","500","预防","个体","根部","褐色","三角形","这是一个很严重的病。");

@@ -12,14 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.contentLoader.LoadLocation;
-import com.dasinong.ploughHelper.dao.FieldDao;
-import com.dasinong.ploughHelper.dao.TaskSpecDao;
+import com.dasinong.ploughHelper.dao.IFieldDao;
+import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.inputParser.FieldParser;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Task;
@@ -33,6 +34,11 @@ import com.dasinong.ploughHelper.outputWrapper.TaskWrapper;
 @Controller
 public class TaskController {
 	private static final Logger logger = LoggerFactory.getLogger(Test1Controller.class);
+	@Autowired
+	private ITaskSpecDao  taskSpecDao;
+	
+	@Autowired
+	private IFieldDao  fieldDao;
 	
 	@RequestMapping(value = "/getAllTask", produces="application/json")
 	@ResponseBody
@@ -54,7 +60,7 @@ public class TaskController {
 		
 		
 	    try {
-			FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao"); 
+			IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao"); 
 			Field fd = fieldDao.findById(fId);
 			
 			if (fd==null){
@@ -72,7 +78,7 @@ public class TaskController {
 			
 			Map<Long,List<TaskWrapper>> data = new HashMap<Long,List<TaskWrapper>>();
 			for (Task t : fd.getTasks().values()){
-				TaskWrapper tw = new TaskWrapper(t);
+				TaskWrapper tw = new TaskWrapper(t,taskSpecDao);
 				if (data.get(tw.getSubStageId())==null)
 				{
 					List<TaskWrapper> tl = new ArrayList<TaskWrapper>();
@@ -116,7 +122,7 @@ public class TaskController {
 		
 		
 	    try {
-			FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao"); 
+			IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao"); 
 			Field fd = fieldDao.findById(fId);
 			
 			
@@ -128,7 +134,7 @@ public class TaskController {
 		    
 			List<TaskWrapper> data = new ArrayList<TaskWrapper>();
 			for (Task t : fd.getTasks().values()){
-				TaskWrapper tw = new TaskWrapper(t);
+				TaskWrapper tw = new TaskWrapper(t,taskSpecDao);
 				data.add(tw);
 			}
 			result.put("respCode", 200);

@@ -2,15 +2,18 @@ package com.dasinong.ploughHelper.outputWrapper;
 
 import java.io.Serializable;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.TaskSpecDao;
+import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.model.Task;
 import com.dasinong.ploughHelper.model.TaskSpec;
 
 //This class wraps what supposed to be seen by the view
 public class TaskWrapper implements Serializable{
 	private static final long serialVersionUID = 1L;
+
+	private ITaskSpecDao taskSpecDao;
 	
 	private Long taskId;
 	private Long taskSpecId;
@@ -21,12 +24,12 @@ public class TaskWrapper implements Serializable{
 	private String subStageName;
 	private String stageName;
 	
-	public TaskWrapper(Task task){
+	public TaskWrapper(Task task, ITaskSpecDao  taskSpecDao){
 	   this.setTaskId(task.getTaskId());
 	   this.setTaskSpecId(task.getTaskSpecId());
 	   this.setFieldId(task.getFieldId());
 	   this.setTaskStatus(task.getTaskStatus());
-	   TaskSpecDao taskSpecDao = (TaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
+	   this.taskSpecDao = taskSpecDao;
 	   TaskSpec taskspec = taskSpecDao.findById(task.getTaskSpecId());
 	   this.setTaskSpecName(taskspec.getTaskSpecName());
 	   this.setSubStageId(taskspec.getSubStage().getSubStageId());

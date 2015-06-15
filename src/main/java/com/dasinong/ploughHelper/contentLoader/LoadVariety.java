@@ -21,7 +21,8 @@ import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.CropDao;
+import com.dasinong.ploughHelper.dao.ICropDao;
+import com.dasinong.ploughHelper.dao.IVarietyDao;
 import com.dasinong.ploughHelper.dao.VarietyDao;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Variety;
@@ -127,8 +128,8 @@ public class LoadVariety {
 	}
 	
 	public void readFile(File file) throws IOException{
-		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
-		CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+		IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		ICropDao cropDao = (ICropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
 		
 		ArrayList<Integer> errorIndex = new ArrayList<Integer>();
 		ArrayList<ArrayList<String>> blocks = LoadFileUtil.generateBlocks(file, BLOCK_SEPARATOR);

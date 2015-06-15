@@ -15,7 +15,7 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.dasinong.ploughHelper.dao.UserDao;
+import com.dasinong.ploughHelper.dao.IUserDao;
 import com.dasinong.ploughHelper.inputParser.UserParser;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
@@ -29,7 +29,7 @@ public class UserController {
 	@ResponseBody
 	public Object reg(HttpServletRequest request, HttpServletResponse response) {
 	
-		UserDao userdao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -56,7 +56,7 @@ public class UserController {
 	@ResponseBody
 	public Object login(HttpServletRequest request, HttpServletResponse response) {
 	
-		UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 	
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -104,7 +104,7 @@ public class UserController {
 	@ResponseBody
 	public Object authRegLog(HttpServletRequest request, HttpServletResponse response) {
 	
-		UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 	
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -186,7 +186,7 @@ public class UserController {
 	@ResponseBody
 	public Object checkUser(HttpServletRequest request, HttpServletResponse response) {
 	
-		UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 	
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -251,21 +251,26 @@ public class UserController {
 				result.put("message", "尚未登陆");
 				return result;
 			}
-			UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+			IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 			
 			String userName = request.getParameter("username");
 			String cellphone = request.getParameter("cellphone");
-			String password = request.getParameter("password");
 			String address = request.getParameter("address");
 			String pictureId = request.getParameter("pictureId");
 			String telephone = request.getParameter("telephone");
 			
+			String oldCellphone = user.getCellPhone();
+			
 			user.setUserName(userName);
 			user.setAddress(address);
 			user.setCellPhone(cellphone);
-			user.setPassword(password);
 			user.setPictureId(pictureId);
 			user.setTelephone(telephone);
+			/*
+			if (!oldCellphone.equals(cellphone)){
+				user.setAuthenticated(false);
+			}*/
+			user.setAuthenticated(true);
 			userDao.update(user);
 			
 		    result.put("respCode", 200);
@@ -313,6 +318,38 @@ public class UserController {
 		}
 	}
 	
+	@RequestMapping(value = "/setAuth",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object setAuth(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			User user = (User) request.getSession().getAttribute("User");
+			if (user==null){
+				result.put("respCode", 100);
+				result.put("message", "尚未登陆");
+				return result;
+			}
+			
+			if (user.getAuthenticated()){
+			    result.put("respCode", 200);
+			    result.put("message", "已验证");
+			    return result;
+			}
+			else{
+				user.setAuthenticated(true);
+				result.put("respCode", 210);
+			    result.put("message", "提交验证");
+			    return result;
+			}
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
 	
 	@RequestMapping(value = "/uploadPicture",produces="application/json;charset=utf-8")
 	@ResponseBody
@@ -334,6 +371,48 @@ public class UserController {
 				imgFile.transferTo(dest);
 				user.setPictureId(fileName);
 			}
+		    return result;
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
+	
+	@RequestMapping(value = "/updatePassword",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object updatePassword(MultipartHttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			User user = (User) request.getSession().getAttribute("User");
+			if (user==null){
+				result.put("respCode", 100);
+				result.put("message", "尚未登陆");
+				return result;
+			}
+
+			String oldPassword = request.getParameter("oPassword");
+			String newPassword = request.getParameter("nPassword");
+			
+			if (oldPassword==null || newPassword == null){
+				result.put("respCode",300);
+				result.put("message","参数缺失");
+				return result;
+			}
+			
+			if (!user.getPassword().equals(oldPassword)){
+				result.put("respCode",320);
+				result.put("message", "旧密码错误");
+				return result;
+			}
+			
+			user.setPassword(newPassword);
+			IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+			userDao.update(user);
+			
 		    return result;
 		}
 		catch(Exception e)

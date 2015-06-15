@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.CropDao;
-import com.dasinong.ploughHelper.dao.FieldDao;
-import com.dasinong.ploughHelper.dao.LocationDao;
-import com.dasinong.ploughHelper.dao.NatDisDao;
-import com.dasinong.ploughHelper.dao.NatDisSpecDao;
-import com.dasinong.ploughHelper.dao.PetDisDao;
-import com.dasinong.ploughHelper.dao.PetDisSpecDao;
-import com.dasinong.ploughHelper.dao.PetSoluDao;
-import com.dasinong.ploughHelper.dao.QualityItemDao;
-import com.dasinong.ploughHelper.dao.QualityItemValueDao;
-import com.dasinong.ploughHelper.dao.StepDao;
-import com.dasinong.ploughHelper.dao.SubStageDao;
-import com.dasinong.ploughHelper.dao.TaskDao;
-import com.dasinong.ploughHelper.dao.TaskSpecDao;
-import com.dasinong.ploughHelper.dao.UserDao;
-import com.dasinong.ploughHelper.dao.VarietyDao;
+import com.dasinong.ploughHelper.dao.ICropDao;
+import com.dasinong.ploughHelper.dao.IFieldDao;
+import com.dasinong.ploughHelper.dao.ILocationDao;
+import com.dasinong.ploughHelper.dao.INatDisDao;
+import com.dasinong.ploughHelper.dao.INatDisSpecDao;
+import com.dasinong.ploughHelper.dao.IPetDisDao;
+import com.dasinong.ploughHelper.dao.IPetDisSpecDao;
+import com.dasinong.ploughHelper.dao.IPetSoluDao;
+import com.dasinong.ploughHelper.dao.IQualityItemDao;
+import com.dasinong.ploughHelper.dao.IQualityItemValueDao;
+import com.dasinong.ploughHelper.dao.IStepDao;
+import com.dasinong.ploughHelper.dao.ISubStageDao;
+import com.dasinong.ploughHelper.dao.ITaskDao;
+import com.dasinong.ploughHelper.dao.ITaskSpecDao;
+import com.dasinong.ploughHelper.dao.IUserDao;
+import com.dasinong.ploughHelper.dao.IVarietyDao;
 import com.dasinong.ploughHelper.dummyData.HomeRelated;
 import com.dasinong.ploughHelper.dummyData.IniPetSolCPP;
 import com.dasinong.ploughHelper.model.Crop;
@@ -59,11 +59,11 @@ public class TestController {
 	@Transactional
 	public Object tIniCroFieVar(HttpServletRequest request, HttpServletResponse response) {
 	    System.out.println("For test");
-		UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
-		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
-		CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
-		LocationDao locationDao = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		ICropDao cropDao = (ICropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+		ILocationDao locationDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 
@@ -129,8 +129,8 @@ public class TestController {
 	@ResponseBody
 	public Object tChaCroVar(HttpServletRequest request, HttpServletResponse response) {
 		
-		CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
-		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		ICropDao cropDao = (ICropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+		IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -167,10 +167,10 @@ public class TestController {
 	@ResponseBody
 	public Object tiLocFie(HttpServletRequest request, HttpServletResponse response) {
 		
-		UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
-		LocationDao locationDao = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
-		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
-		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+		ILocationDao locationDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+		IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -219,8 +219,8 @@ public class TestController {
 	@ResponseBody
 	public Object tiVarSuS(HttpServletRequest request, HttpServletResponse response) {
 		
-		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
-		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
+		IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		ISubStageDao subStageDao = (ISubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -257,8 +257,8 @@ public class TestController {
 	@RequestMapping(value = "/tesiSusDis", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tiSuSDis(HttpServletRequest request, HttpServletResponse response) {
-		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
-		NatDisSpecDao natDisDao = (NatDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecDao");
+		ISubStageDao subStageDao = (ISubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
+		INatDisSpecDao natDisDao = (INatDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -302,8 +302,8 @@ public class TestController {
 	@RequestMapping(value = "/teslLocNaD", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tlLocNaD(HttpServletRequest request, HttpServletResponse response) {
-		LocationDao locationDao = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
-		NatDisSpecDao natDisDao = (NatDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecDao");
+		ILocationDao locationDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+		INatDisSpecDao natDisDao = (INatDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -335,9 +335,9 @@ public class TestController {
 	@ResponseBody
 	public Object tiPeDLocSta(HttpServletRequest request, HttpServletResponse response) {
 		
-		LocationDao locationDao = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
-		PetDisSpecDao petDisDao = (PetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
-		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao") ;
+		ILocationDao locationDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+		IPetDisSpecDao petDisDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		ISubStageDao subStageDao = (ISubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao") ;
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -378,8 +378,8 @@ public class TestController {
 	@ResponseBody
 	public Object tiCroQuI(HttpServletRequest request, HttpServletResponse response) {
 		
-		CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
-		QualityItemDao qualityItemDao = (QualityItemDao) ContextLoader.getCurrentWebApplicationContext().getBean("qualityItemDao");
+		ICropDao cropDao = (ICropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+		IQualityItemDao qualityItemDao = (IQualityItemDao) ContextLoader.getCurrentWebApplicationContext().getBean("qualityItemDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -420,9 +420,9 @@ public class TestController {
 	@ResponseBody
 	public Object tiSuSTaSSte(HttpServletRequest request, HttpServletResponse response) {
 		
-		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
-		TaskSpecDao taskSpecDao = (TaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
-		StepDao stepDao = (StepDao) ContextLoader.getCurrentWebApplicationContext().getBean("stepDao");
+		ISubStageDao subStageDao = (ISubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
+		ITaskSpecDao taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
+		IStepDao stepDao = (IStepDao) ContextLoader.getCurrentWebApplicationContext().getBean("stepDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -468,10 +468,10 @@ public class TestController {
 	@RequestMapping(value = "/tesmTask", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tmTask(HttpServletRequest request, HttpServletResponse response) {
-		FieldDao fieldbo = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		IFieldDao fieldbo = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		Field field1 = fieldbo.findByFieldName("上海1");
 		Field field2 = fieldbo.findByFieldName("上海历史");
-		TaskDao taskbo = (TaskDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskDao");
+		ITaskDao taskbo = (ITaskDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -516,10 +516,10 @@ public class TestController {
 	@RequestMapping(value = "/tesmQIV", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tmQIV(HttpServletRequest request, HttpServletResponse response) {
-		VarietyDao varietybo = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		IVarietyDao varietybo = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 		Variety variety1 = varietybo.findByVarietyName("TestVariety1");
 		Variety variety2 = varietybo.findByVarietyName("TestVariety2");
-		QualityItemValueDao qivbo = (QualityItemValueDao) ContextLoader.getCurrentWebApplicationContext().getBean("qualityItemValueDao");
+		IQualityItemValueDao qivbo = (IQualityItemValueDao) ContextLoader.getCurrentWebApplicationContext().getBean("qualityItemValueDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -565,10 +565,10 @@ public class TestController {
 	@RequestMapping(value = "/tesmPeDs", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tmPeD(HttpServletRequest request, HttpServletResponse response) {
-		FieldDao fieldbo = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		IFieldDao fieldbo = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		Field field1 = fieldbo.findByFieldName("上海1");
 		Field field2 = fieldbo.findByFieldName("上海历史");
-		PetDisDao petDisbo = (PetDisDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisDao");
+		IPetDisDao petDisbo = (IPetDisDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -612,10 +612,10 @@ public class TestController {
 	@RequestMapping(value = "/tesmNaDs", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public Object tmNaD(HttpServletRequest request, HttpServletResponse response) {
-		FieldDao fieldbo = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		IFieldDao fieldbo = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		Field field1 = fieldbo.findByFieldName("上海1");
 		Field field2 = fieldbo.findByFieldName("上海历史");
-		NatDisDao natDisbo = (NatDisDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisDao");
+		INatDisDao natDisbo = (INatDisDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
@@ -663,8 +663,8 @@ public class TestController {
 	@ResponseBody
 	@Transactional
 	public Object tiPDSSol(HttpServletRequest request, HttpServletResponse response) {
-		PetDisSpecDao petDisSpecbo = (PetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
-		PetSoluDao psbo = (PetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
+		IPetDisSpecDao petDisSpecbo = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		IPetSoluDao psbo = (IPetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{

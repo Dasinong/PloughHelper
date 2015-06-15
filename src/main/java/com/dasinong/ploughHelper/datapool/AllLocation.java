@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.LocationDao;
+import com.dasinong.ploughHelper.dao.ILocationDao;
 import com.dasinong.ploughHelper.model.*;
 
 public class AllLocation {
 
 	private static AllLocation allLocation;
 	private AllLocation(){
-			LocationDao locationDao = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+			ILocationDao locationDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
  	        set_allLoc(locationDao.getAll());
 	}
 	

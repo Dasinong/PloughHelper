@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.NatDis;
 import com.dasinong.ploughHelper.model.PetDis;
@@ -28,7 +29,7 @@ public class FieldWrapper implements Serializable{
 	private Date endDate;
 	private long yield;
 	
-	public FieldWrapper(Field field){
+	public FieldWrapper(Field field, ITaskSpecDao taskSpecDao){
 		this.setFieldId(field.getFieldId());
 		this.fieldName = (field.getFieldName()==null)?"":field.getFieldName();
 		this.setActive(field.getIsActive());
@@ -37,7 +38,7 @@ public class FieldWrapper implements Serializable{
 		this.setLocationId(field.getLocation().getLocationId());
 		if (field.getTasks()!=null){
 			for (Task t : field.getTasks().values()){
-				taskws.add(new TaskWrapper(t));
+				taskws.add(new TaskWrapper(t,taskSpecDao));
 			}
 		}
 		if (field.getNatDiss()!=null){

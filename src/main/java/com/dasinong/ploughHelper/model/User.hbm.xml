@@ -19,22 +19,22 @@
             <column name="cellPhone" length="30" not-null="true" unique="true" />
         </property>        
         <property name="address" type="string">
-            <column name="address" length="30" unique="true" />
+            <column name="address" length="30" not-null="false"/>
         </property>
         <set name="fields" table="field" inverse="false" lazy="false" fetch="select">
         	<key>
-        		<column name="userId" not-null="true" />
+        		<column name="userId" not-null="false" />
         	</key>
         	<one-to-many class="com.dasinong.ploughHelper.model.Field"></one-to-many>
         </set>
         <property name="authenticated" type="boolean">
-        	<column name="authenticated"></column>
+        	<column name="authenticated" not-null="false"></column>
         </property>
         <property name="pictureId" type="string">
-        	<column name="pictureId"></column>
+        	<column name="pictureId" not-null="false"></column>
         </property>
         <property name="telephone" type="string">
-        	<column name="telephone" length="15"></column>
+        	<column name="telephone" length="15" not-null="false"></column>
         </property>
     </class>
 </hibernate-mapping>

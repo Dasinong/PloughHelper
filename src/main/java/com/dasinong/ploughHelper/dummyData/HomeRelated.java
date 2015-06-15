@@ -7,19 +7,19 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.CPProductDao;
-import com.dasinong.ploughHelper.dao.CropDao;
-import com.dasinong.ploughHelper.dao.FieldDao;
-import com.dasinong.ploughHelper.dao.LocationDao;
-import com.dasinong.ploughHelper.dao.NatDisDao;
-import com.dasinong.ploughHelper.dao.NatDisSpecDao;
-import com.dasinong.ploughHelper.dao.PetDisDao;
-import com.dasinong.ploughHelper.dao.PetDisSpecDao;
+import com.dasinong.ploughHelper.dao.ICropDao;
+import com.dasinong.ploughHelper.dao.IFieldDao;
+import com.dasinong.ploughHelper.dao.ILocationDao;
+import com.dasinong.ploughHelper.dao.INatDisDao;
+import com.dasinong.ploughHelper.dao.INatDisSpecDao;
+import com.dasinong.ploughHelper.dao.IPetDisDao;
+import com.dasinong.ploughHelper.dao.IPetDisSpecDao;
+import com.dasinong.ploughHelper.dao.ISubStageDao;
+import com.dasinong.ploughHelper.dao.ITaskDao;
+import com.dasinong.ploughHelper.dao.ITaskSpecDao;
+import com.dasinong.ploughHelper.dao.IUserDao;
+import com.dasinong.ploughHelper.dao.IVarietyDao;
 import com.dasinong.ploughHelper.dao.PetSoluDao;
-import com.dasinong.ploughHelper.dao.SubStageDao;
-import com.dasinong.ploughHelper.dao.TaskDao;
-import com.dasinong.ploughHelper.dao.TaskSpecDao;
-import com.dasinong.ploughHelper.dao.UserDao;
-import com.dasinong.ploughHelper.dao.VarietyDao;
 import com.dasinong.ploughHelper.model.CPProduct;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Field;
@@ -39,14 +39,14 @@ public class HomeRelated {
 	
 	@Transactional
 	public void initKnowledgePool(){
-		PetDisSpecDao petDisSpecDao = (PetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
-		NatDisSpecDao natDisSpecDao = (NatDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecDao");
+		IPetDisSpecDao petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		INatDisSpecDao natDisSpecDao = (INatDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecDao");
 		
-		TaskSpecDao taskSpecDao = (TaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
-		LocationDao locationDao = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
-		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
-		SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
-		CropDao cropDao = (CropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+		ITaskSpecDao taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
+		ILocationDao locationDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+		IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		ISubStageDao subStageDao = (ISubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
+		ICropDao cropDao = (ICropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
 		
 		//This part supposed to be loaded from knowledge pool
 		PetDisSpec pds1 = new PetDisSpec("稻瘟病","病害","黑旋风1",5,"100","500","预防","个体","根部","褐色","三角形","这是一个很严重的病。");
@@ -138,15 +138,15 @@ public class HomeRelated {
 	
 	@Transactional
 	public void initBussinessObject(){
-		UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-		LocationDao locationDao = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
-		VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
-		TaskDao taskDao = (TaskDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskDao");
-		PetDisDao petDisDao = (PetDisDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisDao");
-		NatDisDao natDisDao = (NatDisDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisDao");
-		PetDisSpecDao petDisSpecDao = (PetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
-		NatDisSpecDao natDisSpecDao = (NatDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecDao");
-		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		ILocationDao locationDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+		IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		ITaskDao taskDao = (ITaskDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskDao");
+		IPetDisDao petDisDao = (IPetDisDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisDao");
+		INatDisDao natDisDao = (INatDisDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisDao");
+		IPetDisSpecDao petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		INatDisSpecDao natDisSpecDao = (INatDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecDao");
+		IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		
 		User user = new User("13112345678","11111111","13112345678","上海");
 		userDao.save(user);

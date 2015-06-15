@@ -8,13 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.FieldDao;
+import com.dasinong.ploughHelper.dao.IFieldDao;
 import com.dasinong.ploughHelper.model.Field;
 
 /**
@@ -42,7 +41,7 @@ public class Test1Controller {
 	public Object insertField(HttpServletRequest request, HttpServletResponse response) {
 		logger.info("InsertField: ");
 		
-		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		Field field = new Field();
 		String fieldName = (request.getParameter("fieldName")!=null) ? request.getParameter("fieldName") : "GuangZhou";
@@ -65,7 +64,7 @@ public class Test1Controller {
 	public Object showFieldById(HttpServletRequest request, HttpServletResponse response) {
 		logger.info("showField: ");
 		
-		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		String fieldName = (request.getParameter("fieldName")!=null) ? request.getParameter("fieldName") : "GuangZhou"; 
 		try {
@@ -87,7 +86,7 @@ public class Test1Controller {
 	public Object deleteFieldById(HttpServletRequest request, HttpServletResponse response) {
 		logger.info("DeleteFieldById: ");
 		
-		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		String fieldName = (request.getParameter("fieldName")!=null) ? request.getParameter("fieldName") : "GuangZhou"; 
 		try {

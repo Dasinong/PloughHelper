@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.NatDisSpecDao;
+import com.dasinong.ploughHelper.dao.INatDisSpecDao;
 import com.dasinong.ploughHelper.model.NatDis;
 import com.dasinong.ploughHelper.model.NatDisSpec;
 
@@ -23,7 +23,7 @@ public class NatDisWrapper implements Serializable{
 		this.natDisSpecId = nd.getNatDisSpecId();
 		this.fieldId = nd.getFieldId();
 		this.natDisStatus = nd.getNatDisStatus();
-		NatDisSpecDao ndsd = (NatDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecDao");
+		INatDisSpecDao ndsd = (INatDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("natDisSpecDao");
 		NatDisSpec nds = ndsd.findById(this.natDisSpecId);
 		this.natDisSpecName = nds.getNatDisSpecName();
 	}

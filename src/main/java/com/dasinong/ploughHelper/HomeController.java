@@ -8,14 +8,22 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.FieldDao;
+import com.dasinong.ploughHelper.dao.IFieldDao;
+import com.dasinong.ploughHelper.dao.ITaskSpecDao;
+import com.dasinong.ploughHelper.facade.HomeFacade;
+import com.dasinong.ploughHelper.facade.IHomeFacade;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Task;
 import com.dasinong.ploughHelper.model.User;
@@ -30,9 +38,11 @@ private static final Logger logger = LoggerFactory.getLogger(Test1Controller.cla
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+   
 	@RequestMapping(value = "/home", produces="application/json")
 	@ResponseBody
 	public Object home(HttpServletRequest request, HttpServletResponse response) {
+
 		User user = (User) request.getSession().getAttribute("User");
 		Map<String,Object> result = new HashMap<String,Object>();
 		if (user==null){
@@ -40,46 +50,9 @@ private static final Logger logger = LoggerFactory.getLogger(Test1Controller.cla
 			result.put("message","用户尚未登陆");
 			return result;
 		}
-		if (user.getFields()==null){
-			result.put("respCode",110);
-			result.put("message","用户没有田地，请先添加");
-			return result;
-		}
-		
-		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
-		
-		
 		String fieldId =  request.getParameter("fieldId");
-		
-		HashMap<String,Long> fieldList = new HashMap<String,Long>();
-		for (Field f: user.getFields()){
-			fieldList.put(f.getFieldName(),f.getFieldId());
-		}
-		result.put("fieldList",fieldList);
-		
-		if (fieldId==null || fieldId.equals("")){
-			result.put("respCode", 200);
-			result.put("Message", "读取田地成功");
-			Field f = user.getFields().iterator().next();
-			FieldWrapper fw = new FieldWrapper(f);
-			result.put("currentField",fw);
-			return result;
-		}
-		else{
-			Long fid = Long.parseLong(fieldId);
-			Field f= fieldDao.findById(fid);
-			if (f==null){
-				result.put("respCode",120);
-				result.put("message","fieldId不存在");
-				return result;
-			}else{
-				result.put("respCode", 200);
-				result.put("Message", "读取田地成功");
-				FieldWrapper fw = new FieldWrapper(f);
-				result.put("currentField",fw);
-				return result;
-			}
-		}
+		IHomeFacade hf = new HomeFacade();
+		return hf.LoadHome(user, fieldId);
 	}
 	
 	
@@ -93,7 +66,7 @@ private static final Logger logger = LoggerFactory.getLogger(Test1Controller.cla
 			result.put("message","用户尚未登陆");
 			return result;
 		}
-		FieldDao fieldDao = (FieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		
 		String fieldId = request.getParameter("fieldId");
 		String taskIds = request.getParameter("taskIds");

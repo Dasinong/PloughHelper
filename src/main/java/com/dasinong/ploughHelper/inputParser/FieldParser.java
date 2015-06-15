@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.FieldDao;
-import com.dasinong.ploughHelper.dao.LocationDao;
-import com.dasinong.ploughHelper.dao.SubStageDao;
-import com.dasinong.ploughHelper.dao.VarietyDao;
+import com.dasinong.ploughHelper.dao.ILocationDao;
+import com.dasinong.ploughHelper.dao.ISubStageDao;
+import com.dasinong.ploughHelper.dao.IVarietyDao;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.SubStage;
@@ -28,9 +28,9 @@ public class FieldParser {
         String locationId = request.getParameter("locationId");
 		String varietyId =  request.getParameter("varietyId");
         String currentStageId = request.getParameter("currentStageID");
-        LocationDao ldDao = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
-        VarietyDao varietyDao = (VarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
-        SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
+        ILocationDao ldDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+        IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+        ISubStageDao subStageDao = (ISubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
 
        	boolean isA = Boolean.getBoolean(isActive);
        	boolean sot = Boolean.parseBoolean(seedingortransplant);

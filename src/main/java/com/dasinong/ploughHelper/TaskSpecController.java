@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.dao.TaskDao;
-import com.dasinong.ploughHelper.dao.TaskSpecDao;
 import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.TaskSpecWrapper;
@@ -27,7 +27,7 @@ public class TaskSpecController {
 	@ResponseBody
 	public Object getTaskSpec(HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) request.getSession().getAttribute("User");
-		TaskSpecDao taskSpecDao = (TaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
+		ITaskSpecDao taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		if (user==null){
 			result.put("respCode",100);
