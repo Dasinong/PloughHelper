@@ -1,15 +1,19 @@
 package com.dasinong.ploughHelper.facade;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.IFieldDao;
 import com.dasinong.ploughHelper.dao.ISoilTestReportDao;
+import com.dasinong.ploughHelper.dao.SoilTestReportDao;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.SoilTestReport;
+import com.dasinong.ploughHelper.outputWrapper.SoilTestReportWrapper;
 
 public class SoilFacade implements ISoilFacade {
 
@@ -63,7 +67,7 @@ public class SoilFacade implements ISoilFacade {
 	 */
     @Override
 	@Transactional
-    public Object insertSoilHome(Long uId,Long fId,String type, String color, String fertility, double humidityv,
+    public Object insertSoil(Long uId,Long fId,String type, String color, String fertility, double humidityv,
     		Date date,double phValuev, String organic, double anv, double qnv, double pv, double qKv,double sKv,
     		double fev,double mnv,double cuv,double znv,double bv, double mov, double cav,double sv,double siv,
     		double mgv){
@@ -79,6 +83,44 @@ public class SoilFacade implements ISoilFacade {
     	field.getSoilTestReports().add(str);
     	result.put("respCode", 200);
     	result.put("message", "插入成功");
+    	return result;
+    }
+    
+    @Override
+    public Object loadSoilReportsByFid(Long fid){
+   	
+    	HashMap<String,Object> result  = new HashMap<String,Object>();
+		fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		soilTestReportDao = (ISoilTestReportDao) ContextLoader.getCurrentWebApplicationContext().getBean("soilTestReportDao");
+		List<SoilTestReport> soilReports = soilTestReportDao.findByFieldId(fid);
+    	
+		List<SoilTestReportWrapper> soilReportsw = new ArrayList<SoilTestReportWrapper>();
+		for (SoilTestReport str : soilReports){
+			soilReportsw.add(new SoilTestReportWrapper(str));
+		}
+    	result.put("respCode", 200);
+    	result.put("message", "读取成功");
+    	result.put("data", soilReportsw);
+    	return result;
+    }
+    
+    
+    @Override
+    public Object loadSoilReportsByUid(Long uid){
+   	
+    	HashMap<String,Object> result  = new HashMap<String,Object>();
+		fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		soilTestReportDao = (ISoilTestReportDao) ContextLoader.getCurrentWebApplicationContext().getBean("soilTestReportDao");
+		List<SoilTestReport> soilReports = soilTestReportDao.findByUserId(uid);
+		
+		List<SoilTestReportWrapper> soilReportsw = new ArrayList<SoilTestReportWrapper>();
+		for (SoilTestReport str : soilReports){
+			soilReportsw.add(new SoilTestReportWrapper(str));
+		}
+    	
+    	result.put("respCode", 200);
+    	result.put("message", "读取成功");
+    	result.put("data", soilReportsw);
     	return result;
     }
    

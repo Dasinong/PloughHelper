@@ -62,11 +62,24 @@ public class SoilTestReportDao implements ISoilTestReportDao{
 	 * @see com.dasinong.ploughHelper.dao.ISoilTestReportDao#findById(java.lang.Long)
 	 */
 	@Override
-	@Transactional
 	public SoilTestReport findById(Long id) {
 		SoilTestReport spec= (SoilTestReport) this.getSessionFactory().getCurrentSession().get(SoilTestReport.class,id);
 		spec.getAn();
 		return spec;
+	}
+	
+	@Override
+	public List<SoilTestReport> findByFieldId(Long fid) {
+		List list = this.getSessionFactory().getCurrentSession().createQuery(
+				"from SoilTestReport where fieldId=:fieldId").setLong("fieldId",fid).list();
+		return list;
+	}
+	
+	@Override
+	public List<SoilTestReport> findByUserId(Long uid) {
+		List list = this.getSessionFactory().getCurrentSession().createQuery(
+				"from SoilTestReport where userId=:userId").setLong("userId",uid).list();
+		return list;
 	}
 
 }

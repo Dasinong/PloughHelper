@@ -36,11 +36,16 @@ public interface ISoilFacade {
 			double siv = Double.parseDouble(si);
 			double mgv = Double.parseDouble(mg);
 	 */
-	public abstract Object insertSoilHome(Long uId, Long fId, String type,
+	public abstract Object insertSoil(Long uId, Long fId, String type,
 			String color, String fertility, double humidityv, Date date,
 			double phValuev, String organic, double anv, double qnv, double pv,
 			double qKv, double sKv, double fev, double mnv, double cuv,
 			double znv, double bv, double mov, double cav, double sv,
 			double siv, double mgv);
+
+
+	Object loadSoilReportsByFid(Long fid);
+
+	Object loadSoilReportsByUid(Long uid);
 
 }

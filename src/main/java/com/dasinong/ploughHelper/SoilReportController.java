@@ -29,13 +29,9 @@ public class SoilReportController {
 			result.put("message","用户尚未登陆");
 			return result;
 		}
-		
-		
-		
+	
 		return result;
 	}
-	
-	
 	
 	
 	
@@ -109,7 +105,37 @@ public class SoilReportController {
 			double mgv = Double.parseDouble(mg);
 			
 			ISoilFacade sf = new SoilFacade();
-			return sf.insertSoilHome(uId, fId, type, color, fertility, humidityv, date, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv, znv, bv, mov, cav, sv, siv, mgv);
+			return sf.insertSoil(uId, fId, type, color, fertility, humidityv, date, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv, znv, bv, mov, cav, sv, siv, mgv);
+		}catch (Exception e) {
+			result.put("respCode", 500);
+			result.put("message", e.getCause());
+			return result;
+		}
+
+	}
+	
+	
+	@RequestMapping(value = "/getSoilReport", produces="application/json")
+	@ResponseBody
+	public Object getSoilReport(HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) request.getSession().getAttribute("User");
+		Map<String,Object> result = new HashMap<String,Object>();
+		if (user==null){
+			result.put("respCode",100);
+			result.put("message","用户尚未登陆");
+			return result;
+		}
+      
+		String fieldId = request.getParameter("fieldId");
+		try{
+			SoilFacade sf = new SoilFacade();
+			if (fieldId==null){
+				return sf.loadSoilReportsByUid(user.getUserId());
+			}
+			else{
+				Long fid = Long.parseLong(fieldId);
+				return sf.loadSoilReportsByFid(fid);
+			}
 		}catch (Exception e) {
 			result.put("respCode", 500);
 			result.put("message", e.getCause());

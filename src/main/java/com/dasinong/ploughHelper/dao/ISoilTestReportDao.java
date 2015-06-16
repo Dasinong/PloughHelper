@@ -1,5 +1,7 @@
 package com.dasinong.ploughHelper.dao;
 
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 
 import com.dasinong.ploughHelper.model.SoilTestReport;
@@ -17,5 +19,9 @@ public interface ISoilTestReportDao {
 	void delete(SoilTestReport SoilTestReport);
 
 	SoilTestReport findById(Long id);
+
+	List<SoilTestReport> findByFieldId(Long fid);
+
+	List<SoilTestReport> findByUserId(Long uid);
 
 }

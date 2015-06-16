@@ -39,7 +39,9 @@ public class SoilTestReport implements Serializable{
 	public double mg;
 	
 	
-	
+	public SoilTestReport(){
+		
+	}
 	
 	public SoilTestReport(Long userId, Field field, String type, String color,
 			String fertility, double humidity, Date testDate, double phValue,
