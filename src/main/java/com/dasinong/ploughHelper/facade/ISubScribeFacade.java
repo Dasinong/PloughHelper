@@ -1,0 +1,23 @@
+package com.dasinong.ploughHelper.facade;
+
+import com.dasinong.ploughHelper.model.User;
+
+public interface ISubScribeFacade {
+
+	public abstract Object insertSubScribeList(User user, String targetName,
+			String cellphone, String province, String city, String country,
+			String district, double area, Long cropId, boolean isAgriWeather,
+			boolean isNatAlter, boolean isRiceHelper);
+
+	public abstract Object getSubScribeLists(User user);
+
+	public abstract Object loadSubScribeList(Long subScribeListId);
+
+	public abstract Object updateSubScribeList(Long subScribeListId, User user,
+			String targetName, String cellphone, String province, String city,
+			String country, String district, double area, Long cropId,
+			boolean isAgriWeather, boolean isNatAlter, boolean isRiceHelper);
+
+	public abstract Object deleteSubScribeList(Long id);
+
+}

@@ -41,6 +41,7 @@
         	   <value>/com/dasinong/ploughHelper/model/User.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/CPProduct.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/SoilTestReport.hbm.xml</value>
+			   <value>/com/dasinong/ploughHelper/model/SubScribeList.hbm.xml</value>
 			</list>
     	</property>	
     </bean>

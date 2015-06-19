@@ -58,6 +58,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    <bean id="soilTestReportDao" class="com.dasinong.ploughHelper.dao.SoilTestReportDao" >
    		<property name="sessionFactory" ref="mySessionFactory"></property>
    </bean>
+   <bean id="subScribeListDao" class="com.dasinong.ploughHelper.dao.SubScribeListDao" >
+   		<property name="sessionFactory" ref="mySessionFactory"></property>
+   </bean>
    
  
 </beans>

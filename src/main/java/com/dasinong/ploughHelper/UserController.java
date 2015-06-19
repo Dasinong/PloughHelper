@@ -258,19 +258,32 @@ public class UserController {
 			String address = request.getParameter("address");
 			String pictureId = request.getParameter("pictureId");
 			String telephone = request.getParameter("telephone");
+			String isAuth = request.getParameter("isAuth");
 			
-			String oldCellphone = user.getCellPhone();
+			//String oldCellphone = user.getCellPhone();
 			
+			if (userName!=null && !userName.isEmpty()){
 			user.setUserName(userName);
+			}
+			if (address!=null && !address.isEmpty()){
 			user.setAddress(address);
+			}
+			if (cellphone!=null && !cellphone.isEmpty()){
 			user.setCellPhone(cellphone);
+			}
+			if (pictureId!=null && !pictureId.isEmpty()){
 			user.setPictureId(pictureId);
-			user.setTelephone(telephone);
+			}
+			if (telephone!=null && !telephone.isEmpty()){
+				user.setTelephone(telephone);
+			}
 			/*
 			if (!oldCellphone.equals(cellphone)){
 				user.setAuthenticated(false);
 			}*/
-			user.setAuthenticated(true);
+			if (isAuth!=null && !isAuth.isEmpty()){
+				user.setAuthenticated(true);
+			}
 			userDao.update(user);
 			
 		    result.put("respCode", 200);
@@ -422,5 +435,5 @@ public class UserController {
 			return result;
 		}
 	}
-
+	
 }
