@@ -19,7 +19,7 @@
             <column name="cellPhone" length="30" not-null="true" unique="true" />
         </property>        
         <property name="address" type="string">
-            <column name="address" length="30" not-null="false"/>
+            <column name="address" length="50" not-null="false"/>
         </property>
         <set name="fields" table="field" inverse="false" lazy="false" fetch="select">
         	<key>

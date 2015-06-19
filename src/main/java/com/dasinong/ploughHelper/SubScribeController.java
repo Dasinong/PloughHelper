@@ -38,6 +38,7 @@ public class SubScribeController {
 		String city;
 		String country;
 		String district;
+		String cropName;
 		double area;
 		Long cropId;
 		boolean isAgriWeather;
@@ -51,7 +52,8 @@ public class SubScribeController {
 			country =  request.getParameter("country");
 			district =  request.getParameter("district");
 			area =  Double.parseDouble(request.getParameter("area"));
-			cropId =  Long.parseLong(request.getParameter("cropId"));
+			//cropId =  Long.parseLong(request.getParameter("cropId"));
+			cropName = request.getParameter("cropId");
 			isAgriWeather =  Boolean.parseBoolean(request.getParameter("isAgriWeather"));
 			isNatAlter =  Boolean.parseBoolean(request.getParameter("isNatAlter"));
 			isRiceHelper =  Boolean.parseBoolean(request.getParameter("isRiceHelper"));
@@ -64,7 +66,7 @@ public class SubScribeController {
 		try{
 			ISubScribeFacade ssf = new SubScribeFacade();
 			return ssf.insertSubScribeList(user, targetName, cellphone, province, city, country, 
-						district, area, cropId, isAgriWeather, isNatAlter, isRiceHelper);
+						district, area, cropName, isAgriWeather, isNatAlter, isRiceHelper);
 		}catch(Exception e){
 			result.put("respCode", 500);
 			result.put("message", e.getCause());

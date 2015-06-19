@@ -11,7 +11,9 @@ import java.util.Map;
 
 import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.dao.ICropDao;
 import com.dasinong.ploughHelper.dao.ISubScribeListDao;
+import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.SubScribeList;
 import com.dasinong.ploughHelper.model.User;
 
@@ -19,6 +21,7 @@ public class SubScribeFacade implements ISubScribeFacade {
     
     //  @Autowired
     private ISubScribeListDao subScribeListDao;
+    private ICropDao cropDao;
     
     
 	/* (non-Javadoc)
@@ -124,4 +127,23 @@ public class SubScribeFacade implements ISubScribeFacade {
     	result.put("data", ssl);
     	return result;
     }
+
+	@Override
+	public Object insertSubScribeList(User user, String targetName,
+			String cellphone, String province, String city, String country,
+			String district, double area, String cropName,
+			boolean isAgriWeather, boolean isNatAlter, boolean isRiceHelper) {
+		HashMap<String,Object> result  = new HashMap<String,Object>();
+		
+		cropDao = (ICropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+		Crop crop = cropDao.findByCropName(cropName);
+    	SubScribeList ssb = new SubScribeList(user.getUserId(),targetName,cellphone,province,city,country,
+    			district,area,crop.getCropId(),isAgriWeather,isNatAlter,isRiceHelper);
+    	subScribeListDao = (ISubScribeListDao) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeListDao");
+    	subScribeListDao.save(ssb);
+    	
+    	result.put("respCode", 200);
+    	result.put("message", "插入成功");
+    	return result;
+	}
 }

@@ -1,6 +1,7 @@
 package com.dasinong.ploughHelper;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -364,34 +365,41 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping(value = "/uploadPicture",produces="application/json;charset=utf-8")
+	@RequestMapping(value = "/uploadAvater",produces="application/json;charset=utf-8")
 	@ResponseBody
-	public Object uploadPicture(MultipartHttpServletRequest request, HttpServletResponse response) {
+	public Object uploadAvater(MultipartHttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException {
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		try{
+		//try{
 			User user = (User) request.getSession().getAttribute("User");
 			if (user==null){
 				result.put("respCode", 100);
 				result.put("message", "尚未登陆");
 				return result;
 			}
-
-			MultipartFile imgFile = request.getFile("pic");
+            System.out.println(System.getProperty("user.dir"));
+			MultipartFile imgFile = request.getFile("file");
+			String ext = imgFile.getName().split(".")[1];
+			System.out.println(imgFile.getContentType());
 			if (!imgFile.isEmpty()){
-				String fileName = user.getCellPhone()+imgFile.getContentType();
-				System.out.println(fileName);
-				File dest = new File(fileName);
+				String filePath = request.getSession().getServletContext().getRealPath("/");
+				String fileName = user.getCellPhone()+ext;
+				System.out.println(filePath+fileName);
+				File dest = new File(fileName+fileName);
 				imgFile.transferTo(dest);
 				user.setPictureId(fileName);
 			}
+			result.put("respCode", 200);
+			result.put("message","上传成功");
 		    return result;
-		}
+		/*}
+
 		catch(Exception e)
 		{
 			result.put("respCode", 500);
 			result.put("respDes", e.getCause().getMessage());
 			return result;
 		}
+		*/
 	}
 	
 	

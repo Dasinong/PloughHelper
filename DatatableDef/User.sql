@@ -5,7 +5,7 @@ CREATE TABLE user (
   password VARCHAR(30) NOT NULL,
   cellPhone VARCHAR(30) NOT NULL,
   UNIQUE KEY UNI_CELLPHONE (cellPhone),
-  address VARCHAR(30),
+  address VARCHAR(50),
   authenticated INT(1),
   pictureId VARCHAR(20),
   telephone VARCHAR(15)
