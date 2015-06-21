@@ -197,6 +197,51 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-dbcp2</artifactId>
 			<version>2.0.1</version>
+
+<!-- drools related -->
+		</dependency>
+			<dependency>
+			<groupId>org.kie</groupId>
+			<artifactId>kie-api</artifactId>
+			<version>6.2.0.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-core</artifactId>
+			<version>6.2.0.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-compiler</artifactId>
+			<version>6.2.0.Final</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.drools</groupId> <artifactId>drools-decisiontables</artifactId> 
+			<version>6.2.0.Final</version> </dependency> -->
+		<!-- <dependency> <groupId>org.drools</groupId> <artifactId>drools-persistence-jpa</artifactId> 
+			<version>6.2.0.Final</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-templates</artifactId>
+			<version>6.2.0.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.kie</groupId>
+			<artifactId>kie-spring</artifactId>
+			<version>6.2.0.Final</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.kie</groupId> <artifactId>kie-camel</artifactId> 
+			<version>6.2.0.Final</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.2</version>
 		</dependency>
 	</dependencies>
     <build>
