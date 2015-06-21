@@ -15,6 +15,7 @@ import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.SoilTestReport;
 import com.dasinong.ploughHelper.outputWrapper.SoilTestReportWrapper;
 
+@Transactional
 public class SoilFacade implements ISoilFacade {
 
 	// @Autowired
@@ -66,7 +67,6 @@ public class SoilFacade implements ISoilFacade {
 	 * @see com.dasinong.ploughHelper.facade.ISoilFacade#insertSoilHome(java.lang.Long, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, double, java.util.Date, double, java.lang.String, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double)
 	 */
     @Override
-	@Transactional
     public Object insertSoil(Long uId,Long fId,String type, String color, String fertility, double humidityv,
     		Date date,double phValuev, String organic, double anv, double qnv, double pv, double qKv,double sKv,
     		double fev,double mnv,double cuv,double znv,double bv, double mov, double cav,double sv,double siv,
@@ -81,6 +81,44 @@ public class SoilFacade implements ISoilFacade {
     			qKv,sKv,fev,mnv,cuv,znv,bv,mov,cav,sv,siv,mgv);
     	soilTestReportDao.save(str);
     	field.getSoilTestReports().add(str);
+    	result.put("respCode", 200);
+    	result.put("message", "插入成功");
+    	return result;
+    }
+    
+    @Override
+    public Object updateSoil(Long reportId,String type, String color, String fertility, double humidityv,
+    		double phValuev, String organic, double anv, double qnv, double pv, double qKv,double sKv,
+    		double fev,double mnv,double cuv,double znv,double bv, double mov, double cav,double sv,double siv,
+    		double mgv){
+    	
+    	HashMap<String,Object> result  = new HashMap<String,Object>();
+
+		soilTestReportDao = (ISoilTestReportDao) ContextLoader.getCurrentWebApplicationContext().getBean("soilTestReportDao");
+		SoilTestReport str = soilTestReportDao.findById(reportId);
+		str.setType(type);
+		str.setColor(color);
+		str.setFertility(fertility);
+		str.setHumidity(humidityv);
+		str.setPhValue(phValuev);
+		str.setOrganic(organic);
+		str.setAn(anv);
+		str.setQn(qnv);
+		str.setP(pv);
+		str.setqK(qKv);
+		str.setsK(sKv);
+		str.setFe(fev);
+		str.setMn(mnv);
+		str.setCu(cuv);
+		str.setZn(znv);
+		str.setB(bv);
+		str.setMo(mov);
+		str.setCa(cav);
+		str.setS(sv);
+		str.setSi(siv);
+		str.setMg(mgv);
+    	soilTestReportDao.update(str);
+
     	result.put("respCode", 200);
     	result.put("message", "插入成功");
     	return result;

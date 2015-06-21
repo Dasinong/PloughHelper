@@ -48,4 +48,10 @@ public interface ISoilFacade {
 
 	Object loadSoilReportsByUid(Long uid);
 
+	Object updateSoil(Long reportId, String type, String color,
+			String fertility, double humidityv, double phValuev,
+			String organic, double anv, double qnv, double pv, double qKv,
+			double sKv, double fev, double mnv, double cuv, double znv,
+			double bv, double mov, double cav, double sv, double siv, double mgv);
+
 }

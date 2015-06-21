@@ -3,11 +3,8 @@ package com.dasinong.ploughHelper.dao;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.dasinong.ploughHelper.model.SubScribeList;
 
-@Transactional
 public class SubScribeListDao implements ISubScribeListDao {
    private SessionFactory sessionFactory;
 	

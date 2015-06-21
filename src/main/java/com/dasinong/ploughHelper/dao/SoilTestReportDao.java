@@ -3,13 +3,8 @@ package com.dasinong.ploughHelper.dao;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.dasinong.ploughHelper.model.Task;
 import com.dasinong.ploughHelper.model.SoilTestReport;
 
-@Transactional
 public class SoilTestReportDao implements ISoilTestReportDao{
 	private SessionFactory sessionFactory;
 	

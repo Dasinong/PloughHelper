@@ -4,9 +4,7 @@ package com.dasinong.ploughHelper.dao;
 import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
 import com.dasinong.ploughHelper.model.SubStage;
-import com.dasinong.ploughHelper.model.Variety;
 
 public class SubStageDao extends HibernateDaoSupport implements ISubStageDao{
 

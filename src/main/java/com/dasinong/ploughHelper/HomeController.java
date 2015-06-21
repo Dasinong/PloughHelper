@@ -24,6 +24,7 @@ import com.dasinong.ploughHelper.dao.IFieldDao;
 import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.facade.HomeFacade;
 import com.dasinong.ploughHelper.facade.IHomeFacade;
+import com.dasinong.ploughHelper.facade.ISoilFacade;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Task;
 import com.dasinong.ploughHelper.model.User;
@@ -51,7 +52,7 @@ private static final Logger logger = LoggerFactory.getLogger(Test1Controller.cla
 			return result;
 		}
 		String fieldId =  request.getParameter("fieldId");
-		IHomeFacade hf = new HomeFacade();
+		IHomeFacade hf = (IHomeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("homeFacade");
 		return hf.LoadHome(user, fieldId);
 	}
 	

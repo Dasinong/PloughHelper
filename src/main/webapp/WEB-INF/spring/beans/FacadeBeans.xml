@@ -10,5 +10,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    <bean id="soilFacade" class="com.dasinong.ploughHelper.facade.SoilFacade" >
    </bean>
    
+   <bean id="subScribeFacade" class="com.dasinong.ploughHelper.facade.SubScribeFacade" >
+   </bean>
  
 </beans>

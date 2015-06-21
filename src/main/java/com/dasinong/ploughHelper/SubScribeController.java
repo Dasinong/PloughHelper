@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.facade.ISoilFacade;
 import com.dasinong.ploughHelper.facade.ISubScribeFacade;
 import com.dasinong.ploughHelper.facade.SubScribeFacade;
 import com.dasinong.ploughHelper.model.User;
@@ -64,7 +66,7 @@ public class SubScribeController {
 	    	return result;
 	    }
 		try{
-			ISubScribeFacade ssf = new SubScribeFacade();
+			ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
 			return ssf.insertSubScribeList(user, targetName, cellphone, province, city, country, 
 						district, area, cropName, isAgriWeather, isNatAlter, isRiceHelper);
 		}catch(Exception e){
@@ -86,7 +88,7 @@ public class SubScribeController {
 			return result;
 		}
 		try{
-			ISubScribeFacade ssf = new SubScribeFacade();
+			ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
 			return ssf.getSubScribeLists(user);
 		}catch(Exception e){
 			result.put("respCode", 500);
@@ -118,7 +120,7 @@ public class SubScribeController {
 	    }
 		
 		try{
-			ISubScribeFacade ssf = new SubScribeFacade();
+			ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
 			return ssf.loadSubScribeList(id);
 		}catch(Exception e){
 			result.put("respCode", 500);
@@ -171,7 +173,7 @@ public class SubScribeController {
 	    }
 		
 		try{
-			ISubScribeFacade ssf = new SubScribeFacade();
+			ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
 			return ssf.updateSubScribeList(id, user, targetName, cellphone, province, city, country,
 					district, area, cropId, isAgriWeather, isNatAlter, isRiceHelper);
 		}catch(Exception e){
@@ -205,7 +207,7 @@ public class SubScribeController {
 	    }
 		
 		try{
-			ISubScribeFacade ssf = new SubScribeFacade();
+			ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
 			return ssf.deleteSubScribeList(id);
 		}catch(Exception e){
 			result.put("respCode", 500);

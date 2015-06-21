@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.ICropDao;
@@ -17,6 +18,7 @@ import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.SubScribeList;
 import com.dasinong.ploughHelper.model.User;
 
+@Transactional
 public class SubScribeFacade implements ISubScribeFacade {
     
     //  @Autowired

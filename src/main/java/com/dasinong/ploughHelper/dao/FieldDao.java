@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.Field;
-import com.dasinong.ploughHelper.model.Location;
 
 public class FieldDao extends HibernateDaoSupport implements IFieldDao{
 

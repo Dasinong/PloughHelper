@@ -11,6 +11,7 @@ import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
 
+@Transactional
 public class HomeFacade implements IHomeFacade {
 	
    // @Autowired
@@ -24,7 +25,6 @@ public class HomeFacade implements IHomeFacade {
 	 * @see com.dasinong.ploughHelper.facade.IHomeFacade#LoadHome(com.dasinong.ploughHelper.model.User, java.lang.String)
 	 */
 	@Override
-	@Transactional
 	public Object LoadHome(User user,String fieldId){
 		fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
