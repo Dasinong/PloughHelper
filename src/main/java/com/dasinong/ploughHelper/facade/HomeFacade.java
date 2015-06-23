@@ -6,10 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.IFieldDao;
+import com.dasinong.ploughHelper.dao.ISoilTestReportDao;
 import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.model.Field;
+import com.dasinong.ploughHelper.model.SoilTestReport;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
+import com.dasinong.ploughHelper.outputWrapper.SoilTestReportWrapper;
 
 @Transactional
 public class HomeFacade implements IHomeFacade {
@@ -19,6 +22,9 @@ public class HomeFacade implements IHomeFacade {
     
   //  @Autowired
     private ITaskSpecDao taskSpecDao;
+    
+    //  @Autowired
+    private ISoilTestReportDao soilReportDao;
     
 
 	/* (non-Javadoc)
@@ -41,6 +47,7 @@ public class HomeFacade implements IHomeFacade {
 			fieldList.put(f.getFieldName(),f.getFieldId());
 		}
 		result.put("fieldList",fieldList);
+
 		
 		if (fieldId==null || fieldId.equals("")){
 			result.put("respCode", 200);
@@ -48,6 +55,17 @@ public class HomeFacade implements IHomeFacade {
 			Field f = user.getFields().iterator().next();
 			FieldWrapper fw = new FieldWrapper(f,taskSpecDao);
 			result.put("currentField",fw);
+			
+			long latest=-1;
+			SoilTestReport latestR=null;
+			for (SoilTestReport str : f.getSoilTestReports()){
+				if (str.soilTestReportId>latest){
+					latestR = str;
+					latest =str.soilTestReportId;
+				}
+			}
+			SoilTestReportWrapper strw = new SoilTestReportWrapper(latestR);
+			result.put("latestReport", strw);
 			return result;
 		}
 		else{
@@ -62,6 +80,18 @@ public class HomeFacade implements IHomeFacade {
 				result.put("message", "读取田地成功");
 				FieldWrapper fw = new FieldWrapper(f,taskSpecDao);
 				result.put("currentField",fw);
+				
+				long latest=-1;
+				SoilTestReport latestR=null;
+				for (SoilTestReport str : f.getSoilTestReports()){
+					if (str.soilTestReportId>latest){
+						latestR = str;
+						latest =str.soilTestReportId;
+					}
+				}
+				
+				SoilTestReportWrapper strw = new SoilTestReportWrapper(latestR);
+				result.put("latestReport", strw);
 				return result;
 			}
 		}

@@ -17,9 +17,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 public class All24h {
-private static All24h all24h;
+	private static All24h all24h;
 	
-	public static All24h getLocation() throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{
+	public static All24h get24h() throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{
 		if (all24h==null){
 			all24h = new All24h();
 			return all24h;
@@ -52,11 +52,13 @@ private static All24h all24h;
 	private static HashMap<Integer,TwentyFourHourForcast> _all24h;
 	
 	public static void main(String[] args) throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{
-		Iterator iter= All24h.getLocation()._all24h.entrySet().iterator();
+		Iterator iter= All24h.get24h()._all24h.entrySet().iterator();
 		while(iter.hasNext()){
 			Map.Entry entry = (Map.Entry) iter.next();
 			System.out.print(entry.getKey()+": ");
 			System.out.println(((TwentyFourHourForcast) entry.getValue()).info[1].temperature);
+			System.out.println(((TwentyFourHourForcast) entry.getValue()).info[2].temperature);
+			System.out.println(((TwentyFourHourForcast) entry.getValue()).info[3].windDirection_10m);
 		}
 	}
 }

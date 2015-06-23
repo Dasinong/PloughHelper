@@ -2,6 +2,7 @@ package com.dasinong.ploughHelper;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,6 +55,31 @@ public class FieldController {
 			result.put("respCode", 200);
 			result.put("message", "添加田地成功");
 			result.put("data",fw);
+			return result;
+		} catch (Exception e) {
+			result.put("respCode",500);
+			result.put("message", e.getCause());
+			return result;
+		}
+	}
+	
+	
+	@RequestMapping(value = "/searchNearUser", produces="application/json")
+	@ResponseBody
+	public Object searchNearUser(HttpServletRequest request, HttpServletResponse response)  {
+		User user = (User) request.getSession().getAttribute("User");
+		Map<String,Object> result = new HashMap<String,Object>();
+		if (user==null){
+			result.put("respCode",100);
+			result.put("message","用户尚未登陆");
+			return result;
+		}
+	    
+		try{
+			Random ma = new Random();
+			result.put("respCode", 200);
+			result.put("message", "附近农户数");
+			result.put("data", ma.nextInt(200));
 			return result;
 		} catch (Exception e) {
 			result.put("respCode",500);
