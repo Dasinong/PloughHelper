@@ -54,7 +54,7 @@ public class AllLocation {
 		br.close();
 		fr.close();
 	}
-	private static HashMap<Integer,MonitorLocation> _allLocation;
+	private HashMap<Integer,MonitorLocation> _allLocation;
 	
 	public static void main(String[] args) throws IOException{
 		

@@ -15,7 +15,7 @@ import java.util.Map;
 public class All7d {
 	private static All7d all7d;
 	
-	public static All7d get7d() throws IOException, ParseException{
+	public static All7d getAll7d() throws IOException, ParseException{
 		if (all7d==null){
 			all7d = new All7d();
 			return all7d;
@@ -71,14 +71,19 @@ public class All7d {
 		br.close();
 		fr.close();
 	}
-	private static HashMap<Integer,SevenDayForcast> _all7d;
+	private HashMap<Integer,SevenDayForcast> _all7d;
+	
+	public SevenDayForcast get7d(Integer aid){
+		return _all7d.get(aid);
+	}
 	
 	public static void main(String[] args) throws IOException, ParseException{
-		Iterator iter= All7d.get7d()._all7d.entrySet().iterator();
+		Iterator iter= All7d.getAll7d()._all7d.entrySet().iterator();
 		while(iter.hasNext()){
 			Map.Entry entry = (Map.Entry) iter.next();
 			System.out.print(entry.getKey()+": ");
 			System.out.println(entry.getValue());
 		}
+		All7d.getAll7d().get7d(101090301);
 	}
 }

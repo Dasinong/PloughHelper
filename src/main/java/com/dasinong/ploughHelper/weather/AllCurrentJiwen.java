@@ -61,7 +61,7 @@ public class AllCurrentJiwen {
 		br.close();
 		fr.close();
 	}
-	private static HashMap<Integer,Integer> _allCurrentJiwen;
+	private HashMap<Integer,Integer> _allCurrentJiwen;
 	
 	public static void main(String[] args) throws IOException, ParseException{
 		Iterator iter= AllCurrentJiwen.getCurJiwen()._allCurrentJiwen.entrySet().iterator();

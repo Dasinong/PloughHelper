@@ -49,7 +49,10 @@ public class All24h {
 		}
 
 	}
-	private static HashMap<Integer,TwentyFourHourForcast> _all24h;
+	private HashMap<Integer,TwentyFourHourForcast> _all24h;
+	public TwentyFourHourForcast get24h(Integer areaId){
+		return _all24h.get(areaId);
+	}
 	
 	public static void main(String[] args) throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{
 		Iterator iter= All24h.get24h()._all24h.entrySet().iterator();

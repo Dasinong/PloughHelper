@@ -67,7 +67,7 @@ public class All7dHum {
 		br.close();
 		fr.close();
 	}
-	private static HashMap<Integer,SevenDayHumidity> _all7dHum;
+	private HashMap<Integer,SevenDayHumidity> _all7dHum;
 	
 	
 	public static void main(String[] args) throws IOException, ParseException{
