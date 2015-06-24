@@ -382,7 +382,7 @@ public class UserController {
 			System.out.println(imgFile.getContentType());
 			if (!imgFile.isEmpty()){
 				String filePath = request.getSession().getServletContext().getRealPath("/");
-				String fileName = user.getCellPhone()+ext;
+				String fileName = user.getCellPhone()+"."+ext;
 				System.out.println(filePath+fileName);
 				//File dest = new File(fileName+fileName);
 				File dest = new File("E:/git/PloughHelper/src/main/java/avater"+fileName);

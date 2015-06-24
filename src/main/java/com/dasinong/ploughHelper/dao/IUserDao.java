@@ -4,14 +4,14 @@ import com.dasinong.ploughHelper.model.User;
 
 public interface IUserDao {
 
-	public abstract void save(User user);
+	void save(User user);
 
-	public abstract void update(User user);
+	void update(User user);
 
-	public abstract void delete(User user);
+	void delete(User user);
 
-	public abstract User findByUserName(String userName);
+	User findByUserName(String userName);
 
-	public abstract User findByCellphone(String cellphone);
+	User findByCellphone(String cellphone);
 
 }
