@@ -3,12 +3,9 @@ package com.dasinong.ploughHelper.weather;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,17 +22,25 @@ public class AllLocation {
 		else{
 			return allLocation;
 		}
-		
 	}
+	
 	private AllLocation() throws IOException{
 		_allLocation = new HashMap<Integer,MonitorLocation>();
 		loadContent();
-		
 	}
+	
 	private void loadContent() throws IOException {
 		MonitorLocation m;
-		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
-		File f = new File("E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
+	
+		String fullpath="";
+	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+	       	fullpath = "E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt";
+	    }else{
+	       	Date date = new Date();
+	       	fullpath = "/data/data/monitorLocation";
+	    }
+	    
+		File f = new File(fullpath);
 		FileInputStream fr = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
 		String line;

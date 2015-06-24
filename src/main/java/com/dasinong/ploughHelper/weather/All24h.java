@@ -34,17 +34,40 @@ public class All24h {
 		loadContent();
 	}
 	
-	private void loadContent() throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException {
+	public void updateContent(){
+		HashMap<Integer,TwentyFourHourForcast> old24h = _all24h;
+		_all24h = new HashMap<Integer,TwentyFourHourForcast>();
+		try{
+			loadContent();
+		}
+		catch(Exception e){
+			System.out.println("update 24h failed. " +  e.getCause());
+			_all24h = old24h;
+		}
+	}
+	
+	private void loadContent() throws IOException, ParseException, NumberFormatException, ParserConfigurationException {
 		TwentyFourHourForcast tfhf=null;
 	
 		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
-        String basefolder = "E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/current";
-		File f = new File("E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/current");
+        String basefolder="";
+        if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+        	basefolder = "E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/current";
+        }else{
+        	basefolder = "/data/data/weather/hour/current";
+        }
+        
+		File f = new File(basefolder);
 		if (f.isDirectory()){
 			String[] filelist = f.list();
 			for(int i=0; i<filelist.length; i++){
-				tfhf = new TwentyFourHourForcast(basefolder+"/"+filelist[i],Integer.parseInt(filelist[i]));
-				_all24h.put(tfhf.code, tfhf);
+				try{
+					tfhf = new TwentyFourHourForcast(basefolder+"/"+filelist[i],Integer.parseInt(filelist[i]));
+					_all24h.put(tfhf.code, tfhf);
+				}catch(Exception e){
+					System.out.println("Load 24h for "+ filelist[i] + "failed.");
+					System.out.println(e.getCause());
+				}
 			}
 		}
 
@@ -55,6 +78,8 @@ public class All24h {
 	}
 	
 	public static void main(String[] args) throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{
+		System.out.println(System.getProperty("OS"));
+		
 		Iterator iter= All24h.get24h()._all24h.entrySet().iterator();
 		while(iter.hasNext()){
 			Map.Entry entry = (Map.Entry) iter.next();

@@ -29,11 +29,38 @@ public class All7dHum {
 		_all7dHum = new HashMap<Integer,SevenDayHumidity>();
 		loadContent();
 	}
-	
+	public void updateContent() {
+		HashMap<Integer,SevenDayHumidity> old7dHum = _all7dHum;
+		_all7dHum = new HashMap<Integer,SevenDayHumidity>();
+		try{
+			loadContent();
+		}catch(Exception e){
+			System.out.println("update 7d hum failed. " +  e.getCause());
+			_all7dHum = old7dHum;			
+		}
+	}
 	private void loadContent() throws IOException, ParseException {
 		SevenDayHumidity sdh=null;
-		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
-		File f = new File("./src/main/java/com/dasinong/ploughHelper/weather/rehumidity_7days_2015061908.csv");
+		
+		
+		String fullpath="";
+	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+	       	fullpath = "./src/main/java/com/dasinong/ploughHelper/weather/rehumidity_7days_2015061908.csv";
+	    }else{
+	       	Date date = new Date();
+	       	String filename = "";
+	       	SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+	       	if (date.getHours()<12){
+	       		filename = "rehumidity_7days_"+df.format(date)+"08.csv";
+	       	}
+	       	else{
+	       		filename = "rehumidity_7days_"+df.format(date)+"18.csv";
+	       	}
+	       	fullpath = "/data/data/ftp/rehumidity/"+filename;
+	    }
+	    
+	    File f = new File(fullpath);
+	    
 		FileInputStream fr = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
 		String line;

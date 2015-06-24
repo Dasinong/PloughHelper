@@ -32,10 +32,32 @@ public class AllCurrentJiwen {
 		loadContent();
 	}
 	
+	public void updateContent(){
+		HashMap<Integer,Integer> oldJiwen = _allCurrentJiwen;
+		_allCurrentJiwen = new HashMap<Integer,Integer>();
+		try{
+			loadContent();
+		}catch(Exception e){
+			System.out.println("update jiwen failed. " +  e.getCause());
+			_allCurrentJiwen = oldJiwen;			
+		}
+	}
+	
 	private void loadContent() throws IOException, ParseException {
 		SevenDayForcast sdf=null;
-		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
-		File f = new File("./src/main/java/com/dasinong/ploughHelper/weather/jw_2015-6-17.csv");
+		
+		String fullpath="";
+	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+	       	fullpath = "./src/main/java/com/dasinong/ploughHelper/weather/jw_2015-6-17.csv";
+	    }else{
+	       	Date date = new Date();
+	       	String filename = "";
+	       	SimpleDateFormat df = new SimpleDateFormat("yyyy-M-dd");
+	       	filename = "jw_"+df.format(date)+".csv";
+	       	fullpath = "/data/data/ftp/jiwen/"+filename;
+	    }
+	    
+		File f = new File(fullpath);
 		FileInputStream fr = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
 		String line;
@@ -70,5 +92,17 @@ public class AllCurrentJiwen {
 			System.out.print(entry.getKey()+": ");
 			System.out.println(entry.getValue());
 		}
+		
+		String fullpath="";
+	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+	       	fullpath = "./src/main/java/com/dasinong/ploughHelper/weather/jw_2015-6-17.csv";
+	    }else{
+	       	Date date = new Date();
+	       	String filename = "";
+	       	SimpleDateFormat df = new SimpleDateFormat("yyyy-M-dd");
+	       	filename = "jw_"+df.format(date)+".csv";
+	       	fullpath = "/data/data/ftp/jiwen/"+filename;
+	    }
+	    System.out.println(fullpath);
 	}
 }

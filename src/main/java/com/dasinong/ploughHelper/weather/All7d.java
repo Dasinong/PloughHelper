@@ -29,11 +29,45 @@ public class All7d {
 		_all7d = new HashMap<Integer,SevenDayForcast>();
 		loadContent();
 	}
+    public void updateContent() throws IOException, ParseException{
+     	HashMap<Integer,SevenDayForcast> old7d = _all7d;
+    	_all7d = new HashMap<Integer,SevenDayForcast>();
+		try{
+			loadContent();
+		}
+		catch(Exception e){
+			System.out.println("update 7d failed. " +  e.getCause());
+			_all7d = old7d;
+		}
+    }
 	
 	private void loadContent() throws IOException, ParseException {
 		SevenDayForcast sdf=null;
 		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
-		File f = new File("E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rforcast_7days_2015061720.csv");
+		
+        String fullpath="";
+        String fullpathb="";
+        if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+        	fullpath = "E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rforcast_7days_2015061720.csv";
+        }else{
+        	Date date = new Date();
+        	String filename = "";
+        	SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        	if (date.getHours()<=9){
+        		date.setDate(date.getDate()-1);
+        		filename = "rforcast_7days_"+df.format(date)+"20.csv";
+        	}
+        	else if (date.getHours()<=20) {
+        		filename = "rforcast_7days_"+df.format(date)+"09.csv";
+        	}
+        	else{
+        		filename = "rforcast_7days_"+df.format(date)+"20.csv";
+        	}
+        	fullpath = "/data/data/ftp/rforecast7days/"+filename;
+        }
+		
+		File f = new File(fullpath);
+		
 		FileInputStream fr = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
 		String line;
@@ -77,7 +111,10 @@ public class All7d {
 		return _all7d.get(aid);
 	}
 	
+
+	
 	public static void main(String[] args) throws IOException, ParseException{
+		/*
 		Iterator iter= All7d.getAll7d()._all7d.entrySet().iterator();
 		while(iter.hasNext()){
 			Map.Entry entry = (Map.Entry) iter.next();
@@ -85,5 +122,6 @@ public class All7d {
 			System.out.println(entry.getValue());
 		}
 		All7d.getAll7d().get7d(101090301);
+		*/
 	}
 }

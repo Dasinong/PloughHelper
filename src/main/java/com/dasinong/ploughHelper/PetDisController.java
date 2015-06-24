@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,6 +69,9 @@ public class PetDisController {
 				String filePath = request.getSession().getServletContext().getRealPath("/");
 				Date date = new Date();
 				String fileName = ""+ date.getTime();
+				fileName = fileName.substring(4);
+			    Random rnd = new Random();
+				fileName = fileName+rnd.nextInt(9999);
 				fileName = fileName +user.getUserId()+"."+ext;
 				System.out.println(filePath+"../userPetDis/" + fileName);
 				File dest = new File(filePath+"../userPetDis/" + fileName);

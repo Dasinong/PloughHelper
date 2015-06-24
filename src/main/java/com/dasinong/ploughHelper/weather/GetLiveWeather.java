@@ -30,7 +30,7 @@ public class GetLiveWeather {
 	
 	public GetLiveWeather(String areaId){
 		this.areaId=areaId;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
 		date = sdf.format(new Date());
 	}
 
@@ -82,7 +82,7 @@ public class GetLiveWeather {
 	
 	public String getRealURL() throws NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException{
 		String result;
-		String urlkey = this.url+"?areaid="+this.areaId+"&type=observe&date="+date+"0040&appid="+this.app_id;
+		String urlkey = this.url+"?areaid="+this.areaId+"&type=observe&date="+date+"&appid="+this.app_id;
 		System.out.println(urlkey);
 		byte[] skey = this.key.getBytes();
 		SecretKeySpec signingKey = new SecretKeySpec(skey,"HmacSHA1");
@@ -93,7 +93,7 @@ public class GetLiveWeather {
 		
 		String finalkey = new String(encodeBytes,"utf-8");
 		System.out.println(finalkey);
-		result = this.url+"?areaid="+this.areaId+"&type=observe&date="+date+"0040&appid="+this.short_app_id+"&key="+finalkey;
+		result = this.url+"?areaid="+this.areaId+"&type=observe&date="+date+"&appid="+this.short_app_id+"&key="+finalkey;
 		System.out.println(result);
 		return result;
 	}

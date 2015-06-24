@@ -22,7 +22,7 @@ public class WeatherFacade {
 		GetLiveWeather glw = new GetLiveWeather(areaId.toString());
 		result.put("current", glw.getLiveWeather());
 		if (All24h.get24h().get24h(areaId)!=null){
-			result.put("12h", All24h.get24h().get24h(areaId));
+			result.put("12h", All24h.get24h().get24h(areaId).info);
 		}
 		
 		if (All7d.getAll7d().get7d(areaId)!=null){

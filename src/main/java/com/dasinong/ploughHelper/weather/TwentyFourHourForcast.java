@@ -36,16 +36,16 @@ public class TwentyFourHourForcast {
 	Date startTime;
 	
 	class ForcastDInfo{
-		Date time;
-		double temperature;   //℃
-		int relativeHumidity;
-        int windDirection_10m;  //Degrees
-	    double windSpeed_10m;  //mps
-        double accumRainTotal;   //mm
-	    double accumSnowTotal;   //mm
-	    double accumIceTotal;    //mm
-	    int pOP;                 //Probability of precipitation
-	    String icon;
+		public Date time;
+		public double temperature;   //℃
+		public int relativeHumidity;
+		public int windDirection_10m;  //Degrees
+		public double windSpeed_10m;  //mps
+		public double accumRainTotal;   //mm
+		public double accumSnowTotal;   //mm
+		public double accumIceTotal;    //mm
+		public int pOP;                 //Probability of precipitation
+		public String icon;
 		public ForcastDInfo(Date time, double temperature,
 				int relativeHumidity, int windDirection_10m, double windSpeed_10m,
 				double accumRainTotal, double accumSnowTotal,
