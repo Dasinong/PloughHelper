@@ -59,16 +59,18 @@ public class PetDisController {
 			while (it.hasNext()){
 				Map.Entry<String,MultipartFile> entry = it.next();
 				imgFile = entry.getValue();
-				String ext = imgFile.getName().split(".")[1];
-				System.out.println(imgFile.getContentType());
+				String ext="";
+				String[] origf = imgFile.getOriginalFilename().split("\\.");
+				if (origf.length>=2){
+					ext = origf[origf.length-1];
+				}
+
 				String filePath = request.getSession().getServletContext().getRealPath("/");
 				Date date = new Date();
 				String fileName = ""+ date.getTime();
 				fileName = fileName +user.getUserId()+"."+ext;
-				System.out.println(filePath+fileName);
-				//File dest = new File(fileName+fileName);
-				//File dest = new File("E:/git/PloughHelper/src/main/java/avater/"+fileName);
-				File dest = new File("/usr/local/tomcat7/webapps/ploughHelper/WEB-INF/avater/"+fileName);
+				System.out.println(filePath+"../userPetDis/" + fileName);
+				File dest = new File(filePath+"../userPetDis/" + fileName);
 				imgFile.transferTo(dest);
 			}
 		}

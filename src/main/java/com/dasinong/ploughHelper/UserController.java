@@ -369,7 +369,7 @@ public class UserController {
 	@ResponseBody
 	public Object uploadAvater(MultipartHttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException {
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		//try{
+		try{
 			User user = (User) request.getSession().getAttribute("User");
 			if (user==null){
 				result.put("respCode", 100);
@@ -378,29 +378,35 @@ public class UserController {
 			}
             System.out.println(System.getProperty("user.dir"));
 			MultipartFile imgFile = request.getFile("file");
-			String ext = imgFile.getName().split(".")[1];
-			System.out.println(imgFile.getContentType());
+
 			if (!imgFile.isEmpty()){
+				String origFileName = imgFile.getOriginalFilename();
+				String[] imgt = origFileName.split("\\.");
+				String ext="";
+				System.out.println(imgt.length);
+				if (imgt.length>=2)
+				{
+					ext = imgt[imgt.length-1];
+				}
+				
 				String filePath = request.getSession().getServletContext().getRealPath("/");
 				String fileName = user.getCellPhone()+"."+ext;
-				System.out.println(filePath+fileName);
-				//File dest = new File(fileName+fileName);
-				File dest = new File("E:/git/PloughHelper/src/main/java/avater"+fileName);
+				System.out.println(filePath +"../avater/" +fileName);
+				File dest = new File(filePath+"../avater/"+fileName);
 				imgFile.transferTo(dest);
 				user.setPictureId(fileName);
 			}
 			result.put("respCode", 200);
 			result.put("message","上传成功");
 		    return result;
-		/*}
-
+		}
 		catch(Exception e)
 		{
 			result.put("respCode", 500);
 			result.put("respDes", e.getCause().getMessage());
 			return result;
 		}
-		*/
+		
 	}
 	
 	
@@ -445,4 +451,8 @@ public class UserController {
 		}
 	}
 	
+	public static void main(String[] args){
+		String[] imgt = "crop_cache_file.jpg".split("\\.");
+		System.out.println(imgt.length);
+	}
 }
