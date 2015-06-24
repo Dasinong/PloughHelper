@@ -13,4 +13,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    <bean id="subScribeFacade" class="com.dasinong.ploughHelper.facade.SubScribeFacade" >
    </bean>
  
+   <bean id="fieldFacade" class="com.dasinong.ploughHelper.facade.FieldFacade" >
+   </bean>
 </beans>

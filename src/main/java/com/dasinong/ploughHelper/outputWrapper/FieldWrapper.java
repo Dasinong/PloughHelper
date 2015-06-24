@@ -20,6 +20,7 @@ public class FieldWrapper implements Serializable{
 	private long varietyId;
 	private long userId;
 	private long locationId;
+	private int monitorLocationId;
 	private List<TaskWrapper> taskws = new ArrayList<TaskWrapper>();
 	private List<PetDisWrapper> petdisws =  new ArrayList<PetDisWrapper>();
 	private List<NatDisWrapper> natdisws = new ArrayList<NatDisWrapper>();
@@ -36,6 +37,7 @@ public class FieldWrapper implements Serializable{
 		this.setVarietyId(field.getVariety().getVarietyId());
 		this.setUserId(field.getUser().getUserId());
 		this.setLocationId(field.getLocation().getLocationId());
+		this.setMonitorLocationId(field.getMonitorLocationId());
 		if (field.getTasks()!=null){
 			for (Task t : field.getTasks().values()){
 				taskws.add(new TaskWrapper(t,taskSpecDao));
@@ -159,6 +161,14 @@ public class FieldWrapper implements Serializable{
 
 	public void setNatdisws(List<NatDisWrapper> natdisws) {
 		this.natdisws = natdisws;
+	}
+
+	public int getMonitorLocationId() {
+		return monitorLocationId;
+	}
+
+	public void setMonitorLocationId(int monitorLocationId) {
+		this.monitorLocationId = monitorLocationId;
 	}
 
 	

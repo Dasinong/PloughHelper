@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Field implements Serializable{
 
@@ -15,6 +17,7 @@ public class Field implements Serializable{
 	private Variety variety;
 	private User user;
 	private Location location;
+	private int monitorLocationId;
 	private Map<Long, Task> tasks;
 	private Map<Long, PetDis> petDiss;
 	private Map<Long, NatDis> natDiss;
@@ -29,8 +32,7 @@ public class Field implements Serializable{
 
 	//MonitorLocationID
     //SoilType	SoilN	SoilK	SoilP	SoilOrganic	SoilPH	SoilS	SoilMg	SoilCa	SoilFe	SoilMo	SoilB	SoilMn	Soilzn	SoilCu	SoilCI	
-	private Set<SoilTestReport> soilTestReports;
-
+	private Set<SoilTestReport> soilTestReports = new TreeSet<SoilTestReport>();
 	
 	public Field(){};
 	public Field(String fieldName,Variety variety,User user,Location location){
@@ -136,6 +138,12 @@ public class Field implements Serializable{
 	}
 	public void setSoilTestReports(Set<SoilTestReport> soilTestReports) {
 		this.soilTestReports = soilTestReports;
+	}
+	public int getMonitorLocationId() {
+		return monitorLocationId;
+	}
+	public void setMonitorLocationId(int monitorLocationId) {
+		this.monitorLocationId = monitorLocationId;
 	}
 
 }

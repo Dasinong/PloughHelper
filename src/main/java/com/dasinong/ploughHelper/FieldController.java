@@ -1,5 +1,6 @@
 package com.dasinong.ploughHelper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -15,19 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.IFieldDao;
 import com.dasinong.ploughHelper.dao.ITaskSpecDao;
-import com.dasinong.ploughHelper.inputParser.FieldParser;
-import com.dasinong.ploughHelper.model.Field;
+import com.dasinong.ploughHelper.facade.IFieldFacade;
 import com.dasinong.ploughHelper.model.User;
-import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
-
 
 
 @Controller
 public class FieldController {
 	private static final Logger logger = LoggerFactory.getLogger(Test1Controller.class);
-	
 	
 	@Autowired
 	private ITaskSpecDao taskSpecDao;
@@ -43,24 +39,43 @@ public class FieldController {
 			result.put("message","用户尚未登陆");
 			return result;
 		}
-	    IFieldDao fd = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
-	   
-	    try {
-			FieldParser fieldp = new FieldParser(request);
-			Field f = fieldp.getField();
-			f.setUser(user);
-			fd.save(f);
-			user.getFields().add(f);
-			FieldWrapper fw = new FieldWrapper(f,taskSpecDao);
-			result.put("respCode", 200);
-			result.put("message", "添加田地成功");
-			result.put("data",fw);
-			return result;
-		} catch (Exception e) {
-			result.put("respCode",500);
-			result.put("message", e.getCause());
+	    
+		String fieldName; 
+        Date startDate;
+        
+        
+    	boolean isActive;
+       	boolean seedingortransplant;
+       	double area;
+       	long locationId;
+       	long varietyId;
+       	long currentStageId;
+       	
+		try{
+			fieldName =  request.getParameter("fieldName");
+			isActive =  Boolean.parseBoolean(request.getParameter("isActive"));
+			seedingortransplant = Boolean.parseBoolean(request.getParameter("seedingortransplant"));
+			area = Double.parseDouble(request.getParameter("area"));
+			try{
+				startDate = new Date(Long.parseLong(request.getParameter("startDate")));
+			}
+			catch(Exception e){
+				startDate = new Date(request.getParameter("startDate"));
+			}
+			
+			locationId = Long.parseLong(request.getParameter("locationId"));
+		    varietyId =  Long.parseLong(request.getParameter("varietyId"));
+            currentStageId = Long.parseLong(request.getParameter("currentStageID"));
+		}
+		catch(Exception e){
+	    	result.put("respCode",300);
+			result.put("message","参数错误");
 			return result;
 		}
+  	    
+	    IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");
+		return ff.createField(user, fieldName,startDate,isActive,seedingortransplant,area,locationId,varietyId,currentStageId);
+
 	}
 	
 	

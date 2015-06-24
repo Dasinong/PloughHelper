@@ -61,6 +61,21 @@ public class AllLocation {
 	}
 	private HashMap<Integer,MonitorLocation> _allLocation;
 	
+	public int getNearest(double lat,double lon){
+		MonitorLocation target = null;
+		double minDis =100;
+		Iterator iter= _allLocation.entrySet().iterator();
+		while(iter.hasNext()){
+			Map.Entry<Integer,MonitorLocation> entry = (Map.Entry<Integer,MonitorLocation>) iter.next();
+			MonitorLocation ml = entry.getValue();
+			if ((ml.latitude-lat)*(ml.latitude-lat) +(ml.longitude-lon)*(ml.longitude-lon)<minDis){
+				minDis = (ml.latitude-lat)*(ml.latitude-lat) +(ml.longitude-lon)*(ml.longitude-lon);
+				target = ml;
+			}
+		}
+		return target.code;
+	}
+	
 	public static void main(String[] args) throws IOException{
 		
 		Iterator iter= AllLocation.getLocation()._allLocation.entrySet().iterator();
@@ -69,6 +84,8 @@ public class AllLocation {
 			System.out.print(entry.getKey()+": ");
 			System.out.println(entry.getValue());
 		}
+		
+		System.out.print(AllLocation.getLocation().getNearest(39,116));
 	}
 			   
 }

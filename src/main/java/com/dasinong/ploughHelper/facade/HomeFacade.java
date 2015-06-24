@@ -1,6 +1,8 @@
 package com.dasinong.ploughHelper.facade;
 
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
@@ -13,6 +15,7 @@ import com.dasinong.ploughHelper.model.SoilTestReport;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
 import com.dasinong.ploughHelper.outputWrapper.SoilTestReportWrapper;
+import com.dasinong.ploughHelper.util.LunarHelper;
 
 @Transactional
 public class HomeFacade implements IHomeFacade {
@@ -41,13 +44,26 @@ public class HomeFacade implements IHomeFacade {
 			return result;
 		}
 		
-		
 		HashMap<String,Long> fieldList = new HashMap<String,Long>();
 		for (Field f: user.getFields()){
 			fieldList.put(f.getFieldName(),f.getFieldId());
 		}
 		result.put("fieldList",fieldList);
 
+		Calendar today = Calendar.getInstance();
+		Map<String,String> date = new HashMap<String,String>();
+		date.put("date", ""+today.getTime().getDate());
+		date.put("day", ""+today.getTime().getDay());
+		LunarHelper lh = new LunarHelper(today);
+		String jieqi = lh.getJieQi();
+		if (jieqi.equals("")){
+			date.put("lunar", lh.getDay());
+		}
+		else{
+			date.put("lunar", jieqi);
+		}
+		
+		result.put("date", date);
 		
 		if (fieldId==null || fieldId.equals("")){
 			result.put("respCode", 200);
@@ -64,8 +80,10 @@ public class HomeFacade implements IHomeFacade {
 					latest =str.soilTestReportId;
 				}
 			}
-			SoilTestReportWrapper strw = new SoilTestReportWrapper(latestR);
-			result.put("latestReport", strw);
+			if (latestR!=null){
+				SoilTestReportWrapper strw = new SoilTestReportWrapper(latestR);
+				result.put("latestReport", strw);
+			}
 			return result;
 		}
 		else{
@@ -89,12 +107,12 @@ public class HomeFacade implements IHomeFacade {
 						latest =str.soilTestReportId;
 					}
 				}
-				
-				SoilTestReportWrapper strw = new SoilTestReportWrapper(latestR);
-				result.put("latestReport", strw);
+				if (latestR!=null){
+					SoilTestReportWrapper strw = new SoilTestReportWrapper(latestR);
+					result.put("latestReport", strw);
+				}
 				return result;
 			}
 		}
 	}
-	
 }

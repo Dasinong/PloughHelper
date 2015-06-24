@@ -26,7 +26,9 @@ public class MonitorLocation {
 		super();
 		try{
 		this.city = city;
-		this.postCode = Integer.parseInt(postCode);
+		if (postCode!=null && !postCode.equals("")){
+			this.postCode = Integer.parseInt(postCode);
+		}
 		this.cityDetial = cityDetail;
 		this.latitude = Double.parseDouble(latitude);
 		this.longitude = Double.parseDouble(longitude);

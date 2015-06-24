@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;    
 import java.util.Calendar;    
 import java.util.Date;    
+import java.util.HashMap;
+import java.util.Map;
     
 public class LunarHelper {    
 	private int syear;
@@ -186,7 +188,10 @@ public class LunarHelper {
     
     public String toString() {    
         return year + "年" + (leap ? "闰" : "") + chineseNumber[month - 1] + "月" + getChinaDayString(day);    
-    }    
+    }   
+    public String getDay() {
+    	return getChinaDayString(day);
+    }
     
     public String getFestival(){
     	if (month==1 && day==1) return "春节";
@@ -277,5 +282,22 @@ public class LunarHelper {
         System.out.println("北京时间：" + chineseDateFormat.format(today.getTime()) + "　农历" + lunar);  
         System.out.println(lunar.getFestival());
         System.out.println(lunar.getJieQi());
+        
+        
+
+		today = Calendar.getInstance();
+		Map<String,String> date = new HashMap<String,String>();
+		date.put("date", ""+today.getTime().getDate());
+		date.put("day", ""+today.getTime().getDay());
+		LunarHelper lh = new LunarHelper(today);
+		String jieqi = lh.getJieQi();
+		if (jieqi.equals("")){
+			date.put("lunar", lh.getDay());
+		}
+		else{
+			date.put("lunar", jieqi);
+		}
+		int i=1;
+		i++;
     }    
 } 

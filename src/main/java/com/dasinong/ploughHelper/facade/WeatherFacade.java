@@ -2,7 +2,9 @@ package com.dasinong.ploughHelper.facade;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -22,12 +24,13 @@ public class WeatherFacade {
 		GetLiveWeather glw = new GetLiveWeather(areaId.toString());
 		result.put("current", glw.getLiveWeather());
 		if (All24h.get24h().get24h(areaId)!=null){
-			result.put("12h", All24h.get24h().get24h(areaId).info);
+			result.put("n12h", All24h.get24h().get24h(areaId).info);
 		}
 		
 		if (All7d.getAll7d().get7d(areaId)!=null){
-			result.put("7d", All7d.getAll7d().get7d(areaId).aggregateData);
+			result.put("n7d", All7d.getAll7d().get7d(areaId).aggregateData);
 		}
+		
 		return result;
 		
 	}

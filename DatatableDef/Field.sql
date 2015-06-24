@@ -5,6 +5,7 @@ CREATE TABLE field (
   isActive TINYINT(1) DEFAULT 1,
   UNIQUE KEY UNI_FIELDNAME (fieldName),
   varietyId int(10) unsigned not null,
+  monitorLocationId int(10) not null default -1,
   KEY FK_TRANSACTION_VARIETY_ID (varietyId),
   CONSTRAINT FK_TRANSACTION_VARIETY_ID FOREIGN KEY (varietyId)
   REFERENCES variety (varietyId) ON DELETE CASCADE ON UPDATE CASCADE,
