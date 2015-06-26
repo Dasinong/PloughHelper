@@ -28,6 +28,7 @@ import com.dasinong.ploughHelper.facade.ISoilFacade;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Task;
 import com.dasinong.ploughHelper.model.User;
+import com.dasinong.ploughHelper.modelTran.LaoNong;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
 
 
@@ -138,11 +139,9 @@ private static final Logger logger = LoggerFactory.getLogger(Test1Controller.cla
 			result.put("message","用户尚未登陆");
 			return result;
 		}
-		HashMap<String,String> duanzi = new HashMap<String,String>();
-		duanzi.put("id", "1");
-		duanzi.put("title", "一个大学而已");
-		duanzi.put("content", "高考成绩不理想真无所谓，你奋斗过，努力过，拼搏过，就不必太在乎结果。考的分低，不说明你蠢，但为此离家出走、自残自杀，就是蠢了。高考，只是一段分数、一个大学而已，命运哪能让它决定？傻逼的人生觉得分低无法解释，彪悍的人生是再考一次！ ");
-
+		
+		LaoNong duanzi = new LaoNong();
+		
 		result.put("respcode", 200);
 		result.put("message", "获取段子成功");
 		result.put("data",duanzi);

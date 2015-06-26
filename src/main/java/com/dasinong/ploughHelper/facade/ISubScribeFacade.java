@@ -25,4 +25,9 @@ public interface ISubScribeFacade {
 
 	public abstract Object deleteSubScribeList(Long id);
 
+	public abstract Object updateSubScribeList(Long id, User user,
+			String targetName, String cellphone, String province, String city,
+			String country, String district, double area, String cropName,
+			boolean isAgriWeather, boolean isNatAlter, boolean isRiceHelper);
+
 }

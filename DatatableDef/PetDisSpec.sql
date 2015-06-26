@@ -12,12 +12,13 @@ CREATE TABLE  petDisSpec (
   preventionorRemedy VARCHAR(10),
   indvidualorGroup VARCHAR(10),
   impactedArea VARCHAR(50),
-  color VARCHAR(2000),
-  shape VARCHAR(2000),
+  color VARCHAR(20),
+  shape VARCHAR(20),
   description TEXT,
   sympthon TEXT,
   forms TEXT,
   habits TEXT,
   rules TEXT,
-  pictureIds VARCHAR(2000)
+  pictureIds VARCHAR(20),
+  region VARCHAR(20)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;

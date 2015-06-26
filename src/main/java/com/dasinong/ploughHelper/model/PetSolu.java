@@ -19,6 +19,7 @@ public class PetSolu implements Serializable{
 	private boolean isRemedy = true; //true for cure, false for prevent
 	private boolean isCPSolu = true;
 	private int rank = 0;
+	private String subStageId;
 	
 	public PetSolu(String petSoluDes, PetDisSpec petDisSpec, boolean isRemedy,
 			boolean isCPSolu) {
@@ -91,5 +92,13 @@ public class PetSolu implements Serializable{
 
 	public void setProvidedBy(String providedBy) {
 		this.providedBy = providedBy;
+	}
+
+	public String getSubStageId() {
+		return subStageId;
+	}
+
+	public void setSubStageId(String subStageId) {
+		this.subStageId = subStageId;
 	}
 }

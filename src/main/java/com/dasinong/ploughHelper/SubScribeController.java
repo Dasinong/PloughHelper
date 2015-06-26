@@ -67,8 +67,16 @@ public class SubScribeController {
 	    }
 		try{
 			ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
-			return ssf.insertSubScribeList(user, targetName, cellphone, province, city, country, 
+			try{
+				cropId = Long.parseLong(cropName);
+				return ssf.insertSubScribeList(user, targetName, cellphone, province, city, country, 
+						district, area, cropId, isAgriWeather, isNatAlter, isRiceHelper);
+			}
+			catch (Exception e){
+				return ssf.insertSubScribeList(user, targetName, cellphone, province, city, country, 
 						district, area, cropName, isAgriWeather, isNatAlter, isRiceHelper);
+			}
+			
 		}catch(Exception e){
 			result.put("respCode", 500);
 			result.put("message", e.getCause());
@@ -129,7 +137,8 @@ public class SubScribeController {
 		}
 	}
 	
-	@RequestMapping(value = "/upateSubScribeList", produces="application/json")
+	
+	@RequestMapping(value = "/updateSubScribeList", produces="application/json")
 	@ResponseBody
 	public Object updateSubScribeList(HttpServletRequest request, HttpServletResponse response) {
 
@@ -149,6 +158,7 @@ public class SubScribeController {
 		String district;
 		double area;
 		Long cropId;
+		String cropName;
 		boolean isAgriWeather;
 		boolean isNatAlter;
 		boolean isRiceHelper;
@@ -161,7 +171,7 @@ public class SubScribeController {
 			country =  request.getParameter("country");
 			district =  request.getParameter("district");
 			area =  Double.parseDouble(request.getParameter("area"));
-			cropId =  Long.parseLong(request.getParameter("cropId"));
+			cropName =  request.getParameter("cropId");
 			isAgriWeather =  Boolean.parseBoolean(request.getParameter("isAgriWeather"));
 			isNatAlter =  Boolean.parseBoolean(request.getParameter("isNatAlter"));
 			isRiceHelper =  Boolean.parseBoolean(request.getParameter("isRiceHelper"));
@@ -174,8 +184,14 @@ public class SubScribeController {
 		
 		try{
 			ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
-			return ssf.updateSubScribeList(id, user, targetName, cellphone, province, city, country,
-					district, area, cropId, isAgriWeather, isNatAlter, isRiceHelper);
+			try{
+				cropId = Long.parseLong(cropName);
+				return ssf.updateSubScribeList(id, user, targetName, cellphone, province, city, country,
+						district, area, cropId, isAgriWeather, isNatAlter, isRiceHelper);
+			}catch(Exception e){
+				return ssf.updateSubScribeList(id, user, targetName, cellphone, province, city, country,
+					district, area, cropName, isAgriWeather, isNatAlter, isRiceHelper);
+			}
 		}catch(Exception e){
 			result.put("respCode", 500);
 			result.put("message", e.getCause());

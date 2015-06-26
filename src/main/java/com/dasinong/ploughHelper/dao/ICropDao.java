@@ -12,4 +12,6 @@ public interface ICropDao {
 
 	public abstract Crop findByCropName(String cropName);
 
+	Crop findById(Long id);
+
 }

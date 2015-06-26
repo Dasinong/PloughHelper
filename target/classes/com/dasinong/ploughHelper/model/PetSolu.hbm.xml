@@ -32,5 +32,8 @@
         <property name="rank" type="int">
             <column name="rank" />
         </property>
+        <property name="subStageId" type="string">
+            <column name="subStageId" length="50" />
+        </property>
     </class>
 </hibernate-mapping>

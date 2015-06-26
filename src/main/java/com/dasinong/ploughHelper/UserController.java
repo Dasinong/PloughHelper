@@ -2,7 +2,9 @@ package com.dasinong.ploughHelper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -390,11 +392,14 @@ public class UserController {
 				}
 				
 				String filePath = request.getSession().getServletContext().getRealPath("/");
-				String fileName = user.getCellPhone()+"."+ext;
+				Random rnd = new Random();
+				String fileName = user.getCellPhone()+rnd.nextInt(9999)+"."+ext;
 				System.out.println(filePath +"../avater/" +fileName);
 				File dest = new File(filePath+"../avater/"+fileName);
 				imgFile.transferTo(dest);
 				user.setPictureId(fileName);
+				IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+				userdao.update(user);
 			}
 			result.put("respCode", 200);
 			result.put("message","上传成功");

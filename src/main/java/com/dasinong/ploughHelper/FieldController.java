@@ -1,5 +1,8 @@
 package com.dasinong.ploughHelper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +52,8 @@ public class FieldController {
        	double area;
        	long locationId;
        	long varietyId;
-       	long currentStageId;
+       	String currentStageId;
+       	String yield;
        	
 		try{
 			fieldName =  request.getParameter("fieldName");
@@ -65,7 +69,9 @@ public class FieldController {
 			
 			locationId = Long.parseLong(request.getParameter("locationId"));
 		    varietyId =  Long.parseLong(request.getParameter("varietyId"));
-            currentStageId = Long.parseLong(request.getParameter("currentStageID"));
+            currentStageId = request.getParameter("currentStageId");
+            yield = request.getParameter("yield");
+            
 		}
 		catch(Exception e){
 	    	result.put("respCode",300);
@@ -74,7 +80,7 @@ public class FieldController {
 		}
   	    
 	    IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");
-		return ff.createField(user, fieldName,startDate,isActive,seedingortransplant,area,locationId,varietyId,currentStageId);
+		return ff.createField(user, fieldName,startDate,isActive,seedingortransplant,area,locationId,varietyId,currentStageId,yield);
 
 	}
 	
@@ -92,15 +98,32 @@ public class FieldController {
 	    
 		try{
 			Random ma = new Random();
+			Calendar ccal = Calendar.getInstance();
+			Calendar scal = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			scal.setTime(sdf.parse("20150601"));
+			int difference  = scal.compareTo(ccal);
 			result.put("respCode", 200);
 			result.put("message", "附近农户数");
 			result.put("data", ma.nextInt(200));
 			return result;
 		} catch (Exception e) {
+			
 			result.put("respCode",500);
 			result.put("message", e.getCause());
 			return result;
 		}
+	}
+	
+	public static void main(String[] args) throws ParseException{
+		/*
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		//Date cdate = new Date();
+		Date odate = new Date();
+		scal.setTime(sdf.parse("20150601"));
+		int difference  = scal.compareTo(ccal);
+		System.out.println(difference);
+		*/
 	}
 		
 }

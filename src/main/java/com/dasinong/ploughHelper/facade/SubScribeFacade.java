@@ -77,6 +77,10 @@ public class SubScribeFacade implements ISubScribeFacade {
 		subScribeListDao = (ISubScribeListDao) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeListDao");
 
 		SubScribeList ssl = subScribeListDao.findById(id);
+		cropDao = (ICropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+		Crop crop = cropDao.findById(ssl.getCropId());
+				
+		ssl.setCropName(crop.getCropName());
 
 		result.put("respCode", 200);
     	result.put("message", "获得列表成功");
@@ -141,11 +145,47 @@ public class SubScribeFacade implements ISubScribeFacade {
 		Crop crop = cropDao.findByCropName(cropName);
     	SubScribeList ssb = new SubScribeList(user.getUserId(),targetName,cellphone,province,city,country,
     			district,area,crop.getCropId(),isAgriWeather,isNatAlter,isRiceHelper);
+    	ssb.setCropName(cropName);
     	subScribeListDao = (ISubScribeListDao) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeListDao");
     	subScribeListDao.save(ssb);
     	
     	result.put("respCode", 200);
     	result.put("message", "插入成功");
+    	return result;
+	}
+
+	@Override
+	public Object updateSubScribeList(Long id, User user, String targetName,
+			String cellphone, String province, String city, String country,
+			String district, double area, String cropName,
+			boolean isAgriWeather, boolean isNatAlter, boolean isRiceHelper) {
+		
+		cropDao = (ICropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
+		Crop crop = cropDao.findByCropName(cropName);
+		
+		HashMap<String,Object> result  = new HashMap<String,Object>();
+    	subScribeListDao = (ISubScribeListDao) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeListDao");
+    	SubScribeList ssl = subScribeListDao.findById(id);
+    	
+    	
+    	ssl.setOwnerId(user.getUserId());
+    	ssl.setTargetName(targetName);
+    	ssl.setCellphone(cellphone);
+    	ssl.setProvince(province);
+    	ssl.setCity(city);
+    	ssl.setCountry(country);
+    	ssl.setDistrict(district);
+    	ssl.setArea(area);
+    	ssl.setCropId(crop.getCropId());
+    	ssl.setCropName(cropName);
+    	ssl.setIsAgriWeather(isAgriWeather);
+    	ssl.setIsNatAler(isNatAlter);
+    	ssl.setIsRiceHelper(isRiceHelper);
+    	subScribeListDao.update(ssl);
+    	
+    	result.put("respCode", 200);
+    	result.put("message", "更新成功");
+    	result.put("data", ssl);
     	return result;
 	}
 }

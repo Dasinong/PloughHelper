@@ -38,7 +38,7 @@ public class FieldFacade implements IFieldFacade {
 	@Override
 	public Object createField(User user, String fieldName, Date startDate,
 			boolean isActive, boolean seedingortransplant, double area,
-			long locationId, long varietyId, long currentStageId) {
+			long locationId, long varietyId, String currentStageId,String yield) {
 		fd = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		ldDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
 		varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
@@ -53,8 +53,19 @@ public class FieldFacade implements IFieldFacade {
 	          	Exception e = new Exception("locationId或varietyId无效");
 	           	throw e;
 	         }
-	         if (currentStageId == 0L){
-	        	 currentStageId = variety.getSubStages().iterator().next().getSubStageId();
+	         Long csid; 
+	         Long yie;
+	         if (currentStageId == null || currentStageId.equalsIgnoreCase("")){
+	        	 csid = variety.getSubStages().iterator().next().getSubStageId();
+	         }
+	         else{
+	        	 csid = Long.parseLong(currentStageId);
+	         }
+	         if (yield == null || yield.equalsIgnoreCase("")){
+	        	 yie = 0L;
+	         }
+	         else{
+	        	 yie = Long.parseLong(currentStageId);
 	         }
 	         Field field = new Field();
 	         field.setFieldName(fieldName);
@@ -64,8 +75,9 @@ public class FieldFacade implements IFieldFacade {
 	         field.setStartDate(startDate);
 	         field.setLocation(location);
 	         field.setVariety(variety);
-	         field.setCurrentStageID(currentStageId);
-	         field.setUser(user);    
+	         field.setCurrentStageID(csid);
+	         field.setUser(user);   
+	         field.setYield(yie);
 	         
 	         double lat = location.getLatitude();
 	         double lon = location.getLongtitude();

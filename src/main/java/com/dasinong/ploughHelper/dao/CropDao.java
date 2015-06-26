@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.Crop;
+import com.dasinong.ploughHelper.model.Field;
 
 public class CropDao extends HibernateDaoSupport implements ICropDao{
 	/* (non-Javadoc)
@@ -44,6 +45,11 @@ public class CropDao extends HibernateDaoSupport implements ICropDao{
 			return null;
 		}
 		return (Crop) list.get(0);
+	}
+	
+	@Override
+	public Crop findById(Long id) {
+		return (Crop) this.getHibernateTemplate().get(Crop.class,id);
 	}
 	
 }

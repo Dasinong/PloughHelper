@@ -29,6 +29,8 @@ public class FieldWrapper implements Serializable{
 	private Date startDate;
 	private Date endDate;
 	private long yield;
+	private boolean workable;
+	private boolean sprayable;
 	
 	public FieldWrapper(Field field, ITaskSpecDao taskSpecDao){
 		this.setFieldId(field.getFieldId());
@@ -57,6 +59,8 @@ public class FieldWrapper implements Serializable{
 		this.startDate = (field.getStartDate()==null)?null:field.getStartDate();
 		this.endDate = (field.getEndDate()==null)?null:field.getEndDate();
 		this.setYield(field.getYield());
+		this.setWorkable(field.isWorkable());
+		this.setSprayable(field.isSprayable());
 	}
 
 	public Long getFieldId() {
@@ -169,6 +173,22 @@ public class FieldWrapper implements Serializable{
 
 	public void setMonitorLocationId(int monitorLocationId) {
 		this.monitorLocationId = monitorLocationId;
+	}
+
+	public boolean isWorkable() {
+		return workable;
+	}
+
+	public void setWorkable(boolean workable) {
+		this.workable = workable;
+	}
+
+	public boolean isSprayable() {
+		return sprayable;
+	}
+
+	public void setSprayable(boolean sprayable) {
+		this.sprayable = sprayable;
 	}
 
 	

@@ -20,6 +20,7 @@ public class SubScribeList implements Serializable{
 	private boolean isAgriWeather;
 	private boolean isNatAler;
 	private boolean isRiceHelper;
+	private String cropName;
 	
 	public SubScribeList(){};
 	
@@ -124,6 +125,16 @@ public class SubScribeList implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+
+	public String getCropName() {
+		return cropName;
+	}
+
+
+	public void setCropName(String cropName) {
+		this.cropName = cropName;
 	}
 	
 	

@@ -29,6 +29,9 @@ public class Field implements Serializable{
 	
 	private double area; //in mu
 	private boolean seedortrans;
+	
+	private boolean workable;
+	private boolean sprayable;
 
 	//MonitorLocationID
     //SoilType	SoilN	SoilK	SoilP	SoilOrganic	SoilPH	SoilS	SoilMg	SoilCa	SoilFe	SoilMo	SoilB	SoilMn	Soilzn	SoilCu	SoilCI	
@@ -144,6 +147,18 @@ public class Field implements Serializable{
 	}
 	public void setMonitorLocationId(int monitorLocationId) {
 		this.monitorLocationId = monitorLocationId;
+	}
+	public boolean isWorkable() {
+		return workable;
+	}
+	public void setWorkable(boolean workable) {
+		this.workable = workable;
+	}
+	public boolean isSprayable() {
+		return sprayable;
+	}
+	public void setSprayable(boolean sprayable) {
+		this.sprayable = sprayable;
 	}
 
 }

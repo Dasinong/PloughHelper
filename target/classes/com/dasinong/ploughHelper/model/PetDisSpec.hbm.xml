@@ -83,6 +83,9 @@
         </property>     
         <property name="pictureIds" type="string">
             <column name="pictureIds" length="2000"/>
-        </property>      
+        </property>     
+        <property name="region" type="string">
+            <column name="region" length="20"/>
+        </property>
     </class>
 </hibernate-mapping>

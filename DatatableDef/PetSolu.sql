@@ -9,5 +9,6 @@ CREATE TABLE petSolu (
   providedBy VARCHAR(50),
   isRemedy TINYINT(1) DEFAULT 1,
   isCPSolu TINYINT(1) DEFAULT 1,
-  rank int(4)
+  rank int(4),
+  subStageId varchar(50)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;

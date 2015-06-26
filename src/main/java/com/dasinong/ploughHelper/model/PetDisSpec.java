@@ -33,6 +33,7 @@ public class PetDisSpec implements Serializable{
 	private String habits = "";
 	private String rules = "";
 	private String pictureIds = "";
+	private String region;
 	
 	public PetDisSpec(){}
 	
@@ -197,6 +198,14 @@ public class PetDisSpec implements Serializable{
 	}
 	public void setCropName(String cropName) {
 		this.cropName = cropName;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
 	}
 	
 	

@@ -59,7 +59,7 @@ public class AllLocation {
 		br.close();
 		fr.close();
 	}
-	private HashMap<Integer,MonitorLocation> _allLocation;
+	public HashMap<Integer,MonitorLocation> _allLocation;
 	
 	public int getNearest(double lat,double lon){
 		MonitorLocation target = null;

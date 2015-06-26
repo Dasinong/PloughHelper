@@ -1,15 +1,22 @@
 package com.dasinong.ploughHelper.util;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.TextField;
+import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -30,13 +37,18 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Statement;
+
 public class FullTextSearch {
 	private final int NUM = 30; // max search result items
 	private final int HIGHLIGHT_LEN = 20; // highlight content length
 	private SimpleHTMLFormatter highlightFormatter;
 	private String path;
+	private String tableName;
 	
-	public FullTextSearch(String path){
+	public FullTextSearch(String tableName, String path){
+		this.tableName = tableName;
 		this.path = path;
 		this.highlightFormatter = null;
 	}
@@ -60,17 +72,54 @@ public class FullTextSearch {
 		}
 		
 		try {
-			Document doc1 = new Document();
-			doc1.add(new TextField("title", "水稻种植", Store.YES));
-			doc1.add(new TextField("content", "水稻是一种粮食，因为数据立方体和量化属性都可以利用概念分层。第二，可以挖掘量化关联规则，其中量化属性根据分箱和/或聚类动态离散化，“邻近的”关联规则可以用聚类合并，产生更简洁、更有意义的规则。基于约束的规则挖掘允许用户通过提供元规则（即模式模板）和其他挖掘约束对规则搜索聚焦。这种挖掘推动了说明性数据挖掘查询语言和用户界面的使用，并对挖掘查询优化提出了巨大挑战。规则约束可以分为五类：反单调的、单调的、简洁的、可转变的和不可转变的。前四类约束可以在频繁项集挖掘中使用，使挖掘更有功效，更有效率。没有进一步分析或领域知识，关联规则不应该直接用于预测。它们不必指示因果关系。然而，对于进一步探查，它们是有帮助的切入点，使得它们成为理解数据的流行工具。流数据不断地在计算机系统中流进流出并且具有变化的更新速度，涉及数据流的应用非常广泛。大纲提供数据流的汇总，通常用来返回查询的近似解答。随机抽样、滑动窗口、直方图、多分辨", Store.YES));
-			iwriter.addDocument(doc1);
 			
-			Document doc2 = new Document();
-			doc2.add(new TextField("title", "小麦栽培", Store.YES));
-			doc2.add(new TextField("content", "小麦是一种粮食，它和水稻不一样", Store.YES));
-			iwriter.addDocument(doc2);
+			
+			Connection con = null;
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			con = (Connection) DriverManager.getConnection("jdbc:MySQL://182.254.129.101:3306/ploughHelper?useUnicode=true&characterEncoding=UTF-8", "root", "weather123");
+			Statement stmt; 
+            stmt = (Statement) con.createStatement();
+            String selectSql = "SELECT * FROM variety";
+            ResultSet res = stmt.executeQuery(selectSql);
+            while (res.next()) { 
+            	Document doc = new Document();
+            	
+                String varietyId = res.getString("varietyId");
+                FieldType ft = new FieldType();
+            	ft.setIndexed(false);
+            	ft.setStored(true);
+            	ft.setTokenized(false);
+                doc.add(new Field("varietyId", varietyId, ft)); //id only need to store, no index, no 分词
+                String varietyName = res.getString("varietyName") == null ? "" : res.getString("varietyName");
+                doc.add(new TextField("varietyName", varietyName, Store.YES));
+                String subId = res.getString("subId") == null ? "" : res.getString("subId");
+                doc.add(new TextField("subId", subId, Store.YES));
+                String registerationId = res.getString("registerationId") == null ? "" : res.getString("registerationId");
+                doc.add(new TextField("registerationId", registerationId, Store.YES));
+                String varietySource = res.getString("varietySource") == null ? "" : res.getString("varietySource");
+                doc.add(new TextField("varietySource", varietySource, Store.YES));
+                String characteristics = res.getString("characteristics") == null ? "" : res.getString("characteristics");
+                doc.add(new TextField("characteristics", characteristics, Store.YES));
+                String yieldPerformance = res.getString("yieldPerformance") == null ? "" : res.getString("yieldPerformance");
+                doc.add(new TextField("yieldPerformance", yieldPerformance, Store.YES));
+                String suitableArea = res.getString("suitableArea") == null ? "" : res.getString("suitableArea");
+                doc.add(new TextField("suitableArea", suitableArea, Store.YES));
+                iwriter.addDocument(doc);
+            }		
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("create index failed");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -107,12 +156,15 @@ public class FullTextSearch {
 		Query query = qp.parse(keyword);
 		
 		TopDocs topDocs = isearcher.search(query, NUM);
+		
 		ScoreDoc[] scoreDocs = topDocs.scoreDocs;
-		for(int i = 0; i < topDocs.totalHits; i++){
+		for(int i = 0; i < scoreDocs.length; i++){
 			Document targetDoc = isearcher.doc(scoreDocs[i].doc);
 			result[i] = new HashMap();
 			for(int j = 0; j < resultFields.length; j++){
-				if(this.highlightFormatter != null){
+				if(resultFields[j].equals(this.tableName + "Id") || resultFields[j].equals(this.tableName + "Name")){
+					result[i].put(resultFields[j], targetDoc.get(resultFields[j]));
+				}else if(this.highlightFormatter != null){
 					Highlighter highlighter = new Highlighter(this.highlightFormatter, new QueryScorer(query));
 					highlighter.setTextFragmenter(new SimpleFragmenter(HIGHLIGHT_LEN));
 					TokenStream tokenStream1 = analyzer.tokenStream(resultFields[j], new StringReader(targetDoc.get(resultFields[j])));
@@ -135,13 +187,19 @@ public class FullTextSearch {
 	}
 
 	public static void main(String args[]){
-		FullTextSearch bs = new FullTextSearch("E:/index");
+		FullTextSearch bs = null;
+		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+		     bs = new FullTextSearch("variety","E:/git/PloughHelper/src/main/java/resources/varietyIndex");
+		}
+		else{
+			
+		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
-		//bs.createIndex(); // only need create index once
-		String[] a = {"title", "content"};
-		String[] b = {"title", "content"};
+		bs.createIndex(); // only need create index once
+		String[] a = {"varietyName", "varietySource"};
+		String[] b = {"varietyName", "varietyId", "varietySource"};
 		try {
-			HashMap[] h = bs.search("粮食", a, b);
+			HashMap[] h = bs.search("玉米", a, b);
 			System.out.println(h.length);
 			for(int k = 0; k < h.length; k++){
 				if(h[k] == null){

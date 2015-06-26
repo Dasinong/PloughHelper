@@ -25,9 +25,9 @@ import com.dasinong.ploughHelper.model.User;
 @Controller
 public class PetDisController {
 	
-	@RequestMapping(value = "/petDisCon", produces="application/json")
+	@RequestMapping(value = "/getPetDisByLocation", produces="application/json")
 	@ResponseBody
-	public Object loadSoilS(HttpServletRequest request, HttpServletResponse response) {
+	public Object getPetDisByLocation(HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) request.getSession().getAttribute("User");
 		Map<String,Object> result = new HashMap<String,Object>();
 		if (user==null){
@@ -35,7 +35,17 @@ public class PetDisController {
 			result.put("message","用户尚未登陆");
 			return result;
 		}
-		ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
+		
+		Long locationId;
+		try{
+			locationId = Long.parseLong(request.getParameter("locationId"));
+		}
+		catch(Exception e){
+			result.put("respCode",300);
+			result.put("message","参数错误");
+			return result;
+		}
+	
 		return result;
 	}
 	
