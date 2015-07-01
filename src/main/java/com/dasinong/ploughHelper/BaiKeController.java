@@ -71,10 +71,12 @@ public class BaiKeController {
 			List<HashMap<String,String>> ill = new ArrayList<HashMap<String,String>>();
 			List<HashMap<String,String>> pest = new ArrayList<HashMap<String,String>>();
 			List<HashMap<String,String>> grass = new ArrayList<HashMap<String,String>>();
-			for (int i=0;i<h.length;i++){
-				if (h[i].get("type").equals("病害")) ill.add(h[i]);
-				if (h[i].get("type").equals("虫害")) pest.add(h[i]);
-				if (h[i].get("type").equals("草害")) grass.add(h[i]);
+			if (h!=null){
+				for (int i=0;i<h.length;i++){
+					if (h[i].get("type").equals("病害")) ill.add(h[i]);
+					if (h[i].get("type").equals("虫害")) pest.add(h[i]);
+					if (h[i].get("type").equals("草害")) grass.add(h[i]);
+				}
 			}
 			content.put("ill",ill);
 			content.put("pest",pest);

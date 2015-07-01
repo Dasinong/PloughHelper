@@ -45,12 +45,12 @@ public class All7dHum {
 		
 		String fullpath="";
 	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-	       	fullpath = "./src/main/java/com/dasinong/ploughHelper/weather/rehumidity_7days_2015061908.csv";
+	       	fullpath = "E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rehumidity_7days_2015061908.csv";
 	    }else{
 	       	Date date = new Date();
 	       	String filename = "";
 	       	SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-	       	if (date.getHours()<12){
+	       	if (date.getHours()<20){
 	       		filename = "rehumidity_7days_"+df.format(date)+"08.csv";
 	       	}
 	       	else{

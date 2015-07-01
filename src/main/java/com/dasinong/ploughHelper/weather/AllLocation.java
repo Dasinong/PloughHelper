@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -36,8 +35,7 @@ public class AllLocation {
 	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
 	       	fullpath = "E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt";
 	    }else{
-	       	Date date = new Date();
-	       	fullpath = "/data/data/monitorLocation";
+	       	fullpath = "/data/data/ftp/monitorLocation";
 	    }
 	    
 		File f = new File(fullpath);

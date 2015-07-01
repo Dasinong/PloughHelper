@@ -100,6 +100,5 @@ public class FieldFacade implements IFieldFacade {
 			result.put("message", e.getCause());
 			return result;
 		}
-
 	}
 }

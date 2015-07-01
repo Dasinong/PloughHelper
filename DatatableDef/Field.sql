@@ -3,7 +3,6 @@ CREATE TABLE field (
   PRIMARY KEY (fieldId) USING BTREE,
   fieldName VARCHAR(30) NOT NULL,
   isActive TINYINT(1) DEFAULT 1,
-  UNIQUE KEY UNI_FIELDNAME (fieldName),
   varietyId int(10) unsigned not null,
   monitorLocationId int(10) not null default -1,
   KEY FK_TRANSACTION_VARIETY_ID (varietyId),

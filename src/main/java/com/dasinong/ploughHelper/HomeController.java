@@ -1,35 +1,26 @@
 package com.dasinong.ploughHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.IFieldDao;
-import com.dasinong.ploughHelper.dao.ITaskSpecDao;
-import com.dasinong.ploughHelper.facade.HomeFacade;
 import com.dasinong.ploughHelper.facade.IHomeFacade;
-import com.dasinong.ploughHelper.facade.ISoilFacade;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Task;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.modelTran.LaoNong;
-import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
+import com.dasinong.ploughHelper.modelTran.Duanzi;
 
 
 @Controller
@@ -140,7 +131,7 @@ private static final Logger logger = LoggerFactory.getLogger(Test1Controller.cla
 			return result;
 		}
 		
-		LaoNong duanzi = new LaoNong();
+		Duanzi duanzi = LaoNong.getDuanzi();
 		
 		result.put("respcode", 200);
 		result.put("message", "获取段子成功");

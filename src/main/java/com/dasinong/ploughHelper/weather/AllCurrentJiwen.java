@@ -48,7 +48,7 @@ public class AllCurrentJiwen {
 		
 		String fullpath="";
 	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-	       	fullpath = "./src/main/java/com/dasinong/ploughHelper/weather/jw_2015-6-17.csv";
+	       	fullpath = "E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/jw_2015-6-17.csv";
 	    }else{
 	       	Date date = new Date();
 	       	String filename = "";

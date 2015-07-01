@@ -26,12 +26,12 @@ public class AllLiveWeather {
 		
 	}
 	private AllLiveWeather() throws IOException, ParseException, InterruptedException{
-		_allLiveWeather = new HashMap<Integer,LiveWeather>();
+		_allLiveWeather = new HashMap<Integer,LiveWeatherData>();
 		loadContent();
 	}
     public void updateContent() throws IOException, ParseException{
-     	HashMap<Integer,LiveWeather> oldLiveWeather = _allLiveWeather;
-    	_allLiveWeather = new HashMap<Integer,LiveWeather>();
+     	HashMap<Integer,LiveWeatherData> oldLiveWeather = _allLiveWeather;
+    	_allLiveWeather = new HashMap<Integer,LiveWeatherData>();
 		try{
 			loadContent();
 		}
@@ -53,16 +53,16 @@ public class AllLiveWeather {
 		for (int i=0;i<3;i++){
 			for(Integer code : tocheck){
 				glw.setAreaId(code.toString());
-				String result = glw.getLiveWeather();
+				LiveWeatherData result = glw.getLiveWeather();
 				
 			}
 			Thread.sleep(1000);
 		}
 		
 	}
-	private HashMap<Integer,LiveWeather> _allLiveWeather;
+	private HashMap<Integer,LiveWeatherData> _allLiveWeather;
 	
-	public LiveWeather getLiveWeather(Integer aid){
+	public LiveWeatherData getLiveWeather(Integer aid){
 		
 		return _allLiveWeather.get(aid);
 	}

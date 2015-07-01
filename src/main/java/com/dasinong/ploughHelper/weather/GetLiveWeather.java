@@ -9,6 +9,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,25 +26,29 @@ public class GetLiveWeather {
 	private static final String short_app_id = "05ac98";
 	private static final String key = "YOLOO_webapi_data_3";
 	private String date;
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
 	private String areaId;
 	
+	public GetLiveWeather(){
+		
+	}
 	public GetLiveWeather(String areaId){
-		this.setAreaId(areaId);
+		this.areaId=areaId;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
 		date = sdf.format(new Date());
 	}
-	
-	public GetLiveWeather(){
-
-	}
-	
 
 	
-	public String getLiveWeather(){
+	public LiveWeatherData getLiveWeather(){
         String result = "";
         BufferedReader in = null;
+        long currentTime = System.currentTimeMillis();
+        
+        //如果上次关于这个地方的天气请求距离这次不到20分钟，那么直接返回缓存的天气数据
+        if (this._liveweatherdata.containsKey(this.areaId) && (currentTime - this._liveweatherdata.get(this.areaId).timeStamp.getTime())<20*60*1000 )
+        	return this._liveweatherdata.get(this.areaId);
+        
 		 try {
-	            URL realUrl = new URL(this.getRealURL());
+            	URL realUrl = new URL(this.getRealURL());	            
 	            // 打开和URL之间的连接
 	            URLConnection connection = realUrl.openConnection();
 	            // 设置通用的请求属性
@@ -63,10 +68,13 @@ public class GetLiveWeather {
 	            in = new BufferedReader(new InputStreamReader(
 	                    connection.getInputStream()));
 	            String line;
+	            result="";
 	            while ((line = in.readLine()) != null) {
 	                result += line;
 	            }
 	            System.out.println(result);
+	            if (result.equals("key error"))
+	            	System.out.println("Error happened with the server when decoding url key!");
 	        } catch (Exception e) {
 	            System.out.println("发送GET请求出现异常！" + e);
 	            e.printStackTrace();
@@ -79,14 +87,34 @@ public class GetLiveWeather {
 	                e2.printStackTrace();
 	            }
 	        }
-	        return result;
+		 
+		 if (result.equals("key error")){
+			 System.out.println("areaID : "+this.areaId);
+			 if (_liveweatherdata.containsKey(this.areaId)){
+				 return _liveweatherdata.get(this.areaId);
+			 } else {
+				 LiveWeatherData initialWeatherData = new LiveWeatherData(this.areaId, 0, 0, 0, 0, "0", "0", "00:00");
+				 _liveweatherdata.put(this.areaId, initialWeatherData);
+				 return initialWeatherData;
+			 }
+		 } else {
+			 LiveWeatherData initialWeatherData = new LiveWeatherData(this.areaId, 0, 0, 0, 0, "0", "0", "00:00");
+			 try {
+				initialWeatherData.parseHTTPResult(this.areaId, result);
+				 _liveweatherdata.put(this.areaId, initialWeatherData);
+			 } catch (Exception e) {
+				 System.out.println("Error happend when processing live weather data!");
+				 e.printStackTrace();
+			 }
+			 return initialWeatherData;
+		 }
 	}
 	
 	
 	
 	public String getRealURL() throws NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException{
 		String result;
-		String urlkey = this.url+"?areaid="+this.getAreaId()+"&type=observe&date="+date+"&appid="+this.app_id;
+		String urlkey = this.url+"?areaid="+this.areaId+"&type=observe&date="+date+"&appid="+this.app_id;
 		System.out.println(urlkey);
 		byte[] skey = this.key.getBytes();
 		SecretKeySpec signingKey = new SecretKeySpec(skey,"HmacSHA1");
@@ -97,24 +125,20 @@ public class GetLiveWeather {
 		
 		String finalkey = new String(encodeBytes,"utf-8");
 		System.out.println(finalkey);
-		result = this.url+"?areaid="+this.getAreaId()+"&type=observe&date="+date+"&appid="+this.short_app_id+"&key="+finalkey;
+		result = this.url+"?areaid="+this.areaId+"&type=observe&date="+date+"&appid="+this.short_app_id+"&key="+finalkey;
 		System.out.println(result);
 		return result;
 	}
 	
-
+	private static HashMap<String,LiveWeatherData> _liveweatherdata = new HashMap<String,LiveWeatherData>();
 		
-	public static void main (String args[]){
+	public static void main (String args[]){	
 		GetLiveWeather gh = new GetLiveWeather("101010100");
-		gh.getLiveWeather();
+		gh.getLiveWeather();		
 	}
-
-	public String getAreaId() {
-		return areaId;
-	}
-
 	public void setAreaId(String areaId) {
-		this.areaId = areaId;
+		this.areaId=areaId;
+		
 	}
 
 }
