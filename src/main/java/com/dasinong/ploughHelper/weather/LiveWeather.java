@@ -28,13 +28,16 @@ public class LiveWeather {
 	
 	public LiveWeather(String input){
 		JSONObject j = new JSONObject(input); 
+		
+		//JSONObject j = new JSONObject(input);
 		JSONObject j2 = j.getJSONObject("observe");
 
 	
 	}
 	
 	public static void main(String args[]){
-		String input = "{\"observe\":{\"101010100\":{\"l\":{\"l1\":\"22\",\"l2\":\"76\",\"l3\":\"1\",\"l4\":\"8\",\"l5\":\"04\",\"l6\":\"0\",\"l6\":\"0.0\",\"l7\":\"00:10\"}}}}";
+		//String input = "{\"observe\":{\"101010100\":{\"l\":{\"l1\":\"22\",\"l2\":\"76\",\"l3\":\"1\",\"l4\":\"8\",\"l5\":\"04\",\"l6\":\"0\",\"l6\":\"0.0\",\"l7\":\"00:10\"}}}}";
+		String input = "{\"a\":\"13\",\"b\":\"test\"}";
 		LiveWeather liveweather = new LiveWeather(input);
 	}
 

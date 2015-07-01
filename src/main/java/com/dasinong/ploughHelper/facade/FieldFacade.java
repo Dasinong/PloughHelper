@@ -65,7 +65,10 @@ public class FieldFacade implements IFieldFacade {
 	        	 yie = 0L;
 	         }
 	         else{
-	        	 yie = Long.parseLong(currentStageId);
+	        	 yie = Long.parseLong(yield);
+	         }
+	         if (fieldName == null || fieldName.equals("")){
+	        	 fieldName = location.getCommunity()+variety.getVarietyName();
 	         }
 	         Field field = new Field();
 	         field.setFieldName(fieldName);

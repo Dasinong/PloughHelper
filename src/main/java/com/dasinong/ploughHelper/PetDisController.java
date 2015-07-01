@@ -52,7 +52,7 @@ public class PetDisController {
 	
 	@RequestMapping(value = "/uploadPetDisPic", produces="application/json")
 	@ResponseBody
-	public Object uploadPet(MultipartHttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException {
+	public Object uploadPetDisPic(MultipartHttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException {
 		User user = (User) request.getSession().getAttribute("User");
 		Map<String,Object> result = new HashMap<String,Object>();
 		if (user==null){
@@ -88,9 +88,22 @@ public class PetDisController {
 				imgFile.transferTo(dest);
 			}
 		}
+		
+		String cropName;
+		String harmType;
+		String harmName;
+		String harmPart;
+		String harmTime;
+		String harmDis;
+		String operation;
+		cropName = request.getParameter("cropName");
+		System.out.println(cropName);
+		
 		result.put("respCode", 200);
 		result.put("message","上传成功");
 	    return result;
 	}
+	
+	
 
 }

@@ -1,14 +1,14 @@
 package com.dasinong.ploughHelper.util;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -58,7 +58,7 @@ public class FullTextSearch {
 		return new IndexWriter(dir, config);
 	}
 	
-	private void createIndex(){
+	public void createVarietyIndex(){
 		Analyzer analyzer = new IKAnalyzer(true);
 		Directory directory = null;
 		IndexWriter iwriter = null;
@@ -83,12 +83,14 @@ public class FullTextSearch {
             ResultSet res = stmt.executeQuery(selectSql);
             while (res.next()) { 
             	Document doc = new Document();
-            	
+
                 String varietyId = res.getString("varietyId");
                 FieldType ft = new FieldType();
             	ft.setIndexed(false);
             	ft.setStored(true);
             	ft.setTokenized(false);
+            	
+
                 doc.add(new Field("varietyId", varietyId, ft)); //id only need to store, no index, no 分词
                 String varietyName = res.getString("varietyName") == null ? "" : res.getString("varietyName");
                 doc.add(new TextField("varietyName", varietyName, Store.YES));
@@ -104,6 +106,98 @@ public class FullTextSearch {
                 doc.add(new TextField("yieldPerformance", yieldPerformance, Store.YES));
                 String suitableArea = res.getString("suitableArea") == null ? "" : res.getString("suitableArea");
                 doc.add(new TextField("suitableArea", suitableArea, Store.YES));
+
+                iwriter.addDocument(doc);
+            }		
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(iwriter != null){
+			try {
+				iwriter.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	public void createPetIndex(){
+		Analyzer analyzer = new IKAnalyzer(true);
+		Directory directory = null;
+		IndexWriter iwriter = null;
+		
+		try {
+			directory = FSDirectory.open(new File(this.path));
+			iwriter = getIndexWriter(directory, analyzer);
+		} catch (IOException e) {
+			System.out.println("open index file failed");
+			e.printStackTrace();
+		}
+		
+		try {
+		
+			Connection con = null;
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			con = (Connection) DriverManager.getConnection("jdbc:MySQL://182.254.129.101:3306/ploughHelper?useUnicode=true&characterEncoding=UTF-8", "root", "weather123");
+			Statement stmt; 
+            stmt = (Statement) con.createStatement();
+            String selectSql = "SELECT * FROM petDisSpec";
+            ResultSet res = stmt.executeQuery(selectSql);
+            while (res.next()) { 
+            	Document doc = new Document();
+ 
+            	 String petDisSpecId = res.getString("petDisSpecId");
+                FieldType ft = new FieldType();
+                ft.setIndexed(false);
+                ft.setStored(true);
+                ft.setTokenized(false);
+                doc.add(new Field("petDisSpecId", petDisSpecId, ft)); //id only need to store, no index, no 分词
+                
+                String petDisSpecName = res.getString("petDisSpecName") == null ? "" : res.getString("petDisSpecName");
+                doc.add(new TextField("petDisSpecName",petDisSpecName, Store.YES));
+                
+                String type = res.getString("type");
+                FieldType typeFt = new FieldType();
+                typeFt.setIndexed(false);
+                typeFt.setStored(true);
+                typeFt.setTokenized(false);
+                doc.add(new Field("type", type, typeFt));
+                
+                String alias = res.getString("alias") == null ? "" : res.getString("alias");
+                doc.add(new TextField("alias", alias, Store.YES));
+                String cropName = res.getString("cropName") == null ? "" : res.getString("cropName");
+                doc.add(new TextField("cropName", cropName, Store.YES));
+                String color = res.getString("color") == null ? "" : res.getString("color");
+                doc.add(new TextField("color", color, Store.YES));
+                String shape = res.getString("shape") == null ? "" : res.getString("shape");
+                doc.add(new TextField("shape", shape, Store.YES));
+                String description = res.getString("description") == null ? "" : res.getString("description");
+                doc.add(new TextField("description", description, Store.YES));
+                String sympthon = res.getString("sympthon") == null ? "" : res.getString("sympthon");
+                doc.add(new TextField("sympthon", sympthon, Store.YES));
+                String forms = res.getString("forms") == null ? "" : res.getString("forms");
+                doc.add(new TextField("forms", forms, Store.YES));
+                String habits = res.getString("habits") == null ? "" : res.getString("habits");
+                doc.add(new TextField("habits", habits, Store.YES));
+                String rules = res.getString("rules") == null ? "" : res.getString("rules");
+                doc.add(new TextField("rules", rules, Store.YES));
+
                 iwriter.addDocument(doc);
             }		
 		} catch (InstantiationException e) {
@@ -189,13 +283,13 @@ public class FullTextSearch {
 	public static void main(String args[]){
 		FullTextSearch bs = null;
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-		     bs = new FullTextSearch("variety","E:/git/PloughHelper/src/main/java/resources/varietyIndex");
+		     bs = new FullTextSearch("variety","E:/index/varietyIndex");
 		}
 		else{
 			
 		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
-		bs.createIndex(); // only need create index once
+		//bs.createVarietyIndex(); // only need create index once
 		String[] a = {"varietyName", "varietySource"};
 		String[] b = {"varietyName", "varietyId", "varietySource"};
 		try {
@@ -209,6 +303,37 @@ public class FullTextSearch {
 			}
 		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+		     bs = new FullTextSearch("petDisSpec","E:/index/petDisSpecIndex");
+		}
+		else{
+			
+		}
+		bs.setHighlighterFormatter("<font color='red'>", "</font>");
+
+
+		HashMap result = new HashMap();
+		String[] resource = {"petDisSpecName", "cropName","description"};
+		String[] content= {"petDisSpecName", "petDisSpecId", "cropName","description","type"};
+		try {
+			HashMap<String,String>[] h = bs.search("玉米", resource, content);
+			List<HashMap<String,String>> ill = new ArrayList<HashMap<String,String>>();
+			List<HashMap<String,String>> pest = new ArrayList<HashMap<String,String>>();
+			List<HashMap<String,String>> grass = new ArrayList<HashMap<String,String>>();
+			for (int i=0;i<h.length;i++){
+				if (h[i].get("type").equals("病害")) ill.add(h[i]);
+				if (h[i].get("type").equals("虫害")) pest.add(h[i]);
+				if (h[i].get("type").equals("草害")) grass.add(h[i]);
+			}
+			result.put("ill",ill);
+			result.put("pest",pest);
+			result.put("grass",grass);
+		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
 			e.printStackTrace();
 		}
 		
