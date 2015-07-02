@@ -15,4 +15,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
  
    <bean id="fieldFacade" class="com.dasinong.ploughHelper.facade.FieldFacade" >
    </bean>
+   
+   <bean id="disasterReportFacade" class="com.dasinong.ploughHelper.facade.DisasterReportFacade" >
+   </bean>
 </beans>

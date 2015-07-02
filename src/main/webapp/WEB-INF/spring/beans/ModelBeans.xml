@@ -64,5 +64,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    <bean id="userPetDisDao" class="com.dasinong.ploughHelper.dao.UserPetDisDao" >
    		<property name="sessionFactory" ref="mySessionFactory"></property>
    </bean>
- 
+	<bean id="disasterReportDao" class="com.dasinong.ploughHelper.dao.DisasterReportDao" >
+		<property name="sessionFactory" ref="mySessionFactory"></property>
+	</bean>
+	
 </beans>

@@ -55,7 +55,7 @@
 			<ref bean="myJobDetail" />
 		</property>
 		<property name="cronExpression">
-			<value>0/120 * * * * ?</value>
+			<value>0 0 0/1 * * ?</value>
 		</property>
 	</bean>
 
@@ -78,7 +78,7 @@
 			<ref bean="myJobDetail1" />
 		</property>
 		<property name="cronExpression">
-			<value>0/30 * * * * ?</value>
+			<value>0 0 0/1 * * ?</value>
 		</property>
 	</bean>
 
@@ -102,7 +102,7 @@
 			<ref bean="myJobDetail2" />
 		</property>
 		<property name="cronExpression">
-			<value>0/10 * * * * ?</value>
+			<value>0 0 0/1 * * ?</value>
 		</property>
 	</bean>
 
@@ -125,7 +125,7 @@
 			<ref bean="myJobDetail3" />
 		</property>
 		<property name="cronExpression">
-			<value>0/15 * * * * ?</value>
+			<value>0 0 0/1 * * ?</value>
 		</property>
 	</bean>
 
@@ -148,7 +148,7 @@
 			<ref bean="myJobDetail4" />
 		</property>
 		<property name="cronExpression">
-			<value>0 0/2 * * * ?</value>
+			<value>0 0 0/1 * * ?</value>
 		</property>
 	</bean>
 
