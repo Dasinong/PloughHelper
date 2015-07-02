@@ -27,6 +27,7 @@ public class GetLiveWeather {
 	private static final String key = "YOLOO_webapi_data_3";
 	private String date;
 	private String areaId;
+	private long lastAccessTime = 0;
 	
 	public GetLiveWeather(){
 		
@@ -138,7 +139,6 @@ public class GetLiveWeather {
 	}
 	public void setAreaId(String areaId) {
 		this.areaId=areaId;
-		
 	}
 
 }
