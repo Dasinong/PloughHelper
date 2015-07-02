@@ -139,7 +139,7 @@
 		</property>
 	</bean>
 	
-	
+	<!--  
 	<bean id="myJob4" class="com.dasinong.ploughHelper.weather.AllCurrentJiwen" />
 
 	<bean id="myJobTrigger4"
@@ -161,6 +161,7 @@
 			<value>updateContent</value>
 		</property>
 	</bean>
+	-->
 	
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

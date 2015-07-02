@@ -38,11 +38,13 @@
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
+			<!--  
 				<ref bean="myJobTrigger" />
 				<ref bean="myJobTrigger1" />
 				<ref bean="myJobTrigger2" />
 				<ref bean="myJobTrigger3" />
 				<ref bean="myJobTrigger4" />
+			-->
 			</list>
 		</property>
 	</bean>
@@ -137,7 +139,7 @@
 		</property>
 	</bean>
 	
-	
+	<!--  
 	<bean id="myJob4" class="com.dasinong.ploughHelper.weather.AllCurrentJiwen" />
 
 	<bean id="myJobTrigger4"
@@ -159,6 +161,7 @@
 			<value>updateContent</value>
 		</property>
 	</bean>
+	-->
 	
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

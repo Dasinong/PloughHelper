@@ -46,11 +46,23 @@ public class BaiKeController {
 		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
 
-		String[] a = {"varietyName", "varietySource"};
-		String[] b = {"varietyName", "varietyId", "varietySource"};
 		try {
-			HashMap[] h = bs.search(key, a, b);
-			content.put("variety", h);
+			String[] source = {"varietyName", "varietySource"};
+			String[] target = {"varietyName", "varietyId", "varietySource"};
+			HashMap<String,String>[] h = bs.search(key, source, target);
+			List<HashMap<String,String>> format = new ArrayList<HashMap<String,String>>();
+			if (h!=null){
+				for(int i=0;i<h.length;i++){
+					if (h[i]!=null){
+						HashMap<String,String> record = new HashMap<String,String>();
+						record.put("id", h[i].get("varietyId"));
+						record.put("name", h[i].get("varietyName"));
+						record.put("source", h[i].get("varietySource"));
+						format.add(record);
+					}
+				}
+			}
+			content.put("variety", format);
 		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
 			e.printStackTrace();
 		}
@@ -64,24 +76,63 @@ public class BaiKeController {
 			bs = new FullTextSearch("petDisSpec","/usr/local/tomcat7/webapps/lucene/petDisSpec");
 		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
-		String[] resource = {"petDisSpecName", "cropName","description"};
-		String[] searchResult= {"petDisSpecName", "petDisSpecId", "cropName","description","type"};
 		try {
-			HashMap<String,String>[] h = bs.search(key, resource, searchResult);
+			String[] source = {"petDisSpecName", "cropName", "sympthon"};
+			String[] target= {"petDisSpecName", "petDisSpecId", "cropName", "sympthon", "type"};
+
+			HashMap<String,String>[] h = bs.search(key, source, target);
 			List<HashMap<String,String>> ill = new ArrayList<HashMap<String,String>>();
 			List<HashMap<String,String>> pest = new ArrayList<HashMap<String,String>>();
 			List<HashMap<String,String>> grass = new ArrayList<HashMap<String,String>>();
 			if (h!=null){
 				for (int i=0;i<h.length;i++){
-					if (h[i].get("type").equals("病害")) ill.add(h[i]);
-					if (h[i].get("type").equals("虫害")) pest.add(h[i]);
-					if (h[i].get("type").equals("草害")) grass.add(h[i]);
+					if (h[i]!=null){
+						HashMap<String,String> record = new HashMap<String,String>();
+						record.put("id", h[i].get("petDisSpecId"));
+						record.put("name",h[i].get("petDisSpecName"));
+						record.put("source",h[i].get("cropName")+" "+h[i].get("sympthon"));
+						if (h[i].get("type").equals("病害")) ill.add(record);
+						if (h[i].get("type").equals("虫害")) pest.add(record);
+						if (h[i].get("type").equals("草害")) grass.add(record);
+					}
 				}
 			}
-			content.put("ill",ill);
+			content.put("disease",ill);
 			content.put("pest",pest);
-			content.put("grass",grass);
+			content.put("weeds",grass);
 		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+		     bs = new FullTextSearch("petDisSpec","E:/index/petCPProductIndex");
+		}
+		else{
+			bs = new FullTextSearch("petDisSpec","/usr/local/tomcat7/webapps/lucene/cPProduct");
+		}
+		bs.setHighlighterFormatter("<font color='red'>", "</font>");
+
+		try {
+			String[] source = {"cPProductName","manufacturer","crop"};
+			String[] target = {"cPProductName", "manufacturer","crop","cPProductId"};
+			HashMap<String,String>[] h = bs.search(key, source, target);
+			List<HashMap<String,String>> format = new ArrayList<HashMap<String,String>>();
+			if (h!=null){
+				for(int i=0;i<h.length;i++){
+					if (h[i]!=null){
+						HashMap<String,String> record = new HashMap<String,String>();
+						record.put("id", h[i].get("cPProductId"));
+						record.put("name", h[i].get("cPProductName"));
+						record.put("source", h[i].get("crop")+" "+h[i].get("manufacturer"));
+						format.add(record);
+					}
+				}
+			}
+			content.put("cpproduct", format);
+		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
@@ -92,9 +143,9 @@ public class BaiKeController {
 	}
 	
 	
-	@RequestMapping(value = "/createIndex", produces="application/json")
+	@RequestMapping(value = "/createVarietyIndex", produces="application/json")
 	@ResponseBody
-	public Object createIndex(HttpServletRequest request, HttpServletResponse response) {
+	public Object createVarietyIndex(HttpServletRequest request, HttpServletResponse response) {
 		FullTextSearch bs = null;
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
 		     bs = new FullTextSearch("variety","E:/index/varietyIndex");
@@ -118,7 +169,15 @@ public class BaiKeController {
 		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
 			e.printStackTrace();
 		}
-	 
+	
+	  return "OK";
+	}
+	
+	
+	@RequestMapping(value = "/createPetDisSpecIndex", produces="application/json")
+	@ResponseBody
+	public Object createPetDisSpecIndex(HttpServletRequest request, HttpServletResponse response) {
+		FullTextSearch bs = null;
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
 		     bs = new FullTextSearch("petDisSpec","E:/index/petDisSpecIndex");
 		}
@@ -127,8 +186,8 @@ public class BaiKeController {
 		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
 		bs.createPetIndex(); // only need create index once
-		String[] resource = {"petDisSpecName", "cropName","description"};
-		String[] result= {"petDisSpecName", "petDisSpecId", "cropName","description","type"};
+		String[] resource = {"petDisSpecName", "cropName","sympthon"};
+		String[] result= {"petDisSpecName", "petDisSpecId", "cropName","sympthon","type"};
 		try {
 			HashMap[] h = bs.search("玉米", resource, result);
 			System.out.println(h.length);
@@ -147,6 +206,35 @@ public class BaiKeController {
 	}
 	
 	
+	@RequestMapping(value = "/createCPProductIndex", produces="application/json")
+	@ResponseBody
+	public Object createCPProductIndex(HttpServletRequest request, HttpServletResponse response) {
+		FullTextSearch bs = null;
+		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+		     bs = new FullTextSearch("petDisSpec","E:/index/petCPProductIndex");
+		}
+		else{
+			bs = new FullTextSearch("petDisSpec","/usr/local/tomcat7/webapps/lucene/cPProduct");
+		}
+		bs.setHighlighterFormatter("<font color='red'>", "</font>");
+		bs.createCPProductIndex(); // only need create index once
+		String[] resource = {"cPProductName","manufacturer","crop"};
+		String[] result = {"cPProductName", "manufacturer","crop","cPProductId"};
+		try {
+			HashMap[] h = bs.search("玉米", resource, result);
+			System.out.println(h.length);
+			for(int k = 0; k < h.length; k++){
+				if(h[k] == null){
+					break;
+				}
+				System.out.println(h[k].toString());
+			}
+		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
+	  return "OK";
+	}
 
 }
