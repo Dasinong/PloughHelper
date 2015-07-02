@@ -3,7 +3,9 @@ package com.dasinong.ploughHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,14 +53,18 @@ public class BaiKeController {
 			String[] target = {"varietyName", "varietyId", "varietySource"};
 			HashMap<String,String>[] h = bs.search(key, source, target);
 			List<HashMap<String,String>> format = new ArrayList<HashMap<String,String>>();
+			Set<Integer> idcheck = new HashSet<Integer>();
 			if (h!=null){
 				for(int i=0;i<h.length;i++){
 					if (h[i]!=null){
-						HashMap<String,String> record = new HashMap<String,String>();
-						record.put("id", h[i].get("varietyId"));
-						record.put("name", h[i].get("varietyName"));
-						record.put("source", h[i].get("varietySource"));
-						format.add(record);
+						if (!idcheck.contains(Integer.parseInt(h[i].get("varietyId")))){
+							idcheck.add(Integer.parseInt(h[i].get("varietyId")));
+							HashMap<String,String> record = new HashMap<String,String>();
+							record.put("id", h[i].get("varietyId"));
+							record.put("name", h[i].get("varietyName"));
+							record.put("source", h[i].get("varietySource"));
+							format.add(record);
+						}
 					}
 				}
 			}
@@ -84,16 +90,20 @@ public class BaiKeController {
 			List<HashMap<String,String>> ill = new ArrayList<HashMap<String,String>>();
 			List<HashMap<String,String>> pest = new ArrayList<HashMap<String,String>>();
 			List<HashMap<String,String>> grass = new ArrayList<HashMap<String,String>>();
+			Set<Integer> idcheck = new HashSet<Integer>();
 			if (h!=null){
 				for (int i=0;i<h.length;i++){
 					if (h[i]!=null){
-						HashMap<String,String> record = new HashMap<String,String>();
-						record.put("id", h[i].get("petDisSpecId"));
-						record.put("name",h[i].get("petDisSpecName"));
-						record.put("source",h[i].get("cropName")+" "+h[i].get("sympthon"));
-						if (h[i].get("type").equals("病害")) ill.add(record);
-						if (h[i].get("type").equals("虫害")) pest.add(record);
-						if (h[i].get("type").equals("草害")) grass.add(record);
+						if (!idcheck.contains(Integer.parseInt(h[i].get("petDisSpecId")))){
+							idcheck.add(Integer.parseInt(h[i].get("petDisSpecId")));
+							HashMap<String,String> record = new HashMap<String,String>();
+							record.put("id", h[i].get("petDisSpecId"));
+							record.put("name",h[i].get("petDisSpecName"));
+							record.put("source",h[i].get("cropName")+" "+h[i].get("sympthon"));
+							if (h[i].get("type").equals("病害")) ill.add(record);
+							if (h[i].get("type").equals("虫害")) pest.add(record);
+							if (h[i].get("type").equals("草害")) grass.add(record);
+						}
 					}
 				}
 			}
@@ -119,14 +129,18 @@ public class BaiKeController {
 			String[] target = {"cPProductName", "manufacturer","crop","cPProductId"};
 			HashMap<String,String>[] h = bs.search(key, source, target);
 			List<HashMap<String,String>> format = new ArrayList<HashMap<String,String>>();
+			Set<Integer> idcheck = new HashSet<Integer>();
 			if (h!=null){
 				for(int i=0;i<h.length;i++){
 					if (h[i]!=null){
-						HashMap<String,String> record = new HashMap<String,String>();
-						record.put("id", h[i].get("cPProductId"));
-						record.put("name", h[i].get("cPProductName"));
-						record.put("source", h[i].get("crop")+" "+h[i].get("manufacturer"));
-						format.add(record);
+						if (!idcheck.contains(Integer.parseInt(h[i].get("cPProductId")))){
+							idcheck.add(Integer.parseInt(h[i].get("cPProductId")));
+							HashMap<String,String> record = new HashMap<String,String>();
+							record.put("id", h[i].get("cPProductId"));
+							record.put("name", h[i].get("cPProductName"));
+							record.put("source", h[i].get("crop")+" "+h[i].get("manufacturer"));
+							format.add(record);
+						}
 					}
 				}
 			}

@@ -56,7 +56,10 @@ public class FieldFacade implements IFieldFacade {
 	         Long csid; 
 	         Long yie;
 	         if (currentStageId == null || currentStageId.equalsIgnoreCase("")){
-	        	 csid = variety.getSubStages().iterator().next().getSubStageId();
+	        	 if (variety.getSubStages()!=null){
+	        		 csid = variety.getSubStages().iterator().next().getSubStageId();
+	        	 }
+	        	 else csid=0L;
 	         }
 	         else{
 	        	 csid = Long.parseLong(currentStageId);
