@@ -23,7 +23,7 @@ import com.dasinong.ploughHelper.util.FullTextSearch;
 @Controller
 public class BaiKeController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(Test1Controller.class);
+	private static final Logger logger = LoggerFactory.getLogger(BaiKeController.class);
 	
 	/**
 	 * Simply selects the home view to render by returning its name.

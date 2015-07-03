@@ -29,6 +29,8 @@ import com.dasinong.ploughHelper.model.User;
 @Controller
 public class PetDisController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(PetDisController.class);
+	
 	@RequestMapping(value = "/getPetDisByLocation", produces="application/json")
 	@ResponseBody
 	public Object getPetDisByLocation(HttpServletRequest request, HttpServletResponse response) {

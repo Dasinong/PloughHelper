@@ -20,7 +20,7 @@ import com.dasinong.ploughHelper.contentLoader.LoadVariety;
 @Controller
 public class ContentController {
 	
-private static final Logger logger = LoggerFactory.getLogger(Test1Controller.class);
+	private static final Logger logger = LoggerFactory.getLogger(ContentController.class);
 	
 	/**
 	 * Simply selects the home view to render by returning its name.

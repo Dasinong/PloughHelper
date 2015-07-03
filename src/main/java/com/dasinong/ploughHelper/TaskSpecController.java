@@ -20,7 +20,7 @@ import com.dasinong.ploughHelper.outputWrapper.TaskSpecWrapper;
 
 @Controller
 public class TaskSpecController {
-	private static final Logger logger = LoggerFactory.getLogger(Test1Controller.class);
+	private static final Logger logger = LoggerFactory.getLogger(TaskSpecController.class);
 	
 	
 	@RequestMapping(value = "/taskSpec", produces="application/json")

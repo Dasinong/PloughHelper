@@ -24,7 +24,7 @@ import com.dasinong.ploughHelper.util.GeoUtil;
 
 @Controller
 public class LocationController {
-	private static final Logger logger = LoggerFactory.getLogger(Test1Controller.class);
+	private static final Logger logger = LoggerFactory.getLogger(LocationController.class);
 	
 	@RequestMapping(value = "/getLocation", produces="application/json")
 	@ResponseBody

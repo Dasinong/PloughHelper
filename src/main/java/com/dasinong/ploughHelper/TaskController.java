@@ -33,7 +33,7 @@ import com.dasinong.ploughHelper.outputWrapper.TaskWrapper;
 
 @Controller
 public class TaskController {
-	private static final Logger logger = LoggerFactory.getLogger(Test1Controller.class);
+	private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
 	@Autowired
 	private ITaskSpecDao  taskSpecDao;
 	

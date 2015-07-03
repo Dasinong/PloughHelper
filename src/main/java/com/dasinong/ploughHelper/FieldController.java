@@ -26,7 +26,7 @@ import com.dasinong.ploughHelper.model.User;
 
 @Controller
 public class FieldController {
-	private static final Logger logger = LoggerFactory.getLogger(Test1Controller.class);
+	private static final Logger logger = LoggerFactory.getLogger(FieldController.class);
 	
 	@Autowired
 	private ITaskSpecDao taskSpecDao;

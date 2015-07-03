@@ -1,6 +1,5 @@
 package com.dasinong.ploughHelper;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -15,11 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.ContextLoader;
 import org.xml.sax.SAXException;
 
-import com.dasinong.ploughHelper.contentLoader.LoadLocation;
-import com.dasinong.ploughHelper.facade.IHomeFacade;
 import com.dasinong.ploughHelper.facade.WeatherFacade;
 import com.dasinong.ploughHelper.model.User;
 

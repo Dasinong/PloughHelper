@@ -1,10 +1,9 @@
 package com.dasinong.ploughHelper;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,18 +18,15 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.dao.ICropDao;
 import com.dasinong.ploughHelper.dao.ILocationDao;
 import com.dasinong.ploughHelper.dao.IVarietyDao;
-import com.dasinong.ploughHelper.dao.UserDao;
-import com.dasinong.ploughHelper.inputParser.UserParser;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Location;
-import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.Variety;
-import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
+
 
 @Controller
 public class VarietyController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(VarietyController.class);
 
 	@RequestMapping(value = "/getVarietyList",produces="application/json")
 	@ResponseBody
