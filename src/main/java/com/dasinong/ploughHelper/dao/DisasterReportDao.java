@@ -7,10 +7,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.DisasterReport;
 
-/**
- * @author Dell
- *
- */
 public class DisasterReportDao extends HibernateDaoSupport implements
 		IDisasterReportDao {
 
