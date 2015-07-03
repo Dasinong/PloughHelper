@@ -2,7 +2,6 @@ package com.dasinong.ploughHelper.facade;
 
 import java.util.Date;
 
-import com.dasinong.ploughHelper.inputParser.FieldParser;
 import com.dasinong.ploughHelper.model.User;
 
 public interface IFieldFacade {

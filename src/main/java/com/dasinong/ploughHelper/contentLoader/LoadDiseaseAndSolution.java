@@ -1,12 +1,8 @@
 package com.dasinong.ploughHelper.contentLoader;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -30,7 +26,6 @@ import com.dasinong.ploughHelper.dao.IPetDisSpecDao;
 import com.dasinong.ploughHelper.dao.IPetSoluDao;
 import com.dasinong.ploughHelper.model.PetDisSpec;
 import com.dasinong.ploughHelper.model.PetSolu;
-import com.dasinong.ploughHelper.model.SubStage;
 
 public class LoadDiseaseAndSolution {
 	public final static String BLOCK_SEPARATOR = "--------------------";
@@ -86,7 +81,7 @@ public class LoadDiseaseAndSolution {
 		
 		// updates DONE! Next, write into database
 		IPetDisSpecDao petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
-		IPetSoluDao petSoluDao = (IPetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
+		//IPetSoluDao petSoluDao = (IPetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
 		
 		Iterator<PetDisSpec> it = petDisSpecMap.values().iterator();
 		while (it.hasNext()) {
@@ -435,7 +430,7 @@ public class LoadDiseaseAndSolution {
 	
 	public void readPestFile(File file){
 		IPetDisSpecDao petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
-		IPetSoluDao petSoluDao = (IPetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
+		//IPetSoluDao petSoluDao = (IPetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
 		
 		ArrayList<ArrayList<String>> blocks = LoadFileUtil.generateBlocks(file, BLOCK_SEPARATOR);
 		

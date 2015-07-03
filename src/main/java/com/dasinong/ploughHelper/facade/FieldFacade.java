@@ -4,9 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
@@ -15,7 +12,6 @@ import com.dasinong.ploughHelper.dao.ILocationDao;
 import com.dasinong.ploughHelper.dao.ISubStageDao;
 import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.dao.IVarietyDao;
-import com.dasinong.ploughHelper.inputParser.FieldParser;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.User;

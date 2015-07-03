@@ -1,19 +1,16 @@
 package com.dasinong.ploughHelper.inputParser;
 
 import java.util.Date;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.FieldDao;
 import com.dasinong.ploughHelper.dao.ILocationDao;
 import com.dasinong.ploughHelper.dao.ISubStageDao;
 import com.dasinong.ploughHelper.dao.IVarietyDao;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
-import com.dasinong.ploughHelper.model.SubStage;
 import com.dasinong.ploughHelper.model.Variety;
 
 public class FieldParser {
@@ -30,7 +27,6 @@ public class FieldParser {
         String currentStageId = request.getParameter("currentStageID");
         ILocationDao ldDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
         IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
-        ISubStageDao subStageDao = (ISubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
 
        	boolean isA = Boolean.getBoolean(isActive);
        	boolean sot = Boolean.parseBoolean(seedingortransplant);

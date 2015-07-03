@@ -39,6 +39,7 @@ public class LocationDao extends HibernateDaoSupport implements ILocationDao{
 	 */
 	@Override
 	public Location findByLocationName(String locationName) {
+		@SuppressWarnings("rawtypes")
 		List list = getHibernateTemplate().find(
 				"from Location where locationName=?",locationName);
 		if (list==null||list.isEmpty()){
@@ -59,6 +60,7 @@ public class LocationDao extends HibernateDaoSupport implements ILocationDao{
 	/* (non-Javadoc)
 	 * @see com.dasinong.ploughHelper.dao.ILocationDao#getIdList(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List getIdList(String province,String city, String country,String district) {
 		return getHibernateTemplate().find(
@@ -68,6 +70,7 @@ public class LocationDao extends HibernateDaoSupport implements ILocationDao{
 	/* (non-Javadoc)
 	 * @see com.dasinong.ploughHelper.dao.ILocationDao#getAll()
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List getAll() {
 		return getHibernateTemplate().find("from Location");

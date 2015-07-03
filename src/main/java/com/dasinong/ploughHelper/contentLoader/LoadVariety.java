@@ -1,24 +1,16 @@
 package com.dasinong.ploughHelper.contentLoader;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.sql.DataSource;
-
-import org.junit.Test;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.ICropDao;
@@ -27,7 +19,6 @@ import com.dasinong.ploughHelper.dao.VarietyDao;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Variety;
 import com.dasinong.ploughHelper.contentLoader.LoadFileUtil;
-import com.mysql.jdbc.Util;
 
 public class LoadVariety {
 	public final static String BLOCK_SEPARATOR = "--------------------";

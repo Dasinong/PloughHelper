@@ -40,6 +40,7 @@ public class FieldDao extends HibernateDaoSupport implements IFieldDao{
 	 */
 	@Override
 	public Field findByFieldName(String fieldName) {
+		@SuppressWarnings("rawtypes")
 		List list = getHibernateTemplate().find(
 				"from Field where fieldName=?",fieldName);
 		if (list==null||list.isEmpty()){

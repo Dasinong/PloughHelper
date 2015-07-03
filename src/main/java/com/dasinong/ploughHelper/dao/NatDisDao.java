@@ -38,6 +38,7 @@ public class NatDisDao extends HibernateDaoSupport implements INatDisDao{
 	 */
 	@Override
 	public NatDis findByNatDisName(String natDisName) {
+		@SuppressWarnings("rawtypes")
 		List list = getHibernateTemplate().find(
 				"from NatDis where natDisName=?",natDisName);
 		if (list==null||list.isEmpty()){

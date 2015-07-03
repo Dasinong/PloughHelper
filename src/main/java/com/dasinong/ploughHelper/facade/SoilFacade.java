@@ -10,7 +10,6 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.IFieldDao;
 import com.dasinong.ploughHelper.dao.ISoilTestReportDao;
-import com.dasinong.ploughHelper.dao.SoilTestReportDao;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.SoilTestReport;
 import com.dasinong.ploughHelper.outputWrapper.SoilTestReportWrapper;

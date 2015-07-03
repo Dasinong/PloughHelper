@@ -43,6 +43,7 @@ public class QualityItemValueDao extends HibernateDaoSupport implements IQuality
 	@Override
 	public Map<Long,String> findByVarietyId(Long varietyId) {
 		Map<Long,String> result = new HashMap<Long,String>();
+		@SuppressWarnings("rawtypes")
 		List list = getHibernateTemplate().find(
 				"from QualityItemValue where varietyId=?",varietyId);
 		if (list==null||list.isEmpty()){

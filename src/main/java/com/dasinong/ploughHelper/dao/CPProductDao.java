@@ -38,6 +38,7 @@ public class CPProductDao extends HibernateDaoSupport implements ICPProductDao{
 	 */
 	@Override
 	public CPProduct findByCPProductName(String cPProductName) {
+		@SuppressWarnings("rawtypes")
 		List list = getHibernateTemplate().find(
 				"from CPProduct where cPProductName=?",cPProductName);
 		if (list==null||list.isEmpty()){

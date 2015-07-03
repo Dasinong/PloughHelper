@@ -2,7 +2,9 @@ package com.dasinong.ploughHelper.dao;
 
 
 import java.util.List;
+
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
 import com.dasinong.ploughHelper.model.PetSolu;
 
 public class PetSoluDao extends HibernateDaoSupport implements IPetSoluDao{
@@ -38,6 +40,7 @@ public class PetSoluDao extends HibernateDaoSupport implements IPetSoluDao{
 	 */
 	@Override
 	public PetSolu findByPetSoluName(String petSoluName) {
+		@SuppressWarnings("rawtypes")
 		List list = getHibernateTemplate().find(
 				"from PetSolu where petSoluName=?",petSoluName);
 		if (list==null||list.isEmpty()){

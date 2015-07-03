@@ -2,19 +2,15 @@ package com.dasinong.ploughHelper.facade;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.xml.sax.SAXException;
 
 import com.dasinong.ploughHelper.weather.All24h;
 import com.dasinong.ploughHelper.weather.All7d;
 import com.dasinong.ploughHelper.weather.ForcastDInfo;
 import com.dasinong.ploughHelper.weather.GetLiveWeather;
-import com.dasinong.ploughHelper.weather.TwentyFourHourForcast;
 
 public class WeatherFacade {
 	public Object getWeather(Integer areaId) throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{

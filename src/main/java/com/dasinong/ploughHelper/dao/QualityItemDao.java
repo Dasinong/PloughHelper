@@ -2,7 +2,9 @@ package com.dasinong.ploughHelper.dao;
 
 
 import java.util.List;
+
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
 import com.dasinong.ploughHelper.model.QualityItem;
 
 public class QualityItemDao extends HibernateDaoSupport implements IQualityItemDao{
@@ -38,6 +40,7 @@ public class QualityItemDao extends HibernateDaoSupport implements IQualityItemD
 	 */
 	@Override
 	public QualityItem findByQualityItemName(String qualityItemName) {
+		@SuppressWarnings("rawtypes")
 		List list = getHibernateTemplate().find(
 				"from QualityItem where qualityItemName=?",qualityItemName);
 		if (list==null||list.isEmpty()){

@@ -2,8 +2,6 @@ package com.dasinong.ploughHelper.facade;
 
 import java.util.Date;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import com.dasinong.ploughHelper.model.Field;
 
 public interface ISoilFacade {

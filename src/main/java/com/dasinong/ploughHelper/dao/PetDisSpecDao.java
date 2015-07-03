@@ -39,6 +39,7 @@ public class PetDisSpecDao extends HibernateDaoSupport implements IPetDisSpecDao
 	 */
 	@Override
 	public PetDisSpec findByPetDisSpecName(String petDisSpecName) {
+		@SuppressWarnings("rawtypes")
 		List list = getHibernateTemplate().find(
 				"from PetDisSpec where petDisSpecName=?",petDisSpecName);
 		if (list==null||list.isEmpty()){

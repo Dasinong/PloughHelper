@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -14,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.ILocationDao;
-import com.dasinong.ploughHelper.dao.PetDisSpecDao;
-import com.dasinong.ploughHelper.dao.PetSoluDao;
 import com.dasinong.ploughHelper.model.Location;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
