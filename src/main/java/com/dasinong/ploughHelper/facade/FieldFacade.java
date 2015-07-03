@@ -14,6 +14,7 @@ import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.dao.IVarietyDao;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
+import com.dasinong.ploughHelper.model.NatDis;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.Variety;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
@@ -99,5 +100,14 @@ public class FieldFacade implements IFieldFacade {
 			result.put("message", e.getCause());
 			return result;
 		}
+	}
+	
+	@Override
+	public Object addWeatherAlert(NatDis natdis){
+		
+		Map<String,Object> result = new HashMap<String,Object>();
+
+		return result;
+		
 	}
 }

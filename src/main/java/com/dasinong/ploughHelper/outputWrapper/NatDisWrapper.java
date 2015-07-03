@@ -21,8 +21,6 @@ public class NatDisWrapper implements Serializable{
 	private boolean alerttype;
 	private String description;
 	
-
-	
 	public NatDisWrapper(NatDis nd){
 		this.setNatDisId(nd.getNatDisId());
 		this.natDisSpecId = nd.getNatDisSpecId();
