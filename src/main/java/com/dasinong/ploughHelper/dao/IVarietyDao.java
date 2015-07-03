@@ -19,4 +19,6 @@ public interface IVarietyDao {
 	public abstract List<Variety> findByCropRegion(long cropId,
 			String suitableArea);
 
+	List<Variety> findGenericVariety(long cropId);
+
 }

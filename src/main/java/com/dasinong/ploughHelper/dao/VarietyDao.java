@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.model.Variety;
 
 
@@ -61,6 +60,13 @@ public class VarietyDao extends HibernateDaoSupport implements IVarietyDao {
 	public List<Variety> findByCropRegion(long cropId, String suitableArea){
 		List list = getHibernateTemplate().find(
 				"from Variety where cropId=? and suitableArea like '%"+suitableArea + "%'",cropId);
+		return list;
+	}
+	
+	@Override
+	public List<Variety> findGenericVariety(long cropId){
+		List list = getHibernateTemplate().find(
+				"from Variety where cropId=? and varietyId>=26148 and varietyId<=26452",cropId);
 		return list;
 	}
 }

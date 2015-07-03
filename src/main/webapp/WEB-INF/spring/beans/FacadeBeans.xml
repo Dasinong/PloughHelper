@@ -21,4 +21,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    
    <bean id="taskFacade" class="com.dasinong.ploughHelper.facade.TaskFacade" >
    </bean>
+   
+   <bean id="varietyFacade" class="com.dasinong.ploughHelper.facade.VarietyFacade" >
+   </bean>
 </beans>

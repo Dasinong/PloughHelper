@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,6 +19,7 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.dao.ICropDao;
 import com.dasinong.ploughHelper.dao.ILocationDao;
 import com.dasinong.ploughHelper.dao.IVarietyDao;
+import com.dasinong.ploughHelper.facade.IVarietyFacade;
 import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.Variety;
@@ -31,64 +33,62 @@ public class VarietyController {
 	@RequestMapping(value = "/getVarietyList",produces="application/json")
 	@ResponseBody
 	public Object getVariety(HttpServletRequest request, HttpServletResponse response) {
-		IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
-		HashMap<String,Object> result = new HashMap<String,Object>();
-		try{
-			String cropName = request.getParameter("cropName");
-			String cropId = request.getParameter("cropId");
-			String locationId = request.getParameter("locationId");
-			String province = request.getParameter("province");
-			if ((cropName==null && cropId==null)||(locationId==null && province==null)){
-				result.put("respCode", 300);
-				result.put("message", "缺少参数");
-				return result;
+		Map<String,Object> result = new HashMap<String,Object>();
+		String cropName = request.getParameter("cropName");
+		String cropId = request.getParameter("cropId");
+		String locationId = request.getParameter("locationId");
+		String province = request.getParameter("province");
+		if (cropId!=null&&!cropId.equals("")&&province!=null&&!province.equals("")){
+			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext().getBean("varietyFacade");
+			Long cropid;
+			try{
+				cropid = Long.parseLong(cropId);
+			}catch(Exception e){
+				result.put("respCode", 305);
+				result.put("message","cropId内容格式错误");
+		        return result;
 			}
-			
-			long cId;
-			if (cropId==null){
-				ICropDao cropDao = (ICropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
-				Crop crop = cropDao.findByCropName(cropName);
-				cId = crop.getCropId();
-			}
-			else{
-				cId = Long.parseLong(cropId);
-			}
-			String p;
-			if (province==null){
-				ILocationDao locationDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
-				Location l = locationDao.findById(Long.parseLong(locationId));
-				p = l.getProvince();
-			}
-			else{
-				p = province;
-			}
-				
-			List<Variety> lv = varietyDao.findByCropRegion(cId, p);
-			Map<String,HashMap<String,Long>> vlist = new  HashMap<String,HashMap<String,Long>>();
-			for (Variety v: lv){
-				if (!vlist.containsKey(v.getVarietyName())){
-					HashMap<String,Long> nrec = new HashMap<String,Long>();
-					nrec.put(v.getSubId(),v.getVarietyId());
-					vlist.put(v.getVarietyName(), nrec);
-				}
-				else{
-					vlist.get(v.getVarietyName()).put(v.getSubId(), v.getVarietyId());
-				}
-				
-			}
-			
-			result.put("respCode",200);
-			result.put("message", "加载品种列表成功");
-			result.put("data",vlist);
-			
-			return result;
+			return vf.getVariety(cropid, province);
 		}
-		catch(Exception e)
-		{
-			result.put("respCode", 500);
-			result.put("message", e.getMessage());
-			return result;
+		if (cropId!=null&&!cropId.equals("")&&locationId!=null&&!locationId.equals("")){
+			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext().getBean("varietyFacade");
+			Long cropid;
+			try{
+				cropid = Long.parseLong(cropId);
+			}catch(Exception e){
+				result.put("respCode", 315);
+				result.put("message","cropId内容格式错误");
+		        return result;
+			}
+			Long locationid;
+			try{
+				locationid = Long.parseLong(locationId);
+			}catch(Exception e){
+				result.put("respCode", 316);
+				result.put("message","locationId内容格式错误");
+		        return result;
+			}
+			return vf.getVariety(cropid, locationid);
 		}
+		if (cropName!=null&&!cropName.equals("")&&province!=null&&!province.equals("")){
+			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext().getBean("varietyFacade");
+			return vf.getVariety(cropName, province);
+		}
+		if (cropName!=null&&!cropName.equals("")&&locationId!=null&&!locationId.equals("")){
+			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext().getBean("varietyFacade");
+			Long locationid;
+			try{
+				locationid = Long.parseLong(locationId);
+			}catch(Exception e){
+				result.put("respCode", 316);
+				result.put("message","locationId内容格式错误");
+		        return result;
+			}
+			return vf.getVariety(cropName, locationid);
+		}
+		result.put("respCode", 300);
+		result.put("message", "缺少参数");
+		return result;
 	}
 
 }
