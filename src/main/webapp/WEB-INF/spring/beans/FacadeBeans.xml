@@ -24,4 +24,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    
    <bean id="varietyFacade" class="com.dasinong.ploughHelper.facade.VarietyFacade" >
    </bean>
+   
+   <bean id="baiKeFacade" class="com.dasinong.ploughHelper.facade.BaiKeFacade" >
+   </bean>
 </beans>

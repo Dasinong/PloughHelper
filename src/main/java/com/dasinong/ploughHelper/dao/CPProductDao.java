@@ -46,5 +46,13 @@ public class CPProductDao extends HibernateDaoSupport implements ICPProductDao{
 		}
 		return (CPProduct) list.get(0);
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.IPetDisSpecDao#findById(java.lang.Long)
+	 */
+	@Override
+	public CPProduct findById(Long id) {
+		return (CPProduct) this.getHibernateTemplate().get(CPProduct.class,id);
+	}
 
 }

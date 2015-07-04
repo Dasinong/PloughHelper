@@ -17,11 +17,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.facade.IBaiKeFacade;
 import com.dasinong.ploughHelper.util.FullTextSearch;
 
 @Controller
 public class BaiKeController {
+	
+	IBaiKeFacade baiKeFacade;
 	
 	private static final Logger logger = LoggerFactory.getLogger(BaiKeController.class);
 	
@@ -249,6 +253,58 @@ public class BaiKeController {
 		}
 	
 	  return "OK";
+	}
+	
+	
+	@RequestMapping(value = "/getVarietyBaiKeById", produces="application/json")
+	@ResponseBody
+	public Object getVarietyBaiKeById(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		Long id;
+		try{
+			id = Long.parseLong(request.getParameter("id"));
+		}
+		catch(Exception e){
+			result.put("respCode",300);
+			result.put("message","参数或参数格式错误");
+			return result;
+		}
+		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
+	    return baiKeFacade.getVarietyById(id);
+	}
+	
+	@RequestMapping(value = "/getPetDisSpecBaiKeById", produces="application/json")
+	@ResponseBody
+	public Object getPetDisSpecById(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		Long id;
+		try{
+			id = Long.parseLong(request.getParameter("id"));
+		}
+		catch(Exception e){
+			result.put("respCode",300);
+			result.put("message","参数或参数格式错误");
+			return result;
+		}
+		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
+	    return baiKeFacade.getPetDisSpecById(id);
+	}
+	
+	@RequestMapping(value = "/getCPProductById", produces="application/json")
+	@ResponseBody
+	public Object getCPProductById(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		Long id;
+		try{
+			id = Long.parseLong(request.getParameter("id"));
+		}
+		catch(Exception e){
+			result.put("respCode",300);
+			result.put("message","参数或参数格式错误");
+			return result;
+		}
+		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
+	    return baiKeFacade.getCPProductById(id);
 	}
 
 }
