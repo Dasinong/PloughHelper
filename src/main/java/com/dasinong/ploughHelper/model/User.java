@@ -13,6 +13,7 @@ public class User implements Serializable{
 	private String cellPhone;
 	private String password;
 	private String address;
+	private boolean isPassSet;
 	private Set<Field> fields= new HashSet<Field>();
 	
 	private boolean authenticated = false;
@@ -89,6 +90,14 @@ public class User implements Serializable{
 
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
+	}
+
+	public boolean getIsPassSet() {
+		return isPassSet;
+	}
+
+	public void setIsPassSet(boolean isPassSet) {
+		this.isPassSet = isPassSet;
 	}
 
 }

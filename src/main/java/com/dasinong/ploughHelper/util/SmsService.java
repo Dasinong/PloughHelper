@@ -9,8 +9,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Random;
+
+import org.junit.Test;
 
 public class SmsService {
+	public static final String ACCOUNT_NAME = "dldasi00";
+	public static final String PASSWORD = "MF3o9AFn";
+	
 	public static void test() throws UnsupportedEncodingException {
 		
 		String content = "近期天气良好，请抓紧打药。【大司农】";
@@ -24,10 +30,40 @@ public class SmsService {
 		System.out.println(groupSMS(content, numbers));
 	}
 	
+	@Test
+	public void run(){
+		String xiaoZhangCell = "18602195820";
+		String securityCode = generateSecurityCode(6);
+		System.out.println(securityCode);
+		System.out.println(securityCodeSMS(securityCode, xiaoZhangCell));
+		
+		String niangniangCell = "18910423016";
+		securityCode = generateSecurityCode(6);
+		System.out.println(securityCode);
+		System.out.println(securityCodeSMS(securityCode, niangniangCell));
+	}
+	
+	public String generateSecurityCode(int numberOfDigits){
+		String securityCode = "";
+		Random generator = new Random();
+		for (int i = 0; i < numberOfDigits; i++) {
+			securityCode = securityCode + generator.nextInt(10);
+		}
+		return securityCode;
+	}
+	
+	public static String securityCodeSMS (String securityCode, String number){
+//		Random generator = new Random();
+//		String securityCode = String.valueOf(generator.nextInt(10))+String.valueOf(generator.nextInt(10))
+//								+String.valueOf(generator.nextInt(10))+String.valueOf(generator.nextInt(10));
+		String content = "临时登录密码"+securityCode+"，请妥善保管，不要泄露给他人。登陆成功后记得及时修改密码。此临时密码将于3小时后失效。【今日农事】";
+		return triggeredSMS(content, number);
+	}
+	
 	public static String triggeredSMS(String content, String number){
 		String postUrl = "http://cf.51welink.com/submitdata/Service.asmx/g_Submit";
 		try {
-			String postData = "sname=dl-wangss&spwd=wangss12&scorpid=&sprdid=1012818&sdst="+number+"&smsg="+URLEncoder.encode(content,"UTF-8");
+			String postData = "sname="+ACCOUNT_NAME+"&spwd="+PASSWORD+"&scorpid=&sprdid=1012818&sdst="+number+"&smsg="+URLEncoder.encode(content,"UTF-8");
 			String response = SMS(postData, postUrl);
 			return response;
 		} catch (UnsupportedEncodingException e) {
@@ -40,7 +76,7 @@ public class SmsService {
 		String postUrl = "http://cf.51welink.com/submitdata/Service.asmx/g_Submit";
 		try {
 			String numbersString = URLEncoder.encode(convertNumbers(numbers),"UTF-8");
-			String postData = "sname=dlwangss1&spwd=wangss123456&scorpid=&sprdid=1012808&sdst="+numbersString+"&smsg="+URLEncoder.encode(content,"UTF-8");
+			String postData = "sname="+ACCOUNT_NAME+"&spwd="+PASSWORD+"&sprdid=1012808&sdst="+numbersString+"&smsg="+URLEncoder.encode(content,"UTF-8");
 			String response = SMS(postData, postUrl);
 			return response;
 		} catch (UnsupportedEncodingException e) {
@@ -90,10 +126,20 @@ public class SmsService {
                 result += line + "\n";
             }
             in.close();
+            System.out.println();
             return result;
         } catch (IOException e) {
             e.printStackTrace(System.out);
         }
         return "";
     }
+	
+	public static void main(String[] args){
+		SmsService sms = new SmsService();
+		String xiyaoCell = "13120128328";
+		//String xiyaoCell = "13162881998";
+		String securityCode = sms.generateSecurityCode(6);
+		System.out.println(securityCode);
+		System.out.println(securityCodeSMS(securityCode, xiyaoCell));
+	}
 }

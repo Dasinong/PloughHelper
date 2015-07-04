@@ -36,5 +36,8 @@
         <property name="telephone" type="string">
         	<column name="telephone" length="15" not-null="false"></column>
         </property>
+        <property name="isPassSet" type="boolean">
+        	<column name="isPassSet"></column>
+        </property>
     </class>
 </hibernate-mapping>

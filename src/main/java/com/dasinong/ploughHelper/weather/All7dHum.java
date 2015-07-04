@@ -98,6 +98,9 @@ public class All7dHum {
 	}
 	private HashMap<Integer,SevenDayHumidity> _all7dHum;
 	
+	public SevenDayHumidity getSevenDayHumidity(Integer id) throws IOException, ParseException{
+		return _all7dHum.get(id);
+	}
 	
 	public static void main(String[] args) throws IOException, ParseException{
 		Iterator iter= All7dHum.get7dHum()._all7dHum.entrySet().iterator();

@@ -76,6 +76,10 @@ public class AllLocation {
 		return target.code;
 	}
 	
+	public MonitorLocation getMonitorLocation(int areaid){
+		return _allLocation.get(areaid);
+	}
+	
 	public static void main(String[] args) throws IOException{
 		
 		Iterator iter= AllLocation.getLocation()._allLocation.entrySet().iterator();
