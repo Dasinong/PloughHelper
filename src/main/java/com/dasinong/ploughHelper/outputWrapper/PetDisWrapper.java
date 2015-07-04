@@ -30,21 +30,13 @@ public class PetDisWrapper implements Serializable{
 		IPetDisSpecDao pdsd = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
 		PetDisSpec pds = pdsd.findById(petDisSpecId);
 		this.petDisSpecName = pds.getPetDisSpecName();
-		
+		this.type =pds.getType();
+		this.description = pds.getSympthon();
 		Random rnd = new Random();
 		if (rnd.nextInt(5) >2){
 			setAlerttype(true);
 		}
 		else setAlerttype(false);
-		int i = rnd.nextInt(6);
-		if (i >2 && i<4){
-			type = "病害";
-		}else if(i<=2){
-			type = "虫害";
-		}else{
-			type ="草害";
-		}
-		description = "这是一个很严重的灾害";
 	}
 
 	public Long getPetDisId() {

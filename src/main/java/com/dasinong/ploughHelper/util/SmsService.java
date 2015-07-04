@@ -126,10 +126,20 @@ public class SmsService {
                 result += line + "\n";
             }
             in.close();
+            System.out.println();
             return result;
         } catch (IOException e) {
             e.printStackTrace(System.out);
         }
         return "";
     }
+	
+	public static void main(String[] args){
+		SmsService sms = new SmsService();
+		String xiyaoCell = "13120128328";
+		//String xiyaoCell = "13162881998";
+		String securityCode = sms.generateSecurityCode(6);
+		System.out.println(securityCode);
+		System.out.println(securityCodeSMS(securityCode, xiyaoCell));
+	}
 }
