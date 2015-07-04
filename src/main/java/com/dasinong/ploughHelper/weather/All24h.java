@@ -11,6 +11,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import com.dasinong.ploughHelper.util.Env;
+
 public class All24h {
 	private static All24h all24h;
 	
@@ -47,9 +49,9 @@ public class All24h {
 		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
         String basefolder="";
         if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-        	basefolder = "E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/current";
+        	basefolder = Env.getEnv().WorkingDir+"/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/current";
         }else{
-        	basefolder = "/data/data/weather/hour/current";
+        	basefolder = Env.getEnv().WorkingDir +"/data/weather/hour/current";
         }
         
 		File f = new File(basefolder);

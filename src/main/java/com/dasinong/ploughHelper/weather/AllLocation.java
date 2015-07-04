@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.dasinong.ploughHelper.util.Env;
+
 public class AllLocation {
 	
 	private static AllLocation allLocation;
@@ -33,9 +35,9 @@ public class AllLocation {
 	
 		String fullpath="";
 	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-	       	fullpath = "E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt";
+	       	fullpath = Env.getEnv().WorkingDir+"/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt";
 	    }else{
-	       	fullpath = "/data/data/ftp/monitorLocation";
+	       	fullpath = Env.getEnv().WorkingDir+"/data/ftp/monitorLocation";
 	    }
 	    
 		File f = new File(fullpath);
