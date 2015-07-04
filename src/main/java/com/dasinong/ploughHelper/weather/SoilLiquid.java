@@ -6,6 +6,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.dasinong.ploughHelper.util.Env;
 
 public class SoilLiquid {
 private static SoilLiquid soilLiquid;
@@ -25,9 +29,20 @@ private static SoilLiquid soilLiquid;
 	}
 	
 	private void loadContent() throws IOException, ParseException {
-		SevenDayHumidity sdh=null;
+		
 		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
-		File f = new File("./src/main/java/com/dasinong/ploughHelper/weather/soilliquid_2015061700.txt");
+		String fullpath="";
+	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+	       	fullpath = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/soilliquid_2015061700.txt.csv";
+	    }else{
+	       	Date date = new Date();
+	       	String filename = "";
+	       	SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+       		filename = "soilliquid_"+df.format(date)+"00.txt";
+	       	fullpath = Env.getEnv().WorkingDir + "/data/ftp/trsd/"+filename;
+	    }
+	    
+	    File f = new File(fullpath);
 		FileInputStream fr = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
 		String line;
@@ -54,7 +69,7 @@ private static SoilLiquid soilLiquid;
 	private double[][] grid = new double[30000][3];
 	
 	
-	private double getSoil(double lat,double lon){
+	public double getSoil(double lat,double lon){
 		double result=0;
 		//1. locate lat, in +-1.5; 
 		int start;
@@ -80,6 +95,17 @@ private static SoilLiquid soilLiquid;
 		
 		return result;
 	}
+	
+	public void updateContent() {
+		double[][] oldgrid = grid;
+		grid = new double[30000][3];
+		try{
+			loadContent();
+		}catch(Exception e){
+			System.out.println("update soil liquid failed. " +  e.getCause());
+			grid = oldgrid;			
+		}
+	} 
 	
 	
 	public static void main(String[] arsgs) throws IOException, ParseException{

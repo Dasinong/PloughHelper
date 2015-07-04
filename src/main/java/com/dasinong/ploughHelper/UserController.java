@@ -21,6 +21,7 @@ import com.dasinong.ploughHelper.dao.IUserDao;
 import com.dasinong.ploughHelper.inputParser.UserParser;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
+import com.dasinong.ploughHelper.util.SmsService;
 
 @Controller
 public class UserController {
@@ -442,10 +443,158 @@ public class UserController {
 			}
 			
 			user.setPassword(newPassword);
+			user.setIsPassSet(true);
 			IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 			userDao.update(user);
 			
 		    return result;
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
+	
+	
+	@RequestMapping(value = "/isPassSet",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object isPassSet(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			User user = (User) request.getSession().getAttribute("User");
+			if (user==null){
+				result.put("respCode", 100);
+				result.put("message", "尚未登陆");
+				return result;
+			}
+
+		    Boolean ispassSet = user.getIsPassSet();
+			result.put("respCode", 200);
+			result.put("message", "检验密码是否初始化成功");
+			result.put("data", ispassSet);
+		    return result;
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
+	@RequestMapping(value = "/resetPassword",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object resetPassword(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			User user = (User) request.getSession().getAttribute("User");
+			if (user==null){
+				result.put("respCode", 100);
+				result.put("message", "尚未登陆");
+				return result;
+			}
+
+			String newPassword = request.getParameter("nPassword");
+			
+			if (newPassword == null){
+				result.put("respCode",300);
+				result.put("message","参数缺失");
+				return result;
+			}
+			
+			user.setPassword(newPassword);
+			user.setIsPassSet(true);
+			IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+			userDao.update(user);
+			
+		    return result;
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
+	@RequestMapping(value = "/requestSecurityCode",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object requestSecurityCode(HttpServletRequest request, HttpServletResponse response) {
+	
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+	
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			String cellphone = request.getParameter("cellphone");
+			User user = userDao.findByCellphone(cellphone);
+			if (user!=null){
+				SmsService sms = new SmsService();
+				String securityCode = sms.generateSecurityCode(6);
+				SmsService.securityCodeSMS(securityCode, cellphone);
+				request.getSession().setAttribute("securityCode", securityCode);
+				result.put("respCode",200);
+				result.put("message", "临时密码已经发送");
+				return result;
+			}
+			else{
+				result.put("respCode", 110);
+				result.put("message", "用户不存在，请先注册");
+				return result;
+			}
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
+	@RequestMapping(value = "/loginWithSecCode",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object loginWithSecCode(HttpServletRequest request, HttpServletResponse response) {
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			String cellphone = request.getParameter("cellphone");
+			String seccode = request.getParameter("seccode");
+			String savedCode = (String) request.getSession().getAttribute("securityCode");
+			if (seccode == null){
+				result.put("respCode",310);
+				result.put("message", "未输入验证码");
+				return result;
+			}
+			
+			if (savedCode == null){
+				result.put("respCode",312);
+				result.put("message", "验证码未初始化");
+				return result;
+			}
+			User user = userDao.findByCellphone(cellphone);
+			if (user!=null){
+				if (savedCode.equals(seccode)){
+					request.getSession().removeAttribute("securityCode");
+					request.getSession().setAttribute("User", user);
+					UserWrapper userWrapper = new UserWrapper(user);
+					result.put("data",userWrapper);
+					result.put("respCode",200);
+					result.put("message", "登陆成功");
+					return result;
+				}
+				else{
+					result.put("respCode",115);
+					result.put("message", "验证码错误");
+					return result;
+				}
+			}
+			else{
+				result.put("respCode", 110);
+				result.put("message", "用户不存在，请先注册");
+				return result;
+			}
 		}
 		catch(Exception e)
 		{
