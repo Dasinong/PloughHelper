@@ -12,8 +12,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.dasinong.ploughHelper.util.Env;
+
 public class All7d {
 	private static All7d all7d;
+	private static String WorkingDir;
 	
 	public static All7d getAll7d() throws IOException, ParseException{
 		if (all7d==null){
@@ -27,6 +30,8 @@ public class All7d {
 	}
 	private All7d() throws IOException, ParseException{
 		_all7d = new HashMap<Integer,SevenDayForcast>();
+		Env env = new Env();
+		WorkingDir = env.WorkingDir;
 		loadContent();
 	}
     public void updateContent() throws IOException, ParseException{
@@ -48,7 +53,7 @@ public class All7d {
         String fullpath="";
         String fullpathb="";
         if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-        	fullpath = "E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rforcast_7days_2015061720.csv";
+        	fullpath = WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rforcast_7days_2015061720.csv";
         }else{
         	Date date = new Date();
         	String filename = "";
@@ -63,7 +68,7 @@ public class All7d {
         	else{
         		filename = "rforcast_7days_"+df.format(date)+"20.csv";
         	}
-        	fullpath = "/data/data/ftp/rforecast7days/"+filename;
+        	fullpath = WorkingDir + "/data/ftp/rforecast7days/"+filename;
         }
 		
 		File f = new File(fullpath);
