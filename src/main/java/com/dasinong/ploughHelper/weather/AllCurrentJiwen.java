@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.dasinong.ploughHelper.util.Env;
+
 public class AllCurrentJiwen {
 	private static AllCurrentJiwen allCurrentJiwen;
 	
@@ -48,13 +50,13 @@ public class AllCurrentJiwen {
 		
 		String fullpath="";
 	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-	       	fullpath = "E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/jw_2015-6-17.csv";
+	       	fullpath = Env.getEnv().WorkingDir+"/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/jw_2015-6-17.csv";
 	    }else{
 	       	Date date = new Date();
 	       	String filename = "";
 	       	SimpleDateFormat df = new SimpleDateFormat("yyyy-M-dd");
 	       	filename = "jw_"+df.format(date)+".csv";
-	       	fullpath = "/data/data/ftp/jiwen/"+filename;
+	       	fullpath = Env.getEnv().WorkingDir+"/data/ftp/jiwen/"+filename;
 	    }
 	    
 		File f = new File(fullpath);

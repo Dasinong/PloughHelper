@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.dasinong.ploughHelper.util.Env;
+
 public class All7dHum {
 	private static All7dHum all7dHum;
 	
@@ -45,7 +47,7 @@ public class All7dHum {
 		
 		String fullpath="";
 	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-	       	fullpath = "E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rehumidity_7days_2015061908.csv";
+	       	fullpath = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rehumidity_7days_2015061908.csv";
 	    }else{
 	       	Date date = new Date();
 	       	String filename = "";
@@ -56,7 +58,7 @@ public class All7dHum {
 	       	else{
 	       		filename = "rehumidity_7days_"+df.format(date)+"18.csv";
 	       	}
-	       	fullpath = "/data/data/ftp/rehumidity/"+filename;
+	       	fullpath = Env.getEnv().WorkingDir + "/data/ftp/rehumidity/"+filename;
 	    }
 	    
 	    File f = new File(fullpath);
