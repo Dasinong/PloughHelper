@@ -1,7 +1,7 @@
   CREATE TABLE soilTestReport (
   soilTestReportId INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (soilTestReportId) USING BTREE,
-  fieldId INT(10) NOT NULL,
+  fieldId INT(10) UNSIGNED NOT NULL,
   userId INT(10),
   type varchar(20),
   color varchar(20),
@@ -24,8 +24,8 @@
   s DOUBLE(8,2),
   si DOUBLE(8,2),
   mg DOUBLE(8,2),
-  KEY FK_STRI (soilTestReportId),
-  CONSTRAINT FK_STR_F_ID FOREIGN KEY (soilTestReportId)
+  KEY FK_STRI (fieldId),
+  CONSTRAINT FK_STR_F_ID FOREIGN KEY (fieldId)
   REFERENCES field (fieldId) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
   

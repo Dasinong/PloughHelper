@@ -12,4 +12,6 @@ public interface ICPProductDao {
 
 	public abstract CPProduct findByCPProductName(String cPProductName);
 
+	CPProduct findById(Long id);
+
 }
