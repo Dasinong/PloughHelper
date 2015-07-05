@@ -1,12 +1,6 @@
 package com.dasinong.ploughHelper.facade;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.HashMap;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import com.dasinong.ploughHelper.weather.AllLocation;
 import com.dasinong.ploughHelper.weather.All24h;
@@ -19,10 +13,17 @@ public class WeatherFacade implements IWeatherFacade {
 	 * @see com.dasinong.ploughHelper.facade.IWeatherFacade#getWeather(double, double)
 	 */
 	@Override
-	public Object getWeather(double lat, double lon) throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{
-		
-		Integer mlId = AllLocation.getLocation().getNearest(lat, lon);
-		return getWeather(mlId);
+	public Object getWeather(double lat, double lon){
+		try{
+			Integer mlId = AllLocation.getLocation().getNearest(lat, lon);
+			return getWeather(mlId);
+		}
+		catch(Exception e){
+			HashMap<String,Object> result = new HashMap<String,Object>();
+			result.put("respCode", 405);
+			result.put("message", "初始化检测地址列表出错");
+			return result;
+		}
 	}
 	/* (non-Javadoc)
 	 * @see com.dasinong.ploughHelper.facade.IWeatherFacade#getWeather(java.lang.Integer)

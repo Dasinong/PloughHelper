@@ -56,6 +56,20 @@ public class WeatherController {
 			return wf.getWeather(lat, lon);
 		}
 		
+		if (user.getFields()==null || user.getFields().size()==0){
+			double lat;
+			double lon;
+			try{
+				lat = Double.parseDouble(request.getParameter("lat"));
+				lon = Double.parseDouble(request.getParameter("lon"));
+			}catch (Exception e){
+				result.put("respCode", 307);
+				result.put("message", "用户尚无田地,请输入浮点格式lat,lon");
+				return result;
+			}
+			return wf.getWeather(lat, lon);
+		}
+		
 		int mlid;
 		try{
 			mlid =  Integer.parseInt(request.getParameter("monitorLocationId"));
