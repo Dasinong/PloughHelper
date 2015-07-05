@@ -45,7 +45,6 @@ public class LiveWeatherData {
 	public void parseHTTPResult(String code, String result)
 			 throws JsonParseException,JsonProcessingException,IOException {
 		
-		LiveWeatherData lwd;
 		ObjectMapper mapper = new ObjectMapper();
 		this.code = code;
 		this.timeStamp = new Date();
