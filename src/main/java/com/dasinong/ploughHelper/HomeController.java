@@ -85,8 +85,8 @@ public class HomeController {
 				lat = Double.parseDouble("lat");
 				lon = Double.parseDouble("lon");
 			}catch (Exception e){
-				result.put("respCode", 305);
-				result.put("message", "请输入浮点格式lat,lon");
+				result.put("respCode", 315);
+				result.put("message", "使用当前位置，请输入浮点格式lat,lon");
 				return result;
 			}
 			return hf.LoadHome(lat, lon);
