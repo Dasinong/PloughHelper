@@ -14,7 +14,7 @@ public class Env {
 	}
 	private Env() {
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-			WorkingDir = "E:/git/";			
+			WorkingDir = "E:/git";			
 			BaseFTP = WorkingDir + "PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
 			BaseDATA =WorkingDir + "PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
 		}

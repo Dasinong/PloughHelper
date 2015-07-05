@@ -14,39 +14,66 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.dao.TaskDao;
+import com.dasinong.ploughHelper.facade.ITaskSpecFacade;
 import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.TaskSpecWrapper;
 
 @Controller
 public class TaskSpecController {
+	
 	private static final Logger logger = LoggerFactory.getLogger(TaskSpecController.class);
 	
+	ITaskSpecFacade tsf;
 	
-	@RequestMapping(value = "/taskSpec", produces="application/json")
+	@RequestMapping(value = "/getTaskSpec", produces="application/json")
 	@ResponseBody
 	public Object getTaskSpec(HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) request.getSession().getAttribute("User");
-		ITaskSpecDao taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		if (user==null){
 			result.put("respCode",100);
 			result.put("message","用户尚未登陆");
 			return result;
 		}
+		tsf =  (ITaskSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecFacade");
+		Long taskSpecId;
 		try{
-			String taskSpecId = request.getParameter("taskSpecId");
-			Long taskSpecid = Long.parseLong(taskSpecId);
-			TaskSpec taskspec = taskSpecDao.findById(taskSpecid);
-			TaskSpecWrapper tsw = new TaskSpecWrapper(taskspec);
-			result.put("respCode",200);
-			result.put("message","获得任务描述");
-			result.put("data", tsw);
-			return result;	
-		}catch(Exception e){
-			result.put("respCode",500);
-			result.put("message",e.getCause());
+			taskSpecId = Long.parseLong(request.getParameter("taskSpecId"));
+		}
+		catch(Exception e){
+			result.put("respCode",300);
+			result.put("message","参数格式或内容错误");
 			return result;
 		}
+
+		return tsf.getTaskSpec(taskSpecId);
+
+	}
+	
+	@RequestMapping(value = "/getSteps", produces="application/json")
+	@ResponseBody
+	public Object getSteps(HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) request.getSession().getAttribute("User");
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		if (user==null){
+			result.put("respCode",100);
+			result.put("message","用户尚未登陆");
+			return result;
+		}
+		tsf =  (ITaskSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecFacade");
+		Long taskSpecId;
+		Long fieldId;
+		try{
+			taskSpecId = Long.parseLong(request.getParameter("taskSpecId"));
+			fieldId = Long.parseLong(request.getParameter("fieldId"));
+		}
+		catch(Exception e){
+			result.put("respCode",301);
+			result.put("message","taskSpecId或fieldId参数格式或内容错误");
+			return result;
+		}
+
+		return tsf.getSteps(taskSpecId,fieldId);
 	}
 }

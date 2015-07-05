@@ -27,4 +27,10 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    
    <bean id="baiKeFacade" class="com.dasinong.ploughHelper.facade.BaiKeFacade" >
    </bean>
+   
+   <bean id="weatherFacade" class="com.dasinong.ploughHelper.facade.WeatherFacade" >
+   </bean>
+   
+   <bean id="taskSpecFacade" class="com.dasinong.ploughHelper.facade.TaskSpecFacade" >
+   </bean>
 </beans>

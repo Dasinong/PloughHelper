@@ -509,7 +509,8 @@ public class UserController {
 			user.setIsPassSet(true);
 			IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 			userDao.update(user);
-			
+			result.put("respCode",200);
+			result.put("message","修改成功");
 		    return result;
 		}
 		catch(Exception e)
