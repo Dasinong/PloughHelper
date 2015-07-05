@@ -82,8 +82,8 @@ public class HomeController {
 			double lat;
 			double lon;
 			try{
-				lat = Double.parseDouble("lat");
-				lon = Double.parseDouble("lon");
+				lat = Double.parseDouble(request.getParameter("lat"));
+				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
 				result.put("respCode", 315);
 				result.put("message", "使用当前位置，请输入浮点格式lat,lon");
