@@ -69,7 +69,7 @@ public class WeatherController {
 			}
 			return wf.getWeather(lat, lon);
 		}
-		
+	
 		int mlid;
 		try{
 			mlid =  Integer.parseInt(request.getParameter("monitorLocationId"));
@@ -77,6 +77,19 @@ public class WeatherController {
 			result.put("respCode",309);
 			result.put("message","monitorLocationId参数错误");
 			return result;
+		}
+		if (mlid==-1){
+			double lat;
+			double lon;
+			try{
+				lat = Double.parseDouble(request.getParameter("lat"));
+				lon = Double.parseDouble(request.getParameter("lon"));
+			}catch (Exception e){
+				result.put("respCode", 315);
+				result.put("message", "使用当前位置,请输入浮点格式lat,lon");
+				return result;
+			}
+			return wf.getWeather(lat, lon);
 		}
 		return wf.getWeather(mlid);
 	}
