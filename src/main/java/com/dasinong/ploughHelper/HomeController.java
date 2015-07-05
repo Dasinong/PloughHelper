@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -54,20 +55,20 @@ public class HomeController {
 	@RequestMapping(value = "/getLaoNong", produces="application/json")
 	@ResponseBody
 	public Object getLaoNong(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("User");
+		//User user = (User) request.getSession().getAttribute("User");
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
-		
-		Duanzi duanzi = LaoNong.getDuanzi();
+//		if (user==null){
+//			result.put("respCode",100);
+//			result.put("message","用户尚未登陆");
+//			return result;
+//		}
+		String areaId = request.getParameter("areaId");
+		Duanzi duanzi = LaoNong.getDuanzi(areaId);
 		
 		result.put("respcode", 200);
 		result.put("message", "获取段子成功");
 		result.put("data",duanzi);
 		return result;
 	}
-
+	
 }

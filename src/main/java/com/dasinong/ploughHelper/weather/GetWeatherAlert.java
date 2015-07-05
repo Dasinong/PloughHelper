@@ -1,5 +1,7 @@
 package com.dasinong.ploughHelper.weather;
 
+import java.util.HashMap;
+
 import com.dasinong.ploughHelper.modelTran.WeatherAlert;
 import com.dasinong.ploughHelper.util.WISWeather;
 
@@ -8,15 +10,38 @@ import com.dasinong.ploughHelper.util.WISWeather;
 public class GetWeatherAlert {
 	
 	private String areaId;
+	private static HashMap<String,WeatherAlert> _weatheralert = new HashMap<String,WeatherAlert>();
 	
 	public GetWeatherAlert(String areaId){
 		this.areaId=areaId;
 	}
 	
 	public WeatherAlert getWeatherAlert() {
+		Long currentTime = System.currentTimeMillis();
+		
+		//只有在确实存在weather alert的情况下返回预警信息，其它情况一律返回null,作无预警处理
+		// 如果有缓存的新鲜数据，那么直接返回缓存的新鲜数据
+		if(_weatheralert.containsKey(areaId) && (currentTime - _weatheralert.get(areaId).timeStamp.getTime()) < 20*60*1000)
+			return _weatheralert.get(areaId);
+		
 		WISWeather wisw = new WISWeather(this.areaId,"alarm");
 		String result = wisw.Commute();
-		return null;
+		WeatherAlert wa = null;
+		try{		
+			if(!result.equals("key error") && !result.equals("")){
+					wa = WeatherAlert.parseHTTPResult(areaId, result);
+					if (wa != null) //请求正常，且有预警信息
+						_weatheralert.put(areaId, wa);
+			} 
+			if (wa == null && _weatheralert.containsKey(areaId)){ // 无预警信息， 如果遇到请求，总是会再次请求预警信息，并且总是删除过期的预警信息
+					_weatheralert.remove(areaId);
+			}
+		} catch (Exception e){
+			System.out.println("Error happened when parse HTTP get weather alert result!");
+			e.printStackTrace();
+		}
+		
+		return wa;
 	}
 	
 	public static void main(String[] args){
