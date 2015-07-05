@@ -33,7 +33,7 @@ private static SoilLiquid soilLiquid;
 		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
 		String fullpath="";
 	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-	       	fullpath = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/soilliquid_2015061700.txt.csv";
+	       	fullpath = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/soilliquid_2015061700.txt";
 	    }else{
 	       	Date date = new Date();
 	       	String filename = "";
@@ -71,15 +71,15 @@ private static SoilLiquid soilLiquid;
 	
 	public double getSoil(double lat,double lon){
 		double result=0;
-		//1. locate lat, in +-1.5; 
+		//1. locate lat, in +-3; 
 		int start;
 		int end;
 		int i=0;
-		while((lat-grid[i][1])>1.5){
+		while((lat-grid[i][1])>3){
 			i=i+100;
 		}
 		start =i;
-		while((grid[i][1]-lat)<1.5){
+		while((grid[i][1]-lat)<3){
 			i=i+100;
 		}
 		end =i;

@@ -14,16 +14,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.ContextLoader;
 import org.xml.sax.SAXException;
 
-import com.dasinong.ploughHelper.facade.WeatherFacade;
+import com.dasinong.ploughHelper.facade.IWeatherFacade;
 import com.dasinong.ploughHelper.model.User;
 
 @Controller
 public class WeatherController {
 
+	IWeatherFacade wf;
+	
 	private static final Logger logger = LoggerFactory.getLogger(WeatherController.class);
-		
 		/**
 		 * Simply selects the home view to render by returning its name.
 		 * @throws SAXException 
@@ -38,21 +40,30 @@ public class WeatherController {
 
 		User user = (User) request.getSession().getAttribute("User");
 		Map<String,Object> result = new HashMap<String,Object>();
+		IWeatherFacade wf = (IWeatherFacade) ContextLoader.getCurrentWebApplicationContext().getBean("weatherFacade");
+		
 		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
+			double lat;
+			double lon;
+			try{
+				lat = Double.parseDouble(request.getParameter("lat"));
+				lon = Double.parseDouble(request.getParameter("lon"));
+			}catch (Exception e){
+				result.put("respCode", 306);
+				result.put("message", "用户未登陆,请输入浮点格式lat,lon");
+				return result;
+			}
+			return wf.getWeather(lat, lon);
 		}
+		
 		int mlid;
 		try{
 			mlid =  Integer.parseInt(request.getParameter("monitorLocationId"));
 		}catch(Exception e){
-			result.put("respCode",300);
-			result.put("message","参数错误");
+			result.put("respCode",309);
+			result.put("message","monitorLocationId参数错误");
 			return result;
 		}
-		
-		WeatherFacade wf = new WeatherFacade();
 		return wf.getWeather(mlid);
 	}
 

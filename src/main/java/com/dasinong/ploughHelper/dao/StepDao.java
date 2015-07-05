@@ -45,5 +45,18 @@ public class StepDao extends HibernateDaoSupport implements IStepDao{
 		}
 		return (Step) list.get(0);
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.dasinong.ploughHelper.dao.IStepDao#findByStepName(java.lang.String)
+	 */
+	@Override
+	public List<Step> findByTaskSpecId(Long taskSpecId) {
+		List list = getHibernateTemplate().find(
+				"from Step where taskSpecId=?",taskSpecId);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
+		return (List<Step>) list;
+	}
 
 }
