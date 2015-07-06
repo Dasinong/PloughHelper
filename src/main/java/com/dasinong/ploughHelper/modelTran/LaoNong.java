@@ -10,26 +10,21 @@ public class LaoNong {
 	private static LaoNong laoNong;
 	
 	public static Duanzi getDuanzi(String areaId){
-		if (laoNong==null){
+		if (laoNong==null)
 			laoNong = new LaoNong();
-			
-			GetWeatherAlert gwa = new GetWeatherAlert(areaId); 
-			WeatherAlert wa = gwa.getWeatherAlert();
-			if (wa == null){
-				Random rnd= new Random();
-				int picker = rnd.nextInt(laoNong.saying.size());
-				return laoNong.saying.get(picker);
-			} else {// 有预警数据
-				String content = wa.shortDescription();
-				String urlTag = wa.urlTag();
-				Duanzi dz = new Duanzi(0, 2,"", "天气预警", content, urlTag);
-				return  dz;
-			}
-		}
-		else{
+		
+		GetWeatherAlert gwa = new GetWeatherAlert(areaId); 
+		WeatherAlert wa = gwa.getWeatherAlert();
+		System.out.println("szc:LaoNong wa"+wa);
+		if (wa == null){
 			Random rnd= new Random();
 			int picker = rnd.nextInt(laoNong.saying.size());
 			return laoNong.saying.get(picker);
+		} else {// 有预警数据
+			String content = wa.shortDescription();
+			String urlTag = wa.urlTag();
+			Duanzi dz = new Duanzi(0, 2,"", "天气预警", content, urlTag);
+			return  dz;
 		}
 	}
 	
