@@ -4,4 +4,6 @@ public interface IPetDisSpecFacade {
 
 	public abstract Object getPetDisBySubStage(Long subStageId);
 
+	Object getPetDisDetail(Long petDisSpecId);
+
 }

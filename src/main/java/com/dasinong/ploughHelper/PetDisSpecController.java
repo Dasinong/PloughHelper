@@ -46,4 +46,30 @@ public class PetDisSpecController {
 		
 		return petDisSpecFacade.getPetDisBySubStage(subStageId);
 	}
+	
+	@RequestMapping(value = "/getPetDisSpecDetial", produces="application/json")
+	@ResponseBody
+	public Object getPetDisSpecDetial(HttpServletRequest request, HttpServletResponse response){
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		User user = (User) request.getSession().getAttribute("User");
+		if (user==null){
+			result.put("respCode",100);
+			result.put("message","用户尚未登陆");
+			return result;
+		}
+		
+		Long petDisSpecId;
+		try{
+			petDisSpecId = Long.parseLong(request.getParameter("petDisSpecId"));
+		}
+		catch(Exception e){
+			result.put("respCode",300);
+			result.put("message","参数错误");
+			return result;
+		}
+
+		petDisSpecFacade = (IPetDisSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecFacade");
+		
+		return petDisSpecFacade.getPetDisDetail(petDisSpecId);
+	}
 }

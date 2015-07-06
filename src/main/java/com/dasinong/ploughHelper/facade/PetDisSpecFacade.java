@@ -10,8 +10,10 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.dao.IPetDisSpecDao;
 import com.dasinong.ploughHelper.dao.ISubStageDao;
 import com.dasinong.ploughHelper.model.PetDisSpec;
+import com.dasinong.ploughHelper.model.PetSolu;
 import com.dasinong.ploughHelper.model.SubStage;
 import com.dasinong.ploughHelper.outputWrapper.PetDisSpecWrapper;
+import com.dasinong.ploughHelper.outputWrapper.PetSoluWrapper;
 
 @Transactional
 public class PetDisSpecFacade implements IPetDisSpecFacade {
@@ -43,6 +45,28 @@ public class PetDisSpecFacade implements IPetDisSpecFacade {
 		result.put("respCode",200);
 		result.put("message", "获取常见病虫草害成功");
 		result.put("data", pws);
+		return result;
+	}
+	
+	@Override
+	public Object getPetDisDetail(Long petDisSpecId){
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		PetDisSpec pds = petDisSpecDao.findById(petDisSpecId);
+		HashMap<String,Object> data = new HashMap<String,Object>();
+		PetDisSpecWrapper pdsw = new PetDisSpecWrapper(pds);
+		data.put("petDisSpec", pdsw);
+		if (pds.getPetSolus()!=null && pds.getPetSolus().size()!=0){
+			List<PetSoluWrapper> psws = new ArrayList<PetSoluWrapper>(); 
+			for (PetSolu ps : pds.getPetSolus()){
+				PetSoluWrapper psw = new PetSoluWrapper(ps);
+				psws.add(psw);
+			}
+			data.put("petSolutions", psws);
+		}
+		result.put("respCode",200);
+		result.put("message", "获取常见病虫草害成功");
+		result.put("data", data);
 		return result;
 	}
 
