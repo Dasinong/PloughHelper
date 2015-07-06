@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,9 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.facade.IHomeFacade;
+import com.dasinong.ploughHelper.facade.ILaoNongFacade;
 import com.dasinong.ploughHelper.model.User;
+import com.dasinong.ploughHelper.modelTran.NongYan;
 import com.dasinong.ploughHelper.modelTran.LaoNong;
-import com.dasinong.ploughHelper.modelTran.Duanzi;
 
 
 @Controller
@@ -102,21 +104,67 @@ public class HomeController {
 	@RequestMapping(value = "/getLaoNong", produces="application/json")
 	@ResponseBody
 	public Object getLaoNong(HttpServletRequest request, HttpServletResponse response) {
-		//User user = (User) request.getSession().getAttribute("User");
-		Map<String,Object> result = new HashMap<String,Object>();
-//		if (user==null){
-//			result.put("respCode",100);
-//			result.put("message","用户尚未登陆");
-//			return result;
-//		}
-		String monitorLocationId = request.getParameter("monitorLocationId");
-		Duanzi duanzi = LaoNong.getDuanzi(monitorLocationId);
-
 		
-		result.put("respcode", 200);
-		result.put("message", "获取段子成功");
-		result.put("data",duanzi);
-		return result;
+		User user = (User) request.getSession().getAttribute("User");
+		Map<String,Object> result = new HashMap<String,Object>();
+		ILaoNongFacade lnf = (ILaoNongFacade) ContextLoader.getCurrentWebApplicationContext().getBean("laoNongFacade");
+		//用户未登陆,或用户没有田地,需根据地点获取基础信息
+		if (user==null){
+				double lat;
+				double lon;
+				try{
+					lat = Double.parseDouble(request.getParameter("lat"));
+					lon = Double.parseDouble(request.getParameter("lon"));
+				}catch (Exception e){
+					result.put("respCode", 306);
+					result.put("message", "用户未登陆,请输入浮点格式lat,lon");
+					return result;
+				}
+				return lnf.getLaoNong(lat, lon);
+			}
+				
+		if (user.getFields()==null||user.getFields().size()==0){
+			double lat;
+			double lon;
+			try{
+				lat = Double.parseDouble(request.getParameter("lat"));
+				lon = Double.parseDouble(request.getParameter("lon"));
+			}catch (Exception e){
+				result.put("respCode", 307);
+				result.put("message", "用户尚未创建田地,请输入浮点格式lat,lon");
+				return result;
+			}
+			return lnf.getLaoNong(lat, lon);
+		}
+		
+		String monitorLocationId = request.getParameter("monitorLocationId");
+		Integer mlId;
+		if ( monitorLocationId==null ||  monitorLocationId.equals("")){
+			 mlId=user.getFields().iterator().next().getMonitorLocationId(); //用户没有指定田,默认使用第一片
+		}else{
+			try{
+				mlId = Integer.parseInt(monitorLocationId);
+			}catch(Exception e){
+				result.put("respCode", 313);
+				result.put("message", "monitorLocationId参数错误内容格式错误");
+				return result;
+			}
+		}
+		//如果没有田地,输入fieldId=-1;
+		if (mlId==-1){
+			double lat;
+			double lon;
+			try{
+				lat = Double.parseDouble(request.getParameter("lat"));
+				lon = Double.parseDouble(request.getParameter("lon"));
+			}catch (Exception e){
+				result.put("respCode", 315);
+				result.put("message", "使用当前位置，请输入浮点格式lat,lon");
+				return result;
+			}
+			return lnf.getLaoNong(lat, lon);
+		}
+		return lnf.getLaoNong(mlId);
 	}
 	
 }
