@@ -109,8 +109,9 @@ public class HomeController {
 //			result.put("message","用户尚未登陆");
 //			return result;
 //		}
-		String areaId = request.getParameter("areaId");
-		Duanzi duanzi = LaoNong.getDuanzi(areaId);
+		String monitorLocationId = request.getParameter("monitorLocationId");
+		Duanzi duanzi = LaoNong.getDuanzi(monitorLocationId);
+
 		
 		result.put("respcode", 200);
 		result.put("message", "获取段子成功");

@@ -99,6 +99,7 @@ public class VarietyFacade implements IVarietyFacade {
 		
 		try{
 			List<Variety> lv = varietyDao.findByCropRegion(cropId, province);
+			lv.addAll( varietyDao.findGenericVariety(cropId));
 			Map<String,HashMap<String,Long>> vlist = new  HashMap<String,HashMap<String,Long>>();
 			for (Variety v: lv){
 				if (!vlist.containsKey(v.getVarietyName())){
@@ -111,6 +112,7 @@ public class VarietyFacade implements IVarietyFacade {
 				}
 			}
 			
+		    /*
 			if (lv.size()==0){
 				lv = varietyDao.findGenericVariety(cropId);
 				for (Variety v: lv){
@@ -123,7 +125,7 @@ public class VarietyFacade implements IVarietyFacade {
 						vlist.get(v.getVarietyName()).put(v.getSubId(), v.getVarietyId());
 					}
 				}
-			}
+			}*/
 			
 			result.put("respCode",200);
 			result.put("message", "加载品种列表成功");

@@ -52,6 +52,8 @@ public class WISWeather {
 	            connection.setRequestProperty("connection", "Keep-Alive");
 	            connection.setRequestProperty("user-agent",
 	                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+	            connection.setRequestProperty("accept-language",
+	                    "zh-CN,zh;q=0.8");
 	            // 建立实际的连接
 	            connection.connect();
 	            // 获取所有响应头字段
@@ -62,7 +64,7 @@ public class WISWeather {
 	            }
 	            // 定义 BufferedReader输入流来读取URL的响应
 	            in = new BufferedReader(new InputStreamReader(
-	                    connection.getInputStream()));
+	                    connection.getInputStream(),"UTF-8"));
 	            String line;
 	            result="";
 	            while ((line = in.readLine()) != null) {

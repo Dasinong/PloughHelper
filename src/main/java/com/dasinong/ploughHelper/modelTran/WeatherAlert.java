@@ -51,7 +51,7 @@ public class WeatherAlert  implements Comparable<WeatherAlert> {
 	
 	public static WeatherAlert parseHTTPResult(String areaId, String result)
 			 throws JsonParseException,JsonProcessingException,IOException {
-		
+	//areaId is monitorLocationId in interface	
 		ObjectMapper mapper = new ObjectMapper();
 		List<WeatherAlert> waList = new ArrayList<WeatherAlert>();
 		
@@ -77,7 +77,7 @@ public class WeatherAlert  implements Comparable<WeatherAlert> {
 				wa.levelName = w.get("w7").toString().replace('\"', ' ').trim();
 				wa.time = w.get("w8").toString().replace('\"', ' ').trim();
 				wa.content = w.get("w9").toString().replace('\"', ' ').trim();
-				wa.urlTag = "/weatherAlert";
+				wa.urlTag = "/weatherAlert?monitorLocationId="+areaId;
 				wa.timeStamp = new Date();
 				wa.areaId = areaId;
 				waList.add(wa);

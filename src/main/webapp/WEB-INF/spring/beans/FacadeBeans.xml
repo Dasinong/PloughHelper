@@ -33,4 +33,11 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    
    <bean id="taskSpecFacade" class="com.dasinong.ploughHelper.facade.TaskSpecFacade" >
    </bean>
+   
+   <bean id="petDisFacade" class="com.dasinong.ploughHelper.facade.PetDisFacade" >
+   </bean>
+   
+   <bean id="petDisSpecFacade" class="com.dasinong.ploughHelper.facade.PetDisSpecFacade" >
+   </bean>
+   
 </beans>
