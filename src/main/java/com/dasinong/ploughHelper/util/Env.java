@@ -14,12 +14,14 @@ public class Env {
 	}
 	private Env() {
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-			WorkingDir = "E:/git";			
+			WorkingDir = "E:/git";
+			DataDir = "G:/index";
 			BaseFTP = WorkingDir + "PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
 			BaseDATA =WorkingDir + "PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
 		}
 		else{
 			WorkingDir = "/data";
+			DataDir = "/usr/local/tomcat7/webapps/";
 			BaseFTP = WorkingDir + "/data/ftp";
 			BaseDATA =WorkingDir + "/data/weather";
 		}
@@ -29,6 +31,7 @@ public class Env {
 	public String BaseFTP;
 	public String BaseDATA;
 	public String WorkingDir;
+	public String DataDir;
 	
 	public static void main(String[] args){
 		System.out.println(Env.getEnv().WorkingDir);

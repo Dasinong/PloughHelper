@@ -22,6 +22,8 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.facade.IBaiKeFacade;
 import com.dasinong.ploughHelper.util.FullTextSearch;
 
+import com.dasinong.ploughHelper.util.Env;
+
 @Controller
 public class BaiKeController {
 	
@@ -45,10 +47,11 @@ public class BaiKeController {
 		
 		FullTextSearch bs = null;
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-		     bs = new FullTextSearch("variety","E:/index/varietyIndex");
+			
+		    bs = new FullTextSearch("variety",Env.getEnv().DataDir+"/varietyIndex");
 		}
 		else{
-			bs = new FullTextSearch("variety","/usr/local/tomcat7/webapps/lucene/variety");
+			bs = new FullTextSearch("variety",Env.getEnv().DataDir+"/lucene/variety");
 		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
 
@@ -80,10 +83,10 @@ public class BaiKeController {
 		
 		
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-		     bs = new FullTextSearch("petDisSpec","E:/index/petDisSpecIndex");
+		     bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/petDisSpecIndex");
 		}
 		else{
-			bs = new FullTextSearch("petDisSpec","/usr/local/tomcat7/webapps/lucene/petDisSpec");
+			bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"lucene/petDisSpec");
 		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
 		try {
@@ -121,10 +124,10 @@ public class BaiKeController {
 		
 		
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-		     bs = new FullTextSearch("petDisSpec","E:/index/petCPProductIndex");
+		     bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/petCPProductIndex");
 		}
 		else{
-			bs = new FullTextSearch("petDisSpec","/usr/local/tomcat7/webapps/lucene/cPProduct");
+			bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/lucene/cPProduct");
 		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
 
@@ -166,10 +169,10 @@ public class BaiKeController {
 	public Object createVarietyIndex(HttpServletRequest request, HttpServletResponse response) {
 		FullTextSearch bs = null;
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-		     bs = new FullTextSearch("variety","E:/index/varietyIndex");
+		     bs = new FullTextSearch("variety",Env.getEnv().DataDir+"/varietyIndex");
 		}
 		else{
-			bs = new FullTextSearch("variety","/usr/local/tomcat7/webapps/lucene/variety");
+			bs = new FullTextSearch("variety",Env.getEnv().DataDir+"/lucene/variety");
 		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
 		bs.createVarietyIndex();
@@ -197,10 +200,10 @@ public class BaiKeController {
 	public Object createPetDisSpecIndex(HttpServletRequest request, HttpServletResponse response) {
 		FullTextSearch bs = null;
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-		     bs = new FullTextSearch("petDisSpec","E:/index/petDisSpecIndex");
+		     bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/petDisSpecIndex");
 		}
 		else{
-			bs = new FullTextSearch("petDisSpec","/usr/local/tomcat7/webapps/lucene/petDisSpec");
+			bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/lucene/petDisSpec");
 		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
 		bs.createPetIndex(); // only need create index once
@@ -229,10 +232,10 @@ public class BaiKeController {
 	public Object createCPProductIndex(HttpServletRequest request, HttpServletResponse response) {
 		FullTextSearch bs = null;
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-		     bs = new FullTextSearch("petDisSpec","E:/index/petCPProductIndex");
+		     bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/petCPProductIndex");
 		}
 		else{
-			bs = new FullTextSearch("petDisSpec","/usr/local/tomcat7/webapps/lucene/cPProduct");
+			bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/lucene/cPProduct");
 		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
 		bs.createCPProductIndex(); // only need create index once
