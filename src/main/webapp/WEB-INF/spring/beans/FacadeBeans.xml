@@ -37,6 +37,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    <bean id="petDisSpecFacade" class="com.dasinong.ploughHelper.facade.PetDisSpecFacade" >
    </bean>
    
+   <bean id="petSoluFacade" class="com.dasinong.ploughHelper.facade.PetSoluFacade" >
+   </bean>
+   
    <bean id="weatherFacade" class="com.dasinong.ploughHelper.facade.WeatherFacade" >
    </bean>
    

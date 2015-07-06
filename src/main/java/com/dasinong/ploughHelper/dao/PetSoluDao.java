@@ -4,7 +4,6 @@ package com.dasinong.ploughHelper.dao;
 import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
 import com.dasinong.ploughHelper.model.PetSolu;
 
 public class PetSoluDao extends HibernateDaoSupport implements IPetSoluDao{
@@ -47,6 +46,11 @@ public class PetSoluDao extends HibernateDaoSupport implements IPetSoluDao{
 			return null;
 		}
 		return (PetSolu) list.get(0);
+	}
+	
+	@Override
+	public PetSolu findById(Long id) {
+		return (PetSolu) this.getHibernateTemplate().get(PetSolu.class,id);
 	}
 
 }

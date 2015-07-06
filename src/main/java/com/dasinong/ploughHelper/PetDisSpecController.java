@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.facade.IPetDisSpecFacade;
+import com.dasinong.ploughHelper.facade.IPetSoluFacade;
 import com.dasinong.ploughHelper.model.User;
 
 @Controller
@@ -20,6 +21,7 @@ public class PetDisSpecController {
 	private static final Logger logger = LoggerFactory.getLogger(PetDisController.class);
 
 	IPetDisSpecFacade petDisSpecFacade;
+	IPetSoluFacade petSoluFacade;
 	
 	@RequestMapping(value = "/getPetDisBySubStage", produces="application/json")
 	@ResponseBody
@@ -71,5 +73,31 @@ public class PetDisSpecController {
 		petDisSpecFacade = (IPetDisSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecFacade");
 		
 		return petDisSpecFacade.getPetDisDetail(petDisSpecId);
+	}
+	
+	
+	@RequestMapping(value = "/getPetSolu", produces="application/json")
+	@ResponseBody
+	public Object getPetSolu(HttpServletRequest request, HttpServletResponse response){
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		User user = (User) request.getSession().getAttribute("User");
+		if (user==null){
+			result.put("respCode",100);
+			result.put("message","用户尚未登陆");
+			return result;
+		}
+		
+		Long petSoluId;
+		try{
+			petSoluId = Long.parseLong(request.getParameter("petSoluId"));
+		}
+		catch(Exception e){
+			result.put("respCode",300);
+			result.put("message","参数错误");
+			return result;
+		}
+
+		petSoluFacade = (IPetSoluFacade) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluFacade");
+		return petSoluFacade.getPetSoluDetail(petSoluId);
 	}
 }

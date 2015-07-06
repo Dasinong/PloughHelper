@@ -12,4 +12,6 @@ public interface IPetSoluDao {
 
 	public abstract PetSolu findByPetSoluName(String petSoluName);
 
+	PetSolu findById(Long id);
+
 }

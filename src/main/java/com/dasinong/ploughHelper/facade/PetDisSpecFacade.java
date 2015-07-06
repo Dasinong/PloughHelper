@@ -53,6 +53,11 @@ public class PetDisSpecFacade implements IPetDisSpecFacade {
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
 		PetDisSpec pds = petDisSpecDao.findById(petDisSpecId);
+		if (pds==null){
+			result.put("respCode",404);
+			result.put("message","该病虫草害不存在");
+			return result;
+		}
 		HashMap<String,Object> data = new HashMap<String,Object>();
 		PetDisSpecWrapper pdsw = new PetDisSpecWrapper(pds);
 		data.put("petDisSpec", pdsw);
@@ -65,7 +70,7 @@ public class PetDisSpecFacade implements IPetDisSpecFacade {
 			data.put("petSolutions", psws);
 		}
 		result.put("respCode",200);
-		result.put("message", "获取常见病虫草害成功");
+		result.put("message", "获取病虫草害详情成功");
 		result.put("data", data);
 		return result;
 	}
