@@ -75,7 +75,7 @@ public class FullTextSearch {
 			
 			Connection con = null;
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			con = (Connection) DriverManager.getConnection("jdbc:MySQL://182.254.129.101:3306/ploughHelper?useUnicode=true&characterEncoding=UTF-8", "root", "weather123");
+			con = (Connection) DriverManager.getConnection("jdbc:MySQL://localhost:3306/ploughHelper?useUnicode=true&characterEncoding=UTF-8", "root", "weather123");
 			Statement stmt; 
             stmt = (Statement) con.createStatement();
             String selectSql = "SELECT * FROM variety";
