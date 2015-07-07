@@ -32,11 +32,11 @@
       <p class="tiptitle"><strong>${AlertTitle}</strong></p>
     </div>
     <div class="levelicon levelicon-1 clearfix">
-      <img class="levelicon" src="jsp/images/levels.png">
+      <img class="levelicon" src="jsp/images/${LevelId}">
     </div>
   </div>
   <div class="tipdetail tipdetail-1 clearfix">
-    <p class="tipdetail">6小时内可能或者已经受热带气旋影响，沿海或者陆地平均风力达12级以上，或者阵风达14级以上并可能持续。</p>
+    <p class="tipdetail">${AlertDesc}</p>
   </div>
 </body>
 </html>
