@@ -46,7 +46,7 @@
 	
 	<!-- 处理器 -->  
 	<bean name="/weatherAlert" class="com.dasinong.ploughHelper.mvc.WeatherAlertController"/>
-	<bean name="/baike" class="com.dasinong.ploughHelper.BaiKeJspController"/>
+	<bean name="/baike" class="com.dasinong.ploughHelper.mvc.BaiKeJspController"/>
 	
 	<bean id="myJob" class="com.dasinong.ploughHelper.task.SampleTask" />
 

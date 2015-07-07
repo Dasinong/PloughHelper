@@ -1,4 +1,4 @@
-package com.dasinong.ploughHelper;
+package com.dasinong.ploughHelper.mvc;
 
 import java.util.HashMap;
 
