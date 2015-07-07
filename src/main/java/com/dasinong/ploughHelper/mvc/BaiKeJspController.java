@@ -29,7 +29,7 @@ public class BaiKeJspController implements Controller {
     	try{
 	    	switch(type){
 	    	case "pest":
-	    		result = (HashMap<String,Object>)baiKeFacade.getCPProductById(Long.parseLong(id));
+	    		result = (HashMap<String,Object>)baiKeFacade.getPetDisSpecById(Long.parseLong(id));
 	    		PetDisSpecWrapper  pdsw = (PetDisSpecWrapper)result.get("data");
 	    		mv = handlePest(mv,pdsw);
 	    		break;
@@ -38,8 +38,7 @@ public class BaiKeJspController implements Controller {
 	    		CPProductWrapper  cpw = (CPProductWrapper)result.get("data");
 	    		mv = handlePesticide(mv, cpw);
 	    		break;
-	    	case "variety":
-	    		 
+	    	case "variety":	    		 
 	    		result = (HashMap<String,Object>)baiKeFacade.getVarietyById(Long.parseLong(id));
 	    		VarietyWrapper  vw = (VarietyWrapper)result.get("data");
 	    		mv = handleVariety(mv, vw);
@@ -54,7 +53,13 @@ public class BaiKeJspController implements Controller {
 	}
 	
 	public ModelAndView handlePest(ModelAndView mv, PetDisSpecWrapper  pdsw){
-		
+		mv.addObject("DisasterName", pdsw.getPestName());
+		mv.addObject("Alias", pdsw.getAlias());
+		mv.addObject("Symptom", pdsw.getSympton());
+		mv.addObject("Morphology", pdsw.getForm());
+		mv.addObject("Habit", pdsw.getHabbit());
+		mv.addObject("Pattern", pdsw.getRule());
+		mv.setViewName("BaikeDisaster");
 		return mv;
 	}
 	
@@ -73,7 +78,13 @@ public class BaiKeJspController implements Controller {
 	}
 	
 	public ModelAndView handleVariety(ModelAndView mv, VarietyWrapper vw){
-		
+		mv.addObject("Name", vw.getVarietyName());
+		mv.addObject("ExaminationNumber", vw.getRegistrationId());
+		mv.addObject("BreedingUnit", vw.getOwner());
+		mv.addObject("SuitableRegion", vw.getSuitableArea());
+		mv.addObject("Yield", vw.getYieldPerformance());
+		mv.addObject("VarietyChacts", vw.getCharacteristics());
+		mv.setViewName("BaikeVariety");
 		return mv;
 	}
 
