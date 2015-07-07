@@ -11,6 +11,8 @@ public interface IPetDisSpecDao {
 	public abstract void delete(PetDisSpec petDisSpec);
 
 	public abstract PetDisSpec findByPetDisSpecName(String petDisSpecName);
+	
+	public abstract PetDisSpec findByNameAndCrop(String petDisSpecName, String cropName);
 
 	public abstract PetDisSpec findById(Long id);
 

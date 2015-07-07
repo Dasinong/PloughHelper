@@ -39,7 +39,6 @@ public class PetDisSpecDao extends HibernateDaoSupport implements IPetDisSpecDao
 	 */
 	@Override
 	public PetDisSpec findByPetDisSpecName(String petDisSpecName) {
-		@SuppressWarnings("rawtypes")
 		List list = getHibernateTemplate().find(
 				"from PetDisSpec where petDisSpecName=?",petDisSpecName);
 		if (list==null||list.isEmpty()){
@@ -54,5 +53,15 @@ public class PetDisSpecDao extends HibernateDaoSupport implements IPetDisSpecDao
 	@Override
 	public PetDisSpec findById(Long id) {
 		return (PetDisSpec) this.getHibernateTemplate().get(PetDisSpec.class,id);
+	}
+
+	@Override
+	public PetDisSpec findByNameAndCrop(String petDisSpecName, String cropName) {
+		List list = getHibernateTemplate().find(
+				"from PetDisSpec where petDisSpecName=? and cropName=?",petDisSpecName, cropName);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
+		return (PetDisSpec) list.get(0);
 	}
 }
