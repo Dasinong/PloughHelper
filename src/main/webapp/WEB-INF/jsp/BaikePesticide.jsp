@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="jsp/css/standardize.css">
   <link rel="stylesheet" href="jsp/css/baikecpproduct-grid.css">
   <link rel="stylesheet" href="jsp/css/baikecpproduct.css">
+  <script type="text/javascript" src="jsp/js/format-baike.js"></script>
 </head>
 
 <body class="body page-baikecpproduct clearfix">
@@ -49,49 +50,13 @@
     <p class="usetitle">用药指导<br></p>
   </div>
   <div class="usage usage-1 clearfix">
-	  	
+  
 	  	<script type="text/javascript">
-
-		
-		function myfunction(tips){
-			    var head1 = tips.substring(0,1);
-				i = 1;
-				if(head1 == "●")
-					while(tips.match("●")){
-						tips = tips.replace(/●/,String(i).toString()+'.');
-						i++;
-					}
-				else if(head1 == "１"){
-					tips = tips.replace(/１/,"1");
-					tips = tips.replace(/２/,"2");
-					tips = tips.replace(/３/,"3");
-					tips = tips.replace(/４/,"4");
-					tips = tips.replace(/５/,"5");
-					tips = tips.replace(/６/,"6");
-				}
-				
-				var head2 = tips.substring(0,2);
-				switch(head2){
-					case '1、':
-						tips = tips.replace(/(\d)、/g, "$1.");
-						break;
-					case '1.':
-						break;
-					case '[1':
-						tips = tips.replace(/\[(\d)/g,"$1.");
-						break;	
-					case '1）':
-						tips = tips.replace(/(\d)）/g,"$1.");
-						break;
-				}
-				var tipsList = tips.replace(/(\d+\.)/g,"</p><p>$1");
-			    return tipsList;
-			}
 		var guidelines =  "${guideline}";
-		document.write("<p> " + myfunction(guidelines) );
+		document.write("<p> " + formatTips(guidelines) );
 		document.write("</p>");
-		</script>
-		
+		</script>		
+  
   </div>
   <div class="regidtitle regidtitle-1 clearfix">
     <p class="regidtitle">登 &nbsp;记 &nbsp;号<br></p>
@@ -113,7 +78,7 @@
     
 	<script type="text/javascript">
 	var tips =  "${tips}";	
-	document.write("<p> " + myfunction(tips) );
+	document.write("<p> " + formatTips(tips) );
 	document.write("</p>");
 	</script>
 	
