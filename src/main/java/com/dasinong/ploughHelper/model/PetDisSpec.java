@@ -33,7 +33,7 @@ public class PetDisSpec implements Serializable{
 	private String habits = "";
 	private String rules = "";
 	private String pictureIds = "";
-	private String region;
+	private String region = "";
 	
 	public PetDisSpec(){}
 	

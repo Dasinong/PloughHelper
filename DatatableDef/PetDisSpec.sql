@@ -19,6 +19,6 @@ CREATE TABLE  petDisSpec (
   forms TEXT,
   habits TEXT,
   rules TEXT,
-  pictureIds VARCHAR(20),
+  pictureIds VARCHAR(2000),
   region VARCHAR(20)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
