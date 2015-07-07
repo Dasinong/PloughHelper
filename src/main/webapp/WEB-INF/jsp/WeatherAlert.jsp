@@ -12,7 +12,7 @@
 </head>
 <body class="body page-weatheralert clearfix">
   <div class="alerticon alerticon-1">
-    <img class="alerticon" src="jsp/images/p0001001.png">
+    <img class="alerticon" src="jsp/images/${AlertIcon}">
   </div>
   <div class="alerttitle alerttitle-1">
     <p class="alerttitle"><strong>${AlertTitle}</strong></p>
