@@ -37,10 +37,9 @@ public class CPProductDao extends HibernateDaoSupport implements ICPProductDao{
 	 * @see com.dasinong.ploughHelper.dao.ICPProductDao#findByCPProductName(java.lang.String)
 	 */
 	@Override
-	public CPProduct findByCPProductName(String cPProductName) {
-		@SuppressWarnings("rawtypes")
+	public CPProduct findByRegisterationId(String registerationId) {
 		List list = getHibernateTemplate().find(
-				"from CPProduct where cPProductName=?",cPProductName);
+				"from CPProduct where registerationId=?",registerationId);
 		if (list==null||list.isEmpty()){
 			return null;
 		}

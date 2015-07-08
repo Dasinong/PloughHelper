@@ -10,8 +10,8 @@ public interface ICPProductDao {
 
 	public abstract void delete(CPProduct cPProduct);
 
-	public abstract CPProduct findByCPProductName(String cPProductName);
-
-	CPProduct findById(Long id);
+	public abstract CPProduct findByRegisterationId(String registerationId);
+	
+	public abstract CPProduct findById(Long id);
 
 }
