@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.springframework.web.context.ContextLoader;
+
 import com.dasinong.ploughHelper.util.Env;
 
 public class All7dHum {
@@ -19,7 +21,8 @@ public class All7dHum {
 	
 	public static All7dHum get7dHum() throws IOException, ParseException{
 		if (all7dHum==null){
-			all7dHum = new All7dHum();
+			//all7dHum = new All7dHum();
+			all7dHum = (All7dHum) ContextLoader.getCurrentWebApplicationContext().getBean("all7dHum");
 			return all7dHum;
 		}
 		else{

@@ -115,6 +115,35 @@ public class FieldController {
 		}
 	}
 	
+	
+	@RequestMapping(value = "/changeStage", produces="application/json")
+	@ResponseBody
+	public Object changeStage(HttpServletRequest request, HttpServletResponse response)  {
+		User user = (User) request.getSession().getAttribute("User");
+		Map<String,Object> result = new HashMap<String,Object>();
+		if (user==null){
+			result.put("respCode",100);
+			result.put("message","用户尚未登陆");
+			return result;
+		}
+	    
+		Long fieldId; 
+		Long currentStageId;
+		
+		try{
+			fieldId = Long.parseLong(request.getParameter("fieldId"));
+			currentStageId = Long.parseLong(request.getParameter("currentStageId"));
+		}
+		catch(Exception e){
+	    	result.put("respCode",300);
+			result.put("message","参数错误");
+			return result;
+		}
+  	    
+	    IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");
+		return ff.changeField(fieldId,currentStageId);
+
+	}
 	public static void main(String[] args) throws ParseException{
 		/*
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");

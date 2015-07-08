@@ -77,5 +77,15 @@ public class TaskSpecDao implements ITaskSpecDao{
 		spec.getSubStage().getDurationHigh();
 		return spec;
 	}
+	
+	@Override
+	public List<TaskSpec> findBySubstage(Long subStageId){
+		List list = this.getSessionFactory().getCurrentSession().createQuery(
+				"from TaskSpec where subStageId=:subStageId").setLong("subStageId", subStageId).list();
+		if (list==null||list.isEmpty()){
+			return null;
+		}
+		return list;
+	}
 
 }

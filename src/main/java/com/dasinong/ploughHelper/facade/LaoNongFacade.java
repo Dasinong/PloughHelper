@@ -39,7 +39,7 @@ public class LaoNongFacade implements ILaoNongFacade {
 		if (wa!=null){
 			result.put("respCode", 200);
 			result.put("message","获得老农成功");
-			LaoNong laoNong = new LaoNong(0,2,"","天气预警",wa.shortDescription(),wa.urlTag());
+			LaoNong laoNong = new LaoNong(0,2,"ohnoface.png","天气预警",wa.shortDescription(),wa.urlTag());
 			result.put("data",laoNong);
 			return result;
 		}

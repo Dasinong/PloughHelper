@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.springframework.web.context.ContextLoader;
+
 import com.dasinong.ploughHelper.util.Env;
 
 public class AllCurrentJiwen {
@@ -21,7 +23,8 @@ public class AllCurrentJiwen {
 	
 	public static AllCurrentJiwen getCurJiwen() throws IOException, ParseException{
 		if (allCurrentJiwen==null){
-			allCurrentJiwen = new AllCurrentJiwen();
+			//allCurrentJiwen = new AllCurrentJiwen();
+			allCurrentJiwen = (AllCurrentJiwen) ContextLoader.getCurrentWebApplicationContext().getBean("allCurrentJiwen");
 			return allCurrentJiwen;
 		}
 		else{
@@ -53,8 +56,9 @@ public class AllCurrentJiwen {
 	       	fullpath = Env.getEnv().WorkingDir+"/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/jw_2015-6-17.csv";
 	    }else{
 	       	Date date = new Date();
+	       	date.setTime(date.getTime()-24*60*60*1000);
 	       	String filename = "";
-	       	SimpleDateFormat df = new SimpleDateFormat("yyyy-M-dd");
+	       	SimpleDateFormat df = new SimpleDateFormat("yyyy-M-d");
 	       	filename = "jw_"+df.format(date)+".csv";
 	       	fullpath = Env.getEnv().WorkingDir+"/data/ftp/jiwen/"+filename;
 	    }
@@ -65,7 +69,7 @@ public class AllCurrentJiwen {
 		String line;
 		line = br.readLine();
 		int currentCode =0;
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-M-d");
 		String[] units = line.split(",");
 		
 		_allCurrentJiwen.put(Integer.parseInt(units[0]), Integer.parseInt(units[2]));
@@ -95,16 +99,6 @@ public class AllCurrentJiwen {
 			System.out.println(entry.getValue());
 		}
 		
-		String fullpath="";
-	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-	       	fullpath = "./src/main/java/com/dasinong/ploughHelper/weather/jw_2015-6-17.csv";
-	    }else{
-	       	Date date = new Date();
-	       	String filename = "";
-	       	SimpleDateFormat df = new SimpleDateFormat("yyyy-M-dd");
-	       	filename = "jw_"+df.format(date)+".csv";
-	       	fullpath = "/data/data/ftp/jiwen/"+filename;
-	    }
-	    System.out.println(fullpath);
+		
 	}
 }

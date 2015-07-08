@@ -9,6 +9,8 @@ import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.NatDis;
 import com.dasinong.ploughHelper.model.PetDis;
+import com.dasinong.ploughHelper.model.PetDisSpec;
+import com.dasinong.ploughHelper.model.SubStage;
 import com.dasinong.ploughHelper.model.Task;
 
 public class FieldWrapper implements Serializable{
@@ -24,6 +26,7 @@ public class FieldWrapper implements Serializable{
 	private List<TaskWrapper> taskws = new ArrayList<TaskWrapper>();
 	private List<PetDisWrapper> petdisws =  new ArrayList<PetDisWrapper>();
 	private List<NatDisWrapper> natdisws = new ArrayList<NatDisWrapper>();
+	private List<PetDisSpecWrapper> petdisspecws = new ArrayList<PetDisSpecWrapper>();
 	
 	private long currentStageID;
 	private Date startDate;
@@ -31,6 +34,7 @@ public class FieldWrapper implements Serializable{
 	private long yield;
 	private boolean workable;
 	private boolean sprayable;
+	private int dayToHarvest;
 	
 	public FieldWrapper(Field field, ITaskSpecDao taskSpecDao){
 		this.setFieldId(field.getFieldId());
@@ -61,6 +65,19 @@ public class FieldWrapper implements Serializable{
 		this.setYield(field.getYield());
 		this.setWorkable(field.isWorkable());
 		this.setSprayable(field.isSprayable());
+		this.setDayToHarvest(field.getDayToHarvest());
+		if (field.getVariety().getSubStages()!=null){
+			for(SubStage ss : field.getVariety().getSubStages()){
+				if (ss.getSubStageId() == field.getCurrentStageID()){
+					if(ss.getPetDisSpecs()!=null){
+						for(PetDisSpec pds: ss.getPetDisSpecs()){
+							PetDisSpecWrapper pdsw = new PetDisSpecWrapper(pds);
+							petdisspecws.add(pdsw);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public Long getFieldId() {
@@ -189,6 +206,22 @@ public class FieldWrapper implements Serializable{
 
 	public void setSprayable(boolean sprayable) {
 		this.sprayable = sprayable;
+	}
+
+	public int getDayToHarvest() {
+		return dayToHarvest;
+	}
+
+	public void setDayToHarvest(int dayToHarvest) {
+		this.dayToHarvest = dayToHarvest;
+	}
+
+	public List<PetDisSpecWrapper> getPetdisspecws() {
+		return petdisspecws;
+	}
+
+	public void setPetdisspecws(List<PetDisSpecWrapper> petdisspecws) {
+		this.petdisspecws = petdisspecws;
 	}
 
 	

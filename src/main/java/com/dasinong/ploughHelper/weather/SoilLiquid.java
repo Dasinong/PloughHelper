@@ -12,7 +12,7 @@ import java.util.Date;
 import com.dasinong.ploughHelper.util.Env;
 
 public class SoilLiquid {
-private static SoilLiquid soilLiquid;
+	private static SoilLiquid soilLiquid;
 	
 	public static SoilLiquid getSoilLi() throws IOException, ParseException{
 		if (soilLiquid==null){
