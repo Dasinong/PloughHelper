@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.dasinong.ploughHelper.model.Proverb" table="proverb" catalog="ploughHelper">
+        <id name="proverbId" type="java.lang.Long">
+            <column name="proverbId" />
+            <generator class="identity" />
+        </id>
+        <property name="necessaryCondition" type="string">
+            <column name="necessaryCondition" length="100"/>
+        </property>
+        <property name="content" type="string">
+            <column name="content" length="200" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

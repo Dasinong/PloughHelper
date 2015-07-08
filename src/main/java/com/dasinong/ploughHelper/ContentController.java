@@ -17,6 +17,7 @@ import com.dasinong.ploughHelper.contentLoader.IUpdateDisease;
 import com.dasinong.ploughHelper.contentLoader.IUpdateStep;
 import com.dasinong.ploughHelper.contentLoader.LoadDiseaseAndSolution;
 import com.dasinong.ploughHelper.contentLoader.LoadLocation;
+import com.dasinong.ploughHelper.contentLoader.LoadProverb;
 import com.dasinong.ploughHelper.contentLoader.LoadStep;
 import com.dasinong.ploughHelper.contentLoader.LoadVariety;
 import com.dasinong.ploughHelper.contentLoader.UpdateDisease;
@@ -172,6 +173,15 @@ private static final Logger logger = LoggerFactory.getLogger(Test1Controller.cla
 	public Object updateDiseasePicture(HttpServletRequest request, HttpServletResponse response) {
 		UpdateDiseasePicture udp = new UpdateDiseasePicture();
 	   udp.run();
+	  
+	  return "OK";
+	}
+	
+	@RequestMapping(value = "/loadProverb", produces="application/json")
+	@ResponseBody
+	public Object loadProverb(HttpServletRequest request, HttpServletResponse response) {
+	  LoadProverb lp = new LoadProverb();
+	  lp.readFile();
 	  
 	  return "OK";
 	}
