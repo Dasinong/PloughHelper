@@ -44,6 +44,7 @@
 			   <value>/com/dasinong/ploughHelper/model/SubScribeList.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/UserPetDis.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/DisasterReport.hbm.xml</value>
+			   <value>/com/dasinong/ploughHelper/model/Proverb.hbm.xml</value>
 			</list>
     	</property>	
     </bean>
