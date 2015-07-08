@@ -31,6 +31,7 @@ public class Field implements Serializable{
 	
 	private boolean workable;
 	private boolean sprayable;
+	private int dayToHarvest;
 
 	//MonitorLocationID
     //SoilType	SoilN	SoilK	SoilP	SoilOrganic	SoilPH	SoilS	SoilMg	SoilCa	SoilFe	SoilMo	SoilB	SoilMn	Soilzn	SoilCu	SoilCI	
@@ -158,6 +159,12 @@ public class Field implements Serializable{
 	}
 	public void setSprayable(boolean sprayable) {
 		this.sprayable = sprayable;
+	}
+	public int getDayToHarvest() {
+		return dayToHarvest;
+	}
+	public void setDayToHarvest(int dayToHarvest) {
+		this.dayToHarvest = dayToHarvest;
 	}
 
 }

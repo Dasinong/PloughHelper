@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.web.context.ContextLoader;
 import org.xml.sax.SAXException;
 
 import com.dasinong.ploughHelper.util.Env;
@@ -16,9 +17,10 @@ import com.dasinong.ploughHelper.util.Env;
 public class All24h {
 	private static All24h all24h;
 	
-	public static All24h get24h() throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{
+	public static All24h get24h(){
 		if (all24h==null){
-			all24h = new All24h();
+			//all24h = new All24h();
+			all24h = (All24h) ContextLoader.getCurrentWebApplicationContext().getBean("all24h");
 			return all24h;
 		}
 		else{
@@ -26,7 +28,7 @@ public class All24h {
 		}
 		
 	}
-	private All24h() throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{
+	private All24h(){
 		_all24h = new HashMap<Integer,TwentyFourHourForcast>();
 		loadContent();
 	}
@@ -43,7 +45,8 @@ public class All24h {
 		}
 	}
 	
-	private void loadContent() throws IOException, ParseException, NumberFormatException, ParserConfigurationException {
+	private void loadContent() {
+		System.out.println("loadContent of 24h called " + this.hashCode());
 		TwentyFourHourForcast tfhf=null;
 	
 		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
@@ -53,19 +56,24 @@ public class All24h {
         }else{
         	basefolder = Env.getEnv().WorkingDir +"/data/weather/hour/current";
         }
-        
-		File f = new File(basefolder);
-		if (f.isDirectory()){
-			String[] filelist = f.list();
-			for(int i=0; i<filelist.length; i++){
-				try{
-					tfhf = new TwentyFourHourForcast(basefolder+"/"+filelist[i],Integer.parseInt(filelist[i]));
-					_all24h.put(tfhf.code, tfhf);
-				}catch(Exception e){
-					System.out.println("Load 24h for "+ filelist[i] + "failed.");
-					System.out.println(e.getCause());
+        try{
+			File f = new File(basefolder);
+			if (f.isDirectory()){
+				String[] filelist = f.list();
+				for(int i=0; i<filelist.length; i++){
+					try{
+						tfhf = new TwentyFourHourForcast(basefolder+"/"+filelist[i],Integer.parseInt(filelist[i]));
+						_all24h.put(tfhf.code, tfhf);
+					}catch(Exception e){
+						System.out.println("Load 24h for "+ filelist[i] + "failed.");
+						System.out.println(e.getCause());
+					}
 				}
 			}
+        }
+		catch(Exception e){
+			System.out.println(e.getMessage());
+			System.out.println("加载24小时天气失败");
 		}
 
 	}

@@ -2,6 +2,7 @@ package com.dasinong.ploughHelper.facade;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -9,12 +10,19 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.IFieldDao;
 import com.dasinong.ploughHelper.dao.ILocationDao;
+import com.dasinong.ploughHelper.dao.IPetDisSpecDao;
 import com.dasinong.ploughHelper.dao.ISubStageDao;
+import com.dasinong.ploughHelper.dao.ITaskDao;
 import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.dao.IVarietyDao;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.NatDis;
+import com.dasinong.ploughHelper.model.PetDis;
+import com.dasinong.ploughHelper.model.PetDisSpec;
+import com.dasinong.ploughHelper.model.SubStage;
+import com.dasinong.ploughHelper.model.Task;
+import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.Variety;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
@@ -25,9 +33,11 @@ public class FieldFacade implements IFieldFacade {
 
 	IFieldDao fd;
 	ITaskSpecDao taskSpecDao;
+	ITaskDao taskDao;
 	ILocationDao ldDao; 
     IVarietyDao varietyDao;
     ISubStageDao subStageDao;
+    IPetDisSpecDao petDisSpecDao;
 	
 	/* (non-Javadoc)
 	 * @see com.dasinong.ploughHelper.facade.IFieldFacade#createField(com.dasinong.ploughHelper.model.User, com.dasinong.ploughHelper.inputParser.FieldParser)
@@ -41,6 +51,8 @@ public class FieldFacade implements IFieldFacade {
 		varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 		subStageDao = (ISubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
 		taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
+		taskDao = (ITaskDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskDao");
+		petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
 	    
 	    Map<String,Object> result = new HashMap<String,Object>();
 	    try {
@@ -61,6 +73,9 @@ public class FieldFacade implements IFieldFacade {
 	         else{
 	        	 csid = Long.parseLong(currentStageId);
 	         }
+	        
+	         
+	         
 	         if (yield == null || yield.equalsIgnoreCase("")){
 	        	 yie = 0L;
 	         }
@@ -87,7 +102,22 @@ public class FieldFacade implements IFieldFacade {
 	         int monitorLocationId = AllLocation.getLocation().getNearest(lat, lon);
 	         field.setMonitorLocationId(monitorLocationId);
 	         fd.save(field);
-
+	         
+	         //初始化所有常见任务
+	         if (variety.getSubStages()!=null){
+		         for(SubStage ss : variety.getSubStages()){
+		        	if (ss.getTaskSpecs()!=null){
+		        		for (TaskSpec ts : ss.getTaskSpecs()){
+		        			 Task t = new Task(ts,false);
+		        			 t.setFieldId(field.getFieldId());
+		        			 taskDao.save(t);
+		        			 if (field.getTasks()==null) field.setTasks(new HashMap<Long,Task>());
+		        			 field.getTasks().put(t.getTaskId(), t);
+		        		}
+		        	 }
+		         }
+	         }
+	        
  			user.getFields().add(field);
 
 			FieldWrapper fw = new FieldWrapper(field,taskSpecDao);
@@ -109,5 +139,20 @@ public class FieldFacade implements IFieldFacade {
 
 		return result;
 		
+	}
+
+	@Override
+	public Object changeField(Long fieldId, Long currentStageId) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		fd = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
+		Field f = fd.findById(fieldId);
+		f.setCurrentStageID(currentStageId);
+		fd.update(f);
+		FieldWrapper fw = new FieldWrapper(f,taskSpecDao);
+		result.put("respCode", 200);
+		result.put("message", "添加田地成功");
+		result.put("data",fw);
+		return result;
 	}
 }

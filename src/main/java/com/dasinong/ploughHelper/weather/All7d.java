@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.springframework.web.context.ContextLoader;
+
 import com.dasinong.ploughHelper.util.Env;
 
 public class All7d {
@@ -19,7 +21,8 @@ public class All7d {
 
 	public static All7d getAll7d() throws IOException, ParseException{
 		if (all7d==null){
-			all7d = new All7d();
+			//all7d = new All7d();
+			all7d = (All7d) ContextLoader.getCurrentWebApplicationContext().getBean("all7d");
 			return all7d;
 		}
 		else{
