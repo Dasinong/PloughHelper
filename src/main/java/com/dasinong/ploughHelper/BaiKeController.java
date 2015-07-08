@@ -70,6 +70,7 @@ public class BaiKeController {
 							record.put("id", h[i].get("varietyId"));
 							record.put("name", h[i].get("varietyName"));
 							record.put("source", h[i].get("varietySource"));
+							record.put("type", "variety");
 							format.add(record);
 						}
 					}
@@ -107,9 +108,19 @@ public class BaiKeController {
 							record.put("id", h[i].get("petDisSpecId"));
 							record.put("name",h[i].get("petDisSpecName"));
 							record.put("source",h[i].get("cropName")+" "+h[i].get("sympthon"));
-							if (h[i].get("type").equals("病害")) ill.add(record);
-							if (h[i].get("type").equals("虫害")) pest.add(record);
-							if (h[i].get("type").equals("草害")) grass.add(record);
+							if (h[i].get("type").equals("病害")){
+								record.put("type", "pest");
+								ill.add(record);
+							}
+							if (h[i].get("type").equals("虫害")){
+								record.put("type", "pest");
+								pest.add(record);
+							}
+							if (h[i].get("type").equals("草害")) {
+								record.put("type", "pest");
+								grass.add(record);
+							}
+							
 						}
 					}
 				}
@@ -146,6 +157,7 @@ public class BaiKeController {
 							record.put("id", h[i].get("cPProductId"));
 							record.put("name", h[i].get("cPProductName"));
 							record.put("source", h[i].get("crop")+" "+h[i].get("manufacturer"));
+							record.put("type","pesticide");
 							format.add(record);
 						}
 					}
