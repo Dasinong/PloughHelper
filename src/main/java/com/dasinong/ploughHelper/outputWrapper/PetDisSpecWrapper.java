@@ -10,7 +10,8 @@ public class PetDisSpecWrapper {
 	String form="";
 	String habbit="";
 	String rule="";
-	
+	String imagePath="";
+
 	public PetDisSpecWrapper(PetDisSpec p){
 		this.id = p.getPetDisSpecId();
 		this.pestName = p.getPetDisSpecName();
@@ -19,6 +20,7 @@ public class PetDisSpecWrapper {
 		this.form = p.getForms();
 		this.habbit = p.getHabits();
 		this.rule = p.getRules();
+		this.imagePath = p.getPictureIds();
 	}
 
 	public Long getId() {
@@ -77,5 +79,13 @@ public class PetDisSpecWrapper {
 		this.rule = rule;
 	}
 	
+	
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
 	
 }
