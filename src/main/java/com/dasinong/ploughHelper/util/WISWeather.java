@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -98,8 +99,8 @@ public class WISWeather {
 		mac.init(signingKey);
 		byte[] rawHmac = mac.doFinal(urlkey.getBytes());
 		byte[] encodeBytes = Base64.encodeBase64(rawHmac);
-		System.out.println(new String(encodeBytes));
-		String finalkey = new String(encodeBytes,"GB2312");
+		String finalkey = new String(encodeBytes,"utf-8");
+		finalkey = URLEncoder.encode(finalkey,"utf-8");
 		System.out.println(finalkey);
 		result = WISWeather.url+"?areaid="+this.areaId+"&type="+this.type+"&date="+date+"&appid="+this.short_app_id+"&key="+finalkey;
 		System.out.println(result);

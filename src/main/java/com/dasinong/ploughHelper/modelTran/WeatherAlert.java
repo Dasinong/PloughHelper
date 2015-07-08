@@ -120,7 +120,7 @@ public class WeatherAlert  implements Comparable<WeatherAlert> {
 					"当路表温度低于0℃，出现降水，2小时内可能出现或者已经出现对交通有很大影响的道路结冰。"
 					};
 			String tag = "0101";
-			for(int i=0;i<15;i++)
+			for(int i=0;i<14;i++)
 				for(int j=0;j<4;j++)
 					descriptionMap.put(i>=9?""+(101+i*100+j):"0"+(101+i*100+j),desArray[i*4+j]);			
 		}
