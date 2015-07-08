@@ -99,10 +99,9 @@ public class WISWeather {
 		mac.init(signingKey);
 		byte[] rawHmac = mac.doFinal(urlkey.getBytes());
 		byte[] encodeBytes = Base64.encodeBase64(rawHmac);
-		System.out.println(new String(encodeBytes));
-		String finalkey = new String(encodeBytes,"GB2312");
-		System.out.println(finalkey);
+		String finalkey = new String(encodeBytes,"utf-8");
 		finalkey = URLEncoder.encode(finalkey,"utf-8");
+		System.out.println(finalkey);
 		result = WISWeather.url+"?areaid="+this.areaId+"&type="+this.type+"&date="+date+"&appid="+this.short_app_id+"&key="+finalkey;
 		System.out.println(result);
 		return result;
