@@ -7,9 +7,10 @@ import com.dasinong.ploughHelper.model.User;
 public interface IHomeFacade {
 
 	@Transactional
-	public abstract Object LoadHome(User user, Long fieldId);
 
 	public abstract Object LoadHome(double lat, double lon);
+
+	Object LoadHome(User user, Long fieldId, int taskType);
 
 
 }

@@ -34,7 +34,11 @@ public class HomeFacade implements IHomeFacade {
 	 * @see com.dasinong.ploughHelper.facade.IHomeFacade#LoadHome(com.dasinong.ploughHelper.model.User, java.lang.String)
 	 */
 	@Override
-	public Object LoadHome(User user,Long fieldId){
+	public Object LoadHome(User user,Long fieldId,int taskType){
+		//taskType means how would you like to load task related content.
+		//1 for all
+		//2 for current stage
+		//3 for not required
 		fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
@@ -58,7 +62,7 @@ public class HomeFacade implements IHomeFacade {
 			return result;
 		}
 		
-		FieldWrapper fw = new FieldWrapper(f,taskSpecDao);
+		FieldWrapper fw = new FieldWrapper(f,taskSpecDao,taskType);
 		result.put("currentField",fw);
 				
 		long latest=-1;

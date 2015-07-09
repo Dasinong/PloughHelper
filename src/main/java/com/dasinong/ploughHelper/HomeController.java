@@ -94,18 +94,15 @@ public class HomeController {
 		String taskLoadType= request.getParameter("task");
 		if (taskLoadType==null || taskLoadType.equals(""))
 		{
-			return hf.LoadHome(user, fId);
+			return hf.LoadHome(user, fId,1);
+		}else if (taskLoadType.equals("all")){
+			return hf.LoadHome(user, fId,1);
+		}else if (taskLoadType.equals("currentStage")){
+			return hf.LoadHome(user, fId,2);
+		}else if (taskLoadType.equals("none")){
+			return hf.LoadHome(user, fId,3);
 		}
-		if (taskLoadType.equals("all")){
-			return hf.LoadHome(user, fId);
-		}
-		if (taskLoadType.equals("currentStage")){
-			return hf.LoadHome(user, fId);
-		}
-		if (taskLoadType.equals("none")){
-			return hf.LoadHome(user, fId);
-		}
-		return hf.LoadHome(user, fId);
+		return hf.LoadHome(user, fId,1);
 	}
 	
 	

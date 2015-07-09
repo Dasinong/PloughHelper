@@ -36,7 +36,7 @@ public class FieldWrapper implements Serializable{
 	private boolean sprayable;
 	private int dayToHarvest;
 	
-	public FieldWrapper(Field field, ITaskSpecDao taskSpecDao){
+	public FieldWrapper(Field field, ITaskSpecDao taskSpecDao, int taskLoadType){
 		this.setFieldId(field.getFieldId());
 		this.fieldName = (field.getFieldName()==null)?"":field.getFieldName();
 		this.setActive(field.getIsActive());
@@ -44,11 +44,21 @@ public class FieldWrapper implements Serializable{
 		this.setUserId(field.getUser().getUserId());
 		this.setLocationId(field.getLocation().getLocationId());
 		this.setMonitorLocationId(field.getMonitorLocationId());
-		if (field.getTasks()!=null){
-			for (Task t : field.getTasks().values()){
-				TaskWrapper tw = new TaskWrapper(t,taskSpecDao);
-				if (tw.getSubStageId() == field.getCurrentStageID()){
+		if (taskLoadType==1){
+			if (field.getTasks()!=null){
+				for (Task t : field.getTasks().values()){
+					TaskWrapper tw = new TaskWrapper(t,taskSpecDao);
 					taskws.add(new TaskWrapper(t,taskSpecDao));
+				}
+			}
+		}
+		if (taskLoadType==2){
+			if (field.getTasks()!=null){
+				for (Task t : field.getTasks().values()){
+					TaskWrapper tw = new TaskWrapper(t,taskSpecDao);
+					if (tw.getSubStageId() == field.getCurrentStageID()){
+						taskws.add(new TaskWrapper(t,taskSpecDao));
+					}
 				}
 			}
 		}
@@ -69,6 +79,7 @@ public class FieldWrapper implements Serializable{
 		this.setWorkable(field.isWorkable());
 		this.setSprayable(field.isSprayable());
 		this.setDayToHarvest(field.getDayToHarvest());
+		
 		if (field.getVariety().getSubStages()!=null){
 			for(SubStage ss : field.getVariety().getSubStages()){
 				if (ss.getSubStageId() == field.getCurrentStageID()){
@@ -81,6 +92,7 @@ public class FieldWrapper implements Serializable{
 				}
 			}
 		}
+
 	}
 
 	public Long getFieldId() {
