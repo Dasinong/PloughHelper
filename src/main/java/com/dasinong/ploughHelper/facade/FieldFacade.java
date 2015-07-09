@@ -120,7 +120,7 @@ public class FieldFacade implements IFieldFacade {
 	        
  			user.getFields().add(field);
 
-			FieldWrapper fw = new FieldWrapper(field,taskSpecDao);
+			FieldWrapper fw = new FieldWrapper(field,taskSpecDao,1);
 			result.put("respCode", 200);
 			result.put("message", "添加田地成功");
 			result.put("data",fw);
@@ -149,7 +149,7 @@ public class FieldFacade implements IFieldFacade {
 		Field f = fd.findById(fieldId);
 		f.setCurrentStageID(currentStageId);
 		fd.update(f);
-		FieldWrapper fw = new FieldWrapper(f,taskSpecDao);
+		FieldWrapper fw = new FieldWrapper(f,taskSpecDao,2);
 		result.put("respCode", 200);
 		result.put("message", "添加田地成功");
 		result.put("data",fw);

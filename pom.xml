@@ -265,10 +265,11 @@
 		</dependency>
 		<!-- END Lucene -->
 		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20141113</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>3.6.0.Final</version>
 		</dependency>
+		
 		
 	</dependencies>
     <build>

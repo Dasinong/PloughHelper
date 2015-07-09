@@ -18,6 +18,8 @@
          	 <prop key="hibernate.show_sql">true</prop>
          	 <prop key="use_outer_join">true</prop>
 	         <prop key="hibernate.jdbc.batch_size">25</prop>
+	         <prop key="hibernate.cache.use_second_level_cache">true</prop>
+	         <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
        	  </props>
      	</property>
 
@@ -42,7 +44,6 @@
         	   <value>/com/dasinong/ploughHelper/model/CPProduct.hbm.xml</value>
         	   <value>/com/dasinong/ploughHelper/model/SoilTestReport.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/SubScribeList.hbm.xml</value>
-			   <value>/com/dasinong/ploughHelper/model/UserPetDis.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/DisasterReport.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/Proverb.hbm.xml</value>
 			</list>

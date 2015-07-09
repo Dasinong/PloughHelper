@@ -5,6 +5,7 @@
 
 <hibernate-mapping>
     <class name="com.dasinong.ploughHelper.model.TaskSpec" table="taskSpec" catalog="ploughHelper">
+    	<cache usage="read-only"></cache>
         <id name="taskSpecId" type="java.lang.Long">
             <column name="taskSpecId" />
             <generator class="identity" />
@@ -16,6 +17,7 @@
         	<column name="subStageId" not-null="true"></column>
         </many-to-one>
         <list name="steps" table="step" cascade="all" fetch="select">
+       		<cache usage="read-only"></cache>
         	<key>
         		<column name="taskSpecId" not-null="true" />
         	</key>

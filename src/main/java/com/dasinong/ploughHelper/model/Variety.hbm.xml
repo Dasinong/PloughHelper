@@ -5,6 +5,7 @@
 
 <hibernate-mapping>
     <class name="com.dasinong.ploughHelper.model.Variety" table="variety" catalog="ploughHelper">
+        <cache usage="read-only"></cache>
         <id name="varietyId" type="java.lang.Long">
             <column name="varietyId" />
             <generator class="identity" />
@@ -25,6 +26,7 @@
         	<one-to-many class="com.dasinong.ploughHelper.model.Field"></one-to-many>
         </set>
         <set name="subStages" table="variety_subStage" cascade="save-update" inverse="true" fetch="join">
+            <cache usage="read-only"></cache>
         	<key>
         		<column name="varietyId" not-null="true" />
         	</key>
