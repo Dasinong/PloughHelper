@@ -5,6 +5,7 @@
 
 <hibernate-mapping>
     <class name="com.dasinong.ploughHelper.model.Step" table="step" catalog="ploughHelper">
+       <cache usage="read-only"></cache>
        <id name="stepId" type="java.lang.Long">
             <column name="stepId" />
             <generator class="identity" />

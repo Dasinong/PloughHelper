@@ -4,7 +4,7 @@ import com.dasinong.ploughHelper.model.PetDisSpec;
 
 public class PetDisSpecWrapper {
 	Long id;
-	String pestName="";
+	private String petDisSpecName="";
 	String alias="";
 	String sympton="";
 	String form="";
@@ -14,7 +14,7 @@ public class PetDisSpecWrapper {
 
 	public PetDisSpecWrapper(PetDisSpec p){
 		this.id = p.getPetDisSpecId();
-		this.pestName = p.getPetDisSpecName();
+		this.setPetDisSpecName(p.getPetDisSpecName());
 		this.alias = p.getAlias();
 		this.sympton = p.getSympthon();
 		this.form = p.getForms();
@@ -31,13 +31,7 @@ public class PetDisSpecWrapper {
 		this.id = id;
 	}
 
-	public String getPestName() {
-		return pestName;
-	}
-
-	public void setPestName(String pestName) {
-		this.pestName = pestName;
-	}
+	
 
 	public String getAlias() {
 		return alias;
@@ -86,6 +80,14 @@ public class PetDisSpecWrapper {
 
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
+	}
+
+	public String getPetDisSpecName() {
+		return petDisSpecName;
+	}
+
+	public void setPetDisSpecName(String petDisSpecName) {
+		this.petDisSpecName = petDisSpecName;
 	}
 	
 }

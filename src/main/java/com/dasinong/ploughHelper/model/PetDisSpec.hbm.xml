@@ -5,6 +5,7 @@
 
 <hibernate-mapping>
     <class name="com.dasinong.ploughHelper.model.PetDisSpec" table="petDisSpec" catalog="ploughHelper">
+   		<cache usage="read-only"></cache>
         <id name="petDisSpecId" type="java.lang.Long">
             <column name="petDisSpecId" />
             <generator class="identity" />
@@ -14,6 +15,7 @@
         </property>
 
         <set name="subStages" table="subStage_petDisSpec" cascade="all" inverse="true">
+            <cache usage="read-only"></cache>
         	<key column = "petDisSpecId"></key>
         	<many-to-many class="com.dasinong.ploughHelper.model.SubStage" column="SubStageId"></many-to-many>
         </set>
@@ -22,11 +24,13 @@
         	<many-to-many class="com.dasinong.ploughHelper.model.Location" column="LocationId"></many-to-many>
         </set>
         <set name="crops" table="crop_petDisSpec" cascade="all" inverse="true">
+            <cache usage="read-only"></cache>
         	<key column = "petDisSpecId"></key>
         	<many-to-many class="com.dasinong.ploughHelper.model.Crop" column="cropId"></many-to-many>
         </set>
         
         <set name="petSolus" table="petSolu" inverse="false" cascade="all" lazy="false" fetch="select">
+            <cache usage="read-only"></cache>
         	<key>
         		<column name="petDisSpecId" not-null="true" />
         	</key>

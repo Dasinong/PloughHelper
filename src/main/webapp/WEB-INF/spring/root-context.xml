@@ -30,6 +30,13 @@
 	<import resource="/database/Hibernate.xml"></import>
 	<import resource="/beans/ModelBeans.xml"></import>
 	<import resource="/beans/FacadeBeans.xml"></import>
+	
+	<bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache.xml"/>
+	</bean>
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="cacheManagerFactory"/>
+	</bean>
 
 		<!-- HandlerMapping -->  
 	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>  

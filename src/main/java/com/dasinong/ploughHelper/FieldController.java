@@ -97,18 +97,16 @@ public class FieldController {
 		}
 	    
 		try{
-			Random ma = new Random();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 			Calendar ccal = Calendar.getInstance();
 			Calendar scal = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-			scal.setTime(sdf.parse("20150601"));
-			int difference  = scal.compareTo(ccal);
+			scal.setTime(sdf.parse("20150511"));
+			int difference = (int) Math.floor((ccal.getTimeInMillis()-scal.getTimeInMillis())/60000000L);
 			result.put("respCode", 200);
 			result.put("message", "附近农户数");
-			result.put("data", ma.nextInt(200));
+			result.put("data", difference);
 			return result;
 		} catch (Exception e) {
-			
 			result.put("respCode",500);
 			result.put("message", e.getCause());
 			return result;
@@ -145,14 +143,9 @@ public class FieldController {
 
 	}
 	public static void main(String[] args) throws ParseException{
-		/*
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		//Date cdate = new Date();
-		Date odate = new Date();
-		scal.setTime(sdf.parse("20150601"));
-		int difference  = scal.compareTo(ccal);
-		System.out.println(difference);
-		*/
+
+
+		
 	}
 		
 }

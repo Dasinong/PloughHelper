@@ -46,7 +46,10 @@ public class FieldWrapper implements Serializable{
 		this.setMonitorLocationId(field.getMonitorLocationId());
 		if (field.getTasks()!=null){
 			for (Task t : field.getTasks().values()){
-				taskws.add(new TaskWrapper(t,taskSpecDao));
+				TaskWrapper tw = new TaskWrapper(t,taskSpecDao);
+				if (tw.getSubStageId() == field.getCurrentStageID()){
+					taskws.add(new TaskWrapper(t,taskSpecDao));
+				}
 			}
 		}
 		if (field.getNatDiss()!=null){

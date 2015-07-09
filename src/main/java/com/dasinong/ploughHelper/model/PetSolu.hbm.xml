@@ -5,6 +5,7 @@
 
 <hibernate-mapping>
     <class name="com.dasinong.ploughHelper.model.PetSolu" table="petSolu" catalog="ploughHelper">
+        <cache usage="read-only"></cache>
         <id name="petSoluId" type="java.lang.Long">
             <column name="petSoluId" />
             <generator class="identity" />
@@ -16,6 +17,7 @@
         	<column name="petDisSpecId" not-null="true"></column>
         </many-to-one>
         <set name="cPProducts" table="petSolu_CPProduct" cascade="all" inverse="false" lazy="false">
+            <cache usage="read-only"></cache>
         	<key column = "petSoluId"></key>
         	<many-to-many class="com.dasinong.ploughHelper.model.CPProduct" column="cPProductId"></many-to-many>
         </set>
