@@ -71,11 +71,14 @@ public class TaskSpecFacade implements ITaskSpecFacade {
 			for (Step s :  steps){
 				if (s.getFitRegion().contains(region)){
 					StepWrapper sw = new StepWrapper(s);
-					if (pictures.contains(s.getPicture())){
-						sw.setPicture("");
-					}
-					else{
-						pictures.add(s.getPicture());
+					String[] pictureNames = s.getPicture().split(",");
+					if (pictureNames!=null && pictureNames.length>=1){
+						if (pictures.contains(pictureNames[0])){
+							sw.setPicture("");
+						}
+						else{
+							pictures.add(pictureNames[0]);
+						}
 					}
 					vaildS.add(sw);
 				}
