@@ -2,6 +2,7 @@ package com.dasinong.ploughHelper.facade;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -118,7 +119,13 @@ public class FieldFacade implements IFieldFacade {
 		         }
 	         }
 	        
- 			user.getFields().add(field);
+	        if (user.getFields()!=null){
+	        	user.getFields().add(field);
+	        }
+	        else{
+	        	user.setFields(new HashSet<Field>());
+	        	user.getFields().add(field);
+	        }
 
 			FieldWrapper fw = new FieldWrapper(field,taskSpecDao,1);
 			result.put("respCode", 200);

@@ -47,7 +47,6 @@ public class FieldWrapper implements Serializable{
 		if (taskLoadType==1){
 			if (field.getTasks()!=null){
 				for (Task t : field.getTasks().values()){
-					TaskWrapper tw = new TaskWrapper(t,taskSpecDao);
 					taskws.add(new TaskWrapper(t,taskSpecDao));
 				}
 			}
@@ -57,7 +56,7 @@ public class FieldWrapper implements Serializable{
 				for (Task t : field.getTasks().values()){
 					TaskWrapper tw = new TaskWrapper(t,taskSpecDao);
 					if (tw.getSubStageId() == field.getCurrentStageID()){
-						taskws.add(new TaskWrapper(t,taskSpecDao));
+						taskws.add(tw);
 					}
 				}
 			}
