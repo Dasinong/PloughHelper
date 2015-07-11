@@ -49,7 +49,12 @@ public class HomeFacade implements IHomeFacade {
 		//Put field List
 		HashMap<String,Long> fieldList = new HashMap<String,Long>();
 		for (Field f: user.getFields()){
-			fieldList.put(f.getFieldName(),f.getFieldId());
+			if (fieldList.keySet().contains(f.getFieldName())){
+				System.out.println("Duplicated field for same user");
+			}
+			else{
+				fieldList.put(f.getFieldName(),f.getFieldId());
+			}
 		}
 		result.put("fieldList",fieldList);
 	

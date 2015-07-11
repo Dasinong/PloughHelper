@@ -21,6 +21,7 @@ public class UserWrapper implements Serializable {
 	private String telephone;
 	
 	private List<Long> fields = new ArrayList<Long>();
+	private List<Integer> monitorLocationId = new ArrayList<Integer>();
 	public UserWrapper(User user){
 		this.userId= user.getUserId();
 		this.userName= (user.getUserName()==null)?"":user.getUserName();
@@ -29,6 +30,8 @@ public class UserWrapper implements Serializable {
 		if (user.getFields()!=null){
 			for (Field f :  user.getFields()){
 				getFields().add(f.getFieldId());
+				this.getMonitorLocationId().add(f.getMonitorLocationId());
+				
 			}
 		}
 		
@@ -83,6 +86,12 @@ public class UserWrapper implements Serializable {
 	}
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
+	}
+	public List<Integer> getMonitorLocationId() {
+		return monitorLocationId;
+	}
+	public void setMonitorLocationId(List<Integer> monitorLocationId) {
+		this.monitorLocationId = monitorLocationId;
 	}
 
 }

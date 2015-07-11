@@ -1,5 +1,6 @@
 package com.dasinong.ploughHelper.facade;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -87,7 +88,19 @@ public class FieldFacade implements IFieldFacade {
 	        	 fieldName = location.getCommunity()+variety.getVarietyName();
 	         }
 	         Field field = new Field();
-	         field.setFieldName(fieldName);
+	         //Following part is to remove duplicated field name for same user. Be careful of  performance impact. 
+	         List<String> fieldNames = new ArrayList<String>();
+	         for(Field f: user.getFields()){
+	        	 fieldNames.add(f.getFieldName());
+	         }
+	         
+	         int fc=2;
+	         String newName = fieldName;
+	         while(fieldNames.contains(newName)){
+	        	 newName=fieldName+fc;
+	        	 fc++;
+	         }
+	         field.setFieldName(newName);
 	         field.setIsActive(isActive);
 	         field.setSeedortrans(seedingortransplant);
 	         field.setArea(area);
