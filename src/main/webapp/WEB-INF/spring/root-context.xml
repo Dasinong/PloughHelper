@@ -64,6 +64,7 @@
 				<ref bean="myJobTrigger2" />
 				<ref bean="myJobTrigger3" />
 				<ref bean="myJobTrigger4" />
+				<ref bean="myJobTrigger5" />
 			</list>
 		</property>
 	</bean>
@@ -158,8 +159,30 @@
 			<value>updateContent</value>
 		</property>
 	</bean>
-
 	
+	<bean id="alladf" class="com.dasinong.ploughHelper.weather.AllAgriDisForcast" />
+	
+		<bean id="myJobTrigger5"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="myJobDetail5" />
+		</property>
+		<property name="cronExpression">
+			<value>0 10 1 * * ?</value>
+		</property>
+	</bean>
+
+	<bean id="myJobDetail5"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="alladf" />
+		</property>
+		<property name="targetMethod">
+			<value>updateContent</value>
+		</property>
+	</bean>
+	
+		
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="10000000" />
