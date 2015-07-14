@@ -16,14 +16,15 @@ public class Env {
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
 			WorkingDir = "E:/git";
 			DataDir = "E:/index";
-			BaseFTP = WorkingDir + "PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
-			BaseDATA =WorkingDir + "PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
 			if (System.getProperty("user.name").equalsIgnoreCase("Jason Wu")) {
 				WorkingDir = "C:/Users/Jason Wu/workspace";
 				DataDir = "G:/index";
-				BaseFTP = WorkingDir + "PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
-				BaseDATA =WorkingDir + "PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
+			} else if(System.getProperty("user.name").equalsIgnoreCase("Dell")){
+				WorkingDir = "G:/Data/workbench-0703";
+				DataDir = "G:/index";
 			}
+			BaseFTP = WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
+			BaseDATA =WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
 		}
 		else{
 			WorkingDir = "/data";
