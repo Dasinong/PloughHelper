@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class PetDisSpec implements Serializable{
+public class PetDisSpec implements Serializable, Comparable<PetDisSpec>{
 	private static final long serialVersionUID = 1L;
 
 	private Long petDisSpecId;
@@ -209,5 +209,13 @@ public class PetDisSpec implements Serializable{
 	}
 	
 	
+	
+	@Override
+	public int compareTo(PetDisSpec o) {
+		if (this.severity > o.severity) return -1;
+		else if(this.severity < o.severity) return 1;
+		else
+		return 0;
+	}
 	
 }

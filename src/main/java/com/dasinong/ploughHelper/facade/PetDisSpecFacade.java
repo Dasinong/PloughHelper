@@ -1,6 +1,7 @@
 package com.dasinong.ploughHelper.facade;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,15 +32,24 @@ public class PetDisSpecFacade implements IPetDisSpecFacade {
 		subStageDao = (ISubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
 		SubStage sb = subStageDao.findById(subStageId);
 		List<PetDisSpecWrapper> pws = new ArrayList<PetDisSpecWrapper>();
-		if (sb.getPetDisSpecs()==null){
-			result.put("respCode", 203);
+		if (sb.getPetDisSpecs()==null || sb.getPetDisSpecs().size()==0){
+			result.put("respCode", 200);
 			result.put("message", "当前阶段无常见病虫草害");
+			result.put("data", pws);
 			return result;
 		}
 			
-		for(PetDisSpec p: sb.getPetDisSpecs()){
-			PetDisSpecWrapper pw = new PetDisSpecWrapper(p);
-			pws.add(pw);
+		List<PetDisSpec> pdlist = new ArrayList<PetDisSpec>();
+		for (PetDisSpec pds: sb.getPetDisSpecs()){
+			pdlist.add(pds);
+		}
+		Collections.sort(pdlist);
+		int count=0;
+		for(PetDisSpec pds: pdlist){
+			PetDisSpecWrapper pdsw = new PetDisSpecWrapper(pds);
+			pws.add(pdsw);
+			count++;
+			if (count>=4) break;
 		}
 		
 		result.put("respCode",200);

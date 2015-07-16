@@ -2,6 +2,8 @@ package com.dasinong.ploughHelper.outputWrapper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import com.dasinong.ploughHelper.model.PetDis;
 import com.dasinong.ploughHelper.model.PetDisSpec;
 import com.dasinong.ploughHelper.model.SubStage;
 import com.dasinong.ploughHelper.model.Task;
+import com.dasinong.ploughHelper.ruleEngine.rules.Rule;
 
 public class FieldWrapper implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -76,17 +79,26 @@ public class FieldWrapper implements Serializable{
 		this.endDate = (field.getEndDate()==null)?null:field.getEndDate();
 		this.setYield(field.getYield());
 		this.setWorkable(field.isWorkable());
-		this.setSprayable(field.isSprayable());
+		this.setSprayable(Rule.sprayable(field.getMonitorLocationId()));
 		this.setDayToHarvest(field.getDayToHarvest());
 		
 		if (field.getVariety().getSubStages()!=null){
 			for(SubStage ss : field.getVariety().getSubStages()){
 				if (ss.getSubStageId() == field.getCurrentStageID()){
 					if(ss.getPetDisSpecs()!=null){
-						for(PetDisSpec pds: ss.getPetDisSpecs()){
+						List<PetDisSpec> pdlist = new ArrayList<PetDisSpec>();
+						for (PetDisSpec pds: ss.getPetDisSpecs()){
+							pdlist.add(pds);
+						}
+						Collections.sort(pdlist);
+						int count=0;
+						for(PetDisSpec pds: pdlist){
 							PetDisSpecWrapper pdsw = new PetDisSpecWrapper(pds);
 							petdisspecws.add(pdsw);
+							count++;
+							if (count>=4) break;
 						}
+						
 					}
 				}
 			}

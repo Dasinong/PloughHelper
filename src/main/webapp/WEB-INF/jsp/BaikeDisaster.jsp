@@ -22,7 +22,7 @@
     <p class="alias">${Alias}</p>
   </div>
   <div class="disimg clearfix">
-    <img class="image" src="jsp/images/${ImagePath}">
+    <img class="image" src="../pic/${ImagePath}">
   </div>
   <div class="symtitle symtitle-1 clearfix">
     <p class="symtitle">为害症状<br></p>

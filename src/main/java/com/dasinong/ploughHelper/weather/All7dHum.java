@@ -19,7 +19,7 @@ import com.dasinong.ploughHelper.util.Env;
 public class All7dHum {
 	private static All7dHum all7dHum;
 	
-	public static All7dHum get7dHum() throws IOException, ParseException{
+	public static All7dHum get7dHum(){
 		if (all7dHum==null){
 			//all7dHum = new All7dHum();
 			all7dHum = (All7dHum) ContextLoader.getCurrentWebApplicationContext().getBean("all7dHum");
@@ -30,9 +30,13 @@ public class All7dHum {
 		}
 		
 	}
-	private All7dHum() throws IOException, ParseException{
+	private All7dHum(){
 		_all7dHum = new HashMap<Integer,SevenDayHumidity>();
-		loadContent();
+		try{
+			loadContent();
+		}catch(Exception e){
+			System.out.println("Initialize 7d hum failed");
+		}
 	}
 	public void updateContent() {
 		HashMap<Integer,SevenDayHumidity> old7dHum = _all7dHum;
@@ -44,7 +48,7 @@ public class All7dHum {
 			_all7dHum = old7dHum;			
 		}
 	}
-	private void loadContent() throws IOException, ParseException {
+	private void loadContent(){
 		SevenDayHumidity sdh=null;
 		
 		
@@ -65,39 +69,42 @@ public class All7dHum {
 	    }
 	    
 	    File f = new File(fullpath);
-	    
-		FileInputStream fr = new FileInputStream(f);
-		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
-		String line;
-		br.readLine();
-		int currentCode = 0;
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		while ((line=br.readLine())!=null) {
-			line = line.trim();
-			try{
-				String units[] = line.split("\t");
-				if (units.length==4){
-					int code = Integer.parseInt(units[0]);
-					Date forcast_time = df.parse(units[1]);
-					int dayHumidity = Integer.parseInt(units[2]);
-					int nightHumidity = Integer.parseInt(units[3]);
-
-					if (code!=currentCode){
-						sdh = new SevenDayHumidity(code,forcast_time);
-						currentCode = code;
-						sdh.add(forcast_time, dayHumidity, nightHumidity);
-						_all7dHum.put(code, sdh);
+	    try{
+			FileInputStream fr = new FileInputStream(f);
+			BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
+			String line;
+			br.readLine();
+			int currentCode = 0;
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			while ((line=br.readLine())!=null) {
+				line = line.trim();
+				try{
+					String units[] = line.split("\t");
+					if (units.length==4){
+						int code = Integer.parseInt(units[0]);
+						Date forcast_time = df.parse(units[1]);
+						int dayHumidity = Integer.parseInt(units[2]);
+						int nightHumidity = Integer.parseInt(units[3]);
+	
+						if (code!=currentCode){
+							sdh = new SevenDayHumidity(code,forcast_time);
+							currentCode = code;
+							sdh.add(forcast_time, dayHumidity, nightHumidity);
+							_all7dHum.put(code, sdh);
+						}
+						else{
+							sdh.add(forcast_time, dayHumidity, nightHumidity);
+						}
 					}
-					else{
-						sdh.add(forcast_time, dayHumidity, nightHumidity);
-					}
+				}catch (Exception e){
+					System.out.println("Error happend while inserting 7 day humidity "+ line);
 				}
-			}catch (Exception e){
-				System.out.println("Error happend while inserting 7 day humidity "+ line);
 			}
-		}
-		br.close();
-		fr.close();
+			br.close();
+			fr.close();
+	    }catch(IOException e){
+	    	e.printStackTrace();
+	    }
 	}
 	private HashMap<Integer,SevenDayHumidity> _all7dHum;
 	

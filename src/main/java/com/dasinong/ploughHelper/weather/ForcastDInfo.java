@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ForcastDInfo {
 	public Date time;
-	public double temperature;   //℃
+	public int temperature;   //℃
 	public int relativeHumidity;
 	public int windDirection_10m;  //Degrees
 	public double windSpeed_10m;  //mps
@@ -14,7 +14,7 @@ public class ForcastDInfo {
 	public int pOP;                 //Probability of precipitation
 	public String icon;
 	
-	public ForcastDInfo(Date time, double temperature,
+	public ForcastDInfo(Date time, int temperature,
 			int relativeHumidity, int windDirection_10m, double windSpeed_10m,
 			double accumRainTotal, double accumSnowTotal,
 			double accumIceTotal, int pOP, String icon) {

@@ -21,7 +21,7 @@ public class AllCurrentJiwen {
 	
 	Date date;
 	
-	public static AllCurrentJiwen getCurJiwen() throws IOException, ParseException{
+	public static AllCurrentJiwen getCurJiwen(){
 		if (allCurrentJiwen==null){
 			//allCurrentJiwen = new AllCurrentJiwen();
 			allCurrentJiwen = (AllCurrentJiwen) ContextLoader.getCurrentWebApplicationContext().getBean("allCurrentJiwen");
@@ -32,9 +32,13 @@ public class AllCurrentJiwen {
 		}
 		
 	}
-	private AllCurrentJiwen() throws IOException, ParseException{
+	private AllCurrentJiwen(){
 		_allCurrentJiwen = new HashMap<Integer,Integer>();
-		loadContent();
+		try{
+			loadContent();
+		}catch(Exception e){
+			System.out.println("Initialize current Jiwen failed.");
+		}
 	}
 	
 	public void updateContent(){

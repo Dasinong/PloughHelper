@@ -30,7 +30,11 @@ public class All24h {
 	}
 	private All24h(){
 		_all24h = new HashMap<Integer,TwentyFourHourForcast>();
-		loadContent();
+		try{
+			loadContent();
+		}catch(Exception e){
+			System.out.println("Initialize 24h failed. " +  e.getCause());
+		}
 	}
 	
 	public void updateContent(){

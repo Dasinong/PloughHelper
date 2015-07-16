@@ -11,11 +11,13 @@ public class PetDisSpecWrapper {
 	String habbit="";
 	String rule="";
 	String imagePath="";
+	int severity;
 
 	public PetDisSpecWrapper(PetDisSpec p){
 		this.id = p.getPetDisSpecId();
 		this.setPetDisSpecName(p.getPetDisSpecName());
 		this.alias = p.getAlias();
+		this.severity = p.getSeverity();
 		this.sympton = p.getSympthon();
 		this.form = p.getForms();
 		this.habbit = p.getHabits();

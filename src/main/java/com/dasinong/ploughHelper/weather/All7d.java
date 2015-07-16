@@ -3,6 +3,7 @@ package com.dasinong.ploughHelper.weather;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
@@ -19,7 +20,7 @@ import com.dasinong.ploughHelper.util.Env;
 public class All7d {
 	private static All7d all7d;
 
-	public static All7d getAll7d() throws IOException, ParseException{
+	public static All7d getAll7d(){
 		if (all7d==null){
 			//all7d = new All7d();
 			all7d = (All7d) ContextLoader.getCurrentWebApplicationContext().getBean("all7d");
@@ -30,9 +31,13 @@ public class All7d {
 		}
 		
 	}
-	private All7d() throws IOException, ParseException{
+	private All7d(){
 		_all7d = new HashMap<Integer,SevenDayForcast>();
-		loadContent();
+		try{
+			loadContent();
+		}catch(Exception e){
+			System.out.println("Initialize 7d failed");
+		}
 	}
     public void updateContent() throws IOException, ParseException{
      	HashMap<Integer,SevenDayForcast> old7d = _all7d;
@@ -46,12 +51,11 @@ public class All7d {
 		}
     }
 	
-	private void loadContent() throws IOException, ParseException {
+	private void loadContent(){
 		SevenDayForcast sdf=null;
 		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
 		
         String fullpath="";
-        String fullpathb="";
         if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
         	fullpath = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rforcast_7days_2015061720.csv";
         }else{
@@ -73,42 +77,49 @@ public class All7d {
 		
 		File f = new File(fullpath);
 		
-		FileInputStream fr = new FileInputStream(f);
-		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
-		String line;
-		br.readLine();
-		int currentCode =0;
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		while ((line=br.readLine())!=null) {
-			line = line.trim();
-			try{
-				String units[] = line.split("\t");
-				if (units.length==9){
-					int code = Integer.parseInt(units[0]);
-					Date forcast_time = df.parse(units[1]);
-					short weather = Short.parseShort(units[2]);
-					double temp = Double.parseDouble(units[3]);
-					double max_temp = Double.parseDouble(units[4]);
-					double min_temp = Double.parseDouble(units[5]);
-					short ff_level = Short.parseShort(units[6]);
-					short dd_level = Short.parseShort(units[7]);
-					double rain = Double.parseDouble(units[8]);
-					if (code!=currentCode){
-						sdf = new SevenDayForcast(code,forcast_time);
-						currentCode = code;
-						sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
-						_all7d.put(code, sdf);
+		
+		try {
+			FileInputStream fr;
+			fr = new FileInputStream(f);
+			BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
+			String line;
+			br.readLine();
+			int currentCode =0;
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			while ((line=br.readLine())!=null) {
+				line = line.trim();
+				try{
+					String units[] = line.split("\t");
+					if (units.length==9){
+						int code = Integer.parseInt(units[0]);
+						Date forcast_time = df.parse(units[1]);
+						short weather = Short.parseShort(units[2]);
+						double temp = Double.parseDouble(units[3]);
+						double max_temp = Double.parseDouble(units[4]);
+						double min_temp = Double.parseDouble(units[5]);
+						short ff_level = Short.parseShort(units[6]);
+						short dd_level = Short.parseShort(units[7]);
+						double rain = Double.parseDouble(units[8]);
+						if (code!=currentCode){
+							sdf = new SevenDayForcast(code,forcast_time);
+							currentCode = code;
+							sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
+							_all7d.put(code, sdf);
+						}
+						else{
+							sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
+						}
 					}
-					else{
-						sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
-					}
+				}catch (Exception e){
+					System.out.println("Error happend while inserting 7 day forcast "+ line);
 				}
-			}catch (Exception e){
-				System.out.println("Error happend while inserting 7 day forcast "+ line);
 			}
+			br.close();
+			fr.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		br.close();
-		fr.close();
 	}
 	private HashMap<Integer,SevenDayForcast> _all7d;
 	

@@ -62,7 +62,7 @@ public class TwentyFourHourForcast {
 				Date time = sdf.parse(timec);
 				NodeList attributes = forcastH.getChildNodes();
 				if (attributes.getLength()==19){
-					double temperature = Double.parseDouble(attributes.item(1).getTextContent());
+					int temperature = Math.round(Float.parseFloat(attributes.item(1).getTextContent()));
 					int relativeHumidity = Integer.parseInt(attributes.item(3).getTextContent());
 					int windDirection_10m = Integer.parseInt(attributes.item(5).getTextContent());
 					double windSpeed_10m = Double.parseDouble(attributes.item(7).getTextContent());
