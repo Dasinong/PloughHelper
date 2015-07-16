@@ -33,7 +33,7 @@
 						tips = tips.replace(/\((\d)\)/g,"$1.");
 						break;
 				}
-				var tipsList = tips.replace(/(\d+\.)[^\d]/g,"</p><p>$1"); //1.0mm and 1.blabla is different
+				var tipsList = tips.replace(/(\d+\.[^\d])/g,"</p><p>$1"); //1.0mm and 1.blabla is different
 			    return tipsList;
 			}
 

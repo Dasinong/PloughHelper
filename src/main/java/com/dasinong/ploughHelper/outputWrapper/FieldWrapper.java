@@ -78,8 +78,26 @@ public class FieldWrapper implements Serializable{
 		this.startDate = (field.getStartDate()==null)?null:field.getStartDate();
 		this.endDate = (field.getEndDate()==null)?null:field.getEndDate();
 		this.setYield(field.getYield());
-		this.setWorkable(field.isWorkable());
-		this.setSprayable(Rule.sprayable(field.getMonitorLocationId()));
+		
+		try{
+			if (Rule.workable(field.getMonitorLocationId())==0)
+				this.setWorkable(true);
+			else 
+				this.setWorkable(false);
+		}
+		catch(Exception e){
+			this.setWorkable(true);
+		}
+		
+		try{
+			if (Rule.sprayable(field.getMonitorLocationId())==0)
+				this.setSprayable(true);
+			else 
+				this.setSprayable(false);
+		}
+		catch(Exception e){
+			this.setSprayable(true);
+		}
 		this.setDayToHarvest(field.getDayToHarvest());
 		
 		if (field.getVariety().getSubStages()!=null){
@@ -218,22 +236,6 @@ public class FieldWrapper implements Serializable{
 		this.monitorLocationId = monitorLocationId;
 	}
 
-	public boolean isWorkable() {
-		return workable;
-	}
-
-	public void setWorkable(boolean workable) {
-		this.workable = workable;
-	}
-
-	public boolean isSprayable() {
-		return sprayable;
-	}
-
-	public void setSprayable(boolean sprayable) {
-		this.sprayable = sprayable;
-	}
-
 	public int getDayToHarvest() {
 		return dayToHarvest;
 	}
@@ -249,6 +251,23 @@ public class FieldWrapper implements Serializable{
 	public void setPetdisspecws(List<PetDisSpecWrapper> petdisspecws) {
 		this.petdisspecws = petdisspecws;
 	}
+
+	public boolean getWorkable() {
+		return workable;
+	}
+
+	public void setWorkable(boolean workable) {
+		this.workable = workable;
+	}
+
+	public boolean getSprayable() {
+		return sprayable;
+	}
+
+	public void setSprayable(boolean sprayable) {
+		this.sprayable = sprayable;
+	}
+
 
 	
 }

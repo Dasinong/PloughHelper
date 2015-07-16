@@ -11,6 +11,7 @@ public class PetDisSpecWrapper {
 	String habbit="";
 	String rule="";
 	String imagePath="";
+	private String type="";
 	int severity;
 
 	public PetDisSpecWrapper(PetDisSpec p){
@@ -23,6 +24,7 @@ public class PetDisSpecWrapper {
 		this.habbit = p.getHabits();
 		this.rule = p.getRules();
 		this.imagePath = p.getPictureIds();
+		this.setType(p.getType());
 	}
 
 	public Long getId() {
@@ -90,6 +92,14 @@ public class PetDisSpecWrapper {
 
 	public void setPetDisSpecName(String petDisSpecName) {
 		this.petDisSpecName = petDisSpecName;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 }

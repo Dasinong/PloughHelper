@@ -33,8 +33,10 @@
 	  <script type="text/javascript">
 		var symptom = "${Symptom}";
 		//var symptom = "[为害症状]刚孵化的幼虫常常群集在幼苗上的心叶或叶背上取，把叶片咬成小缺刻或网孔状。幼虫3龄后把蔬菜幼苗近地面的茎部咬断，还常将咬断的幼苗拖入洞中，其上部叶片往往露在穴外，使整株死亡，造成缺苗断垄。";
-		document.write("<p> " + formatDisaster(symptom) );
+		document.write("<p id='dummys'> " + formatDisaster(symptom) );
 		document.write("</p>");
+		var obj = document.getElementById('dummys');
+		if (obj.innerText == '') obj.parentNode.removeChild(obj);
 		</script>	
 	  
 </div>	
@@ -47,8 +49,10 @@
     	<script type="text/javascript">
 		var morphology =  "${Morphology}";
 		//var morphology = "[形态](1)有翅蚜：体长约1.6mm，长椭圆形。头胸部黑色，腹部黄绿色，薄被蜡粉。触角第3～5节依次有圆形次生感觉圈：21～29，7～14，0～4个。第1～6腹节各有独立缘斑，腹管前后斑愈合，第1节有背中窄横带，第5节上有小型中斑，第6～8节各有横带，第6节横带不规则。腹管淡黑，圆筒形，尾片圆锥形，两侧各有长毛2～3根。(2)无翅蚜：体长约2.0mm，长椭圆形，绿色或黑绿色，被薄粉。表皮粗糙，有菱形网纹。腹管长筒形，淡黑色，顶端收缩。";
-		document.write("<p> " + formatDisaster(morphology) );
+		document.write("<p id='dummyf'> " + formatDisaster(morphology) );
 		document.write("</p>");
+		var obj = document.getElementById('dummyf');
+		if (obj.innerText == '') obj.parentNode.removeChild(obj);
 		</script>	
 </div>
   </div>
@@ -60,8 +64,10 @@
         <script type="text/javascript">
 		var habit =  "${Habit}"
 		//var habit = "[习性](1)成虫。成虫具趋光性。雌蛾羽化后，由于无翅不能飞翔，只能沿树干爬上树。雄蛾羽化后飞到树上，白天多静止潜伏，天黑时雄蛾飞翔活跃，寻找雌蛾交尾，交尾后，当天即可产卵。(2)幼虫。幼虫孵化时，先将卵壳咬破，出壳后即可爬行吐丝。初孵幼虫食量小，随着虫龄的增长，食量猛增，暴食为害枣叶、嫩芽，甚至枣吊和枣花。";
-		document.write("<p> " + formatDisaster(habit) );
+		document.write("<p id='dummyh'> " + formatDisaster(habit) );
 		document.write("</p>");
+		var obj = document.getElementById('dummyh');
+		if (obj.innerText == '') obj.parentNode.removeChild(obj);
 		</script>	
 </div>
   </div>

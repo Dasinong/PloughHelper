@@ -1,30 +1,26 @@
 package com.dasinong.ploughHelper.ruleEngine.rules;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.Date;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import com.dasinong.ploughHelper.weather.All24h;
 import com.dasinong.ploughHelper.weather.TwentyFourHourForcast;
 
 //This class is to define rules with direct data in hand.
 public class Rule {
-	public static boolean workable(int monitorLocationId){
-		boolean workable=true;
+	public static int workable(int monitorLocationId){
+		int workable=1;
 		TwentyFourHourForcast tfhf = All24h.get24h().get24h(monitorLocationId);
 		if (tfhf == null){
 			System.out.println("获取"+monitorLocationId+"地区24小时预测失败");
 		}
-		
+		for (int i=0;i<tfhf.info.length;i++){
+			if (tfhf.info[i].accumRainTotal>5){
+				workable = 0;
+			}
+		}
 		return workable;
 	}
 	
-	public static boolean sprayable(int monitorLocationId){
-		boolean sprayable=true;
+	public static int sprayable(int monitorLocationId){
+		int sprayable=1;
 		TwentyFourHourForcast tfhf = All24h.get24h().get24h(monitorLocationId);
 		if (tfhf == null){
 			System.out.println("获取"+monitorLocationId+"地区24小时预测失败");
@@ -39,7 +35,7 @@ public class Rule {
 				min = tfhf.info[i].temperature;
 			}
 		}
-		if (max>=35 || min<=12) sprayable =false;
+		if (max>=35 || min<=12) sprayable =0;
 		/*
 		int i =0;
 		int count =0;
@@ -55,13 +51,13 @@ public class Rule {
 		if (count<6) sprayable = false;
 		*/
 		for (int i=0;i<tfhf.info.length;i++){
-			if (tfhf.info[i].windSpeed_10m>3) sprayable =false;
+			if (tfhf.info[i].windSpeed_10m>3) sprayable =0;
 			if (tfhf.info[i].icon.equals("clear") || tfhf.info[i].icon.equals("clearnight") || tfhf.info[i].icon.equals("cloudy")||
 				tfhf.info[i].icon.equals("cloudynight") || tfhf.info[i].icon.equals("mostlyclear") || tfhf.info[i].icon.equals("mostlyclearnight")||
 				tfhf.info[i].icon.equals("mostlycloudy") || tfhf.info[i].icon.equals("mostlycloudynight") ||
 				tfhf.info[i].icon.equals("partlycloudy") || tfhf.info[i].icon.equals("partlycloudynight")){}
 			else{
-				sprayable = false;
+				sprayable = 0;
 			}
 		}
 		
