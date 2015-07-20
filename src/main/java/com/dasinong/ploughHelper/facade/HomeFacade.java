@@ -16,6 +16,7 @@ import com.dasinong.ploughHelper.model.SoilTestReport;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
 import com.dasinong.ploughHelper.outputWrapper.SoilTestReportWrapper;
+import com.dasinong.ploughHelper.ruleEngine.rules.Rule;
 import com.dasinong.ploughHelper.util.LunarHelper;
 import com.dasinong.ploughHelper.weather.AllLocation;
 import com.dasinong.ploughHelper.weather.MonitorLocation;
@@ -87,10 +88,12 @@ public class HomeFacade implements IHomeFacade {
 		MonitorLocation ml=null;
 		try {
 			ml = AllLocation.getLocation().getMonitorLocation(f.getMonitorLocationId());
-			double soilHum = SoilLiquid.getSoilLi().getSoil(ml.latitude, ml.longitude);
-			result.put("soilHum", soilHum);
+			if (ml!=null){
+				double soilHum = SoilLiquid.getSoilLi().getSoil(ml.latitude, ml.longitude);
+				result.put("soilHum", soilHum);
+			}
 		} catch (IOException |ParseException e) {
-			System.out.println("Load monitor location field 偶然 failed");
+			System.out.println("Load monitor location field or soilLiquid failed");
 		}
 	
 		result.put("respCode", 200);

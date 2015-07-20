@@ -79,25 +79,8 @@ public class FieldWrapper implements Serializable{
 		this.endDate = (field.getEndDate()==null)?null:field.getEndDate();
 		this.setYield(field.getYield());
 		
-		try{
-			if (Rule.workable(field.getMonitorLocationId())==0)
-				this.setWorkable(true);
-			else 
-				this.setWorkable(false);
-		}
-		catch(Exception e){
-			this.setWorkable(true);
-		}
-		
-		try{
-			if (Rule.sprayable(field.getMonitorLocationId())==0)
-				this.setSprayable(true);
-			else 
-				this.setSprayable(false);
-		}
-		catch(Exception e){
-			this.setSprayable(true);
-		}
+		this.setWorkable(true);
+		this.setSprayable(true);
 		this.setDayToHarvest(field.getDayToHarvest());
 		
 		if (field.getVariety().getSubStages()!=null){

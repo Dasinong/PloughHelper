@@ -10,6 +10,7 @@ public class Rule {
 		TwentyFourHourForcast tfhf = All24h.get24h().get24h(monitorLocationId);
 		if (tfhf == null){
 			System.out.println("获取"+monitorLocationId+"地区24小时预测失败");
+			workable=-1;
 		}
 		for (int i=0;i<tfhf.info.length;i++){
 			if (tfhf.info[i].accumRainTotal>5){
@@ -24,6 +25,7 @@ public class Rule {
 		TwentyFourHourForcast tfhf = All24h.get24h().get24h(monitorLocationId);
 		if (tfhf == null){
 			System.out.println("获取"+monitorLocationId+"地区24小时预测失败");
+			sprayable=-1;
 		}
 		int max = 0;
 		int min= 35;

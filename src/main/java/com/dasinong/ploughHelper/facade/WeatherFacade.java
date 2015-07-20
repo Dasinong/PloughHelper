@@ -2,6 +2,7 @@ package com.dasinong.ploughHelper.facade;
 
 import java.util.HashMap;
 
+import com.dasinong.ploughHelper.ruleEngine.rules.Rule;
 import com.dasinong.ploughHelper.weather.AllLocation;
 import com.dasinong.ploughHelper.weather.All24h;
 import com.dasinong.ploughHelper.weather.All7d;
@@ -89,6 +90,15 @@ public class WeatherFacade implements IWeatherFacade {
 			System.out.println(e.getMessage());
 		}
 		
+		try{
+			result.put("workable", Rule.workable(areaId));
+			result.put("sprayable", Rule.sprayable(areaId));
+		}
+		catch(Exception e){
+			System.out.println("No detailed 24h statistic for location "+ areaId);
+			result.put("workable", -1);
+			result.put("sprayable", -1);
+		}
 		return result;
 		
 	}
