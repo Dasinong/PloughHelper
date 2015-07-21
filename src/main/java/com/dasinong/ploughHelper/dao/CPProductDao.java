@@ -1,5 +1,6 @@
 package com.dasinong.ploughHelper.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -52,6 +53,16 @@ public class CPProductDao extends HibernateDaoSupport implements ICPProductDao{
 	@Override
 	public CPProduct findById(Long id) {
 		return (CPProduct) this.getHibernateTemplate().get(CPProduct.class,id);
+	}
+	
+	@Override
+	public List<CPProduct> findByIngredient(String ingredient) {
+		List list = getHibernateTemplate().find(
+				"from CPProduct where ingredient=?",ingredient);
+		if (list==null){
+			return new ArrayList<CPProduct>();
+		}
+		return list;
 	}
 
 }

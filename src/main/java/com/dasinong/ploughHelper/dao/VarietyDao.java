@@ -1,5 +1,6 @@
 package com.dasinong.ploughHelper.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -43,6 +44,16 @@ public class VarietyDao extends HibernateDaoSupport implements IVarietyDao {
 			return null;
 		}
 		return (Variety) list.get(0);
+	}
+	
+	@Override
+	public List<Variety> findVarietysByName(String varietyName) {
+		List list = getHibernateTemplate().find(
+				"from Variety where varietyName=?",varietyName);
+		if (list==null){
+			return new ArrayList<Variety>();
+		}
+		return list;
 	}
 	
 	/* (non-Javadoc)

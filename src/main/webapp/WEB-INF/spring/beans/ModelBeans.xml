@@ -67,5 +67,14 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<bean id="proverbDao" class="com.dasinong.ploughHelper.dao.ProverbDao" >
    		<property name="sessionFactory" ref="mySessionFactory"></property>
    </bean>
+   <bean id="varietyBrowseDao" class="com.dasinong.ploughHelper.dao.VarietyBrowseDao" >
+   		<property name="sessionFactory" ref="mySessionFactory"></property>
+   </bean>
+   <bean id="cPProductBrowseDao" class="com.dasinong.ploughHelper.dao.CPProductBrowseDao" >
+   		<property name="sessionFactory" ref="mySessionFactory"></property>
+   </bean>
+   <bean id="petDisSpecBrowseDao" class="com.dasinong.ploughHelper.dao.PetDisSpecBrowseDao" >
+   		<property name="sessionFactory" ref="mySessionFactory"></property>
+   </bean>
 	
 </beans>

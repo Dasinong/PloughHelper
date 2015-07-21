@@ -21,4 +21,6 @@ public interface IVarietyDao {
 
 	List<Variety> findGenericVariety(long cropId);
 
+	List<Variety> findVarietysByName(String varietyName);
+
 }

@@ -66,7 +66,7 @@ public class All7d {
         		date.setDate(date.getDate()-1);
         		filename = "rforcast_7days_"+df.format(date)+"20.csv";
         	}
-        	else if (date.getHours()<=20) {
+        	else if (date.getHours()<=19) {
         		filename = "rforcast_7days_"+df.format(date)+"09.csv";
         	}
         	else{

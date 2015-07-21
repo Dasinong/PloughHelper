@@ -1,5 +1,7 @@
 package com.dasinong.ploughHelper.dao;
 
+import java.util.List;
+
 import com.dasinong.ploughHelper.model.Crop;
 
 public interface ICropDao {
@@ -13,5 +15,7 @@ public interface ICropDao {
 	public abstract Crop findByCropName(String cropName);
 
 	Crop findById(Long id);
+
+	List<Crop> findByType(String type);
 
 }

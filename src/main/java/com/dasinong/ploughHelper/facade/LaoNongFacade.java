@@ -42,7 +42,8 @@ public class LaoNongFacade implements ILaoNongFacade {
 		String DisasterInfo = "";
 		String AgriURLTag = "";
 		try{
-			 DisasterInfo = AllAgriDisForcast.getadf().getadf(areaId).getDisasterInfo();
+			AgriDisForcast agri = AllAgriDisForcast.getadf().getadf(areaId);
+			if (agri!=null) DisasterInfo = agri.getDisasterInfo();
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println("Error happend when get Agriculture Disaster Forcast");

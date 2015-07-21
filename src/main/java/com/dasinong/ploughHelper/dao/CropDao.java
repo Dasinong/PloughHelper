@@ -1,5 +1,6 @@
 package com.dasinong.ploughHelper.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -50,6 +51,16 @@ public class CropDao extends HibernateDaoSupport implements ICropDao{
 	@Override
 	public Crop findById(Long id) {
 		return (Crop) this.getHibernateTemplate().get(Crop.class,id);
+	}
+	
+	@Override
+	public List<Crop> findByType(String type) {
+		List list = getHibernateTemplate().find(
+				"from Crop where type=?",type);
+		if (list==null||list.isEmpty()){
+			return new ArrayList<Crop>();
+		}
+		return list;
 	}
 	
 }

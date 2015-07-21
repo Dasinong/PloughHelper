@@ -321,5 +321,95 @@ public class BaiKeController {
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 	    return baiKeFacade.getCPProductById(id);
 	}
+	
+	
+	@RequestMapping(value = "/browseCropByType", produces="application/json")
+	@ResponseBody
+	public Object browseCropByType(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		String type = request.getParameter("type");
+		if (type==null || type.equals("")){
+			result.put("respCode",300);
+			result.put("message","参数或参数格式错误");
+			return result;
+		}
+		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
+	    return baiKeFacade.getCropByType(type);
+	}
+	
+	
+	@RequestMapping(value = "/browseVarietyByCropId", produces="application/json")
+	@ResponseBody
+	public Object browseVarietyByCropId(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		Long cropId;
+		try{
+			cropId = Long.parseLong(request.getParameter("cropId"));
+		}
+		catch(Exception e){
+			result.put("respCode",300);
+			result.put("message","参数或参数格式错误");
+			return result;
+		}
+		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
+	    return baiKeFacade.browseVarietyByCropId(cropId);
+	}
+	
+	@RequestMapping(value = "/browsePetDisByType", produces="application/json")
+	@ResponseBody
+	public Object browsePetDisByType(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		String type = request.getParameter("type");
+		if (type==null || type.equals("")){
+			result.put("respCode",300);
+			result.put("message","参数或参数格式错误");
+			return result;
+		}
+		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
+	    return baiKeFacade.browsePetDisByType(type);
+	}
+	
+	
+	@RequestMapping(value = "/browseCPProductByModel", produces="application/json")
+	@ResponseBody
+	public Object browseCPProductByModel(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		String model = request.getParameter("model");
+		if (model==null || model.equals("")){
+			result.put("respCode",300);
+			result.put("message","参数或参数格式错误");
+			return result;
+		}
+		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
+	    return baiKeFacade.browseCPProductByModel(model);
+	}
+	
+	@RequestMapping(value = "/getCPProdcutsByIngredient", produces="application/json")
+	@ResponseBody
+	public Object getCPProdcutsByIngredient(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		String ingredient = request.getParameter("ingredient");
+		if (ingredient==null || ingredient.equals("")){
+			result.put("respCode",300);
+			result.put("message","参数或参数格式错误");
+			return result;
+		}
+		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
+	    return baiKeFacade.getCPProdcutsByIngredient(ingredient);
+	}
+	
+	@RequestMapping(value = "/getVarietysByName", produces="application/json")
+	@ResponseBody
+	public Object getVarietysByName(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		String name = request.getParameter("name");
+		if (name==null || name.equals("")){
+			result.put("respCode",300);
+			result.put("message","参数或参数格式错误");
+			return result;
+		}
+		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
+	    return baiKeFacade.getVarietysByName(name);
+	}
 
 }

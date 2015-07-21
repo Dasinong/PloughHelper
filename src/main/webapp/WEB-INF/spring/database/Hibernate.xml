@@ -46,6 +46,9 @@
 			   <value>/com/dasinong/ploughHelper/model/SubScribeList.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/DisasterReport.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/Proverb.hbm.xml</value>
+			   <value>/com/dasinong/ploughHelper/model/VarietyBrowse.hbm.xml</value>
+			   <value>/com/dasinong/ploughHelper/model/PetDisSpecBrowse.hbm.xml</value>
+			   <value>/com/dasinong/ploughHelper/model/CPProductBrowse.hbm.xml</value>
 			</list>
     	</property>	
     </bean>
