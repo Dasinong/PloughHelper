@@ -65,6 +65,7 @@
 				<ref bean="myJobTrigger3" />
 				<ref bean="myJobTrigger4" />
 				<ref bean="myJobTrigger5" />
+				<ref bean="myJobTrigger6" />
 			</list>
 		</property>
 	</bean>
@@ -162,7 +163,7 @@
 	
 	<bean id="alladf" class="com.dasinong.ploughHelper.weather.AllAgriDisForcast" />
 	
-		<bean id="myJobTrigger5"
+	<bean id="myJobTrigger5"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail">
 			<ref bean="myJobDetail5" />
@@ -179,6 +180,28 @@
 		</property>
 		<property name="targetMethod">
 			<value>updateContent</value>
+		</property>
+	</bean>
+	
+	<bean id="pre24h" class="com.dasinong.ploughHelper.weather.Prepare24h" />
+	
+	<bean id="myJobTrigger6"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="myJobDetail6" />
+		</property>
+		<property name="cronExpression">
+			<value>0 5 8,20 * * ?</value>
+		</property>
+	</bean>
+
+	<bean id="myJobDetail6"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="pre24h" />
+		</property>
+		<property name="targetMethod">
+			<value>update24hFile</value>
 		</property>
 	</bean>
 	

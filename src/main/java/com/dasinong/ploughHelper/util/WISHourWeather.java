@@ -20,22 +20,22 @@ import org.apache.commons.codec.binary.Base64;
 
 import com.dasinong.ploughHelper.weather.LiveWeatherData;
 
-public class WISWeather {
+public class WISHourWeather {
 	
-	private static final String url = "http://api.fuwu.weather.com.cn/wis_forcastdata/data/getData_YoLoo.php";
+	private static final String url = "http://data.fuwu.weather.com.cn/hourlyyol/HourlyForecast";
 	//private static final String app_id = "05ac98ab74edb72f01eb";
-	private static final String app_id = "05ac98ab74edb72f01eb";
+	private static final String app_id = "05ac98ab74edb72f01eb8c0370eb4a28";
 	private static final String short_app_id = "05ac98";
-	private static final String key = "YOLOO_webapi_data_3";
+	private static final String key = "YOLOO_webapi_data";
 	private String date;
 	private String areaId;
 	private String type;
 
 	
-	public WISWeather(String areaId,String type){
+	public WISHourWeather(String areaId,String type){
 		this.areaId=areaId;
 		this.type =type;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		date = sdf.format(new Date());
 	}
 
@@ -59,7 +59,7 @@ public class WISWeather {
 	            Map<String, List<String>> map = connection.getHeaderFields();
 	            // 遍历所有的响应头字段
 	            for (String key : map.keySet()) {
-	                System.out.println(key + "--->" + map.get(key));
+	                //System.out.println(key + "--->" + map.get(key));
 	            }
 	            // 定义 BufferedReader输入流来读取URL的响应
 	            in = new BufferedReader(new InputStreamReader(
@@ -69,9 +69,9 @@ public class WISWeather {
 	            while ((line = in.readLine()) != null) {
 	                result += line;
 	            }
-	            System.out.println(result);
+	            //System.out.println(result);
 	            if (result.equals("key error"))
-	            	System.out.println("Error happened with the server when decoding url key!");
+	            System.out.println("Error happened with the server when decoding url key!");
 	        } catch (Exception e) {
 	            System.out.println("发送GET请求出现异常！" + e);
 	            e.printStackTrace();
@@ -91,9 +91,9 @@ public class WISWeather {
 	
 	public String getRealURL() throws NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException{
 		String result;
-		String urlkey = WISWeather.url+"?areaid="+this.areaId+"&type="+this.type+"&date="+date+"&appid="+this.app_id;
-		System.out.println(urlkey);
-		byte[] skey = WISWeather.key.getBytes();
+		String urlkey = WISHourWeather.url+"?areaid="+this.areaId+"&type="+this.type+"&date="+date+"&appid="+this.app_id;
+		//System.out.println(urlkey);
+		byte[] skey = WISHourWeather.key.getBytes();
 		SecretKeySpec signingKey = new SecretKeySpec(skey,"HmacSHA1");
 		Mac mac = Mac.getInstance("HmacSHA1");
 		mac.init(signingKey);
@@ -101,9 +101,8 @@ public class WISWeather {
 		byte[] encodeBytes = Base64.encodeBase64(rawHmac);
 		String finalkey = new String(encodeBytes,"utf-8");
 		finalkey = URLEncoder.encode(finalkey,"utf-8");
-		System.out.println(finalkey);
-		result = WISWeather.url+"?areaid="+this.areaId+"&type="+this.type+"&date="+date+"&appid="+this.short_app_id+"&key="+finalkey;
-		System.out.println(result);
+		result = WISHourWeather.url+"?areaid="+this.areaId+"&type="+this.type+"&date="+date+"&appid="+this.short_app_id+"&key="+finalkey;
+		//System.out.println(result);
 		return result;
 	}
 

@@ -58,7 +58,7 @@ public class CPProductDao extends HibernateDaoSupport implements ICPProductDao{
 	@Override
 	public List<CPProduct> findByIngredient(String ingredient) {
 		List list = getHibernateTemplate().find(
-				"from CPProduct where ingredient=?",ingredient);
+				"from CPProduct where activeIngredient=?",ingredient);
 		if (list==null){
 			return new ArrayList<CPProduct>();
 		}

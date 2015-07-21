@@ -3,6 +3,8 @@ package com.dasinong.ploughHelper.weather;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -59,6 +61,18 @@ public class All24h {
         	basefolder = Env.getEnv().WorkingDir+"/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/current";
         }else{
         	basefolder = Env.getEnv().WorkingDir +"/data/weather/hour/current";
+        	Date date = new Date();
+	       	SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        	if (date.getHours()<=7){
+        		date.setDate(date.getDate()-1);
+        		basefolder = Env.getEnv().WorkingDir +"/data/weather/hour/"+df.format(date)+"20";
+        	}
+        	else if (date.getHours()<=20 && date.getMinutes()<=15) {
+        		basefolder = Env.getEnv().WorkingDir +"/data/weather/hour/"+df.format(date)+"08";
+        	}
+        	else{
+        		basefolder = Env.getEnv().WorkingDir +"/data/weather/hour/"+df.format(date)+"20";
+        	}
         }
         try{
 			File f = new File(basefolder);

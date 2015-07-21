@@ -31,11 +31,13 @@ public class ShortCutController {
 		if (user==null){
 			result.put("respCode", 100);
 			result.put("message","尚未登陆");
+			result.put("data", false);
 			return result;
 		}
 		else{
 			result.put("respCode", 200);
 			result.put("message","用户已登陆");
+			result.put("data",true);
 			return result;
 		}
 		
