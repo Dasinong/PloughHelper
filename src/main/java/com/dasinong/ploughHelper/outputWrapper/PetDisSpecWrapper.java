@@ -12,13 +12,13 @@ public class PetDisSpecWrapper {
 	String rule="";
 	String imagePath="";
 	private String type="";
-	int severity;
+	private int severity;
 
 	public PetDisSpecWrapper(PetDisSpec p){
 		this.id = p.getPetDisSpecId();
 		this.setPetDisSpecName(p.getPetDisSpecName());
 		this.alias = p.getAlias();
-		this.severity = p.getSeverity();
+		this.setSeverity(p.getSeverity());
 		this.sympton = p.getSympthon();
 		this.form = p.getForms();
 		this.habbit = p.getHabits();
@@ -100,6 +100,14 @@ public class PetDisSpecWrapper {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public int getSeverity() {
+		return severity;
+	}
+
+	public void setSeverity(int severity) {
+		this.severity = severity;
 	}
 	
 }

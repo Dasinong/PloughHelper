@@ -55,13 +55,15 @@ public class WISHourWeather {
 	                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
 	            // 建立实际的连接
 	            connection.connect();
+	            /*
 	            // 获取所有响应头字段
 	            Map<String, List<String>> map = connection.getHeaderFields();
 	            // 遍历所有的响应头字段
 	            for (String key : map.keySet()) {
-	                //System.out.println(key + "--->" + map.get(key));
+	                System.out.println(key + "--->" + map.get(key));
 	            }
 	            // 定义 BufferedReader输入流来读取URL的响应
+	             */
 	            in = new BufferedReader(new InputStreamReader(
 	                    connection.getInputStream(),"UTF-8"));
 	            String line;
@@ -69,7 +71,7 @@ public class WISHourWeather {
 	            while ((line = in.readLine()) != null) {
 	                result += line;
 	            }
-	            //System.out.println(result);
+	            System.out.println(result);
 	            if (result.equals("key error"))
 	            System.out.println("Error happened with the server when decoding url key!");
 	        } catch (Exception e) {

@@ -1,9 +1,11 @@
 package com.dasinong.ploughHelper.weather;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import javax.xml.parsers.DocumentBuilder; 
 import javax.xml.parsers.DocumentBuilderFactory; 
 import javax.xml.parsers.ParserConfigurationException; 
@@ -34,13 +36,64 @@ import org.xml.sax.SAXException;
 public class TwentyFourHourForcast {
 	int code;
 	Date startTime;
+	Date timeStamp;
 	
 	public ForcastDInfo[] info = new ForcastDInfo[25];
 	
 	public TwentyFourHourForcast(String fileName, int code) throws ParserConfigurationException, SAXException, IOException{
+		this.code = code;
+		this.timeStamp = new Date();
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(); 
 		DocumentBuilder db = dbf.newDocumentBuilder(); 
 		Document document = db.parse(fileName); 
+		Node root = document.getFirstChild();
+		String startTime = root.getAttributes().getNamedItem("starttime").getNodeValue();
+		startTime = startTime.replace('T', ' ');
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    
+	    try {
+			this.startTime = sdf.parse(startTime);
+		} catch (ParseException e) {
+			System.out.println("Inproper start time while parsing twentyFourForcast for "+code);
+		}
+	    this.code=code;
+	    
+		NodeList forcastHs = document.getElementsByTagName("step");
+        
+		for (int i = 0; i < forcastHs.getLength(); i++) { 
+			try{
+				Node forcastH = forcastHs.item(i); 
+				String timec = forcastH.getAttributes().getNamedItem("time").getNodeValue();
+				Date time = sdf.parse(timec);
+				NodeList attributes = forcastH.getChildNodes();
+				if (attributes.getLength()==19){
+					int temperature = Math.round(Float.parseFloat(attributes.item(1).getTextContent()));
+					int relativeHumidity = Integer.parseInt(attributes.item(3).getTextContent());
+					int windDirection_10m = Integer.parseInt(attributes.item(5).getTextContent());
+					double windSpeed_10m = Double.parseDouble(attributes.item(7).getTextContent());
+					double accumRainTotal = Double.parseDouble(attributes.item(9).getTextContent());
+					double accumSnowTotal = Double.parseDouble(attributes.item(11).getTextContent());
+					double accumIceTotal = Double.parseDouble(attributes.item(13).getTextContent());
+					int pOP = Integer.parseInt(attributes.item(15).getTextContent());
+					String icon = attributes.item(17).getTextContent();
+					ForcastDInfo fdi = new ForcastDInfo(time, temperature, relativeHumidity, windDirection_10m, windSpeed_10m, 
+							accumRainTotal, accumSnowTotal, accumIceTotal, pOP, icon);
+					info[i] = fdi;
+				}
+			}catch (Exception e){
+				System.out.println("Exception happend while parsing twentyFourForcast for "+code);
+			}
+		} 
+	} 
+	
+	
+	public TwentyFourHourForcast(ByteArrayInputStream content , int code) throws ParserConfigurationException, SAXException, IOException{
+		this.code = code;
+		this.timeStamp = new Date();
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(); 
+		DocumentBuilder db = dbf.newDocumentBuilder(); 
+		Document document = db.parse(content); 
+		
 		Node root = document.getFirstChild();
 		String startTime = root.getAttributes().getNamedItem("starttime").getNodeValue();
 		startTime = startTime.replace('T', ' ');

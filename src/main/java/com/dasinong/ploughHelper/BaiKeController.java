@@ -1,11 +1,7 @@
 package com.dasinong.ploughHelper;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,135 +40,41 @@ public class BaiKeController {
 			result.put("respCode", 300);
 			result.put("message", "参数错误");
 		};
-		
-		FullTextSearch bs = null;
-		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+		String type = request.getParameter("type");
+		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
+		if (type==null || key.equals("")){
+			result.put("respCode", "200");
+			result.put("message", "检索成功");
+			content.put("variety",baiKeFacade.searchVariety(key));
+			content.put("cpproduct",baiKeFacade.searchCPProduct(key));
+			content.putAll(baiKeFacade.searchPetDisSpec(key));
+			result.put("data", content);
+			return result;
+		}
+		if (type.equalsIgnoreCase("variety")){
 			
-		    bs = new FullTextSearch("variety",Env.getEnv().DataDir+"/varietyIndex");
+			result.put("respCode", 200);
+			result.put("message", "获取成功");
+			result.put("data", baiKeFacade.searchVariety(key));
+			return result;
 		}
-		else{
-			bs = new FullTextSearch("variety",Env.getEnv().DataDir+"/lucene/variety");
-		}
-		bs.setHighlighterFormatter("<font color='red'>", "</font>");
-
-		try {
-			String[] source = {"varietyName", "varietySource"};
-			String[] target = {"varietyName", "varietyId", "varietySource"};
-			HashMap<String,String>[] h = bs.search(key, source, target);
-			List<HashMap<String,String>> format = new ArrayList<HashMap<String,String>>();
-			Set<Integer> idcheck = new HashSet<Integer>();
-			if (h!=null){
-				for(int i=0;i<h.length;i++){
-					if (h[i]!=null){
-						if (!idcheck.contains(Integer.parseInt(h[i].get("varietyId")))){
-							idcheck.add(Integer.parseInt(h[i].get("varietyId")));
-							HashMap<String,String> record = new HashMap<String,String>();
-							record.put("id", h[i].get("varietyId"));
-							record.put("name", h[i].get("varietyName"));
-							record.put("source", h[i].get("varietySource"));
-							record.put("type", "variety");
-							format.add(record);
-						}
-					}
-				}
-			}
-			content.put("variety", format);
-		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
-			e.printStackTrace();
+		if (type.equalsIgnoreCase("cpproduct")){
+			result.put("respCode", 200);
+			result.put("message", "获取成功");
+			result.put("data", baiKeFacade.searchCPProduct(key));
 		}
 		
+		if (type.equalsIgnoreCase("petdisspec")){
+			result.put("respCode", 200);
+			result.put("message", "获取成功");
+			result.put("data", baiKeFacade.searchPetDisSpec(key));
+		
+		}
+		result.put("respCode", "302");
+		result.put("message", "type内容不支持");
+		return result;
 		
 		
-		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-		     bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/petDisSpecIndex");
-		}
-		else{
-			bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"lucene/petDisSpec");
-		}
-		bs.setHighlighterFormatter("<font color='red'>", "</font>");
-		try {
-			String[] source = {"petDisSpecName", "cropName", "sympthon"};
-			String[] target= {"petDisSpecName", "petDisSpecId", "cropName", "sympthon", "type"};
-
-			HashMap<String,String>[] h = bs.search(key, source, target);
-			List<HashMap<String,String>> ill = new ArrayList<HashMap<String,String>>();
-			List<HashMap<String,String>> pest = new ArrayList<HashMap<String,String>>();
-			List<HashMap<String,String>> grass = new ArrayList<HashMap<String,String>>();
-			Set<Integer> idcheck = new HashSet<Integer>();
-			if (h!=null){
-				for (int i=0;i<h.length;i++){
-					if (h[i]!=null){
-						if (!idcheck.contains(Integer.parseInt(h[i].get("petDisSpecId")))){
-							idcheck.add(Integer.parseInt(h[i].get("petDisSpecId")));
-							HashMap<String,String> record = new HashMap<String,String>();
-							record.put("id", h[i].get("petDisSpecId"));
-							record.put("name",h[i].get("petDisSpecName"));
-							record.put("source",h[i].get("cropName")+" "+h[i].get("sympthon"));
-							if (h[i].get("type").equals("病害")){
-								record.put("type", "pest");
-								ill.add(record);
-							}
-							if (h[i].get("type").equals("虫害")){
-								record.put("type", "pest");
-								pest.add(record);
-							}
-							if (h[i].get("type").equals("草害")) {
-								record.put("type", "pest");
-								grass.add(record);
-							}
-							
-						}
-					}
-				}
-			}
-			content.put("disease",ill);
-			content.put("pest",pest);
-			content.put("weeds",grass);
-		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
-			e.printStackTrace();
-		}
-		
-		
-		
-		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-		     bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/petCPProductIndex");
-		}
-		else{
-			bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/lucene/cPProduct");
-		}
-		bs.setHighlighterFormatter("<font color='red'>", "</font>");
-
-		try {
-			String[] source = {"cPProductName","manufacturer","crop"};
-			String[] target = {"cPProductName", "manufacturer","crop","cPProductId"};
-			HashMap<String,String>[] h = bs.search(key, source, target);
-			List<HashMap<String,String>> format = new ArrayList<HashMap<String,String>>();
-			Set<Integer> idcheck = new HashSet<Integer>();
-			if (h!=null){
-				for(int i=0;i<h.length;i++){
-					if (h[i]!=null){
-						if (!idcheck.contains(Integer.parseInt(h[i].get("cPProductId")))){
-							idcheck.add(Integer.parseInt(h[i].get("cPProductId")));
-							HashMap<String,String> record = new HashMap<String,String>();
-							record.put("id", h[i].get("cPProductId"));
-							record.put("name", h[i].get("cPProductName"));
-							record.put("source", h[i].get("crop")+" "+h[i].get("manufacturer"));
-							record.put("type","pesticide");
-							format.add(record);
-						}
-					}
-				}
-			}
-			content.put("cpproduct", format);
-		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	
-		result.put("respCode", 200);
-		result.put("message", "检索成功");
-		result.put("data",content);
-	  return result;
 	}
 	
 	

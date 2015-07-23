@@ -58,7 +58,8 @@ public class All24h {
 		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
         String basefolder="";
         if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-        	basefolder = Env.getEnv().WorkingDir+"/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/current";
+        	//basefolder = Env.getEnv().WorkingDir+"/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/current";
+        	basefolder = "E:/weather/2015072120";
         }else{
         	basefolder = Env.getEnv().WorkingDir +"/data/weather/hour/current";
         	Date date = new Date();

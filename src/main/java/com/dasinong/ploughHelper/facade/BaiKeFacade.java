@@ -1,13 +1,18 @@
 package com.dasinong.ploughHelper.facade;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.CPProductBrowseDao;
 import com.dasinong.ploughHelper.dao.ICPProductBrowseDao;
 import com.dasinong.ploughHelper.dao.ICPProductDao;
 import com.dasinong.ploughHelper.dao.ICropDao;
@@ -26,6 +31,8 @@ import com.dasinong.ploughHelper.outputWrapper.CPProductWrapper;
 import com.dasinong.ploughHelper.outputWrapper.CropWrapper;
 import com.dasinong.ploughHelper.outputWrapper.PetDisSpecWrapper;
 import com.dasinong.ploughHelper.outputWrapper.VarietyWrapper;
+import com.dasinong.ploughHelper.util.Env;
+import com.dasinong.ploughHelper.util.FullTextSearch;
 
 @Transactional
 public class BaiKeFacade implements IBaiKeFacade {
@@ -208,5 +215,141 @@ public class BaiKeFacade implements IBaiKeFacade {
     	result.put("message", "获得成功");
     	result.put("data", cppws);
     	return result;
+	}
+	
+	@Override
+	public List<HashMap<String,String>> searchVariety(String key){
+		List<HashMap<String,String>> result = new ArrayList<HashMap<String,String>>();
+		FullTextSearch bs = null;
+		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+			
+		    bs = new FullTextSearch("variety",Env.getEnv().DataDir+"/varietyIndex");
+		}
+		else{
+			bs = new FullTextSearch("variety",Env.getEnv().DataDir+"/lucene/variety");
+		}
+		bs.setHighlighterFormatter("<font color='red'>", "</font>");
+
+		try {
+			String[] source = {"varietyName", "varietySource"};
+			String[] target = {"varietyName", "varietyId", "varietySource"};
+			HashMap<String,String>[] h = bs.search(key, source, target);
+			Set<Integer> idcheck = new HashSet<Integer>();
+			if (h!=null){
+				for(int i=0;i<h.length;i++){
+					if (h[i]!=null){
+						if (!idcheck.contains(Integer.parseInt(h[i].get("varietyId")))){
+							idcheck.add(Integer.parseInt(h[i].get("varietyId")));
+							HashMap<String,String> record = new HashMap<String,String>();
+							record.put("id", h[i].get("varietyId"));
+							record.put("name", h[i].get("varietyName"));
+							record.put("source", h[i].get("varietySource"));
+							record.put("type", "variety");
+							result.add(record);
+						}
+					}
+				}
+			}
+		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	@Override
+	public List<HashMap<String,String>> searchCPProduct(String key){
+		List<HashMap<String,String>> result = new ArrayList<HashMap<String,String>>();
+		FullTextSearch bs = null;
+		
+		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+		     bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/cPProductIndex");
+		}
+		else{
+			bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/lucene/cPProduct");
+		}
+		bs.setHighlighterFormatter("<font color='red'>", "</font>");
+
+		try {
+			String[] source = {"cPProductName","manufacturer","crop"};
+			String[] target = {"cPProductName", "manufacturer","crop","cPProductId"};
+			HashMap<String,String>[] h = bs.search(key, source, target);
+			Set<Integer> idcheck = new HashSet<Integer>();
+			if (h!=null){
+				for(int i=0;i<h.length;i++){
+					if (h[i]!=null){
+						if (!idcheck.contains(Integer.parseInt(h[i].get("cPProductId")))){
+							idcheck.add(Integer.parseInt(h[i].get("cPProductId")));
+							HashMap<String,String> record = new HashMap<String,String>();
+							record.put("id", h[i].get("cPProductId"));
+							record.put("name", h[i].get("cPProductName"));
+							record.put("source", h[i].get("crop")+" "+h[i].get("manufacturer"));
+							record.put("type","pesticide");
+							result.add(record);
+						}
+					}
+				}
+			}
+		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	@Override
+	public Map<String,List<HashMap<String,String>>> searchPetDisSpec(String key){
+		Map<String,List<HashMap<String,String>>> result = new HashMap<String,List<HashMap<String,String>>>();
+		FullTextSearch bs = null;
+		
+		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+		     bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/petDisSpecIndex");
+		}
+		else{
+			bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"lucene/petDisSpec");
+		}
+		bs.setHighlighterFormatter("<font color='red'>", "</font>");
+		try {
+			String[] source = {"petDisSpecName", "cropName", "sympthon"};
+			String[] target= {"petDisSpecName", "petDisSpecId", "cropName", "sympthon", "type"};
+
+			HashMap<String,String>[] h = bs.search(key, source, target);
+			List<HashMap<String,String>> ill = new ArrayList<HashMap<String,String>>();
+			List<HashMap<String,String>> pest = new ArrayList<HashMap<String,String>>();
+			List<HashMap<String,String>> grass = new ArrayList<HashMap<String,String>>();
+			Set<Integer> idcheck = new HashSet<Integer>();
+			if (h!=null){
+				for (int i=0;i<h.length;i++){
+					if (h[i]!=null){
+						if (!idcheck.contains(Integer.parseInt(h[i].get("petDisSpecId")))){
+							idcheck.add(Integer.parseInt(h[i].get("petDisSpecId")));
+							HashMap<String,String> record = new HashMap<String,String>();
+							record.put("id", h[i].get("petDisSpecId"));
+							record.put("name",h[i].get("petDisSpecName"));
+							record.put("source",h[i].get("cropName")+" "+h[i].get("sympthon"));
+							if (h[i].get("type").equals("病害")){
+								record.put("type", "pest");
+								ill.add(record);
+							}
+							if (h[i].get("type").equals("虫害")){
+								record.put("type", "pest");
+								pest.add(record);
+							}
+							if (h[i].get("type").equals("草害")) {
+								record.put("type", "pest");
+								grass.add(record);
+							}
+							
+						}
+					}
+				}
+			}
+			result.put("disease",ill);
+			result.put("pest",pest);
+			result.put("weeds",grass);
+		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
