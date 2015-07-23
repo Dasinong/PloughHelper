@@ -16,7 +16,7 @@ import org.xml.sax.SAXException;
 
 import com.dasinong.ploughHelper.util.Env;
 
-public class All24h {
+public class All24h implements IWeatherBuffer{
 	private static All24h all24h;
 	
 	public static All24h get24h(){
@@ -33,17 +33,25 @@ public class All24h {
 	private All24h(){
 		_all24h = new HashMap<Integer,TwentyFourHourForcast>();
 		try{
-			loadContent();
+			loadContent(latestSourceFile());
 		}catch(Exception e){
 			System.out.println("Initialize 24h failed. " +  e.getCause());
 		}
 	}
 	
+	//自动更新
+	@Override
 	public void updateContent(){
+		updateContent(latestSourceFile());
+	}
+	
+	//强制更新
+	@Override
+	public void updateContent(String basefolder){
 		HashMap<Integer,TwentyFourHourForcast> old24h = _all24h;
 		_all24h = new HashMap<Integer,TwentyFourHourForcast>();
 		try{
-			loadContent();
+			loadContent(basefolder);
 		}
 		catch(Exception e){
 			System.out.println("update 24h failed. " +  e.getCause());
@@ -51,54 +59,65 @@ public class All24h {
 		}
 	}
 	
-	private void loadContent() {
-		System.out.println("loadContent of 24h called " + this.hashCode());
-		TwentyFourHourForcast tfhf=null;
 	
-		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
-        String basefolder="";
-        if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-        	//basefolder = Env.getEnv().WorkingDir+"/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/current";
+	private String latestSourceFile(){
+		String basefolder;
+    	if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
         	basefolder = "E:/weather/2015072120";
         }else{
         	basefolder = Env.getEnv().WorkingDir +"/data/weather/hour/current";
         	Date date = new Date();
 	       	SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
         	if (date.getHours()<=7){
-        		date.setDate(date.getDate()-1);
+        		date.setTime(date.getTime()-24*60*60*1000);
         		basefolder = Env.getEnv().WorkingDir +"/data/weather/hour/"+df.format(date)+"20";
         	}
-        	else if (date.getHours()<=20 && date.getMinutes()<=15) {
+        	else if (date.getHours()<20) {
+       			basefolder = Env.getEnv().WorkingDir +"/data/weather/hour/"+df.format(date)+"08";
+        	}else if (date.getHours() ==20 && date.getMinutes()<=15){
         		basefolder = Env.getEnv().WorkingDir +"/data/weather/hour/"+df.format(date)+"08";
         	}
         	else{
         		basefolder = Env.getEnv().WorkingDir +"/data/weather/hour/"+df.format(date)+"20";
         	}
-        }
-        try{
-			File f = new File(basefolder);
-			if (f.isDirectory()){
-				String[] filelist = f.list();
-				for(int i=0; i<filelist.length; i++){
-					try{
-						tfhf = new TwentyFourHourForcast(basefolder+"/"+filelist[i],Integer.parseInt(filelist[i]));
-						_all24h.put(tfhf.code, tfhf);
-					}catch(Exception e){
-						System.out.println("Load 24h for "+ filelist[i] + "failed.");
-						System.out.println(e.getCause());
-					}
+        } 
+    	System.out.println(basefolder);
+    	return basefolder;
+	}
+	
+	private void loadContent(String basefolder) {
+		System.out.println("load Content of 24h called on " + new Date());
+		TwentyFourHourForcast tfhf=null;
+
+		File f = new File(basefolder);
+		if (f.isDirectory()){
+			String[] filelist = f.list();
+			for(int i=0; i<filelist.length; i++){
+				try{
+					tfhf = new TwentyFourHourForcast(basefolder+"/"+filelist[i],Integer.parseInt(filelist[i]));
+					_all24h.put(tfhf.code, tfhf);
+				}catch(Exception e){
+					System.out.println("Load 24h for "+ filelist[i] + "failed.");
+					System.out.println(e.getMessage());
 				}
 			}
         }
-		catch(Exception e){
-			System.out.println(e.getMessage());
-			System.out.println("加载24小时天气失败");
-		}
-
 	}
+	
 	private HashMap<Integer,TwentyFourHourForcast> _all24h;
 	public TwentyFourHourForcast get24h(Integer areaId){
 		return _all24h.get(areaId);
+	}
+	
+	//Support finer check.
+	@Override
+	public String latestUpdate(){
+		TwentyFourHourForcast tfhf = this._all24h.get(101010100);
+		if (tfhf!=null){
+			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
+			return df.format(tfhf.timeStamp); 
+		}
+		else return "No data found. Check whether initialize failed.";
 	}
 	
 	public static void main(String[] args) throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{

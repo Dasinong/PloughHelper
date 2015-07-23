@@ -16,10 +16,10 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.util.Env;
 
-public class AllCurrentJiwen {
+public class AllCurrentJiwen implements IWeatherBuffer{
 	private static AllCurrentJiwen allCurrentJiwen;
 	
-	Date date;
+	Date timeStamp;
 	
 	public static AllCurrentJiwen getCurJiwen(){
 		if (allCurrentJiwen==null){
@@ -30,54 +30,64 @@ public class AllCurrentJiwen {
 		else{
 			return allCurrentJiwen;
 		}
-		
 	}
+
 	private AllCurrentJiwen(){
 		_allCurrentJiwen = new HashMap<Integer,Integer>();
 		try{
-			loadContent();
+			loadContent(latestSourceFile());
 		}catch(Exception e){
 			System.out.println("Initialize current Jiwen failed.");
 		}
 	}
 	
+	//自动更新
+	@Override
 	public void updateContent(){
+		updateContent(latestSourceFile());
+	}
+	
+	//强制更新
+	@Override
+	public void updateContent(String sourceFile){
 		HashMap<Integer,Integer> oldJiwen = _allCurrentJiwen;
 		_allCurrentJiwen = new HashMap<Integer,Integer>();
 		try{
-			loadContent();
+			loadContent(sourceFile);
 		}catch(Exception e){
 			System.out.println("update jiwen failed. " +  e.getCause());
 			_allCurrentJiwen = oldJiwen;			
 		}
 	}
 	
-	private void loadContent() throws IOException, ParseException {
-		SevenDayForcast sdf=null;
-		
-		String fullpath="";
-	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-	       	fullpath = Env.getEnv().WorkingDir+"/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/jw_2015-6-17.csv";
+	private String latestSourceFile(){
+		String sourceFile;
+		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+			sourceFile = Env.getEnv().WorkingDir+"/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/jw_2015-6-17.csv";
 	    }else{
 	       	Date date = new Date();
 	       	date.setTime(date.getTime()-24*60*60*1000);
 	       	String filename = "";
 	       	SimpleDateFormat df = new SimpleDateFormat("yyyy-M-d");
 	       	filename = "jw_"+df.format(date)+".csv";
-	       	fullpath = Env.getEnv().WorkingDir+"/data/ftp/jiwen/"+filename;
+	       	sourceFile = Env.getEnv().WorkingDir+"/data/ftp/jiwen/"+filename;
 	    }
-	    
-		File f = new File(fullpath);
+		System.out.println(sourceFile);
+		return sourceFile;
+	}
+	
+	private void loadContent(String sourceFile) throws IOException, ParseException {
+   
+		File f = new File(sourceFile);
 		FileInputStream fr = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
 		String line;
 		line = br.readLine();
-		int currentCode =0;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-M-d");
 		String[] units = line.split(",");
 		
 		_allCurrentJiwen.put(Integer.parseInt(units[0]), Integer.parseInt(units[2]));
-	    date = df.parse(units[1]);
+		timeStamp = df.parse(units[1]);
 		while ((line=br.readLine())!=null) {
 			line = line.trim();
 			try{
@@ -95,6 +105,12 @@ public class AllCurrentJiwen {
 	}
 	private HashMap<Integer,Integer> _allCurrentJiwen;
 	
+	@Override
+	public String latestUpdate(){
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
+		return df.format(timeStamp); 
+	}
+	
 	public static void main(String[] args) throws IOException, ParseException{
 		Iterator iter= AllCurrentJiwen.getCurJiwen()._allCurrentJiwen.entrySet().iterator();
 		while(iter.hasNext()){
@@ -102,7 +118,5 @@ public class AllCurrentJiwen {
 			System.out.print(entry.getKey()+": ");
 			System.out.println(entry.getValue());
 		}
-		
-		
 	}
 }

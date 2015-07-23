@@ -1,6 +1,8 @@
 package com.dasinong.ploughHelper.weather;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,35 +20,44 @@ import org.xml.sax.SAXException;
 
 import com.dasinong.ploughHelper.util.Env;
 
-public class AllAgriDisForcast {
+public class AllAgriDisForcast implements IWeatherBuffer{
 
 	private static AllAgriDisForcast alladf;
 	
-	public static AllAgriDisForcast getadf() throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{
+	public static AllAgriDisForcast getadf(){
 		if (alladf==null){
-			try{
-				alladf = (AllAgriDisForcast) ContextLoader.getCurrentWebApplicationContext().getBean("alladf");
-			} catch (Exception e){
-				e.printStackTrace();
-				alladf = new AllAgriDisForcast();
-			}
+			//alladf = new AllAgriDisForcast();
+			alladf = (AllAgriDisForcast) ContextLoader.getCurrentWebApplicationContext().getBean("alladf");
 			return alladf;
 		}
 		else{
 			return alladf;
 		}
-		
-	}
-	private AllAgriDisForcast() throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{
-		_alladf = new HashMap<Integer,AgriDisForcast>();
-		loadContent();
 	}
 	
+	private AllAgriDisForcast(){
+		_alladf = new HashMap<Integer,AgriDisForcast>();
+		try{
+			loadContent(latestSourceFile());
+		}
+		catch(Exception e){
+			System.out.println("Initialize agriculture disaster forcast failed. " + latestSourceFile());
+		}
+	}
+	
+	//自动更新
+	@Override
 	public void updateContent(){
+		updateContent(latestSourceFile());
+	}
+	
+	//强制更新
+	@Override
+	public void updateContent(String sourceFile){
 		HashMap<Integer,AgriDisForcast> oldadf = _alladf;
 		_alladf = new HashMap<Integer, AgriDisForcast>();
 		try{
-			loadContent();
+			loadContent(sourceFile);
 		}
 		catch(Exception e){
 			System.out.println("update agriculture disaster forcast failed. " +  e.getCause());
@@ -54,34 +65,67 @@ public class AllAgriDisForcast {
 		}
 	}
 	
-	private void loadContent() throws IOException, ParseException, NumberFormatException, ParserConfigurationException {
-	
-		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/agriculture_forcast_24hours_20150619.txt");
-        String basefolder="";
-        if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-        	basefolder = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
-        }else{
-        	basefolder = Env.getEnv().WorkingDir + "/data/ftp/agriculture_forcast/";
-        }
-        
-        DateFormat df = new SimpleDateFormat("yyyyMMdd");
-        String filenamePrefix = "agriculture_forcast_24hours_";
-        String date  = df.format(new Date());
-        String filename = basefolder+filenamePrefix+date+".txt";
-        String defaultFilename = basefolder+filenamePrefix+"20150619"+".txt";
-		try{
-			File f = new File(filename);
-			if(!f.exists())
-				filename = defaultFilename;
-			_alladf = AgriDisForcast.parseForcastFile(filename);
-		}catch(Exception e){
-			System.out.println("Load agriculture disaster forcast for "+ filename + "failed.");
-			System.out.println(e.getCause());
-		}
+	private String latestSourceFile(){
+		String sourceFile;
+	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+	    	sourceFile = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/agriculture_forcast_24hours_20150619.txt";
+	    }else{
+	    	DateFormat df = new SimpleDateFormat("yyyyMMdd");
+	    	sourceFile = Env.getEnv().WorkingDir + "/data/ftp/agriculture_forcast/agriculture_forcast_24hours_"+df.format(new Date())+".txt";
+	    }
+	    System.out.println(sourceFile);
+	    return sourceFile;
 	}
+	
+	private void loadContent(String sourceFile) throws IOException {
+		File file = new File(sourceFile);
+		BufferedReader reader = null;
+
+	    reader = new BufferedReader(new FileReader(file));
+	    String tempString = null;
+	    String [] fields;
+	    reader.readLine();
+	    while ((tempString = reader.readLine()) != null) {
+	    	try{
+		    	fields = tempString.trim().split("\t");
+		    	if(fields.length >= 7){
+		    		AgriDisForcast adf = new AgriDisForcast();
+		    		int areaId = Integer.parseInt(fields[0]);
+		    		adf.setDate(fields[1]);
+		    		adf.setAvgTemp(fields[2]);
+		    		adf.setMaxTemp(fields[3]);
+		    		adf.setMinTemp(fields[4]);
+		    		adf.setWindSpeed(fields[5]);
+		    		adf.setRelativeHumidity(fields[6]);
+		    		if(fields.length == 8)
+		    			adf.setDisasterInfo(fields[7]);
+		    		else
+		    			adf.setDisasterInfo("");
+		    		_alladf.put(areaId, adf);
+		    	} else {
+		    		System.out.println("skip line :" + tempString);
+		    	}
+	    	}catch(NumberFormatException e){
+		    		System.out.println("parse line "+ tempString + " failed.");
+	    	}
+	    }
+	    reader.close();
+	}
+	
 	private HashMap<Integer,AgriDisForcast> _alladf;
+	
 	public AgriDisForcast getadf(Integer areaId){
 		return _alladf.get(areaId);
+	}
+	
+	@Override
+	public String latestUpdate(){
+		AgriDisForcast adf = this._alladf.get(101200805);
+		if (adf!=null){
+			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
+			return df.format(adf.date); 
+		}
+		else return "No data found. Check whether initialize failed.";
 	}
 	
 	public static void main(String[] args) throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{

@@ -78,7 +78,7 @@
 			<ref bean="myJobDetail1" />
 		</property>
 		<property name="cronExpression">
-			<value>0 10 8,20 * * ?</value>
+			<value>0 20 8,20 * * ?</value>
 		</property>
 	</bean>
 
@@ -169,7 +169,7 @@
 			<ref bean="myJobDetail5" />
 		</property>
 		<property name="cronExpression">
-			<value>0 10 1 * * ?</value>
+			<value>0 30 9 * * ?</value>
 		</property>
 	</bean>
 
@@ -205,6 +205,27 @@
 		</property>
 	</bean>
 	
+	
+	<bean id="soilLiq" class="com.dasinong.ploughHelper.weather.SoilLiquid" />
+	<bean id="myJobTrigger7"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="myJobDetail7" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 13 * * ?</value>
+		</property>
+	</bean>
+
+	<bean id="myJobDetail7"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="soilLiq" />
+		</property>
+		<property name="targetMethod">
+			<value>updateContent</value>
+		</property>
+	</bean>
 		
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

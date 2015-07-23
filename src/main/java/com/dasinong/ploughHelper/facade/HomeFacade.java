@@ -1,7 +1,6 @@
 package com.dasinong.ploughHelper.facade;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +15,6 @@ import com.dasinong.ploughHelper.model.SoilTestReport;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
 import com.dasinong.ploughHelper.outputWrapper.SoilTestReportWrapper;
-import com.dasinong.ploughHelper.ruleEngine.rules.Rule;
 import com.dasinong.ploughHelper.util.LunarHelper;
 import com.dasinong.ploughHelper.weather.AllLocation;
 import com.dasinong.ploughHelper.weather.MonitorLocation;
@@ -92,7 +90,7 @@ public class HomeFacade implements IHomeFacade {
 				double soilHum = SoilLiquid.getSoilLi().getSoil(ml.latitude, ml.longitude);
 				result.put("soilHum", soilHum);
 			}
-		} catch (IOException |ParseException e) {
+		} catch (IOException e) {
 			System.out.println("Load monitor location field or soilLiquid failed");
 		}
 	
@@ -109,7 +107,7 @@ public class HomeFacade implements IHomeFacade {
 		double soilHum=0;
 		try {
 			soilHum = SoilLiquid.getSoilLi().getSoil(lat, lon);
-		} catch (IOException | ParseException e) {
+		} catch (Exception e) {
             System.out.println("Load soilHum failed");
 		}
 		result.put("soilHum", soilHum);

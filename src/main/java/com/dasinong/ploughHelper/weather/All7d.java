@@ -3,21 +3,18 @@ package com.dasinong.ploughHelper.weather;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.util.Env;
 
-public class All7d {
+public class All7d implements IWeatherBuffer{
 	private static All7d all7d;
 
 	public static All7d getAll7d(){
@@ -29,21 +26,30 @@ public class All7d {
 		else{
 			return all7d;
 		}
-		
 	}
+
 	private All7d(){
 		_all7d = new HashMap<Integer,SevenDayForcast>();
 		try{
-			loadContent();
+			loadContent(latestSourceFile());
 		}catch(Exception e){
 			System.out.println("Initialize 7d failed");
 		}
 	}
-    public void updateContent() throws IOException, ParseException{
+	
+	//自动更新
+	@Override
+    public void updateContent(){
+     	updateContent(latestSourceFile());
+    }
+    
+    //强制更新
+	@Override
+    public void updateContent(String sourceFile){
      	HashMap<Integer,SevenDayForcast> old7d = _all7d;
     	_all7d = new HashMap<Integer,SevenDayForcast>();
 		try{
-			loadContent();
+			loadContent(sourceFile);
 		}
 		catch(Exception e){
 			System.out.println("update 7d failed. " +  e.getCause());
@@ -51,19 +57,16 @@ public class All7d {
 		}
     }
 	
-	private void loadContent(){
-		SevenDayForcast sdf=null;
-		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
-		
-        String fullpath="";
-        if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-        	fullpath = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rforcast_7days_2015061720.csv";
+    private String latestSourceFile(){
+    	String sourceFile;
+    	if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+    		sourceFile = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rforcast_7days_2015061720.csv";
         }else{
         	Date date = new Date();
         	String filename = "";
         	SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
         	if (date.getHours()<=9){
-        		date.setDate(date.getDate()-1);
+        		date.setTime(date.getTime()-24*60*60*1000);
         		filename = "rforcast_7days_"+df.format(date)+"20.csv";
         	}
         	else if (date.getHours()<=19) {
@@ -72,62 +75,70 @@ public class All7d {
         	else{
         		filename = "rforcast_7days_"+df.format(date)+"20.csv";
         	}
-        	fullpath = Env.getEnv().WorkingDir + "/data/ftp/rforecast7days/"+filename;
+        	sourceFile = Env.getEnv().WorkingDir + "/data/ftp/rforecast7days/"+filename;
         }
-		
-		File f = new File(fullpath);
-		
-		
-		try {
-			FileInputStream fr;
-			fr = new FileInputStream(f);
-			BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
-			String line;
-			br.readLine();
-			int currentCode =0;
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-			while ((line=br.readLine())!=null) {
-				line = line.trim();
-				try{
-					String units[] = line.split("\t");
-					if (units.length==9){
-						int code = Integer.parseInt(units[0]);
-						Date forcast_time = df.parse(units[1]);
-						short weather = Short.parseShort(units[2]);
-						double temp = Double.parseDouble(units[3]);
-						double max_temp = Double.parseDouble(units[4]);
-						double min_temp = Double.parseDouble(units[5]);
-						short ff_level = Short.parseShort(units[6]);
-						short dd_level = Short.parseShort(units[7]);
-						double rain = Double.parseDouble(units[8]);
-						if (code!=currentCode){
-							sdf = new SevenDayForcast(code,forcast_time);
-							currentCode = code;
-							sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
-							_all7d.put(code, sdf);
-						}
-						else{
-							sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
-						}
+    	System.out.println(sourceFile);
+    	return sourceFile;
+    }
+    
+	private void loadContent(String sourceFile) throws IOException{
+		SevenDayForcast sdf=null;
+		File f = new File(sourceFile);
+
+		FileInputStream fr;
+		fr = new FileInputStream(f);
+		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
+		String line;
+		br.readLine();
+		int currentCode =0;
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		while ((line=br.readLine())!=null) {
+			line = line.trim();
+			try{
+				String units[] = line.split("\t");
+				if (units.length==9){
+					int code = Integer.parseInt(units[0]);
+					Date forcast_time = df.parse(units[1]);
+					short weather = Short.parseShort(units[2]);
+					double temp = Double.parseDouble(units[3]);
+					double max_temp = Double.parseDouble(units[4]);
+					double min_temp = Double.parseDouble(units[5]);
+					short ff_level = Short.parseShort(units[6]);
+					short dd_level = Short.parseShort(units[7]);
+					double rain = Double.parseDouble(units[8]);
+					if (code!=currentCode){
+						sdf = new SevenDayForcast(code,forcast_time);
+						currentCode = code;
+						sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
+						_all7d.put(code, sdf);
 					}
-				}catch (Exception e){
-					System.out.println("Error happend while inserting 7 day forcast "+ line);
+					else{
+						sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
+					}
 				}
+			}catch (Exception e){
+				System.out.println("Error happend while inserting 7 day forcast "+ line);
 			}
-			br.close();
-			fr.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		br.close();
+		fr.close();
 	}
+	
 	private HashMap<Integer,SevenDayForcast> _all7d;
 	
 	public SevenDayForcast get7d(Integer aid){
 		return _all7d.get(aid);
 	}
 	
-
+	@Override
+	public String latestUpdate(){
+		SevenDayForcast sdf = this._all7d.get(101010100);
+		if (sdf!=null){
+			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
+			return df.format(sdf.startDate); 
+		}
+		else return "No data found. Check whether initialize failed.";
+	}
 	
 	public static void main(String[] args) throws IOException, ParseException{
 		/*

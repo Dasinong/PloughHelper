@@ -11,10 +11,11 @@ import java.util.Date;
 
 import com.dasinong.ploughHelper.util.Env;
 
-public class SoilLiquid {
+public class SoilLiquid implements IWeatherBuffer{
 	private static SoilLiquid soilLiquid;
+	private Date timeStamp;
 	
-	public static SoilLiquid getSoilLi() throws IOException, ParseException{
+	public static SoilLiquid getSoilLi(){
 		if (soilLiquid==null){
 			soilLiquid = new SoilLiquid();
 			return soilLiquid;
@@ -24,27 +25,55 @@ public class SoilLiquid {
 		}
 	}
 	
-	private SoilLiquid() throws IOException, ParseException{
-		loadContent();
+	private SoilLiquid(){
+		try{
+			loadContent(latestSourceFile());
+		}catch(Exception e){
+			System.out.println("Initialize soilliquid failed.");
+		}
 	}
 	
-	private void loadContent() throws IOException, ParseException {
-		
-		//File f = new File("/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt");
-		String fullpath="";
-	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-	       	fullpath = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/soilliquid_2015061700.txt";
-	    }else{
-	       	Date date = new Date();
-	       	String filename = "";
-	       	SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-       		filename = "soilliquid_"+df.format(date)+"00.txt";
-	       	fullpath = Env.getEnv().WorkingDir + "/data/ftp/trsd/"+filename;
-	    }
-	    
-	    File f = new File(fullpath);
+	@Override
+	public void updateContent(){
+		updateContent(latestSourceFile());
+	}
+	
+	@Override
+	public void updateContent(String sourceFile) {
+		double[][] oldgrid = grid;
+		grid = new double[30000][3];
+		try{
+			loadContent(sourceFile);
+		}catch(Exception e){
+			System.out.println("update soil liquid failed. " +  e.getCause());
+			grid = oldgrid;			
+		}
+	}
+	private String latestSourceFile(){
+		String sourceFile;
+		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
+			sourceFile = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/soilliquid_2015061700.txt";
+		}else{
+		  	Date date = new Date();
+		   	String filename = "";
+		   	SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+		   	if (date.getHours()<=12){
+		   		date.setTime(date.getTime()-24*60*60*1000);
+		   		sourceFile = Env.getEnv().WorkingDir + "/data/ftp/trsd/soilliquid_"+df.format(date)+"00.txt";
+		   	}
+		   	else{
+		   		sourceFile = Env.getEnv().WorkingDir + "/data/ftp/trsd/soilliquid_"+df.format(date)+"00.txt";
+		   	}
+		}
+		System.out.println(sourceFile);
+		return sourceFile;
+	}
+	
+	private void loadContent(String sourcefile) throws IOException {
+	    File f = new File(sourcefile);
 		FileInputStream fr = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
+		this.timeStamp = new Date();
 		String line;
 		br.readLine();
 		int i=0;
@@ -67,7 +96,6 @@ public class SoilLiquid {
 	}
 	
 	private double[][] grid = new double[30000][3];
-	
 	
 	public double getSoil(double lat,double lon){
 		double result=0;
@@ -92,20 +120,14 @@ public class SoilLiquid {
 				minDis = (grid[i][1]-lat)*(grid[i][1]-lat)+(grid[i][0]-lon)*(grid[i][0]-lon);
 			}
 		}
-		
 		return result;
 	}
 	
-	public void updateContent() {
-		double[][] oldgrid = grid;
-		grid = new double[30000][3];
-		try{
-			loadContent();
-		}catch(Exception e){
-			System.out.println("update soil liquid failed. " +  e.getCause());
-			grid = oldgrid;			
-		}
-	} 
+	@Override
+	public String latestUpdate(){
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
+		return df.format(timeStamp); 
+	}
 	
 	
 	public static void main(String[] arsgs) throws IOException, ParseException{
