@@ -15,6 +15,7 @@ import java.util.Map;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.util.Env;
+import com.dasinong.ploughHelper.util.SmsService;
 
 public class All7dHum implements IWeatherBuffer {
 	private static All7dHum all7dHum;
@@ -36,6 +37,7 @@ public class All7dHum implements IWeatherBuffer {
 			loadContent(latestSourceFile());
 		}catch(Exception e){
 			System.out.println("Initialize 7d hum failed");
+			SmsService.weatherAlert("Initialize 7dhum failed on "+new Date()+ " with file "+latestSourceFile());
 		}
 	}
 	
@@ -52,6 +54,7 @@ public class All7dHum implements IWeatherBuffer {
 			loadContent(sourceFile);
 		}catch(Exception e){
 			System.out.println("update 7d hum failed. " +  e.getCause());
+			SmsService.weatherAlert("Update 7d hum failed on "+new Date()+ " with file "+sourceFile);
 			_all7dHum = old7dHum;			
 		}
 	}
@@ -84,6 +87,10 @@ public class All7dHum implements IWeatherBuffer {
 		SevenDayHumidity sdh=null;
 	    File f = new File(sourceFile);
 		FileInputStream fr = new FileInputStream(f);
+		
+		StringBuilder notification = new StringBuilder();
+		notification.append("load 7d hum on " + new Date()+". Issue loading: "); 
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
 		String line;
 		br.readLine();
@@ -108,11 +115,16 @@ public class All7dHum implements IWeatherBuffer {
 					else{
 						sdh.add(forcast_time, dayHumidity, nightHumidity);
 					}
+				}else{
+					notification.append(units[0]+" ");
 				}
 			}catch (Exception e){
 				System.out.println("Error happend while inserting 7 day humidity "+ line);
+				notification.append(line.substring(0,Math.min(line.length(),10))+" ");
 			}
 		}
+		String sms = notification.substring(0,Math.min(notification.length(), SmsService.maxLength));
+		SmsService.weatherAlert(sms);
 		br.close();
 		fr.close();
 	}
@@ -125,7 +137,7 @@ public class All7dHum implements IWeatherBuffer {
 	
 	@Override
 	public String latestUpdate(){
-		SevenDayHumidity sdh = this._all7dHum.get(101010100);
+		SevenDayHumidity sdh = this._all7dHum.get(101170501);
 		if (sdh!=null){
 			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
 			return df.format(sdh.startDate); 

@@ -6,23 +6,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+
+
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.springframework.web.context.ContextLoader;
 import org.xml.sax.SAXException;
 
 import com.dasinong.ploughHelper.util.Env;
+import com.dasinong.ploughHelper.util.SmsService;
 
 public class All24h implements IWeatherBuffer{
 	private static All24h all24h;
 	
 	public static All24h get24h(){
 		if (all24h==null){
-			//all24h = new All24h();
-			all24h = (All24h) ContextLoader.getCurrentWebApplicationContext().getBean("all24h");
+			all24h = new All24h();
+			//all24h = (All24h) ContextLoader.getCurrentWebApplicationContext().getBean("all24h");
 			return all24h;
 		}
 		else{
@@ -36,6 +36,7 @@ public class All24h implements IWeatherBuffer{
 			loadContent(latestSourceFile());
 		}catch(Exception e){
 			System.out.println("Initialize 24h failed. " +  e.getCause());
+			SmsService.weatherAlert("Initialize 24h failed on " + new Date() + " with file " + latestSourceFile());
 		}
 	}
 	
@@ -55,6 +56,7 @@ public class All24h implements IWeatherBuffer{
 		}
 		catch(Exception e){
 			System.out.println("update 24h failed. " +  e.getCause());
+			SmsService.weatherAlert("Update 24h failed on " + new Date() + " with file " + basefolder);
 			_all24h = old24h;
 		}
 	}
@@ -86,6 +88,8 @@ public class All24h implements IWeatherBuffer{
 	}
 	
 	private void loadContent(String basefolder) {
+		StringBuilder notification = new StringBuilder();
+		notification.append("load 24h on " + new Date()+". Issue loading: "); 
 		System.out.println("load Content of 24h called on " + new Date());
 		TwentyFourHourForcast tfhf=null;
 
@@ -98,10 +102,13 @@ public class All24h implements IWeatherBuffer{
 					_all24h.put(tfhf.code, tfhf);
 				}catch(Exception e){
 					System.out.println("Load 24h for "+ filelist[i] + "failed.");
+					notification.append(filelist[i] + " ");
 					System.out.println(e.getMessage());
 				}
 			}
         }
+		String sms = notification.substring(0,Math.min(notification.length(), SmsService.maxLength));
+		SmsService.weatherAlert(sms);
 	}
 	
 	private HashMap<Integer,TwentyFourHourForcast> _all24h;
@@ -120,7 +127,23 @@ public class All24h implements IWeatherBuffer{
 		else return "No data found. Check whether initialize failed.";
 	}
 	
+	public String updateLocation(int monitorLocationId){
+		GetLive24h gl24 = new GetLive24h();
+		gl24.setAreaId(""+monitorLocationId);
+		TwentyFourHourForcast tfhf = gl24.getLiveWeather();
+		if (tfhf!=null){
+			this._all24h.put(tfhf.code, tfhf);
+			return "update " + monitorLocationId +" success";
+		}
+		else
+			return "update " + monitorLocationId +" failed";
+	}
+	
+	
+	
+	
 	public static void main(String[] args) throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException{
+		/*
 		System.out.println(System.getProperty("OS"));
 		
 		Iterator iter= All24h.get24h()._all24h.entrySet().iterator();
@@ -131,5 +154,8 @@ public class All24h implements IWeatherBuffer{
 			System.out.println(((TwentyFourHourForcast) entry.getValue()).info[2].temperature);
 			System.out.println(((TwentyFourHourForcast) entry.getValue()).info[3].windDirection_10m);
 		}
+		*/
+		
+		System.out.println(All24h.get24h().updateLocation(101010100));
 	}
 }

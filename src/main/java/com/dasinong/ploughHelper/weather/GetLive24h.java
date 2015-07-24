@@ -36,7 +36,7 @@ public class GetLive24h {
 		 } else {
 			 TwentyFourHourForcast tfh =null;
 			 try {
-				 ByteArrayInputStream content = new ByteArrayInputStream(result.getBytes());
+				 ByteArrayInputStream content = new ByteArrayInputStream(result.getBytes("UTF-8"));
 				 tfh = new TwentyFourHourForcast(content,Integer.parseInt(this.areaId));
 				 _live24hdata.put(this.areaId, tfh);
 			 } catch (Exception e) {

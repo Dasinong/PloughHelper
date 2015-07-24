@@ -13,6 +13,7 @@ import java.util.HashMap;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.util.Env;
+import com.dasinong.ploughHelper.util.SmsService;
 
 public class All7d implements IWeatherBuffer{
 	private static All7d all7d;
@@ -34,6 +35,7 @@ public class All7d implements IWeatherBuffer{
 			loadContent(latestSourceFile());
 		}catch(Exception e){
 			System.out.println("Initialize 7d failed");
+			SmsService.weatherAlert("Initialize 7d failed on "+new Date()+ " with file "+latestSourceFile());
 		}
 	}
 	
@@ -53,6 +55,7 @@ public class All7d implements IWeatherBuffer{
 		}
 		catch(Exception e){
 			System.out.println("update 7d failed. " +  e.getCause());
+			SmsService.weatherAlert("update 7d failed on "+new Date()+ " with file "+ sourceFile);
 			_all7d = old7d;
 		}
     }
@@ -83,10 +86,13 @@ public class All7d implements IWeatherBuffer{
     
 	private void loadContent(String sourceFile) throws IOException{
 		SevenDayForcast sdf=null;
+		
 		File f = new File(sourceFile);
 
 		FileInputStream fr;
 		fr = new FileInputStream(f);
+		StringBuilder notification = new StringBuilder();
+		notification.append("load 7d on " + new Date()+". Issue loading: "); 
 		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
 		String line;
 		br.readLine();
@@ -116,10 +122,16 @@ public class All7d implements IWeatherBuffer{
 						sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
 					}
 				}
+				else{
+					notification.append(units[0]+" ");
+				}
 			}catch (Exception e){
 				System.out.println("Error happend while inserting 7 day forcast "+ line);
+				notification.append(line.substring(0,Math.min(line.length(),10))+" ");
 			}
 		}
+		String sms = notification.substring(0,Math.min(notification.length(),  SmsService.maxLength));
+		SmsService.weatherAlert(sms);
 		br.close();
 		fr.close();
 	}

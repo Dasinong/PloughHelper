@@ -19,6 +19,7 @@ import org.springframework.web.context.ContextLoader;
 import org.xml.sax.SAXException;
 
 import com.dasinong.ploughHelper.util.Env;
+import com.dasinong.ploughHelper.util.SmsService;
 
 public class AllAgriDisForcast implements IWeatherBuffer{
 
@@ -42,6 +43,7 @@ public class AllAgriDisForcast implements IWeatherBuffer{
 		}
 		catch(Exception e){
 			System.out.println("Initialize agriculture disaster forcast failed. " + latestSourceFile());
+			SmsService.weatherAlert("Initialize adf failed on "+ new Date() + " with file " + latestSourceFile());
 		}
 	}
 	
@@ -61,6 +63,7 @@ public class AllAgriDisForcast implements IWeatherBuffer{
 		}
 		catch(Exception e){
 			System.out.println("update agriculture disaster forcast failed. " +  e.getCause());
+			SmsService.weatherAlert("Update adf failed on "+ new Date() + " with file " + sourceFile);
 			_alladf = oldadf;
 		}
 	}
@@ -80,8 +83,11 @@ public class AllAgriDisForcast implements IWeatherBuffer{
 	private void loadContent(String sourceFile) throws IOException {
 		File file = new File(sourceFile);
 		BufferedReader reader = null;
-
 	    reader = new BufferedReader(new FileReader(file));
+	    
+	    StringBuilder notification = new StringBuilder();
+		notification.append("load adf on " + new Date()+". Issue loading: "); 
+		
 	    String tempString = null;
 	    String [] fields;
 	    reader.readLine();
@@ -104,11 +110,15 @@ public class AllAgriDisForcast implements IWeatherBuffer{
 		    		_alladf.put(areaId, adf);
 		    	} else {
 		    		System.out.println("skip line :" + tempString);
+		    		notification.append(fields[0]+ " ");
 		    	}
 	    	}catch(NumberFormatException e){
 		    		System.out.println("parse line "+ tempString + " failed.");
+		    		notification.append(tempString.substring(0,Math.min(tempString.length(),10))+" ");
 	    	}
 	    }
+	    String sms = notification.substring(0,Math.min(notification.length(), SmsService.maxLength));
+		SmsService.weatherAlert(sms);
 	    reader.close();
 	}
 	

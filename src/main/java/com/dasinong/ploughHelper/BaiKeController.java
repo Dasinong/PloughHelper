@@ -62,13 +62,14 @@ public class BaiKeController {
 			result.put("respCode", 200);
 			result.put("message", "获取成功");
 			result.put("data", baiKeFacade.searchCPProduct(key));
+			return result;
 		}
 		
 		if (type.equalsIgnoreCase("petdisspec")){
 			result.put("respCode", 200);
 			result.put("message", "获取成功");
 			result.put("data", baiKeFacade.searchPetDisSpec(key));
-		
+			return result;
 		}
 		result.put("respCode", "302");
 		result.put("message", "type内容不支持");

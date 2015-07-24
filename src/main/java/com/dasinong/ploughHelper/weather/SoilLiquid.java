@@ -10,10 +10,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.dasinong.ploughHelper.util.Env;
+import com.dasinong.ploughHelper.util.SmsService;
 
 public class SoilLiquid implements IWeatherBuffer{
 	private static SoilLiquid soilLiquid;
-	private Date timeStamp;
+	private Date timeStamp= new Date(10000000);
 	
 	public static SoilLiquid getSoilLi(){
 		if (soilLiquid==null){
@@ -30,6 +31,7 @@ public class SoilLiquid implements IWeatherBuffer{
 			loadContent(latestSourceFile());
 		}catch(Exception e){
 			System.out.println("Initialize soilliquid failed.");
+			SmsService.weatherAlert("Initialize soilliquid failed on " + new Date() + " with file " + latestSourceFile());
 		}
 	}
 	
@@ -46,6 +48,7 @@ public class SoilLiquid implements IWeatherBuffer{
 			loadContent(sourceFile);
 		}catch(Exception e){
 			System.out.println("update soil liquid failed. " +  e.getCause());
+			SmsService.weatherAlert("Update soiliquid failed on " + new Date() + " with file " + sourceFile);
 			grid = oldgrid;			
 		}
 	}
@@ -72,6 +75,9 @@ public class SoilLiquid implements IWeatherBuffer{
 	private void loadContent(String sourcefile) throws IOException {
 	    File f = new File(sourcefile);
 		FileInputStream fr = new FileInputStream(f);
+		StringBuilder notification = new StringBuilder();
+		notification.append("load soilliq on " + new Date()+". Issue loading: "); 
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
 		this.timeStamp = new Date();
 		String line;
@@ -89,8 +95,11 @@ public class SoilLiquid implements IWeatherBuffer{
 				}
 			}catch (Exception e){
 				System.out.println("Error happend while loading soil liquid "+ line);
+				notification.append(line+" ");
 			}
 		}
+		String sms = notification.substring(0,Math.min(notification.length(),  SmsService.maxLength));
+		SmsService.weatherAlert(sms);
 		br.close();
 		fr.close();
 	}
@@ -103,11 +112,11 @@ public class SoilLiquid implements IWeatherBuffer{
 		int start;
 		int end;
 		int i=0;
-		while((lat-grid[i][1])>3){
+		while( i<grid.length && (lat-grid[i][1])>3){
 			i=i+100;
 		}
 		start =i;
-		while((grid[i][1]-lat)<3){
+		while(i<grid.length && (grid[i][1]-lat)<3){
 			i=i+100;
 		}
 		end =i;

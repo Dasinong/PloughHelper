@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.junit.Test;
@@ -16,9 +17,9 @@ import org.junit.Test;
 public class SmsService {
 	public static final String ACCOUNT_NAME = "dldasi00";
 	public static final String PASSWORD = "MF3o9AFn";
-	
+	public static final int maxLength = 120;
+	public static final ArrayList<String> weatherAdmin= new ArrayList<String>();
 	public static void test() throws UnsupportedEncodingException {
-		
 		String content = "近期天气良好，请抓紧打药。【大司农】";
 		ArrayList<String> numbers = new ArrayList<String>();
 		numbers.add("18602195820"); //小张
@@ -30,6 +31,7 @@ public class SmsService {
 		System.out.println(groupSMS(content, numbers));
 	}
 	
+
 	@Test
 	public void run(){
 		String xiaoZhangCell = "18602195820";
@@ -85,6 +87,22 @@ public class SmsService {
 		return "";
 	}
 	
+	public static synchronized String weatherAlert(String content) {
+		if (Env.getEnv().weatherAlert){
+			String number="13162881998";
+			String postUrl = "http://cf.51welink.com/submitdata/Service.asmx/g_Submit";
+			content = content+"【今日农事】";
+			try {
+				String postData = "sname="+ACCOUNT_NAME+"&spwd="+PASSWORD+"&scorpid=&sprdid=1012818&sdst="+number+"&smsg="+URLEncoder.encode(content,"UTF-8");
+				String response = SMS(postData, postUrl);
+				return response;
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
+	}
+	
 	public static String convertNumbers(ArrayList<String> numbers){
 		String numbersString = "";
 		if (numbers.size()>0) {
@@ -135,11 +153,12 @@ public class SmsService {
     }
 	
 	public static void main(String[] args){
-		SmsService sms = new SmsService();
-		String xiyaoCell = "13120128328";
+		///SmsService sms = new SmsService();
+		//String xiyaoCell = "13120128328";
 		//String xiyaoCell = "13162881998";
-		String securityCode = sms.generateSecurityCode(6);
-		System.out.println(securityCode);
-		System.out.println(securityCodeSMS(securityCode, xiyaoCell));
+		//String securityCode = sms.generateSecurityCode(6);
+		//System.out.println(securityCode);
+		//System.out.println(securityCodeSMS(securityCode, xiyaoCell));
+		System.out.println(SmsService.weatherAlert("load 24h failed"));
 	}
 }

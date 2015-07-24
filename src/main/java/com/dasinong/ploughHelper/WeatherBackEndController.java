@@ -77,4 +77,25 @@ public class WeatherBackEndController {
 		result.put("message", "Action not allowed");
 		return result;
 	}
+	
+	@RequestMapping(value = "/update24Weather", produces="application/json")
+	@ResponseBody
+	public Object update24Weather(HttpServletRequest request, HttpServletResponse response){
+		Map<String,Object> result = new HashMap<String,Object>();
+		int monitorLocationId;
+		try{
+			monitorLocationId = Integer.parseInt(request.getParameter("monitorLocationId"));
+		}
+		catch(Exception e){
+			result.put("respCode",300);
+			result.put("message", "参数或内容错误");
+			return result;
+		}
+
+		result.put("respCode",200);
+		result.put("message", "执行更新");
+		result.put("message", All24h.get24h().updateLocation(monitorLocationId));
+		return result;
+		
+	}
 }

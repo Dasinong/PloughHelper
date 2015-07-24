@@ -15,11 +15,12 @@ import java.util.Map;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.util.Env;
+import com.dasinong.ploughHelper.util.SmsService;
 
 public class AllCurrentJiwen implements IWeatherBuffer{
 	private static AllCurrentJiwen allCurrentJiwen;
 	
-	Date timeStamp;
+	Date timeStamp = new Date(10000000);
 	
 	public static AllCurrentJiwen getCurJiwen(){
 		if (allCurrentJiwen==null){
@@ -38,6 +39,7 @@ public class AllCurrentJiwen implements IWeatherBuffer{
 			loadContent(latestSourceFile());
 		}catch(Exception e){
 			System.out.println("Initialize current Jiwen failed.");
+			SmsService.weatherAlert("Initialize jiwen failed on " + new Date() + " with file " + latestSourceFile());
 		}
 	}
 	
@@ -56,6 +58,7 @@ public class AllCurrentJiwen implements IWeatherBuffer{
 			loadContent(sourceFile);
 		}catch(Exception e){
 			System.out.println("update jiwen failed. " +  e.getCause());
+			SmsService.weatherAlert("Update jiwen failed on " + new Date() + " with file " + sourceFile);
 			_allCurrentJiwen = oldJiwen;			
 		}
 	}
@@ -80,6 +83,10 @@ public class AllCurrentJiwen implements IWeatherBuffer{
    
 		File f = new File(sourceFile);
 		FileInputStream fr = new FileInputStream(f);
+		
+		StringBuilder notification = new StringBuilder();
+		notification.append("load jiwen on " + new Date()+". Issue loading: "); 
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
 		String line;
 		line = br.readLine();
@@ -93,13 +100,13 @@ public class AllCurrentJiwen implements IWeatherBuffer{
 			try{
 				units = line.split(",");
 				_allCurrentJiwen.put(Integer.parseInt(units[0]), Integer.parseInt(units[2]));
-				if (units.length==3){
-					
-				}
 			}catch (Exception e){
 				System.out.println("Error happend while inserting jiwen "+ line);
+				notification.append(line.substring(0,Math.min(line.length(),10))+" ");
 			}
 		}
+		String sms = notification.substring(0,Math.min(notification.length(),  SmsService.maxLength));
+		SmsService.weatherAlert(sms);
 		br.close();
 		fr.close();
 	}
