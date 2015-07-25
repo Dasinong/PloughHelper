@@ -86,7 +86,8 @@ public class All7d implements IWeatherBuffer{
     
 	private void loadContent(String sourceFile) throws IOException{
 		SevenDayForcast sdf=null;
-		
+		TwentyFourHourForcast tfhf=null;
+		Date curtime = new Date();
 		File f = new File(sourceFile);
 
 		FileInputStream fr;
@@ -112,14 +113,28 @@ public class All7d implements IWeatherBuffer{
 					short ff_level = Short.parseShort(units[6]);
 					short dd_level = Short.parseShort(units[7]);
 					double rain = Double.parseDouble(units[8]);
+					//Use for 24h
+					
+					
 					if (code!=currentCode){
-						sdf = new SevenDayForcast(code,forcast_time);
+						sdf = new SevenDayForcast(code,forcast_time);					
 						currentCode = code;
+						if (tfhf!=null) tfhf.padding();
+						if ((forcast_time.getTime() - curtime.getTime()<25*60*60*1000) && !HourCity.contains(currentCode)){
+							tfhf = new TwentyFourHourForcast(currentCode);
+							ForcastDInfo fdi = new ForcastDInfo(forcast_time,(int) temp,-1,-1,(double) ff_level,rain,0,0,0,"cloudy");
+							tfhf.add(fdi);
+							All24h.get24h()._all24h.put(currentCode, tfhf);
+						}
 						sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
 						_all7d.put(code, sdf);
 					}
 					else{
 						sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
+						if ((forcast_time.getTime() - curtime.getTime()<25*60*60*1000) && !HourCity.contains(currentCode)){
+							ForcastDInfo fdi = new ForcastDInfo(forcast_time,(int) temp,-1,-1,(double) ff_level,rain,0,0,0,"cloudy");
+							tfhf.add(fdi);
+						}
 					}
 				}
 				else{
@@ -130,6 +145,7 @@ public class All7d implements IWeatherBuffer{
 				notification.append(line.substring(0,Math.min(line.length(),10))+" ");
 			}
 		}
+		if (tfhf!=null)	tfhf.padding();
 		String sms = notification.substring(0,Math.min(notification.length(),  SmsService.maxLength));
 		SmsService.weatherAlert(sms);
 		br.close();

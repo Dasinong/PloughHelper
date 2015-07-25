@@ -52,7 +52,11 @@ public class LocationController {
 			List<Location> ls =(List<Location>) ld.getIdList(province, city, country,district);
 			Map<String,Long> idlist = new HashMap<String,Long>();
 			for(Location l:ls){
-				idlist.put(l.getCommunity(),l.getLocationId());
+				if (!l.getCommunity().equals("")){
+					idlist.put(l.getCommunity(),l.getLocationId());
+				}else{
+					idlist.put(l.getDistrict(), l.getLocationId());
+				}
 			}
 			result.put("respCode", 200);
 			result.put("message", "获取成功");

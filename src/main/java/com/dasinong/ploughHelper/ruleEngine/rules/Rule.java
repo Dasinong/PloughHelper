@@ -12,7 +12,7 @@ public class Rule {
 			System.out.println("获取"+monitorLocationId+"地区24小时预测失败");
 			workable=-1;
 		}
-		for (int i=0;i<tfhf.info.length;i++){
+		for (int i=0;i<tfhf.getSize();i++){
 			if (tfhf.info[i].accumRainTotal>5){
 				workable = 0;
 			}
@@ -29,7 +29,7 @@ public class Rule {
 		}
 		int max = 0;
 		int min= 35;
-		for (int i=0;i<tfhf.info.length;i++){
+		for (int i=0;i<tfhf.getSize();i++){
 			if (tfhf.info[i].temperature > max){
 				max = tfhf.info[i].temperature;
 			}
@@ -52,7 +52,7 @@ public class Rule {
 		}
 		if (count<6) sprayable = false;
 		*/
-		for (int i=0;i<tfhf.info.length;i++){
+		for (int i=0;i<tfhf.getSize();i++){
 			if (tfhf.info[i].windSpeed_10m>3) sprayable =0;
 			if (tfhf.info[i].icon.equals("clear") || tfhf.info[i].icon.equals("clearnight") || tfhf.info[i].icon.equals("cloudy")||
 				tfhf.info[i].icon.equals("cloudynight") || tfhf.info[i].icon.equals("mostlyclear") || tfhf.info[i].icon.equals("mostlyclearnight")||

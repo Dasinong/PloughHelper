@@ -12,12 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.ITaskSpecDao;
-import com.dasinong.ploughHelper.dao.TaskDao;
 import com.dasinong.ploughHelper.facade.ITaskSpecFacade;
-import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.model.User;
-import com.dasinong.ploughHelper.outputWrapper.TaskSpecWrapper;
 
 @Controller
 public class TaskSpecController {

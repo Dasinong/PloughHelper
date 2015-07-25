@@ -935,4 +935,10 @@ public class HourCity {
 		    101290911,
 		    101291304
 	};
+	public static boolean contains(int id){
+	  for ( int i : HourCity){
+		  if (i == id) return true;
+	  }
+	  return false;
+	}
 }

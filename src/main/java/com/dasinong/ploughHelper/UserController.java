@@ -199,13 +199,14 @@ public class UserController {
 				request.getSession().setAttribute("User", user);
 				result.put("respCode",200);
 				result.put("message", "用户已存在");
-				UserWrapper userWrapper = new UserWrapper(user);
-				result.put("data",userWrapper);
+				//UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",true);
 				return result;
 			}
 			else{
-				result.put("respCode", 110);
+				result.put("respCode", 200);
 				result.put("message", "用户不存在，请先注册");
+				result.put("data",false);
 				return result;
 			}
 		}

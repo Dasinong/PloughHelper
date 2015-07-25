@@ -1,7 +1,11 @@
 package com.dasinong.ploughHelper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +21,6 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.facade.IBaiKeFacade;
 import com.dasinong.ploughHelper.util.FullTextSearch;
-
 import com.dasinong.ploughHelper.util.Env;
 
 @Controller
@@ -68,7 +71,12 @@ public class BaiKeController {
 		if (type.equalsIgnoreCase("petdisspec")){
 			result.put("respCode", 200);
 			result.put("message", "获取成功");
-			result.put("data", baiKeFacade.searchPetDisSpec(key));
+			Map<String,List<HashMap<String,String>>> orig = baiKeFacade.searchPetDisSpec(key);
+			List<HashMap<String,String>> target = new ArrayList<HashMap<String,String>>();
+			for(Entry<String,List<HashMap<String,String>>> es : orig.entrySet() ){
+				target.addAll(es.getValue());
+			}
+			result.put("data", target);
 			return result;
 		}
 		result.put("respCode", "302");

@@ -65,43 +65,52 @@ public class SoilReportController {
 				return result;
 			}
             
-			Long uId = Long.parseLong(userId);
-			Long fId = Long.parseLong(fieldId);
-			type = (type==null) ? "":type;
-			color = (color==null) ? "":color;
-			fertility = (fertility==null) ? "":fertility;
-			double humidityv = Double.parseDouble(humidity);
-			Date date = new Date();
-			
 			try{
-				date = new Date(Long.parseLong(testDate));
+				Long uId = Long.parseLong(userId);
+				Long fId = Long.parseLong(fieldId);
+				type = (type==null) ? "":type;
+				color = (color==null) ? "":color;
+				fertility = (fertility==null) ? "":fertility;
+				double humidityv = Double.parseDouble(humidity);
+				Date date = new Date();
+				
+				try{
+					date = new Date(Long.parseLong(testDate));
+				}
+				catch(Exception e){
+					date = new Date(testDate);
+				}
+				double phValuev = Double.parseDouble(phValue);
+				organic = (organic==null) ? "":organic;
+				double anv =  Double.parseDouble(an);
+	        	double qnv = Double.parseDouble(qn);
+				double pv = Double.parseDouble(p);
+				double qKv = Double.parseDouble(qK);
+				double sKv = Double.parseDouble(sK);
+				double fev = Double.parseDouble(fe);
+				double mnv = Double.parseDouble(mn);
+				double cuv = Double.parseDouble(cu);
+				double znv = Double.parseDouble(zn);
+				double bv = Double.parseDouble(b);
+				double mov = Double.parseDouble(mo);
+				double cav = Double.parseDouble(ca);
+				double sv = Double.parseDouble(s);
+				double siv = Double.parseDouble(si);
+				double mgv = Double.parseDouble(mg);
+				
+				ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
+		    	result.put("respCode", 200);
+		    	result.put("message", "插入成功");
+		    	result.put("data", sf.insertSoil(uId, fId, type, color, fertility, humidityv, date, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv, znv, bv, mov, cav, sv, siv, mgv));
+				return result;
+			}catch(Exception e){
+				result.put("respCode",300);
+				result.put("message", "参数内容或格式错误");
+				return result;
 			}
-			catch(Exception e){
-				date = new Date(testDate);
-			}
-			double phValuev = Double.parseDouble(phValue);
-			organic = (organic==null) ? "":organic;
-			double anv =  Double.parseDouble(an);
-        	double qnv = Double.parseDouble(qn);
-			double pv = Double.parseDouble(p);
-			double qKv = Double.parseDouble(qK);
-			double sKv = Double.parseDouble(sK);
-			double fev = Double.parseDouble(fe);
-			double mnv = Double.parseDouble(mn);
-			double cuv = Double.parseDouble(cu);
-			double znv = Double.parseDouble(zn);
-			double bv = Double.parseDouble(b);
-			double mov = Double.parseDouble(mo);
-			double cav = Double.parseDouble(ca);
-			double sv = Double.parseDouble(s);
-			double siv = Double.parseDouble(si);
-			double mgv = Double.parseDouble(mg);
-			
-			ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
-			return sf.insertSoil(uId, fId, type, color, fertility, humidityv, date, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv, znv, bv, mov, cav, sv, siv, mgv);
 		}catch (Exception e) {
 			result.put("respCode", 500);
-			result.put("message", e.getCause());
+			result.put("message", e.getMessage());
 			return result;
 		}
 	}
@@ -117,23 +126,50 @@ public class SoilReportController {
 			result.put("message","用户尚未登陆");
 			return result;
 		}
+		ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
+		
+		String reportId = request.getParameter("reportId");
+		if (reportId!=null && !reportId.equals("")){
+			Long rId;
+			try{
+				rId = Long.parseLong(reportId);
+			}
+			catch(Exception e){
+				result.put("respCode", 330);
+				result.put("message", "reportId格式错误");
+				return result;
+			}
+	    	result.put("respCode", 200);
+	    	result.put("message", "读取成功");
+	    	result.put("data", sf.loadSoilReportsByRid(rId));
+			return result;
+		}
       
 		String fieldId = request.getParameter("fieldId");
 		try{
-			ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
 			if (fieldId==null){
 				return sf.loadSoilReportsByUid(user.getUserId());
 			}
 			else{
-				Long fid = Long.parseLong(fieldId);
-				return sf.loadSoilReportsByFid(fid);
+				Long fid;
+				try{
+					fid = Long.parseLong(fieldId);
+				}
+				catch(Exception e){
+					result.put("respCode", 330);
+					result.put("message", "fieldId格式错误");
+					return result;
+				}
+		    	result.put("respCode", 200);
+		    	result.put("message", "读取成功");
+		    	result.put("data", sf.loadSoilReportsByFid(fid));
+				return result;
 			}
 		}catch (Exception e) {
 			result.put("respCode", 500);
-			result.put("message", e.getCause());
+			result.put("message", e.getMessage());
 			return result;
 		}
-
 	}
 	
 	
@@ -200,16 +236,17 @@ public class SoilReportController {
 			return result;
 		}
 		
-		
+		ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
 		try{
-			ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
-			return sf.updateSoil(reportId, type, color, fertility, humidityv, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv,
-					znv, bv, mov, cav, sv, siv, mgv);
+			result.put("respCode", 200);
+	    	result.put("message", "插入成功");
+	    	result.put("data", sf.updateSoil(reportId, type, color, fertility, humidityv, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv,
+					znv, bv, mov, cav, sv, siv, mgv));
+			return result;
 		}catch (Exception e) {
 			result.put("respCode", 500);
-			result.put("message", e.getCause());
+			result.put("message", e.getMessage());
 			return result;
 		}
-
 	}
 }

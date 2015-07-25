@@ -52,4 +52,6 @@ public interface ISoilFacade {
 			double sKv, double fev, double mnv, double cuv, double znv,
 			double bv, double mov, double cav, double sv, double siv, double mgv);
 
+	Object loadSoilReportsByRid(Long rid);
+
 }

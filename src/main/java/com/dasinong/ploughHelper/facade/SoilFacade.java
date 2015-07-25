@@ -66,7 +66,7 @@ public class SoilFacade implements ISoilFacade {
 	 * @see com.dasinong.ploughHelper.facade.ISoilFacade#insertSoilHome(java.lang.Long, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, double, java.util.Date, double, java.lang.String, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double)
 	 */
     @Override
-    public Object insertSoil(Long uId,Long fId,String type, String color, String fertility, double humidityv,
+    public SoilTestReportWrapper insertSoil(Long uId,Long fId,String type, String color, String fertility, double humidityv,
     		Date date,double phValuev, String organic, double anv, double qnv, double pv, double qKv,double sKv,
     		double fev,double mnv,double cuv,double znv,double bv, double mov, double cav,double sv,double siv,
     		double mgv){
@@ -80,9 +80,8 @@ public class SoilFacade implements ISoilFacade {
     			qKv,sKv,fev,mnv,cuv,znv,bv,mov,cav,sv,siv,mgv);
     	soilTestReportDao.save(str);
     	field.getSoilTestReports().add(str);
-    	result.put("respCode", 200);
-    	result.put("message", "插入成功");
-    	return result;
+    	SoilTestReportWrapper strw = new SoilTestReportWrapper(str);
+    	return strw;
     }
     
     @Override
@@ -90,9 +89,6 @@ public class SoilFacade implements ISoilFacade {
     		double phValuev, String organic, double anv, double qnv, double pv, double qKv,double sKv,
     		double fev,double mnv,double cuv,double znv,double bv, double mov, double cav,double sv,double siv,
     		double mgv){
-    	
-    	HashMap<String,Object> result  = new HashMap<String,Object>();
-
 		soilTestReportDao = (ISoilTestReportDao) ContextLoader.getCurrentWebApplicationContext().getBean("soilTestReportDao");
 		SoilTestReport str = soilTestReportDao.findById(reportId);
 		str.setType(type);
@@ -118,15 +114,12 @@ public class SoilFacade implements ISoilFacade {
 		str.setMg(mgv);
     	soilTestReportDao.update(str);
 
-    	result.put("respCode", 200);
-    	result.put("message", "插入成功");
-    	return result;
+    	SoilTestReportWrapper strw = new SoilTestReportWrapper(str);
+    	return strw;
     }
     
     @Override
-    public Object loadSoilReportsByFid(Long fid){
-   	
-    	HashMap<String,Object> result  = new HashMap<String,Object>();
+    public List<SoilTestReportWrapper> loadSoilReportsByFid(Long fid){
 		fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		soilTestReportDao = (ISoilTestReportDao) ContextLoader.getCurrentWebApplicationContext().getBean("soilTestReportDao");
 		List<SoilTestReport> soilReports = soilTestReportDao.findByFieldId(fid);
@@ -135,10 +128,18 @@ public class SoilFacade implements ISoilFacade {
 		for (SoilTestReport str : soilReports){
 			soilReportsw.add(new SoilTestReportWrapper(str));
 		}
-    	result.put("respCode", 200);
-    	result.put("message", "读取成功");
-    	result.put("data", soilReportsw);
-    	return result;
+    	return soilReportsw;
+    }
+    
+    @Override
+    public SoilTestReportWrapper loadSoilReportsByRid(Long rid){
+   	
+		fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		soilTestReportDao = (ISoilTestReportDao) ContextLoader.getCurrentWebApplicationContext().getBean("soilTestReportDao");
+		SoilTestReport soilReport = soilTestReportDao.findById(rid);
+    	
+		SoilTestReportWrapper  soilReportw = new SoilTestReportWrapper(soilReport);
+    	return soilReportw;
     }
     
     

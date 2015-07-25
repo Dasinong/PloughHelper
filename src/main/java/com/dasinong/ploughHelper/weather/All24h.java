@@ -111,7 +111,7 @@ public class All24h implements IWeatherBuffer{
 		SmsService.weatherAlert(sms);
 	}
 	
-	private HashMap<Integer,TwentyFourHourForcast> _all24h;
+	HashMap<Integer,TwentyFourHourForcast> _all24h;
 	public TwentyFourHourForcast get24h(Integer areaId){
 		return _all24h.get(areaId);
 	}

@@ -40,6 +40,33 @@ public class TwentyFourHourForcast {
 	
 	public ForcastDInfo[] info = new ForcastDInfo[25];
 	
+	private int size=0;
+	private int top;
+	//Used for rough
+	public TwentyFourHourForcast(int code){
+		this.code=code;
+		this.timeStamp = new Date();
+		this.size=0;
+	};
+	
+	public int add(ForcastDInfo fdi){
+		if (size<25){
+			info[size]=fdi;
+			size++;
+			top=size;
+		}
+		return size;
+	}
+	
+	public void padding(){
+		//No padding now. Let it be null.
+		/*
+		for(;top<25;top++){
+			ForcastDInfo fdi = new ForcastDInfo(null, 20, 0, 0, 0,  0, 0,0, 0, "cloudy");
+			info[top] = fdi;
+		}*/
+	}
+	
 	public TwentyFourHourForcast(String fileName, int code) throws ParserConfigurationException, SAXException, IOException{
 		this.code = code;
 		this.timeStamp = new Date();
@@ -84,6 +111,10 @@ public class TwentyFourHourForcast {
 				System.out.println("Exception happend while parsing twentyFourForcast for "+code);
 			}
 		} 
+		// Deal With missing data issue
+		this.size = forcastHs.getLength();
+		top = this.size;
+		this.padding();
 	} 
 	
 	
@@ -132,8 +163,15 @@ public class TwentyFourHourForcast {
 				System.out.println("Exception happend while parsing twentyFourForcast for "+code);
 			}
 		} 
+		// Deal With missing data issue
+		this.size = forcastHs.getLength();
+		top = this.size;
+		this.padding();
 	} 
 	
+	public int getSize(){
+		return this.size;
+	}
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, ParseException{
 		String filename  = "E:/git/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/current/101291605";
 		TwentyFourHourForcast tfhf = new TwentyFourHourForcast(filename,101291605);

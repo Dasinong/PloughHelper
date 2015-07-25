@@ -33,7 +33,7 @@ public class Env {
 			DataDir = "/usr/local/tomcat7/webapps/";
 			BaseFTP = WorkingDir + "/data/ftp";
 			BaseDATA =WorkingDir + "/data/weather";
-			weatherAlert =true;
+			weatherAlert =false;
 		}
 	}
 	
