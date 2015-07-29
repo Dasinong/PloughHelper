@@ -2,9 +2,7 @@ package com.dasinong.ploughHelper.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class TaskSpec implements Serializable{
 		
@@ -15,6 +13,7 @@ public class TaskSpec implements Serializable{
 	private SubStage subStage;
 	private List<Step> steps = new ArrayList<Step>();
 	private String type = "";
+	private String fitRegion;
 	
 	public TaskSpec(){}
 	public TaskSpec(String taskSpecName, SubStage subStage){
@@ -58,5 +57,11 @@ public class TaskSpec implements Serializable{
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getFitRegion() {
+		return fitRegion;
+	}
+	public void setFitRegion(String fitRegion) {
+		this.fitRegion = fitRegion;
 	}
 }

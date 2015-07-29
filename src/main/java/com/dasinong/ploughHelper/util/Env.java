@@ -26,14 +26,14 @@ public class Env {
 			}
 			BaseFTP = WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
 			BaseDATA =WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
-			weatherAlert=true;
+			weatherAlert=false;
 		}
 		else{
 			WorkingDir = "/data";
 			DataDir = "/usr/local/tomcat7/webapps/";
 			BaseFTP = WorkingDir + "/data/ftp";
 			BaseDATA =WorkingDir + "/data/weather";
-			weatherAlert =false;
+			weatherAlert =true;
 		}
 	}
 	

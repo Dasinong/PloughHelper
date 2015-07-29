@@ -75,8 +75,6 @@ public class FieldFacade implements IFieldFacade {
 	         else{
 	        	 csid = Long.parseLong(currentStageId);
 	         }
-	        
-	         
 	         
 	         if (yield == null || yield.equalsIgnoreCase("")){
 	        	 yie = 0L;
@@ -122,11 +120,13 @@ public class FieldFacade implements IFieldFacade {
 		         for(SubStage ss : variety.getSubStages()){
 		        	if (ss.getTaskSpecs()!=null){
 		        		for (TaskSpec ts : ss.getTaskSpecs()){
-		        			 Task t = new Task(ts,false);
-		        			 t.setFieldId(field.getFieldId());
-		        			 taskDao.save(t);
-		        			 if (field.getTasks()==null) field.setTasks(new HashMap<Long,Task>());
-		        			 field.getTasks().put(t.getTaskId(), t);
+		        			if (ts.getFitRegion().contains(field.getLocation().getRegion())){
+			        			 Task t = new Task(ts,false);
+			        			 t.setFieldId(field.getFieldId());
+			        			 taskDao.save(t);
+			        			 if (field.getTasks()==null) field.setTasks(new HashMap<Long,Task>());
+			        			 field.getTasks().put(t.getTaskId(), t);
+		        			}
 		        		}
 		        	 }
 		         }

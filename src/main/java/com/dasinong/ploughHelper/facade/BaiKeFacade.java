@@ -327,19 +327,18 @@ public class BaiKeFacade implements IBaiKeFacade {
 							record.put("id", h[i].get("petDisSpecId"));
 							record.put("name",h[i].get("petDisSpecName"));
 							record.put("source",h[i].get("cropName")+" "+h[i].get("sympthon"));
-							if (h[i].get("type").equals("病害")){
+							if (h[i].get("type").contains("病")){
 								record.put("type", "pest");
 								ill.add(record);
 							}
-							if (h[i].get("type").equals("虫害")){
+							if (h[i].get("type").contains("虫")){
 								record.put("type", "pest");
 								pest.add(record);
 							}
-							if (h[i].get("type").equals("草害")) {
+							if (h[i].get("type").contains("草")) {
 								record.put("type", "pest");
 								grass.add(record);
 							}
-							
 						}
 					}
 				}

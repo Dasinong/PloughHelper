@@ -244,6 +244,7 @@ public class FullTextSearch {
             String selectSql = "SELECT * FROM petDisSpec";
             ResultSet res = stmt.executeQuery(selectSql);
             while (res.next()) { 
+            	/*
             	Document doc = new Document();
  
             	String petDisSpecId = res.getString("petDisSpecId");
@@ -283,6 +284,70 @@ public class FullTextSearch {
                 doc.add(new TextField("rules", rules, Store.YES));
 
                 iwriter.addDocument(doc);
+                */
+            	
+            	 Document doc = new Document();
+                 
+                 
+                 /*String varietyId = res.getString("varietyId");
+                 FieldType ft = new FieldType();
+                 ft.setIndexed(false);
+                 ft.setStored(true);
+                 ft.setTokenized(false);
+                 doc.add(new Field("varietyId", varietyId, ft)); //id only need to store, no index, no 鍒嗚瘝
+                 String varietyName = res.getString("varietyName") == null ? "" : res.getString("varietyName");
+                 doc.add(new TextField("varietyName", varietyName, Store.YES));
+                 String subId = res.getString("subId") == null ? "" : res.getString("subId");
+                 doc.add(new TextField("subId", subId, Store.YES));
+                 String registerationId = res.getString("registerationId") == null ? "" : res.getString("registerationId");
+                 doc.add(new TextField("registerationId", registerationId, Store.YES));
+                 String varietySource = res.getString("varietySource") == null ? "" : res.getString("varietySource");
+                 doc.add(new TextField("varietySource", varietySource, Store.YES));
+                 String characteristics = res.getString("characteristics") == null ? "" : res.getString("characteristics");
+                 doc.add(new TextField("characteristics", characteristics, Store.YES));
+                 String yieldPerformance = res.getString("yieldPerformance") == null ? "" : res.getString("yieldPerformance");
+                 doc.add(new TextField("yieldPerformance", yieldPerformance, Store.YES));
+                 String suitableArea = res.getString("suitableArea") == null ? "" : res.getString("suitableArea");
+                 doc.add(new TextField("suitableArea", suitableArea, Store.YES));*/
+                   
+                 
+                 String petDisSpecId = res.getString("petDisSpecId");
+                 FieldType ft = new FieldType();
+                 ft.setIndexed(false);
+                 ft.setStored(true);
+                 ft.setTokenized(false);
+                 doc.add(new Field("petDisSpecId", petDisSpecId, ft)); //id only need to store, no index, no 鍒嗚瘝
+                 
+                 String petDisSpecName = res.getString("petDisSpecName") == null ? "" : res.getString("petDisSpecName");
+                 doc.add(new TextField("petDisSpecName",petDisSpecName, Store.YES));
+                 
+                 String type = res.getString("type");
+                 FieldType typeFt = new FieldType();
+                 typeFt.setIndexed(false);
+                 typeFt.setStored(true);
+                 typeFt.setTokenized(false);
+                 doc.add(new Field("type", type, typeFt));
+                 
+                 String alias = res.getString("alias") == null ? "" : res.getString("alias");
+                 doc.add(new TextField("alias", alias, Store.YES));
+                 String cropName = res.getString("cropName") == null ? "" : res.getString("cropName");
+                 doc.add(new TextField("cropName", cropName, Store.YES));
+                 String color = res.getString("color") == null ? "" : res.getString("color");
+                 doc.add(new TextField("color", color, Store.YES));
+                 String shape = res.getString("shape") == null ? "" : res.getString("shape");
+                 doc.add(new TextField("shape", shape, Store.YES));
+                 String description = res.getString("description") == null ? "" : res.getString("description");
+                 doc.add(new TextField("description", description, Store.YES));
+                 String sympthon = res.getString("sympthon") == null ? "" : res.getString("sympthon");
+                 doc.add(new TextField("sympthon", sympthon, Store.YES));
+                 String forms = res.getString("forms") == null ? "" : res.getString("forms");
+                 doc.add(new TextField("forms", forms, Store.YES));
+                 String habits = res.getString("habits") == null ? "" : res.getString("habits");
+                 doc.add(new TextField("habits", habits, Store.YES));
+                 String rules = res.getString("rules") == null ? "" : res.getString("rules");
+                 doc.add(new TextField("rules", rules, Store.YES));
+                 
+                 iwriter.addDocument(doc);
             }		
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block

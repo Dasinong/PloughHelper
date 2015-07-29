@@ -47,6 +47,8 @@ public class WeatherFacade implements IWeatherFacade {
 		TwentyFourHourForcast tfhf = All24h.get24h().get24h(areaId);
 		if (tfhf!=null){
 			try {
+				ForcastDInfo[] n24h = tfhf.info;
+				/*
 				ForcastDInfo[] n24h = new ForcastDInfo[25];
 				int count=0;
 				Date cur = new Date();
@@ -56,6 +58,7 @@ public class WeatherFacade implements IWeatherFacade {
 						count++;
 					}
 				};
+				*/
 				
 				result.put("n12h", n24h);
 

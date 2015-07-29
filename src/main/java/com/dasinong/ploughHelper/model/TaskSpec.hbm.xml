@@ -27,5 +27,8 @@
         <property name="type" type="string">
             <column name="type" length="10"/>
         </property>
+         <property name="fitRegion" type="string">
+            <column name="fitRegion" length="10"/>
+        </property>
     </class>
 </hibernate-mapping>
