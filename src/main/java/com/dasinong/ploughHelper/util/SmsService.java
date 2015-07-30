@@ -89,18 +89,28 @@ public class SmsService {
 	
 	public static synchronized String weatherAlert(String content) {
 		if (Env.getEnv().weatherAlert){
-			String number="13162881998";
 			String postUrl = "http://cf.51welink.com/submitdata/Service.asmx/g_Submit";
 			content = content+"【今日农事】";
 			try {
+				String number="13162881998";
 				String postData = "sname="+ACCOUNT_NAME+"&spwd="+PASSWORD+"&scorpid=&sprdid=1012818&sdst="+number+"&smsg="+URLEncoder.encode(content,"UTF-8");
-				String response = SMS(postData, postUrl);
-				return response;
+				SMS(postData, postUrl);
+				number="13137736397";
+				postData = "sname="+ACCOUNT_NAME+"&spwd="+PASSWORD+"&scorpid=&sprdid=1012818&sdst="+number+"&smsg="+URLEncoder.encode(content,"UTF-8");
+				SMS(postData, postUrl);
+				if (content.contains("failed"))
+				{
+					number="15311733826";
+					postData = "sname="+ACCOUNT_NAME+"&spwd="+PASSWORD+"&scorpid=&sprdid=1012818&sdst="+number+"&smsg="+URLEncoder.encode(content,"UTF-8");
+					SMS(postData, postUrl);
+				}
+				return "OK";
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
+				return "Exceptione";
 			}
 		}
-		return "";
+		return "Sms weather alert disabled.";
 	}
 	
 	public static String convertNumbers(ArrayList<String> numbers){

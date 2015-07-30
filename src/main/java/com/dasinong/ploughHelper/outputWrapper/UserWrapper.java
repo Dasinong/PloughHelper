@@ -3,7 +3,6 @@ package com.dasinong.ploughHelper.outputWrapper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.User;
@@ -15,7 +14,7 @@ public class UserWrapper implements Serializable {
 	private String userName="";
 	private String cellPhone="";
 	private String address="";
-	
+	private boolean isPassSet=false;
 	private boolean authenticated = false;
 	private String pictureId;
 	private String telephone;
@@ -23,6 +22,7 @@ public class UserWrapper implements Serializable {
 	private List<Long> fields = new ArrayList<Long>();
 	private List<Integer> monitorLocationId = new ArrayList<Integer>();
 	public UserWrapper(User user){
+		this.setIsPassSet(user.getIsPassSet());
 		this.userId= user.getUserId();
 		this.userName= (user.getUserName()==null)?"":user.getUserName();
 		this.address=(user.getAddress()==null)?"":user.getAddress();
@@ -31,7 +31,6 @@ public class UserWrapper implements Serializable {
 			for (Field f :  user.getFields()){
 				getFields().add(f.getFieldId());
 				this.getMonitorLocationId().add(f.getMonitorLocationId());
-				
 			}
 		}
 		
@@ -92,6 +91,12 @@ public class UserWrapper implements Serializable {
 	}
 	public void setMonitorLocationId(List<Integer> monitorLocationId) {
 		this.monitorLocationId = monitorLocationId;
+	}
+	public boolean getIsPassSet() {
+		return isPassSet;
+	}
+	public void setIsPassSet(boolean isPassSet) {
+		this.isPassSet = isPassSet;
 	}
 
 }

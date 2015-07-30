@@ -5,6 +5,7 @@ import com.dasinong.ploughHelper.model.Variety;
 public class VarietyWrapper {
 	Long id;
 	String varietyName="";
+	String subId="";
 	String registrationId="";
 	String owner="";
 	String suitableArea="";
@@ -13,7 +14,7 @@ public class VarietyWrapper {
 	
 	public VarietyWrapper(Variety v){
 		this.id = v.getVarietyId();
-		this.varietyName = v.getVarietyName();
+		this.varietyName = v.getVarietyName()+v.getSubId();
 		this.registrationId = v.getRegisterationId();
 		this.owner = v.getOwner();
 		this.suitableArea = v.getSuitableArea();
@@ -75,6 +76,14 @@ public class VarietyWrapper {
 
 	public void setYieldPerformance(String yieldPerformance) {
 		this.yieldPerformance = yieldPerformance;
+	}
+
+	public String getSubId() {
+		return subId;
+	}
+
+	public void setSubId(String subId) {
+		this.subId = subId;
 	}
 
 	

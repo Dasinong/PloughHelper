@@ -31,7 +31,15 @@ public class PetDisSpecBrowseDao extends HibernateDaoSupport implements IPetDisS
 	 */
 	@Override
 	public List<PetDisSpecBrowse> findByType(String type){
-		List list = getHibernateTemplate().find("from PetDisSpecBrowse where type=?",type);
+		//List list = getHibernateTemplate().find("from PetDisSpecBrowse where type=?",type);
+		List list=null;
+		if (type.contains("病")) {
+			list = getHibernateTemplate().find("from PetDisSpecBrowse where type like '%病%'");
+		}else if(type.contains("虫")){
+			list = getHibernateTemplate().find("from PetDisSpecBrowse where type like '%虫%'");
+		}else if(type.contains("草")){
+			list = getHibernateTemplate().find("from PetDisSpecBrowse where type like '%草%'");
+		}
 		if (list==null){
 			return new ArrayList<PetDisSpecBrowse>();
 		}

@@ -43,6 +43,7 @@ public class Env {
 	public String DataDir;
 	public boolean isDebug;
 	public boolean weatherAlert;
+	public int sessionTimeout=60000; //1000 min;
 	
 	public static void main(String[] args){
 		System.out.println(Env.getEnv().WorkingDir);

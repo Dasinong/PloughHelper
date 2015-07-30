@@ -21,6 +21,7 @@ import com.dasinong.ploughHelper.dao.IUserDao;
 import com.dasinong.ploughHelper.inputParser.UserParser;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
+import com.dasinong.ploughHelper.util.Env;
 import com.dasinong.ploughHelper.util.SmsService;
 
 @Controller
@@ -37,6 +38,7 @@ public class UserController {
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
 			User user= (new UserParser(request)).getUser();
+			user.setIsPassSet(false);
 			userdao.save(user);
 				
 			UserWrapper userWrapper = new UserWrapper(user);
@@ -45,6 +47,7 @@ public class UserController {
 			result.put("message","注册成功");
 			
 			request.getSession().setAttribute("User", user);
+			request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
 			return result;
 		}
 		catch(Exception e)
@@ -83,6 +86,7 @@ public class UserController {
 			String passWord = request.getParameter("password");
 			if (user.getPassword().equals(passWord)){
 				request.getSession().setAttribute("User", user);
+				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
 				result.put("respCode",200);
 				result.put("message", "登陆成功");
 				UserWrapper userWrapper = new UserWrapper(user);
@@ -124,6 +128,7 @@ public class UserController {
 			user = userDao.findByCellphone(cellphone);
 			if (user!=null){
 				request.getSession().setAttribute("User", user);
+				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
 				result.put("respCode",200);
 				result.put("message", "用户已存在,登陆");
 				UserWrapper userWrapper = new UserWrapper(user);
@@ -133,11 +138,12 @@ public class UserController {
 			else{
 				user = new User();
 				user.setCellPhone(cellphone);
-				user.setUserName(cellphone);
+				user.setUserName("");
 				user.setPassword(cellphone.substring(cellphone.length()-6));
 
 				userDao.save(user);
 				request.getSession().setAttribute("User", user);
+				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
 				result.put("respCode", 200);
 				result.put("message", "注册成功");
 				UserWrapper userWrapper = new UserWrapper(user);
@@ -197,6 +203,7 @@ public class UserController {
 			User user = userDao.findByCellphone(cellphone);
 			if (user!=null){
 				request.getSession().setAttribute("User", user);
+				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
 				result.put("respCode",200);
 				result.put("message", "用户已存在");
 				//UserWrapper userWrapper = new UserWrapper(user);
@@ -580,6 +587,7 @@ public class UserController {
 				if (savedCode.equals(seccode)){
 					request.getSession().removeAttribute("securityCode");
 					request.getSession().setAttribute("User", user);
+					request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
 					UserWrapper userWrapper = new UserWrapper(user);
 					result.put("data",userWrapper);
 					result.put("respCode",200);

@@ -239,7 +239,7 @@ public class SoilReportController {
 		ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
 		try{
 			result.put("respCode", 200);
-	    	result.put("message", "插入成功");
+	    	result.put("message", "更新报告成功");
 	    	result.put("data", sf.updateSoil(reportId, type, color, fertility, humidityv, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv,
 					znv, bv, mov, cav, sv, siv, mgv));
 			return result;

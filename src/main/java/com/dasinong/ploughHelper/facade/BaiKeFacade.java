@@ -36,6 +36,9 @@ import com.dasinong.ploughHelper.util.FullTextSearch;
 
 @Transactional
 public class BaiKeFacade implements IBaiKeFacade {
+	class FilterInfo{
+		boolean isGuo;
+	}
 	ICropDao cropDao;
 	IVarietyDao varietyDao;
 	IVarietyBrowseDao varietyBrowseDao;
@@ -187,6 +190,8 @@ public class BaiKeFacade implements IBaiKeFacade {
     		result.put("message","该名称品种不存在");
     		return result;
     	}
+    	
+    	
     	List<VarietyWrapper> vws = new ArrayList<VarietyWrapper>();
     	for(Variety v: varietys){
     		vws.add(new VarietyWrapper(v));
@@ -231,8 +236,8 @@ public class BaiKeFacade implements IBaiKeFacade {
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
 
 		try {
-			String[] source = {"varietyName", "varietySource"};
-			String[] target = {"varietyName", "varietyId", "varietySource"};
+			String[] source = {"varietyName", "varietySource","registerationId","characteristics"};
+			String[] target = {"varietyName", "varietyId","subId", "varietySource","registerationId"};
 			HashMap<String,String>[] h = bs.search(key, source, target);
 			Set<Integer> idcheck = new HashSet<Integer>();
 			if (h!=null){
@@ -242,8 +247,8 @@ public class BaiKeFacade implements IBaiKeFacade {
 							idcheck.add(Integer.parseInt(h[i].get("varietyId")));
 							HashMap<String,String> record = new HashMap<String,String>();
 							record.put("id", h[i].get("varietyId"));
-							record.put("name", h[i].get("varietyName"));
-							record.put("source", h[i].get("varietySource"));
+							record.put("name", h[i].get("varietyName")+h[i].get("subId"));
+							record.put("source", h[i].get("registerationId"));
 							record.put("type", "variety");
 							result.add(record);
 						}
@@ -349,6 +354,14 @@ public class BaiKeFacade implements IBaiKeFacade {
 		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
 			e.printStackTrace();
 		}
+		return result;
+	}
+	
+	private List<Variety> filterVar(List<Variety> vars){
+		List<Variety> result = new ArrayList<Variety>();
+		
+		
+		
 		return result;
 	}
 }

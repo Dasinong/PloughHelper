@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.web.context.ContextLoader;
+
 import com.dasinong.ploughHelper.util.Env;
 import com.dasinong.ploughHelper.util.SmsService;
 
@@ -18,7 +20,8 @@ public class SoilLiquid implements IWeatherBuffer{
 	
 	public static SoilLiquid getSoilLi(){
 		if (soilLiquid==null){
-			soilLiquid = new SoilLiquid();
+			//soilLiquid = new SoilLiquid();
+			soilLiquid = (SoilLiquid) ContextLoader.getCurrentWebApplicationContext().getBean("soilLiq");
 			return soilLiquid;
 		}
 		else{

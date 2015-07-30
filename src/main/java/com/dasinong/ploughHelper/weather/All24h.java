@@ -9,8 +9,10 @@ import java.util.HashMap;
 
 
 
+
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.web.context.ContextLoader;
 import org.xml.sax.SAXException;
 
 import com.dasinong.ploughHelper.util.Env;
@@ -21,8 +23,8 @@ public class All24h implements IWeatherBuffer{
 	
 	public static All24h get24h(){
 		if (all24h==null){
-			all24h = new All24h();
-			//all24h = (All24h) ContextLoader.getCurrentWebApplicationContext().getBean("all24h");
+			//all24h = new All24h();
+			all24h = (All24h) ContextLoader.getCurrentWebApplicationContext().getBean("all24h");
 			return all24h;
 		}
 		else{
@@ -38,6 +40,7 @@ public class All24h implements IWeatherBuffer{
 			System.out.println("Initialize 24h failed. " +  e.getCause());
 			SmsService.weatherAlert("Initialize 24h failed on " + new Date() + " with file " + latestSourceFile());
 		}
+		all24h = this;
 	}
 	
 	//自动更新
@@ -49,15 +52,15 @@ public class All24h implements IWeatherBuffer{
 	//强制更新
 	@Override
 	public void updateContent(String basefolder){
-		HashMap<Integer,TwentyFourHourForcast> old24h = _all24h;
-		_all24h = new HashMap<Integer,TwentyFourHourForcast>();
+		//HashMap<Integer,TwentyFourHourForcast> old24h = _all24h;
+		//_all24h = new HashMap<Integer,TwentyFourHourForcast>();
 		try{
 			loadContent(basefolder);
 		}
 		catch(Exception e){
 			System.out.println("update 24h failed. " +  e.getCause());
 			SmsService.weatherAlert("Update 24h failed on " + new Date() + " with file " + basefolder);
-			_all24h = old24h;
+			//_all24h = old24h;
 		}
 	}
 	
@@ -119,7 +122,7 @@ public class All24h implements IWeatherBuffer{
 	//Support finer check.
 	@Override
 	public String latestUpdate(){
-		TwentyFourHourForcast tfhf = this._all24h.get(101010100);
+		TwentyFourHourForcast tfhf = this._all24h.get(101050407);
 		if (tfhf!=null){
 			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
 			return df.format(tfhf.timeStamp); 

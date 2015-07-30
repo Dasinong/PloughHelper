@@ -171,7 +171,7 @@ public class FieldFacade implements IFieldFacade {
 		fd.update(f);
 		FieldWrapper fw = new FieldWrapper(f,taskSpecDao,2);
 		result.put("respCode", 200);
-		result.put("message", "添加田地成功");
+		result.put("message", "更换阶段成功");
 		result.put("data",fw);
 		return result;
 	}
