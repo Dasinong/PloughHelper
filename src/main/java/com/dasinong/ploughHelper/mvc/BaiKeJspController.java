@@ -68,8 +68,10 @@ public class BaiKeJspController implements Controller {
 		mv.addObject("name", cpw.getName());
 		mv.addObject("activeIngredient", cpw.getActiveIngredient());
 		mv.addObject("type", cpw.getType());
-		mv.addObject("disease", cpw.getDisease());
-		mv.addObject("volumn", cpw.getVolumn());
+		mv.addObject("crop", cpw.getCrop().replaceAll("\n", " "));
+		mv.addObject("disease", cpw.getDisease().replaceAll("\n", " "));
+		mv.addObject("volumn", cpw.getVolumn().replaceAll("\n", " "));
+		mv.addObject("method", cpw.getMethod().replaceAll("\n", " "));
 		mv.addObject("guideline", cpw.getGuideline());
 		mv.addObject("registrationId", cpw.getRegistrationId());
 		mv.addObject("manufacturer", cpw.getManufacturer());

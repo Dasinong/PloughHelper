@@ -7,8 +7,10 @@ public class CPProductWrapper {
 	String activeIngredient="";
 	String name="";
 	String type="";
+	String crop="";
 	String disease="";
 	String volumn="";
+	String method="";
 	String guideline="";
 	String registrationId="";
 	String manufacturer="";
@@ -19,13 +21,31 @@ public class CPProductWrapper {
 		this.activeIngredient = cp.getActiveIngredient();
 		this.name = cp.getcPProductName();
 		this.type = cp.getType();
+		this.crop = cp.getCrop();
 		this.disease = cp.getDisease();
 		this.volumn = cp.getVolume();
+		this.method = cp.getMethod();
 		this.guideline = cp.getGuideline();
 		this.registrationId = cp.getRegisterationId();
 		this.manufacturer = cp.getManufacturer();
 		this.tip = cp.getTip();
 		this.id = cp.getcPProductId();
+	}
+
+	public String getCrop() {
+		return crop;
+	}
+
+	public void setCrop(String crop) {
+		this.crop = crop;
+	}
+
+	public String getMethod() {
+		return method;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
 	}
 
 	public Long getId() {
