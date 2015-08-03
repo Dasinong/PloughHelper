@@ -99,7 +99,7 @@ body {
   position: relative;
   z-index: 3;
   /* width: 85.9722222222%; */
-  padding-top: 10px;
+  padding-top: 15px;
   padding-bottom: 15px;
 }
 
@@ -108,8 +108,8 @@ body {
   clear: both;
   z-index: 5;
   width: 100px;
-  padding-top: 0;
-  padding-bottom: 0px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .disease-1 {
