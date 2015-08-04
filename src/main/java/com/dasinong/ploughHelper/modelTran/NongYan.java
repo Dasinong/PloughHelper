@@ -1,19 +1,90 @@
 package com.dasinong.ploughHelper.modelTran;
 
-import java.util.HashMap;
-import java.util.Random;
+import java.util.Calendar;
+import java.util.List;
+
+
+import org.springframework.web.context.ContextLoader;
+
+import com.dasinong.ploughHelper.dao.IProverbDao;
+import com.dasinong.ploughHelper.model.Proverb;
+import com.dasinong.ploughHelper.util.LunarHelper;
+import com.dasinong.ploughHelper.weather.GetLiveWeather;
+import com.dasinong.ploughHelper.weather.LiveWeatherData;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class NongYan {
 	private static NongYan nongYan;
 	
-	public LaoNong getNongYan(Integer id){
-		return this.saying.get(id);
-	}
-	
-	public LaoNong getRndNongYan(){
-		Random rnd = new Random();
-		int id = rnd.nextInt(this.saying.size());
-		return this.saying.get(id);
+	public LaoNong getNongYan(Integer areaId){
+		IProverbDao proverbDao = null;
+
+		try{
+			proverbDao = (IProverbDao) ContextLoader.getCurrentWebApplicationContext().getBean("proverbDao");
+		}catch(Exception e){
+			System.out.println("Error: Get Bean proverbDao Error!");
+			e.printStackTrace();
+		}
+		
+		Proverb proverb = null;
+		//为了让农谚应景，选择与当前农历节气，天气，月份相关的农谚显示，它们的重要性依序而定。
+		//1. 首先看今日是否是农历节气
+		Calendar today = Calendar.getInstance();   
+		try{			 
+			LunarHelper lh = new LunarHelper(today);		
+			String jieqi = lh.getJieQi();
+			if (!jieqi.equals("")){
+				proverb = proverbDao.findByLunarCalender(jieqi);				
+			}
+		}catch(Exception e){
+			System.out.println("Error: Get LunarHelper Error in NongYan!");
+			e.printStackTrace();
+		}
+		
+		try{
+			//2. 再看今日天气：多雨，多云，大风		
+			if (proverb == null){
+				GetLiveWeather glw = new GetLiveWeather(areaId.toString());
+				LiveWeatherData lwd = glw.getLiveWeather();
+				//LiveWeatherData 有l1, l2, .. , l7 共7个字段，l5 （String）为天气现象编码，l3为当前风力（int）
+				//气象编码表参见 WISWeatherAPI <Lite> 第五节 5.1 天气现象编码表
+				//和雨相关的编码罗列如下，例如  03 表示 阵雨，04 表示 雷阵雨，。。。
+				String[] rainyCodeArray = {"03","04","05","06","07","08","09","10","11","12","21","22","23","24","25"}; 			
+				List<String> rainyCodeList = Arrays.asList(rainyCodeArray);
+				if(rainyCodeList.contains(lwd.l5))
+					proverb = proverbDao.findByWeather("有雨");
+				
+				// 01 表示 多云
+				if (lwd.l5.equals("01"))
+					proverb = proverbDao.findByWeather("多云");
+				
+				// l3为风力，0表示微风，1表示3-4级，2表示4-5级，以此类推到9表示11-12级，其中风力大于3级，即为大风天气
+				if (lwd.l3 >= 5)
+					proverb = proverbDao.findByWeather("大风");										
+			}
+		}catch(Exception e){
+			System.out.println("Error: GetLiveWeather error in NongYan!");
+			e.printStackTrace();
+		}
+		//3. 如果既不是农历节气，也不是特殊天气，那么看当前月份，选择与当前月份关联的农谚显示
+		if (proverb == null){
+			Integer month = today.get(Calendar.MONTH)+1;
+			proverb = proverbDao.findByMonth(month.toString());
+		}
+		
+		//4. 如果均不是，那么随机取一个
+		if (proverb == null){
+			proverb = proverbDao.findByAccident();
+		}
+
+		if (proverb == null){
+			LaoNong d = new LaoNong(1,3,"closeeyelaugh.png","每日农谚","日出胭脂红，无雨也有风。","");
+			return d;
+		}
+		
+		LaoNong d = new LaoNong(1,3,"closeeyelaugh.png","每日农谚",proverb.getContent(),"");
+		return d;
 	}
 	
 	public static NongYan allNongYan(){
@@ -23,57 +94,10 @@ public class NongYan {
 	}
 	
 	private NongYan(){
-		saying = new HashMap<Integer,LaoNong>();
-		loadContent();
 	}
-	
-    private void loadContent(){
-    	LaoNong d = new LaoNong(1,3,"closeeyelaugh.png","每日农谚","春不种，秋无收。","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(2,3,"closeeyelaugh.png","每日农谚","立夏勿下雨，犁耙倒挂起。 ","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(3,3,"closeeyelaugh.png","每日农谚","五月端午晴，烂稻刮田膛。","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(4,3,"closeeyelaugh.png","每日农谚","寒露无青稻，霜降一齐老。","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(5,3,"closeeyelaugh.png","每日农谚","有水才有谷，无水守着哭。","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(6,3,"closeeyelaugh.png","每日农谚","水库是个宝，防旱又防涝。","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(7,3,"closeeyelaugh.png","每日农谚","稻田水多是糖浆，麦田水多是砒霜","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(8,3,"closeeyelaugh.png","每日农谚","人靠饭养，稻靠肥长。","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(9,3,"closeeyelaugh.png","每日农谚","肥田长稻，瘦田长草。","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(10,3,"closeeyelaugh.png","每日农谚","土肥长谷，猪肥长肉。","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(11,3,"closeeyelaugh.png","每日农谚","万物土里生，全靠两手勤。 ","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(12,3,"closeeyelaugh.png","每日农谚","只要功夫深，土里出黄金。 ","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(13,3,"closeeyelaugh.png","每日农谚","好种长好稻，坏种长稗草。","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(14,3,"closeeyelaugh.png","每日农谚","三年不选种，增产要落空。","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(15,3,"closeeyelaugh.png","每日农谚","好儿要好娘，种田要好秧。","");
-    	saying.put(d.id, d);
-    	d = new LaoNong(16,3,"closeeyelaugh.png","每日农谚","作物不好胡搭配，乱点鸳鸯要吃亏. ","");
-    	saying.put(d.id, d);
-    }
 
 	public static void main(String[] args){
-		System.out.println(NongYan.allNongYan().getRndNongYan().content);
-		System.out.println(NongYan.allNongYan().getRndNongYan().content);
-		System.out.println(NongYan.allNongYan().getRndNongYan().content);
-		System.out.println(NongYan.allNongYan().getRndNongYan().content);
-		System.out.println(NongYan.allNongYan().getRndNongYan().content);
-		System.out.println(NongYan.allNongYan().getRndNongYan().content);
-		
+		System.out.println(NongYan.allNongYan().getNongYan(101010100).content);		
 	}
-  
-	
-	
-	private HashMap<Integer,LaoNong> saying = new HashMap<Integer,LaoNong>();
 	
 }

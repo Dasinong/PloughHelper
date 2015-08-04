@@ -9,8 +9,14 @@
             <column name="proverbId" />
             <generator class="identity" />
         </id>
-        <property name="necessaryCondition" type="string">
-            <column name="necessaryCondition" length="100"/>
+        <property name="lunarCalender" type="string">
+            <column name="lunarCalender" length="100"/>
+        </property>
+        <property name="weather" type="string">
+            <column name="weather" length="100"/>
+        </property>
+        <property name="month" type="string">
+            <column name="month" length="100"/>
         </property>
         <property name="content" type="string">
             <column name="content" length="200" not-null="true"/>

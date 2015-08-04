@@ -62,7 +62,8 @@ public class LaoNongFacade implements ILaoNongFacade {
 			return result;
 		}
 		
-		LaoNong laoNong = NongYan.allNongYan().getRndNongYan();
+		System.out.println("szc: getLaoNong areaId : "+areaId);
+		LaoNong laoNong = NongYan.allNongYan().getNongYan(areaId);
 		result.put("respCode", 200);
 		result.put("message","获得老农成功");
 		result.put("data",laoNong);

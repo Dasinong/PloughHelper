@@ -30,7 +30,7 @@ public class LoadProverb {
 				String necessaryCondition = items[1];
 				String content = items[2];
 				Proverb proverb = new Proverb();
-				proverb.setNecessaryCondition(necessaryCondition);
+				//proverb.setNecessaryCondition(necessaryCondition);
 				proverb.setContent(content);
 				proverbDao.save(proverb);
 			}
