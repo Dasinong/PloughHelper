@@ -11,7 +11,6 @@ import com.dasinong.ploughHelper.dao.IPetSoluDao;
 import com.dasinong.ploughHelper.model.CPProduct;
 import com.dasinong.ploughHelper.model.PetSolu;
 import com.dasinong.ploughHelper.outputWrapper.CPProductWrapper;
-import com.dasinong.ploughHelper.outputWrapper.PetDisSpecWrapper;
 import com.dasinong.ploughHelper.outputWrapper.PetSoluWrapper;
 
 @Transactional

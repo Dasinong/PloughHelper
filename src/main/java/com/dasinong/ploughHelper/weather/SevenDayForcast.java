@@ -5,19 +5,26 @@ import java.util.Date;
 public class SevenDayForcast {
 	class ForcastInfo{
 		public Date forecast_time;   //预报时间
-		public short weather;       //天气现象编码
+		public short weathern;       //天气现象编码
+		public String weather;
 		public double temp;        //平均温度
 		public double max_temp;    //最高温
 		public double min_temp;    //最低温
-		public short ff_level;      //风力编码
-		public short dd_level;      //风向编码
+		public short ff_level;      //风向编码
+		public short dd_level;      //风力编码
 		public double rain;			//降水量
 		public ForcastInfo(Date forecast_time, short weather, double temp,
 				double max_temp, double min_temp, short ff_level,
 				short dd_level, double rain) {
 			super();
 			this.forecast_time = forecast_time;
-			this.weather = weather;
+			this.weathern = weather;
+			if (weathern<10) {
+				this.weather = "0"+weather;
+			}
+			else{
+				this.weather = ""+weather;
+			}
 			this.temp = temp;
 			this.max_temp = max_temp;
 			this.min_temp = min_temp;
@@ -33,7 +40,13 @@ public class SevenDayForcast {
 			this.ff_level = (short) Math.max(ff_level, newInfo.ff_level);
 			this.dd_level = (short) Math.max(dd_level, newInfo.dd_level);
 			this.rain = rain+newInfo.rain;   //?降水量?
-			this.weather = (short) Math.max(this.weather, newInfo.weather);
+			this.weathern = (short) Math.max(this.weathern, newInfo.weathern);
+			if (weathern<10) {
+				this.weather = "0"+weathern;
+			}
+			else{
+				this.weather = ""+weathern;
+			}
 		}
 	}
 

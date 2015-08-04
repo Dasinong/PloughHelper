@@ -7,9 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-
-
-
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.web.context.ContextLoader;
@@ -30,8 +27,8 @@ public class All24h implements IWeatherBuffer{
 		else{
 			return all24h;
 		}
-		
 	}
+	
 	private All24h(){
 		_all24h = new HashMap<Integer,TwentyFourHourForcast>();
 		try{

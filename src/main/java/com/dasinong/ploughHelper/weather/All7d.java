@@ -122,7 +122,7 @@ public class All7d implements IWeatherBuffer{
 						if (tfhf!=null) tfhf.padding();
 						if ((forcast_time.getTime() - curtime.getTime()<25*60*60*1000) && !HourCity.contains(currentCode)){
 							tfhf = new TwentyFourHourForcast(currentCode);
-							ForcastDInfo fdi = new ForcastDInfo(forcast_time,(int) temp,-1,-1,(double) ff_level,rain,0,0,0,"cloudy");
+							ForcastDInfo fdi = new ForcastDInfo(forcast_time,(int) temp,-1,-1,(double) ff_level,rain,0,0,0,WeatherPhenomena.getWeatherPhenomena().getIcon(weather));
 							tfhf.add(fdi);
 							All24h.get24h()._all24h.put(currentCode, tfhf);
 						}
@@ -132,7 +132,7 @@ public class All7d implements IWeatherBuffer{
 					else{
 						sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
 						if ((forcast_time.getTime() - curtime.getTime()<25*60*60*1000) && !HourCity.contains(currentCode)){
-							ForcastDInfo fdi = new ForcastDInfo(forcast_time,(int) temp,-1,-1,(double) ff_level,rain,0,0,0,"cloudy");
+							ForcastDInfo fdi = new ForcastDInfo(forcast_time,(int) temp,-1,-1,(double) ff_level,rain,0,0,0,WeatherPhenomena.getWeatherPhenomena().getIcon(weather));
 							tfhf.add(fdi);
 						}
 					}

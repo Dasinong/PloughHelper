@@ -60,10 +60,10 @@ public class TwentyFourHourForcast {
 	
 	public void padding(){
 		//No padding now. Let it be null.
-		for(;top<25;top++){
-			ForcastDInfo fdi = new ForcastDInfo(null, 20, 0, 0, 0,  0, 0,0, 0, "cloudy");
-			info[top] = fdi;
-		}
+		//for(;top<25;top++){
+		//	ForcastDInfo fdi = new ForcastDInfo(null, 20, 0, 0, 0,  0, 0,0, 0, "cloudy");
+		//	info[top] = fdi;
+		//}
 	}
 	
 	public TwentyFourHourForcast(String fileName, int code) throws ParserConfigurationException, SAXException, IOException{

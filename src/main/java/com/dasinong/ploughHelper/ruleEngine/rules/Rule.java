@@ -13,7 +13,7 @@ public class Rule {
 			workable=-1;
 		}
 		for (int i=0;i<tfhf.getSize();i++){
-			if (tfhf.info[i].accumRainTotal>5){
+			if (tfhf.info[i]!=null && tfhf.info[i].accumRainTotal>5){
 				workable = 0;
 			}
 		}
