@@ -14,4 +14,8 @@ public interface IUserDao {
 
 	User findByCellphone(String cellphone);
 
+	User findByQQ(String qqtoken);
+	
+	User findByWeixin(String weixintoken);
+
 }

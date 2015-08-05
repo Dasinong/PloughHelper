@@ -9,6 +9,7 @@ import com.dasinong.ploughHelper.weather.All24h;
 import com.dasinong.ploughHelper.weather.All7d;
 import com.dasinong.ploughHelper.weather.ForcastDInfo;
 import com.dasinong.ploughHelper.weather.GetLiveWeather;
+import com.dasinong.ploughHelper.weather.LiveWeatherData;
 import com.dasinong.ploughHelper.weather.TwentyFourHourForcast;
 
 public class WeatherFacade implements IWeatherFacade {
@@ -40,7 +41,8 @@ public class WeatherFacade implements IWeatherFacade {
 		
 		//获得当前天气
 		GetLiveWeather glw = new GetLiveWeather(areaId.toString());
-		result.put("current", glw.getLiveWeather());
+		LiveWeatherData lwd = glw.getLiveWeather();
+		result.put("current", lwd);
 		
 		
 		//获得12小时天气
@@ -51,13 +53,20 @@ public class WeatherFacade implements IWeatherFacade {
 				ForcastDInfo[] n24h = new ForcastDInfo[25];
 				int count=0;
 				Date cur = new Date();
+				int max=-100;
+				int min=50;
 				for(ForcastDInfo f: tfhf.info){
 					if ((f!=null) && f.time.after(cur)){
 						n24h[count] = f;
 						count++;
 					}
+					if (f!=null){
+						max = Math.max(f.temperature, max);
+						min = Math.min(f.temperature, min);
+					}
 				};
-				
+				lwd.daymax = Math.max(max, lwd.l1);
+				lwd.daymin = Math.min(min, lwd.l1);
 				result.put("n12h", n24h);
 
 				int p1=0;

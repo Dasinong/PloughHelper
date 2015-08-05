@@ -59,4 +59,26 @@ public class UserDao extends HibernateDaoSupport implements IUserDao{
 		return (User) list.get(0);
 	}
 
+
+	@Override
+	public User findByQQ(String qqtoken) {
+		List list = getHibernateTemplate().find(
+				"from User where qqtoken=?",qqtoken);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
+		return (User) list.get(0);
+	}
+
+
+	@Override
+	public User findByWeixin(String weixintoken) {
+		List list = getHibernateTemplate().find(
+				"from User where weixintoken=?",weixintoken);
+		if (list==null||list.isEmpty()){
+			return null;
+		}
+		return (User) list.get(0);
+	}
+
 }

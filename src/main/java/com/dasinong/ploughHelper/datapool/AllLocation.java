@@ -37,5 +37,4 @@ public class AllLocation {
 
 	private List<Location> _allLoc;
     
-
 }

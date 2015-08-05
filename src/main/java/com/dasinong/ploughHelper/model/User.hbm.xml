@@ -39,5 +39,11 @@
         <property name="isPassSet" type="boolean">
         	<column name="isPassSet"></column>
         </property>
+        <property name="qqtoken" type="string">
+        	<column name="qqtoken" length="50" not-null="false"></column>
+        </property>
+        <property name="weixintoken" type="string">
+        	<column name="weixintoken" length="50" not-null="false"></column>
+        </property>
     </class>
 </hibernate-mapping>

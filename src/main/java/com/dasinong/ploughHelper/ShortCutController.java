@@ -71,4 +71,12 @@ public class ShortCutController {
 		}
 	}
 	
+	
+	@RequestMapping(value = "/loadLoc", produces="application/json")
+	@ResponseBody
+	public Object loadLoc(HttpServletRequest request, HttpServletResponse response){
+			com.dasinong.ploughHelper.datapool.AllLocation.getLocation();
+			return "OK";
+	}
+	
 }

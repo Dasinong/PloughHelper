@@ -19,6 +19,8 @@ public class User implements Serializable{
 	private boolean authenticated = false;
 	private String pictureId="default.jpg";
 	private String telephone;
+	private String qqtoken;
+	private String weixintoken;
 
 	public User(){}
 	
@@ -98,6 +100,22 @@ public class User implements Serializable{
 
 	public void setIsPassSet(boolean isPassSet) {
 		this.isPassSet = isPassSet;
+	}
+
+	public String getQqtoken() {
+		return qqtoken;
+	}
+
+	public void setQqtoken(String qqtoken) {
+		this.qqtoken = qqtoken;
+	}
+
+	public String getWeixintoken() {
+		return weixintoken;
+	}
+
+	public void setWeixintoken(String weixintoken) {
+		this.weixintoken = weixintoken;
 	}
 
 }

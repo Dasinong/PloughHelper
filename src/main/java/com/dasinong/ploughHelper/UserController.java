@@ -39,6 +39,7 @@ public class UserController {
 		try{
 			User user= (new UserParser(request)).getUser();
 			user.setIsPassSet(false);
+			user.setAuthenticated(true);
 			userdao.save(user);
 				
 			UserWrapper userWrapper = new UserWrapper(user);
@@ -585,6 +586,8 @@ public class UserController {
 			User user = userDao.findByCellphone(cellphone);
 			if (user!=null){
 				if (savedCode.equals(seccode)){
+					user.setAuthenticated(true);
+					userDao.update(user);
 					request.getSession().removeAttribute("securityCode");
 					request.getSession().setAttribute("User", user);
 					request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
@@ -613,6 +616,119 @@ public class UserController {
 			return result;
 		}
 	}
+	
+	
+	@RequestMapping(value = "/qqAuthRegLog",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object qqAuthRegLog(HttpServletRequest request, HttpServletResponse response) {
+	
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+	
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			User user = (User) request.getSession().getAttribute("User");
+			if (user!=null){
+				result.put("respCode", 200);
+				result.put("message", "已经登录");
+				UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",userWrapper);
+				return result;
+			}
+			
+			String qqtoken = request.getParameter("qqtoken");
+			String avater = request.getParameter("avater");
+			String username = request.getParameter("username");
+			user = userDao.findByQQ(qqtoken);
+			if (user!=null){
+				request.getSession().setAttribute("User", user);
+				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
+				result.put("respCode",200);
+				result.put("message", "用户已存在,登陆");
+				UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",userWrapper);
+				return result;
+			}
+			else{
+				user = new User();
+				user.setQqtoken(qqtoken);
+				user.setUserName(username);
+				user.setPassword("dasinong");
+				user.setPictureId(avater);
+
+				userDao.save(user);
+				request.getSession().setAttribute("User", user);
+				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
+				result.put("respCode", 200);
+				result.put("message", "注册成功");
+				UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",userWrapper);
+				return result;
+			}
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
+	
+	@RequestMapping(value = "/weixinAuthRegLog",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object weixinAuthRegLog(HttpServletRequest request, HttpServletResponse response) {
+	
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+	
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			User user = (User) request.getSession().getAttribute("User");
+			if (user!=null){
+				result.put("respCode", 200);
+				result.put("message", "已经登录");
+				UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",userWrapper);
+				return result;
+			}
+			
+			String weixintoken = request.getParameter("weixintoken");
+			String avater = request.getParameter("avater");
+			String username = request.getParameter("username");
+			user = userDao.findByWeixin(weixintoken);
+			if (user!=null){
+				request.getSession().setAttribute("User", user);
+				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
+				result.put("respCode",200);
+				result.put("message", "用户已存在,登陆");
+				UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",userWrapper);
+				return result;
+			}
+			else{
+				user = new User();
+				user.setWeixintoken(weixintoken);
+				user.setUserName(username);
+				user.setPassword("dasinong");
+				user.setPictureId(avater);
+
+				userDao.save(user);
+				request.getSession().setAttribute("User", user);
+				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
+				result.put("respCode", 200);
+				result.put("message", "注册成功");
+				UserWrapper userWrapper = new UserWrapper(user);
+				result.put("data",userWrapper);
+				return result;
+			}
+		}
+		catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+	}
+	
 	
 	public static void main(String[] args){
 		String[] imgt = "crop_cache_file.jpg".split("\\.");

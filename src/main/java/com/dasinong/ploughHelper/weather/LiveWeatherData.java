@@ -24,6 +24,8 @@ public class LiveWeatherData {
 	public String l5;
 	public String l6;
 	public String l7;
+	public int daymin=-100;
+	public int daymax=-100;
 
 	/**
 	 * 
