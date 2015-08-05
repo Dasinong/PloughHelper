@@ -82,6 +82,7 @@ public class BaiKeJspController implements Controller {
 	
 	public ModelAndView handleVariety(ModelAndView mv, VarietyWrapper vw){
 		mv.addObject("Name", vw.getVarietyName());
+		mv.addObject("SubId", vw.getSubId());
 		mv.addObject("ExaminationNumber", vw.getRegistrationId());
 		mv.addObject("BreedingUnit", vw.getOwner());
 		mv.addObject("SuitableRegion", vw.getSuitableArea());

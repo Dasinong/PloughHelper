@@ -14,7 +14,8 @@ public class VarietyWrapper {
 	
 	public VarietyWrapper(Variety v){
 		this.id = v.getVarietyId();
-		this.varietyName = v.getVarietyName()+v.getSubId();
+		this.varietyName = v.getVarietyName();
+		this.subId = v.getSubId();
 		this.registrationId = v.getRegisterationId();
 		this.owner = v.getOwner();
 		this.suitableArea = v.getSuitableArea();
