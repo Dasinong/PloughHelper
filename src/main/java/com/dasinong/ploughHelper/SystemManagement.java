@@ -29,4 +29,17 @@ public class SystemManagement {
 		result.put("respCode", 200);
 		return result;
 	}
+	
+	@RequestMapping(value = "/userFeedback", produces="application/json")
+	@ResponseBody
+	public Object userFeedback(HttpServletRequest request, HttpServletResponse response) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		String id = request.getParameter("msgId");
+		String monitorLocationId = request.getParameter("Up_YourNum");
+		String tel = request.getParameter("Up_UserTel");
+		String upUserMsg = request.getParameter("Up_UserMsg");
+		result.put("message", "提交成功");
+		result.put("respCode", 200);
+		return result;
+	}
 }
