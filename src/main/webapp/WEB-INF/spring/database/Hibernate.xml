@@ -49,6 +49,7 @@
 			   <value>/com/dasinong/ploughHelper/model/VarietyBrowse.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/PetDisSpecBrowse.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/CPProductBrowse.hbm.xml</value>
+			   <value>/com/dasinong/ploughHelper/model/Fertilizer.hbm.xml</value>
 			</list>
     	</property>	
     </bean>

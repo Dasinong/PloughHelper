@@ -76,5 +76,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    <bean id="petDisSpecBrowseDao" class="com.dasinong.ploughHelper.dao.PetDisSpecBrowseDao" >
    		<property name="sessionFactory" ref="mySessionFactory"></property>
    </bean>
+   <bean id="fertilizerDao" class="com.dasinong.ploughHelper.dao.FertilizerDao" >
+   		<property name="sessionFactory" ref="mySessionFactory"></property>
+   </bean>
 	
 </beans>
