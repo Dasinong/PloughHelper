@@ -29,18 +29,15 @@ public class BaiKeJspController implements Controller {
     	try{
 	    	switch(type){
 	    	case "pest":
-	    		result = (HashMap<String,Object>)baiKeFacade.getPetDisSpecById(Long.parseLong(id));
-	    		PetDisSpecWrapper  pdsw = (PetDisSpecWrapper)result.get("data");
+	    		PetDisSpecWrapper  pdsw = baiKeFacade.getPetDisSpecById(Long.parseLong(id));
 	    		mv = handlePest(mv,pdsw);
 	    		break;
 	    	case "pesticide":
-	    		result = (HashMap<String,Object>)baiKeFacade.getCPProductById(Long.parseLong(id));
-	    		CPProductWrapper  cpw = (CPProductWrapper)result.get("data");
+	    		CPProductWrapper  cpw = baiKeFacade.getCPProductById(Long.parseLong(id));
 	    		mv = handlePesticide(mv, cpw);
 	    		break;
 	    	case "variety":	    		 
-	    		result = (HashMap<String,Object>)baiKeFacade.getVarietyById(Long.parseLong(id));
-	    		VarietyWrapper  vw = (VarietyWrapper)result.get("data");
+	    		VarietyWrapper  vw = baiKeFacade.getVarietyById(Long.parseLong(id));
 	    		mv = handleVariety(mv, vw);
 	    		break;
 	    	}

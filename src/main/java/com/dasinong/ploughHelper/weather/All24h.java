@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -158,4 +159,5 @@ public class All24h implements IWeatherBuffer{
 		
 		System.out.println(All24h.get24h().updateLocation(101010100));
 	}
+
 }

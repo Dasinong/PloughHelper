@@ -51,60 +51,44 @@ public class BaiKeFacade implements IBaiKeFacade {
 	 * @see com.dasinong.ploughHelper.facade.IBaiKeFacade#getCPProductById(java.lang.Long)
 	 */
 	@Override
-	public Object getCPProductById(Long id) {
-		HashMap<String,Object> result  = new HashMap<String,Object>();
-    	cPProductDao = (ICPProductDao) ContextLoader.getCurrentWebApplicationContext().getBean("cPProductDao");
+	public CPProductWrapper getCPProductById(Long id) {
+		cPProductDao = (ICPProductDao) ContextLoader.getCurrentWebApplicationContext().getBean("cPProductDao");
 		CPProduct pro = cPProductDao.findById(id);
-    	if (pro==null){
-    		result.put("respCode", 400);
-    		result.put("message","农药未找到");
-    		return result;
-    	}
-    	CPProductWrapper  cpw = new CPProductWrapper(pro);
-    	result.put("respCode", 200);
-    	result.put("message", "获得成功");
-    	result.put("data", cpw);
-    	return result;
+		if (pro!=null){
+			CPProductWrapper  cpw = new CPProductWrapper(pro);
+			return cpw;
+		}
+		else return null;
 	}
 	
 	/* (non-Javadoc)
 	 * @see com.dasinong.ploughHelper.facade.IBaiKeFacade#getVarietyById(java.lang.Long)
 	 */
 	@Override
-	public Object getVarietyById(Long id) {
-		HashMap<String,Object> result  = new HashMap<String,Object>();
+	public VarietyWrapper getVarietyById(Long id) {
     	varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 		Variety v = varietyDao.findById(id);
-    	if (v==null){
-    		result.put("respCode", 400);
-    		result.put("message","品种未找到");
-    		return result;
-    	}
-    	VarietyWrapper vw = new VarietyWrapper(v);
-    	result.put("respCode", 200);
-    	result.put("message", "获得成功");
-    	result.put("data", vw);
-    	return result;
+		if (v!=null){
+			VarietyWrapper vw = new VarietyWrapper(v);
+			return vw;
+		}
+		else return null;
 	}
+		
+ 
 	
 	/* (non-Javadoc)
 	 * @see com.dasinong.ploughHelper.facade.IBaiKeFacade#getPetDisSpecById(java.lang.Long)
 	 */
 	@Override
-	public Object getPetDisSpecById(Long id) {
-		HashMap<String,Object> result  = new HashMap<String,Object>();
+	public PetDisSpecWrapper getPetDisSpecById(Long id) {
 		petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
 		PetDisSpec pds = petDisSpecDao.findById(id);
-    	if (pds==null){
-    		result.put("respCode", 400);
-    		result.put("message","病虫草害未找到");
-    		return result;
-    	}
-    	PetDisSpecWrapper  pdsw = new PetDisSpecWrapper(pds);
-    	result.put("respCode", 200);
-    	result.put("message", "获得成功");
-    	result.put("data", pdsw);
-    	return result;
+		if(pds!=null){
+			PetDisSpecWrapper  pdsw = new PetDisSpecWrapper(pds);
+			return pdsw;
+		}
+		else return null;
 	}
 	
 	@Override

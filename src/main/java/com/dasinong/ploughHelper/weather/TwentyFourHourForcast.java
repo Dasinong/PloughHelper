@@ -75,7 +75,7 @@ public class TwentyFourHourForcast {
 		Node root = document.getFirstChild();
 		String startTime = root.getAttributes().getNamedItem("starttime").getNodeValue();
 		startTime = startTime.replace('T', ' ');
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
 	    try {
 			this.startTime = sdf.parse(startTime);
@@ -127,7 +127,7 @@ public class TwentyFourHourForcast {
 		Node root = document.getFirstChild();
 		String startTime = root.getAttributes().getNamedItem("starttime").getNodeValue();
 		startTime = startTime.replace('T', ' ');
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
 	    try {
 			this.startTime = sdf.parse(startTime);

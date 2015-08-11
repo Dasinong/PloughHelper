@@ -122,7 +122,7 @@ public class All7d implements IWeatherBuffer{
 						if (tfhf!=null) tfhf.padding();
 						if ((forcast_time.getTime() - curtime.getTime()<25*60*60*1000) && !HourCity.contains(currentCode)){
 							tfhf = new TwentyFourHourForcast(currentCode);
-							ForcastDInfo fdi = new ForcastDInfo(forcast_time,(int) temp,-1,-1,(double) ff_level,rain,0,0,0,WeatherPhenomena.getWeatherPhenomena().getIcon(weather));
+							ForcastDInfo fdi = new ForcastDInfo(forcast_time,(int) temp,-1,wind7dto24h(ff_level),wins7dto24h(dd_level),rain,0,0,0,WeatherPhenomena.getWeatherPhenomena().getIcon(weather));
 							tfhf.add(fdi);
 							All24h.get24h()._all24h.put(currentCode, tfhf);
 						}
@@ -130,9 +130,9 @@ public class All7d implements IWeatherBuffer{
 						_all7d.put(code, sdf);
 					}
 					else{
-						sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
+						sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp,ff_level, dd_level, rain);
 						if ((forcast_time.getTime() - curtime.getTime()<25*60*60*1000) && !HourCity.contains(currentCode)){
-							ForcastDInfo fdi = new ForcastDInfo(forcast_time,(int) temp,-1,-1,(double) ff_level,rain,0,0,0,WeatherPhenomena.getWeatherPhenomena().getIcon(weather));
+							ForcastDInfo fdi = new ForcastDInfo(forcast_time,(int) temp,-1,wind7dto24h(ff_level),wins7dto24h(dd_level),rain,0,0,0,WeatherPhenomena.getWeatherPhenomena().getIcon(weather));
 							tfhf.add(fdi);
 						}
 					}
@@ -168,6 +168,36 @@ public class All7d implements IWeatherBuffer{
 		else return "No data found. Check whether initialize failed.";
 	}
 	
+	private int wind7dto24h(short ff_level){
+		switch (ff_level){
+			case 0: return 0;
+			case 1: return 45;
+			case 2: return 90;
+			case 3: return 135;
+			case 4: return 180;
+			case 5: return 225;
+			case 6: return 270;
+			case 7: return 315;
+			case 8: return 360;
+			default: return 0;
+		}
+	}
+	
+	private double wins7dto24h(short dd_level){
+		switch (dd_level){
+			case 0: return 2.2;
+			case 1: return 5;
+			case 2: return 6.3;
+			case 3: return 9.1;
+			case 4: return 12;
+			case 5: return 15.5;
+			case 6: return 19.0;
+			case 7: return 22.5;
+			case 8: return 26.9;
+			case 9: return 30.5;
+			default: return 0;
+		}
+	}
 	public static void main(String[] args) throws IOException, ParseException{
 		/*
 		Iterator iter= All7d.getAll7d()._all7d.entrySet().iterator();

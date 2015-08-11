@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.facade.IBaiKeFacade;
+import com.dasinong.ploughHelper.outputWrapper.CPProductWrapper;
+import com.dasinong.ploughHelper.outputWrapper.PetDisSpecWrapper;
+import com.dasinong.ploughHelper.outputWrapper.VarietyWrapper;
 import com.dasinong.ploughHelper.util.FullTextSearch;
 import com.dasinong.ploughHelper.util.Env;
 
@@ -41,12 +44,12 @@ public class BaiKeController {
 		String key = request.getParameter("key");
 		if (key==null ||key.equals("")){
 			result.put("respCode", 300);
-			result.put("message", "参数错误");
+			result.put("message", "参数或参数格式错误");
 		};
 		String type = request.getParameter("type");
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		if (type==null || key.equals("")){
-			result.put("respCode", "200");
+			result.put("respCode", 200);
 			result.put("message", "检索成功");
 			content.put("variety",baiKeFacade.searchVariety(key));
 			content.put("cpproduct",baiKeFacade.searchCPProduct(key));
@@ -79,7 +82,7 @@ public class BaiKeController {
 			result.put("data", target);
 			return result;
 		}
-		result.put("respCode", "302");
+		result.put("respCode", 350);
 		result.put("message", "type内容不支持");
 		return result;
 		
@@ -196,7 +199,18 @@ public class BaiKeController {
 			return result;
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
-	    return baiKeFacade.getVarietyById(id);
+		VarietyWrapper vw = baiKeFacade.getVarietyById(id);
+		if (vw==null){
+			result.put("respCode",450);
+			result.put("message", "品种未找到");
+			return result;
+		}
+		else{
+			result.put("respCode", 200);
+			result.put("message","检索成功");
+			result.put("data",vw);
+			return result;
+		}
 	}
 	
 	@RequestMapping(value = "/getPetDisSpecBaiKeById", produces="application/json")
@@ -213,7 +227,18 @@ public class BaiKeController {
 			return result;
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
-	    return baiKeFacade.getPetDisSpecById(id);
+		PetDisSpecWrapper pdsw = baiKeFacade.getPetDisSpecById(id);
+		if (pdsw==null){
+			result.put("respCode",451);
+			result.put("message", "病虫草害未找到");
+			return result;
+		}
+		else{
+			result.put("respCode", 200);
+			result.put("message","检索成功");
+			result.put("data",pdsw);
+			return result;
+		}
 	}
 	
 	@RequestMapping(value = "/getCPProductById", produces="application/json")
@@ -230,7 +255,18 @@ public class BaiKeController {
 			return result;
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
-	    return baiKeFacade.getCPProductById(id);
+		CPProductWrapper cpw = baiKeFacade.getCPProductById(id);
+		
+    	if (cpw==null){
+    		result.put("respCode", 452);
+    		result.put("message","农药未找到");
+    		return result;
+    	}else{
+    		result.put("respCode", 200);
+    		result.put("message", "获得成功");
+    		result.put("data", cpw);
+    		return result;
+    	}
 	}
 	
 	

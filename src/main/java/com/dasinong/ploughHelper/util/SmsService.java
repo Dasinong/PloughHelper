@@ -6,8 +6,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -90,7 +92,13 @@ public class SmsService {
 	public static synchronized String weatherAlert(String content) {
 		if (Env.getEnv().weatherAlert){
 			String postUrl = "http://cf.51welink.com/submitdata/Service.asmx/g_Submit";
-			content = content+"【今日农事】";
+			if (content.endsWith("Issue loading:")) content = content.substring(0,content.length()-14);
+			try {
+				content = content+" "+ InetAddress.getLocalHost().getHostAddress().toString()+"【今日农事】";
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+				content = content+"【今日农事】";
+			}
 			try {
 				String number="13162881998";
 				String postData = "sname="+ACCOUNT_NAME+"&spwd="+PASSWORD+"&scorpid=&sprdid=1012818&sdst="+number+"&smsg="+URLEncoder.encode(content,"UTF-8");

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.dasinong.ploughHelper.dao.IUserDao;
+import com.dasinong.ploughHelper.dao.UserDao;
 import com.dasinong.ploughHelper.inputParser.UserParser;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
@@ -141,6 +142,7 @@ public class UserController {
 				user.setCellPhone(cellphone);
 				user.setUserName("");
 				user.setPassword(cellphone.substring(cellphone.length()-6));
+				user.setAuthenticated(true);
 
 				userDao.save(user);
 				request.getSession().setAttribute("User", user);
@@ -330,6 +332,9 @@ public class UserController {
 			    return result;
 			}
 			else{
+				user.setAuthenticated(true);
+				UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+				userDao.update(user);
 				result.put("respCode", 120);
 				result.put("message", "尚未验证");
 				return result;
@@ -362,6 +367,8 @@ public class UserController {
 			}
 			else{
 				user.setAuthenticated(true);
+				UserDao userDao = (UserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+				userDao.update(user);
 				result.put("respCode", 210);
 			    result.put("message", "提交验证");
 			    return result;

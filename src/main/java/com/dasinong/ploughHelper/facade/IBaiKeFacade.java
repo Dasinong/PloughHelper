@@ -4,13 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dasinong.ploughHelper.outputWrapper.CPProductWrapper;
+import com.dasinong.ploughHelper.outputWrapper.PetDisSpecWrapper;
+import com.dasinong.ploughHelper.outputWrapper.VarietyWrapper;
+
 public interface IBaiKeFacade {
 
-	public abstract Object getCPProductById(Long id);
+	public abstract CPProductWrapper getCPProductById(Long id);
 
-	public abstract Object getVarietyById(Long id);
+	public abstract VarietyWrapper getVarietyById(Long id);
 
-	public abstract Object getPetDisSpecById(Long id);
+	public abstract PetDisSpecWrapper getPetDisSpecById(Long id);
 
 	Object getCropByType(String type);
 

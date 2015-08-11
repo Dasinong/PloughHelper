@@ -96,6 +96,6 @@ public class WeatherBackEndController {
 		result.put("message", "执行更新");
 		result.put("message", All24h.get24h().updateLocation(monitorLocationId));
 		return result;
-		
 	}
+
 }
