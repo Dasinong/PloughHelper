@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dasinong.ploughHelper.model.Proverb;
 
+@Transactional
 public class ProverbDao extends HibernateDaoSupport implements IProverbDao{
 
 	/* (non-Javadoc)
@@ -67,7 +69,7 @@ public class ProverbDao extends HibernateDaoSupport implements IProverbDao{
 	@Override
 	public Proverb findByMonth(String month){
 		List list = getHibernateTemplate().find(
-				"from Proverb where month like '%?%'",month);
+				"from Proverb where month like '%"+month+"%'");
 		if (list==null||list.isEmpty()){
 			return null;
 		}

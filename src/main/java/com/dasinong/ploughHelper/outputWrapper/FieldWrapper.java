@@ -39,6 +39,8 @@ public class FieldWrapper implements Serializable{
 	private boolean sprayable;
 	private int dayToHarvest;
 	
+	private String cropName;
+	
 	public FieldWrapper(Field field, ITaskSpecDao taskSpecDao, int taskLoadType){
 		this.setFieldId(field.getFieldId());
 		this.fieldName = (field.getFieldName()==null)?"":field.getFieldName();
@@ -104,7 +106,7 @@ public class FieldWrapper implements Serializable{
 				}
 			}
 		}
-
+		this.setCropName(field.getVariety().getCrop().getCropName());
 	}
 
 	public Long getFieldId() {
@@ -251,6 +253,11 @@ public class FieldWrapper implements Serializable{
 		this.sprayable = sprayable;
 	}
 
+	public String getCropName() {
+		return cropName;
+	}
 
-	
+	public void setCropName(String cropName) {
+		this.cropName = cropName;
+	}
 }

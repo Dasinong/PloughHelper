@@ -18,6 +18,8 @@ public class UserWrapper implements Serializable {
 	private boolean authenticated = false;
 	private String pictureId;
 	private String telephone;
+	private String qqtoken;
+	private String weixintoken;
 	
 	private List<Long> fields = new ArrayList<Long>();
 	private List<Integer> monitorLocationId = new ArrayList<Integer>();
@@ -37,6 +39,8 @@ public class UserWrapper implements Serializable {
 		this.setAuthenticated(user.getAuthenticated());
 		this.pictureId = (user.getPictureId()==null)?"":user.getPictureId();
 		this.telephone = (user.getTelephone()==null)?"":user.getTelephone();
+		this.qqtoken = user.getQqtoken();
+		this.weixintoken = user.getWeixintoken();
 	}
 	public Long getUserId() {
 		return userId;
@@ -97,6 +101,18 @@ public class UserWrapper implements Serializable {
 	}
 	public void setIsPassSet(boolean isPassSet) {
 		this.isPassSet = isPassSet;
+	}
+	public String getQqtoken() {
+		return qqtoken;
+	}
+	public void setQqtoken(String qqtoken) {
+		this.qqtoken = qqtoken;
+	}
+	public String getWeixintoken() {
+		return weixintoken;
+	}
+	public void setWeixintoken(String weixintoken) {
+		this.weixintoken = weixintoken;
 	}
 
 }

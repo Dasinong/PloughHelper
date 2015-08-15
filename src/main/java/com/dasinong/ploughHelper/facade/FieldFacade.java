@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
@@ -15,15 +16,15 @@ import com.dasinong.ploughHelper.dao.ILocationDao;
 import com.dasinong.ploughHelper.dao.IPetDisSpecDao;
 import com.dasinong.ploughHelper.dao.ISubStageDao;
 import com.dasinong.ploughHelper.dao.ITaskDao;
+import com.dasinong.ploughHelper.dao.ITaskRegionDao;
 import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.dao.IVarietyDao;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.NatDis;
-import com.dasinong.ploughHelper.model.PetDis;
-import com.dasinong.ploughHelper.model.PetDisSpec;
 import com.dasinong.ploughHelper.model.SubStage;
 import com.dasinong.ploughHelper.model.Task;
+import com.dasinong.ploughHelper.model.TaskRegion;
 import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.Variety;
@@ -40,6 +41,7 @@ public class FieldFacade implements IFieldFacade {
     IVarietyDao varietyDao;
     ISubStageDao subStageDao;
     IPetDisSpecDao petDisSpecDao;
+    ITaskRegionDao taskRegionDao;
 	
 	/* (non-Javadoc)
 	 * @see com.dasinong.ploughHelper.facade.IFieldFacade#createField(com.dasinong.ploughHelper.model.User, com.dasinong.ploughHelper.inputParser.FieldParser)
@@ -55,6 +57,7 @@ public class FieldFacade implements IFieldFacade {
 		taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
 		taskDao = (ITaskDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskDao");
 		petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		taskRegionDao = (ITaskRegionDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskRegionDao");
 	    
 	    Map<String,Object> result = new HashMap<String,Object>();
 	    try {
@@ -116,11 +119,18 @@ public class FieldFacade implements IFieldFacade {
 	         fd.save(field);
 	         
 	         //初始化所有常见任务
+	         
 	         if (variety.getSubStages()!=null){
 		         for(SubStage ss : variety.getSubStages()){
 		        	if (ss.getTaskSpecs()!=null){
+		        		List<TaskRegion> trl = taskRegionDao.findByTaskRegion(field.getLocation().getRegion());
+		        		Set<Long> tasks = new HashSet<Long>();
+		        		for(TaskRegion tr : trl){
+		        			tasks.add(tr.getTaskSpecId());
+		        		}
 		        		for (TaskSpec ts : ss.getTaskSpecs()){
-		        			if (ts.getFitRegion().contains(field.getLocation().getRegion())){
+		        			//if (ts.getFitRegion().contains(field.getLocation().getRegion())){
+		        			if(tasks.contains(ts.getTaskSpecId())){
 			        			 Task t = new Task(ts,false);
 			        			 t.setFieldId(field.getFieldId());
 			        			 taskDao.save(t);

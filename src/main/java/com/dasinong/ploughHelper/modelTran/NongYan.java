@@ -34,7 +34,7 @@ public class NongYan {
 		try{			 
 			LunarHelper lh = new LunarHelper(today);		
 			String jieqi = lh.getJieQi();
-			if (!jieqi.equals("")){
+			if (!"".equals(jieqi)){
 				proverb = proverbDao.findByLunarCalender(jieqi);				
 			}
 		}catch(Exception e){

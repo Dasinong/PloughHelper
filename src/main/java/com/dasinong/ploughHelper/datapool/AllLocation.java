@@ -1,5 +1,4 @@
 package com.dasinong.ploughHelper.datapool;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.context.ContextLoader;
@@ -12,7 +11,6 @@ public class AllLocation {
 	private static AllLocation allLocation;
 	private AllLocation(){
 			ILocationDao locationDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
- 	        set_allLoc(locationDao.getAll());
 	}
 	
 	public static AllLocation getLocation(){

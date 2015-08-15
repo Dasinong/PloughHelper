@@ -16,9 +16,13 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.IFieldDao;
 import com.dasinong.ploughHelper.dao.IStepDao;
+import com.dasinong.ploughHelper.dao.IStepRegionDao;
+import com.dasinong.ploughHelper.dao.ITaskRegionDao;
 import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Step;
+import com.dasinong.ploughHelper.model.StepRegion;
+import com.dasinong.ploughHelper.model.TaskRegion;
 import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.outputWrapper.StepWrapper;
 import com.dasinong.ploughHelper.outputWrapper.TaskSpecWrapper;
@@ -29,6 +33,7 @@ public class TaskSpecFacade implements ITaskSpecFacade {
 	ITaskSpecDao taskSpecDao;
 	IFieldDao fieldDao;
 	IStepDao stepDao;
+    IStepRegionDao stepRegionDao;
 	/* (non-Javadoc)
 	 * @see com.dasinong.ploughHelper.facade.ITaskSpecFacade#getTaskSpec(java.lang.Long)
 	 */
@@ -56,11 +61,11 @@ public class TaskSpecFacade implements ITaskSpecFacade {
 	public Object getSteps(Long taskSpecId,Long fieldId) {
 		stepDao = (IStepDao) ContextLoader.getCurrentWebApplicationContext().getBean("stepDao");
 		fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
+		stepRegionDao = (IStepRegionDao) ContextLoader.getCurrentWebApplicationContext().getBean("stepRegionDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
 			List<Step> steps = stepDao.findByTaskSpecId(taskSpecId);
 			Field field = fieldDao.findById(fieldId);
-			String region = field.getLocation().getRegion();
 			List<StepWrapper> vaildS = new ArrayList<StepWrapper>();
 			if (steps==null){
 				result.put("respCode",400);
@@ -68,8 +73,17 @@ public class TaskSpecFacade implements ITaskSpecFacade {
 				return result;
 			}
 			Set<String> pictures = new HashSet<String>();
+			
+			
+			List<StepRegion> srl = stepRegionDao.findByStepRegion(field.getLocation().getRegion());
+    		Set<Long> sIds = new HashSet<Long>();
+    		for(StepRegion sr : srl){
+    			sIds.add(sr.getStepId());
+    		}
+
 			for (Step s :  steps){
-				if (s.getFitRegion().contains(region)){
+				//if (s.getFitRegion().contains(region)){
+				if(sIds.contains(s.getStepId())){
 					StepWrapper sw = new StepWrapper(s);
 					String[] pictureNames = s.getPicture().split(",");
 					if (pictureNames!=null && pictureNames.length>=1){

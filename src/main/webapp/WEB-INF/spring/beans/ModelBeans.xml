@@ -79,5 +79,11 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    <bean id="fertilizerDao" class="com.dasinong.ploughHelper.dao.FertilizerDao" >
    		<property name="sessionFactory" ref="mySessionFactory"></property>
    </bean>
+    <bean id="taskRegionDao" class="com.dasinong.ploughHelper.dao.TaskRegionDao" >
+   		<property name="sessionFactory" ref="mySessionFactory"></property>
+   </bean>
+    <bean id="stepRegionDao" class="com.dasinong.ploughHelper.dao.StepRegionDao" >
+   		<property name="sessionFactory" ref="mySessionFactory"></property>
+   </bean>
 	
 </beans>
