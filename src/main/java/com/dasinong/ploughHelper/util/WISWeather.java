@@ -110,7 +110,7 @@ public class WISWeather {
 
 	
 	public static void main(String[] args){
-		WISWeather wisw = new WISWeather("101020100","rforecast7d");
+		WISWeather wisw = new WISWeather("101020100","forecast7d");
 		wisw.Commute();
 	}
 

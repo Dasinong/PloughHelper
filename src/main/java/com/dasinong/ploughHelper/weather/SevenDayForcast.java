@@ -54,7 +54,7 @@ public class SevenDayForcast {
 	private int ac=0;
 	public int code;
 	public Date startDate;
-	public ForcastInfo[] rawData = new ForcastInfo[36];
+	public ForcastInfo[] rawData = new ForcastInfo[38];
 	public ForcastInfo[] aggregateData = new ForcastInfo[8];
 	
 	public SevenDayForcast(int code, Date startDate){

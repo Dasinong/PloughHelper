@@ -17,6 +17,7 @@ public class Env {
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
 			WorkingDir = "E:/git";
 			DataDir = "E:/index";
+			LuceneDir = "E:/index";
 			if (System.getProperty("user.name").equalsIgnoreCase("Jason Wu")) {
 				WorkingDir = "C:/Users/Jason Wu/workspace";
 				DataDir = "G:/index";
@@ -26,6 +27,12 @@ public class Env {
 			}
 			BaseFTP = WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
 			BaseDATA =WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
+			weatherAlert=false;
+		}else if(System.getProperty("os.name").equalsIgnoreCase("Mac OS X")){
+			WorkingDir = "/Users/jiangsean/git";
+			BaseFTP = WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
+			BaseDATA =WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/";
+			LuceneDir = "/Users/";
 			weatherAlert=false;
 		}
 		else{
@@ -41,11 +48,15 @@ public class Env {
 	public String BaseDATA;
 	public String WorkingDir;
 	public String DataDir;
+	public String LuceneDir;
 	public boolean isDebug;
 	public boolean weatherAlert;
 	public int sessionTimeout=60000; //1000 min;
+	public long live7dBufferTime=60*60*1000; //20min;
 	
 	public static void main(String[] args){
+		System.out.println(System.getProperty("os.name"));
+		System.out.println(System.getProperty("user.name"));
 		System.out.println(Env.getEnv().WorkingDir);
 		System.out.println(Env.getEnv().BaseFTP);
 		System.out.println(Env.getEnv().BaseDATA);
