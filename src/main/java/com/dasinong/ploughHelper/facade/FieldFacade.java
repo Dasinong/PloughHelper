@@ -47,9 +47,9 @@ public class FieldFacade implements IFieldFacade {
 	 * @see com.dasinong.ploughHelper.facade.IFieldFacade#createField(com.dasinong.ploughHelper.model.User, com.dasinong.ploughHelper.inputParser.FieldParser)
 	 */
 	@Override
-	public Object createField(User user, String fieldName, Date startDate,
+	public FieldWrapper createField(User user, String fieldName, Date startDate,
 			boolean isActive, boolean seedingortransplant, double area,
-			long locationId, long varietyId, String currentStageId,String yield) {
+			long locationId, long varietyId, String currentStageId,String yield) throws Exception {
 		fd = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		ldDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
 		varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
@@ -60,106 +60,97 @@ public class FieldFacade implements IFieldFacade {
 		taskRegionDao = (ITaskRegionDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskRegionDao");
 	    
 	    Map<String,Object> result = new HashMap<String,Object>();
-	    try {
-	    	 Location location = ldDao.findById(locationId);
-	         Variety variety = varietyDao.findById(varietyId);
-	         if (location==null || variety ==null){
-	          	Exception e = new Exception("locationId或varietyId无效");
-	           	throw e;
-	         }
-	         Long csid; 
-	         Long yie;
-	         if (currentStageId == null || currentStageId.equalsIgnoreCase("")){
-	        	 if (variety.getSubStages()!=null && variety.getSubStages().size()!=0){
-	        		 csid = variety.getSubStages().iterator().next().getSubStageId();
-	        	 }
-	        	 else csid=0L;
-	         }
-	         else{
-	        	 csid = Long.parseLong(currentStageId);
-	         }
-	         
-	         if (yield == null || yield.equalsIgnoreCase("")){
-	        	 yie = 0L;
-	         }
-	         else{
-	        	 yie = Long.parseLong(yield);
-	         }
-	         if (fieldName == null || fieldName.equals("")){
-	        	 fieldName = location.getCommunity()+variety.getVarietyName();
-	         }
-	         Field field = new Field();
-	         //Following part is to remove duplicated field name for same user. Be careful of  performance impact. 
-	         List<String> fieldNames = new ArrayList<String>();
-	         for(Field f: user.getFields()){
-	        	 fieldNames.add(f.getFieldName());
-	         }
-	         
-	         int fc=2;
-	         String newName = fieldName;
-	         while(fieldNames.contains(newName)){
-	        	 newName=fieldName+fc;
-	        	 fc++;
-	         }
-	         field.setFieldName(newName);
-	         field.setIsActive(isActive);
-	         field.setSeedortrans(seedingortransplant);
-	         field.setArea(area);
-	         field.setStartDate(startDate);
-	         field.setLocation(location);
-	         field.setVariety(variety);
-	         field.setCurrentStageID(csid);
-	         field.setUser(user);   
-	         field.setYield(yie);
-	         
-	         double lat = location.getLatitude();
-	         double lon = location.getLongtitude();
-	         int monitorLocationId = AllLocation.getLocation().getNearest(lat, lon);
-	         field.setMonitorLocationId(monitorLocationId);
-	         fd.save(field);
-	         
-	         //初始化所有常见任务
-	         
-	         if (variety.getSubStages()!=null){
-		         for(SubStage ss : variety.getSubStages()){
-		        	if (ss.getTaskSpecs()!=null){
-		        		List<TaskRegion> trl = taskRegionDao.findByTaskRegion(field.getLocation().getRegion());
-		        		Set<Long> tasks = new HashSet<Long>();
-		        		for(TaskRegion tr : trl){
-		        			tasks.add(tr.getTaskSpecId());
-		        		}
-		        		for (TaskSpec ts : ss.getTaskSpecs()){
-		        			//if (ts.getFitRegion().contains(field.getLocation().getRegion())){
-		        			if(tasks.contains(ts.getTaskSpecId())){
-			        			 Task t = new Task(ts,false);
-			        			 t.setFieldId(field.getFieldId());
-			        			 taskDao.save(t);
-			        			 if (field.getTasks()==null) field.setTasks(new HashMap<Long,Task>());
-			        			 field.getTasks().put(t.getTaskId(), t);
-		        			}
-		        		}
-		        	 }
-		         }
-	         }
-	        
-	        if (user.getFields()!=null){
-	        	user.getFields().add(field);
-	        }
-	        else{
-	        	user.setFields(new HashSet<Field>());
-	        	user.getFields().add(field);
-	        }
 
-			FieldWrapper fw = new FieldWrapper(field,taskSpecDao,1);
-			result.put("respCode", 200);
-			result.put("message", "添加田地成功");
-			result.put("data",fw);
-			return result;
-		} catch (Exception e) {
-			result.put("respCode",500);
-			result.put("message", e.getCause());
-			return result;
-		}
+	    Location location = ldDao.findById(locationId);
+	    Variety variety = varietyDao.findById(varietyId);
+	    if (location==null || variety ==null){
+	       	Exception e = new Exception("locationId或varietyId无效");
+          	throw e;
+        }
+	    Long csid; 
+	    Long yie;
+	    if (currentStageId == null || currentStageId.equalsIgnoreCase("")){
+	       	 if (variety.getSubStages()!=null && variety.getSubStages().size()!=0){
+	       		 csid = variety.getSubStages().iterator().next().getSubStageId();
+	       	 }
+	       	 else csid=0L;
+         }
+	     else{
+	       	 csid = Long.parseLong(currentStageId);
+	     }
+         
+	     if (yield == null || yield.equalsIgnoreCase("")){
+	       	 yie = 0L;
+         }
+         else{
+        	 yie = Long.parseLong(yield);
+	     }
+	     if (fieldName == null || fieldName.equals("")){
+	    	 fieldName = location.getCommunity()+variety.getVarietyName();
+	     }
+	     Field field = new Field();
+         //Following part is to remove duplicated field name for same user. Be careful of  performance impact. 
+	     List<String> fieldNames = new ArrayList<String>();
+	     for(Field f: user.getFields()){
+	       	 fieldNames.add(f.getFieldName());
+	     }
+	         
+         int fc=2;
+         String newName = fieldName;
+	     while(fieldNames.contains(newName)){
+	       	 newName=fieldName+fc;
+        	 fc++;
+       	 }
+         field.setFieldName(newName);
+         field.setIsActive(isActive);
+	     field.setSeedortrans(seedingortransplant);
+	     field.setArea(area);
+	     field.setStartDate(startDate);
+	     field.setLocation(location);
+	     field.setVariety(variety);
+	     field.setCurrentStageID(csid);
+	     field.setUser(user);   
+	     field.setYield(yie);
+	         
+	     double lat = location.getLatitude();
+         double lon = location.getLongtitude();
+         int monitorLocationId = AllLocation.getLocation().getNearest(lat, lon);
+	     field.setMonitorLocationId(monitorLocationId);
+         fd.save(field);
+	         
+       //初始化所有常见任务	         
+         if (variety.getSubStages()!=null){
+	        for(SubStage ss : variety.getSubStages()){
+	        	if (ss.getTaskSpecs()!=null){
+	        		List<TaskRegion> trl = taskRegionDao.findByTaskRegion(field.getLocation().getRegion());
+		        	Set<Long> tasks = new HashSet<Long>();
+		       		for(TaskRegion tr : trl){
+		       			tasks.add(tr.getTaskSpecId());
+		       		}
+		       		for (TaskSpec ts : ss.getTaskSpecs()){
+		       			//if (ts.getFitRegion().contains(field.getLocation().getRegion())){
+		       			if(tasks.contains(ts.getTaskSpecId())){
+		        			 Task t = new Task(ts,false);
+		        			 t.setFieldId(field.getFieldId());
+		        			 taskDao.save(t);
+		        			 if (field.getTasks()==null) field.setTasks(new HashMap<Long,Task>());
+			        			 field.getTasks().put(t.getTaskId(), t);
+		        		}
+		        	}
+		       	 }
+	        }
+        }
+         
+	    if (user.getFields()!=null){
+        	user.getFields().add(field);
+        }
+	    else{
+        	user.setFields(new HashSet<Field>());
+        	user.getFields().add(field);
+	    }
+
+		FieldWrapper fw = new FieldWrapper(field,taskSpecDao,1);
+		return fw;	    
 	}
 	
 	@Override

@@ -22,6 +22,7 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.facade.IFieldFacade;
 import com.dasinong.ploughHelper.model.User;
+import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
 
 
 @Controller
@@ -80,8 +81,20 @@ public class FieldController {
 		}
   	    
 	    IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");
-		return ff.createField(user, fieldName,startDate,isActive,seedingortransplant,area,locationId,varietyId,currentStageId,yield);
-
+		try{
+			FieldWrapper fw = ff.createField(user, fieldName, startDate, isActive, seedingortransplant, area, 
+					locationId, varietyId, currentStageId, yield);
+			result.put("respCode", 200);
+			result.put("message", "添加田地成功");
+			result.put("data",fw);
+			return result;
+		}
+		catch (Exception e) {
+			result.put("respCode",500);
+			result.put("message", e.getCause());
+			return result;
+		}
+	    
 	}
 	
 	

@@ -1,13 +1,17 @@
 package com.dasinong.ploughHelper.ruleEngine.rules;
 
 import com.dasinong.ploughHelper.weather.All24h;
+import com.dasinong.ploughHelper.weather.GetLive24h;
 import com.dasinong.ploughHelper.weather.TwentyFourHourForcast;
 
 //This class is to define rules with direct data in hand.
 public class Rule {
 	public static int workable(int monitorLocationId){
 		int workable=1;
-		TwentyFourHourForcast tfhf = All24h.get24h().get24h(monitorLocationId);
+		TwentyFourHourForcast tfhf;
+		GetLive24h g24 = new GetLive24h(""+monitorLocationId);
+		tfhf = g24.getLiveWeather();
+		if (tfhf==null) tfhf = All24h.get24h().get24h(monitorLocationId);
 		if (tfhf == null){
 			System.out.println("获取"+monitorLocationId+"地区24小时预测失败");
 			workable=-1;
@@ -22,7 +26,10 @@ public class Rule {
 	
 	public static int sprayable(int monitorLocationId){
 		int sprayable=1;
-		TwentyFourHourForcast tfhf = All24h.get24h().get24h(monitorLocationId);
+		TwentyFourHourForcast tfhf;
+		GetLive24h g24 = new GetLive24h(""+monitorLocationId);
+		tfhf = g24.getLiveWeather();
+		if (tfhf==null) tfhf = All24h.get24h().get24h(monitorLocationId);
 		if (tfhf == null){
 			System.out.println("获取"+monitorLocationId+"地区24小时预测失败");
 			sprayable=-1;

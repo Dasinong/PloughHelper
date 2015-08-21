@@ -8,6 +8,7 @@ import com.dasinong.ploughHelper.weather.AllLocation;
 import com.dasinong.ploughHelper.weather.All24h;
 import com.dasinong.ploughHelper.weather.All7d;
 import com.dasinong.ploughHelper.weather.ForcastDInfo;
+import com.dasinong.ploughHelper.weather.GetLive24h;
 import com.dasinong.ploughHelper.weather.GetLiveWeather;
 import com.dasinong.ploughHelper.weather.LiveWeatherData;
 import com.dasinong.ploughHelper.weather.TwentyFourHourForcast;
@@ -46,7 +47,10 @@ public class WeatherFacade implements IWeatherFacade {
 		
 		
 		//获得12小时天气
-		TwentyFourHourForcast tfhf = All24h.get24h().get24h(areaId);
+		TwentyFourHourForcast tfhf;
+		GetLive24h g24 = new GetLive24h(areaId.toString());
+		tfhf = g24.getLiveWeather();
+		if (tfhf==null) tfhf = All24h.get24h().get24h(areaId);
 		if (tfhf!=null){
 			try {
 				//ForcastDInfo[] n24h = tfhf.info;

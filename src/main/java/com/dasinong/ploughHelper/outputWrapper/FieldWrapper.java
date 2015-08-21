@@ -83,7 +83,21 @@ public class FieldWrapper implements Serializable{
 		
 		this.setWorkable(true);
 		this.setSprayable(true);
+		
+		//Compute day to Harvest here
+		if (field.getVariety().getFullCycleDuration()!=0){
+			//Check whether the date make sense.
+			Date date = new Date();
+			int dayTH= (int) Math.floor(field.getVariety().getFullCycleDuration()-
+					(date.getTime() - field.getStartDate().getTime())/24/60/60/1000);
+			if (dayTH>0){
+				field.setDayToHarvest(dayTH);
+			}else {
+				field.setDayToHarvest(0);
+			}
+		}
 		this.setDayToHarvest(field.getDayToHarvest());
+		
 		
 		if (field.getVariety().getSubStages()!=null){
 			for(SubStage ss : field.getVariety().getSubStages()){
