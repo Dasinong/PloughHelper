@@ -56,7 +56,8 @@ public class CropDao extends HibernateDaoSupport implements ICropDao{
 	@Override
 	public List<Crop> findByType(String type) {
 		List list = getHibernateTemplate().find(
-				"from Crop where type=?",type);
+				//"from Crop where type=?",type);
+				"from Crop where type like '%"+type +"%'");
 		if (list==null||list.isEmpty()){
 			return new ArrayList<Crop>();
 		}

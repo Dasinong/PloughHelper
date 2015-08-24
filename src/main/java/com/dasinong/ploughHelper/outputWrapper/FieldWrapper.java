@@ -2,7 +2,6 @@ package com.dasinong.ploughHelper.outputWrapper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +13,6 @@ import com.dasinong.ploughHelper.model.PetDis;
 import com.dasinong.ploughHelper.model.PetDisSpec;
 import com.dasinong.ploughHelper.model.SubStage;
 import com.dasinong.ploughHelper.model.Task;
-import com.dasinong.ploughHelper.ruleEngine.rules.Rule;
 
 public class FieldWrapper implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -26,6 +24,7 @@ public class FieldWrapper implements Serializable{
 	private long userId;
 	private long locationId;
 	private int monitorLocationId;
+	private List<SubStageWrapper> stage = new ArrayList<SubStageWrapper>();
 	private List<TaskWrapper> taskws = new ArrayList<TaskWrapper>();
 	private List<PetDisWrapper> petdisws =  new ArrayList<PetDisWrapper>();
 	private List<NatDisWrapper> natdisws = new ArrayList<NatDisWrapper>();
@@ -89,7 +88,7 @@ public class FieldWrapper implements Serializable{
 			//Check whether the date make sense.
 			Date date = new Date();
 			int dayTH= (int) Math.floor(field.getVariety().getFullCycleDuration()-
-					(date.getTime() - field.getStartDate().getTime())/24/60/60/1000);
+					(date.getTime() - field.getStartDate().getTime())/24/60/60/1000+field.getDayOffset());
 			if (dayTH>0){
 				field.setDayToHarvest(dayTH);
 			}else {
@@ -101,6 +100,7 @@ public class FieldWrapper implements Serializable{
 		
 		if (field.getVariety().getSubStages()!=null){
 			for(SubStage ss : field.getVariety().getSubStages()){
+				stage.add(new SubStageWrapper(ss));
 				if (ss.getSubStageId() == field.getCurrentStageID()){
 					if(ss.getPetDisSpecs()!=null){
 						List<PetDisSpec> pdlist = new ArrayList<PetDisSpec>();

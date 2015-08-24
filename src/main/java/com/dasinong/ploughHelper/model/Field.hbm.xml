@@ -45,6 +45,15 @@
         <property name="currentStageID" type="java.lang.Long">
             <column name="currentStageID" length="10" />
         </property>
+        <property name="isJustSet" type="java.lang.Boolean">
+            <column name="isJustSet"/>
+        </property>
+        <property name="dayOffset" type="double">
+            <column name="dayOffset" length="10" />
+        </property>
+        <property name="lastForceSet" type="timestamp">
+            <column name="lastForceSet"/>
+        </property>
         <property name="startDate" type="timestamp">
             <column name="startDate"/>
         </property>

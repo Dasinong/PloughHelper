@@ -95,20 +95,18 @@ public class SmsService {
 			String number="";
 			String postData = "";
 			try {
-				if (content.contains("failed")||content.trim().endsWith("Issue loading:"))
+				if (content.trim().endsWith("Issue loading:")) content = content.substring(0,content.length()-14);
+				try {
+					content = content+" "+ InetAddress.getLocalHost().getHostAddress().toString()+"【今日农事】";
+				} catch (UnknownHostException e1) {
+					e1.printStackTrace();
+					content = content+"【今日农事】";
+				}
+				if (content.contains("failed")||content.contains("Issue loading:"))
 				{
 					number="15311733826";
 					postData = "sname="+ACCOUNT_NAME+"&spwd="+PASSWORD+"&scorpid=&sprdid=1012818&sdst="+number+"&smsg="+URLEncoder.encode(content,"UTF-8");
 					SMS(postData, postUrl);
-				}
-				else{
-					if (content.trim().endsWith("Issue loading:")) content = content.substring(0,content.length()-14);
-					try {
-						content = content+" "+ InetAddress.getLocalHost().getHostAddress().toString()+"【今日农事】";
-					} catch (UnknownHostException e1) {
-						e1.printStackTrace();
-						content = content+"【今日农事】";
-					}
 				}
 				number="13162881998";
 				postData = "sname="+ACCOUNT_NAME+"&spwd="+PASSWORD+"&scorpid=&sprdid=1012818&sdst="+number+"&smsg="+URLEncoder.encode(content,"UTF-8");

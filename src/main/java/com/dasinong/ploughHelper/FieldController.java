@@ -152,12 +152,14 @@ public class FieldController {
 		}
   	    
 	    IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");
-		return ff.changeField(fieldId,currentStageId);
-
+		FieldWrapper fw = ff.changeField(fieldId,currentStageId);
+		result.put("respCode",200);
+		result.put("message","更换阶段成功");
+		result.put("data", fw);
+		return result;
 	}
+	
 	public static void main(String[] args) throws ParseException{
-
-
 		
 	}
 		

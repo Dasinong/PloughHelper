@@ -111,6 +111,12 @@ public class FieldFacade implements IFieldFacade {
 	     field.setCurrentStageID(csid);
 	     field.setUser(user);   
 	     field.setYield(yie);
+	     
+	     Date date = new Date();
+	     field.setLastForceSet(date);
+	     field.setDayOffset(0);
+	     field.setIsJustSet(true);
+	     computeStage(field);
 	         
 	     double lat = location.getLatitude();
          double lon = location.getLongtitude();
@@ -120,9 +126,9 @@ public class FieldFacade implements IFieldFacade {
 	         
        //初始化所有常见任务	         
          if (variety.getSubStages()!=null){
+        	 List<TaskRegion> trl = taskRegionDao.findByTaskRegion(field.getLocation().getRegion());
 	        for(SubStage ss : variety.getSubStages()){
 	        	if (ss.getTaskSpecs()!=null){
-	        		List<TaskRegion> trl = taskRegionDao.findByTaskRegion(field.getLocation().getRegion());
 		        	Set<Long> tasks = new HashSet<Long>();
 		       		for(TaskRegion tr : trl){
 		       			tasks.add(tr.getTaskSpecId());
@@ -157,23 +163,87 @@ public class FieldFacade implements IFieldFacade {
 	public Object addWeatherAlert(NatDis natdis){
 		
 		Map<String,Object> result = new HashMap<String,Object>();
-
 		return result;
 		
 	}
 
 	@Override
-	public Object changeField(Long fieldId, Long currentStageId) {
-		HashMap<String,Object> result = new HashMap<String,Object>();
+	public FieldWrapper changeField(Long fieldId, Long currentStageId) {
 		fd = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
 		Field f = fd.findById(fieldId);
 		f.setCurrentStageID(currentStageId);
+		f.setLastForceSet(new Date());
+		f.setIsJustSet(true);
+		computeStage(f);
 		fd.update(f);
 		FieldWrapper fw = new FieldWrapper(f,taskSpecDao,2);
-		result.put("respCode", 200);
-		result.put("message", "更换阶段成功");
-		result.put("data",fw);
-		return result;
+		return fw;
+	}
+	
+	
+	private long computeStage(Field field){
+		long currentStage = field.getCurrentStageID();
+		if (field.getVariety().getFullCycleDuration() == 0) return currentStage;
+		boolean foundStage = false;
+		long computedStage = 0 ;
+		Date date = new Date();
+		double pastDay = (date.getTime() - field.getStartDate().getTime())/24/60/60/1000;
+		double act_Exp_Cycle = (pastDay+field.getDayOffset())/field.getVariety().getFullCycleDuration()*100;
+		double sel_Cycle_min = 0;
+		double cycle_count = 0;
+		double cur_Cycle=0;
+		//Compute currentStage 
+		if (field.getVariety().getCrop().getCropId() == 223L){
+			//subStage must iterator follow stageId
+			for (SubStage subStage : field.getVariety().getSubStages()){
+				if (subStage.getSubStageId()<currentStage){
+					if (field.getVariety().getFullCycleDuration()<125){
+						sel_Cycle_min += subStage.getDurationLow();
+					}else if(field.getVariety().getFullCycleDuration()<150){
+						sel_Cycle_min += subStage.getDurationMid();
+					}else{
+						sel_Cycle_min += subStage.getDurationHigh();
+					}
+				}
+				if (subStage.getSubStageId()==currentStage){
+					if (field.getVariety().getFullCycleDuration()<125) cur_Cycle = subStage.getDurationLow();
+					else if(field.getVariety().getFullCycleDuration()<150) cur_Cycle = subStage.getDurationMid();
+					else cur_Cycle = subStage.getDurationHigh(); 
+				}
+				if (field.getVariety().getFullCycleDuration()<125) cycle_count += subStage.getDurationLow();
+				else if(field.getVariety().getFullCycleDuration()<150) cycle_count += subStage.getDurationMid();
+				else cycle_count += subStage.getDurationHigh(); 
+				if (cycle_count>act_Exp_Cycle && !foundStage){
+					computedStage = subStage.getSubStageId();
+					foundStage=true;
+				}
+			}
+		}
+	
+		//用户当天是否强制设置过阶段
+		if (field.getLastForceSet().getDate()==date.getDate()){
+			//第一次设定会重新计算offset
+			if (field.getIsJustSet()){
+				if(computedStage<currentStage){
+					double newOffset = field.getVariety().getFullCycleDuration()*(sel_Cycle_min)/100-pastDay;
+					field.setDayOffset(newOffset*0.2 + field.getDayOffset()*0.8);
+				}else if (computedStage>currentStage){
+					double newOffset = field.getVariety().getFullCycleDuration()*(sel_Cycle_min+cur_Cycle)/100-pastDay;
+					field.setDayOffset(newOffset*0.2 + field.getDayOffset()*0.8);
+				}
+				field.setIsJustSet(false);
+			}
+			return currentStage;
+		}else{
+			if (foundStage) {
+				if(computedStage<field.getCurrentStageID()){
+					System.out.println("Warning: Field "+field.getFieldId()+"'s computedStage is less than currentStage");
+				}else{
+					field.setCurrentStageID(computedStage);
+				}
+			}
+			return field.getCurrentStageID();
+		}
 	}
 }

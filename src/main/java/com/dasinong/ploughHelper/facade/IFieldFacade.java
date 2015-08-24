@@ -14,6 +14,6 @@ public interface IFieldFacade {
 
 	Object addWeatherAlert(NatDis natdis);
 
-	public abstract Object changeField(Long fieldId, Long currentStageId);
+	public abstract FieldWrapper changeField(Long fieldId, Long currentStageId);
 
 }

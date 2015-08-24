@@ -36,8 +36,10 @@ public class AllLocation {
 		String fullpath="";
 	    if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
 	       	fullpath = Env.getEnv().WorkingDir+"/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt";
+	    }else if (System.getProperty("os.name").equalsIgnoreCase("Mac OS X")){
+	       	fullpath = Env.getEnv().WorkingDir+"/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt";
 	    }else{
-	       	fullpath = Env.getEnv().WorkingDir+"/data/ftp/monitorLocation";
+	    	fullpath = Env.getEnv().WorkingDir+"/data/ftp/monitorLocation";
 	    }
 	    
 		File f = new File(fullpath);

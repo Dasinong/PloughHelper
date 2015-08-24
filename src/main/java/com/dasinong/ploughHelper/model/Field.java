@@ -22,6 +22,9 @@ public class Field implements Serializable{
 	private Map<Long, NatDis> natDiss;
 	
 	private long currentStageID;
+	private Date lastForceSet;
+	private boolean isJustSet;
+	private double dayOffset;
 	private Date startDate;
 	private Date endDate;
 	private long yield;
@@ -37,7 +40,8 @@ public class Field implements Serializable{
     //SoilType	SoilN	SoilK	SoilP	SoilOrganic	SoilPH	SoilS	SoilMg	SoilCa	SoilFe	SoilMo	SoilB	SoilMn	Soilzn	SoilCu	SoilCI	
 	private Set<SoilTestReport> soilTestReports = new TreeSet<SoilTestReport>();
 	
-	public Field(){};
+	public Field(){
+	};
 	public Field(String fieldName,Variety variety,User user,Location location){
 		this.fieldName=fieldName;
 		this.variety = variety;
@@ -165,6 +169,24 @@ public class Field implements Serializable{
 	}
 	public void setDayToHarvest(int dayToHarvest) {
 		this.dayToHarvest = dayToHarvest;
+	}
+	public Date getLastForceSet() {
+		return lastForceSet;
+	}
+	public void setLastForceSet(Date lastForceSet) {
+		this.lastForceSet = lastForceSet;
+	}
+	public boolean getIsJustSet() {
+		return isJustSet;
+	}
+	public void setIsJustSet(boolean isJustSet) {
+		this.isJustSet = isJustSet;
+	}
+	public double getDayOffset() {
+		return dayOffset;
+	}
+	public void setDayOffset(double dayOffset) {
+		this.dayOffset = dayOffset;
 	}
 
 }
