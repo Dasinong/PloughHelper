@@ -24,7 +24,7 @@ public class FieldWrapper implements Serializable{
 	private long userId;
 	private long locationId;
 	private int monitorLocationId;
-	private List<SubStageWrapper> stage = new ArrayList<SubStageWrapper>();
+	private List<SubStageWrapper> stagelist = new ArrayList<SubStageWrapper>();
 	private List<TaskWrapper> taskws = new ArrayList<TaskWrapper>();
 	private List<PetDisWrapper> petdisws =  new ArrayList<PetDisWrapper>();
 	private List<NatDisWrapper> natdisws = new ArrayList<NatDisWrapper>();
@@ -100,7 +100,7 @@ public class FieldWrapper implements Serializable{
 		
 		if (field.getVariety().getSubStages()!=null){
 			for(SubStage ss : field.getVariety().getSubStages()){
-				stage.add(new SubStageWrapper(ss));
+				stagelist.add(new SubStageWrapper(ss));
 				if (ss.getSubStageId() == field.getCurrentStageID()){
 					if(ss.getPetDisSpecs()!=null){
 						List<PetDisSpec> pdlist = new ArrayList<PetDisSpec>();
@@ -274,4 +274,14 @@ public class FieldWrapper implements Serializable{
 	public void setCropName(String cropName) {
 		this.cropName = cropName;
 	}
+
+	public List<SubStageWrapper> getStagelist() {
+		return stagelist;
+	}
+
+	public void setStagelist(List<SubStageWrapper> stagelist) {
+		this.stagelist = stagelist;
+	}
+	
+	
 }

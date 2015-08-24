@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SubStage implements Serializable{
+public class SubStage implements Serializable,Comparable<SubStage>{
 	private static final long serialVersionUID = 1L;
 	
 	private Long subStageId;
@@ -120,6 +120,11 @@ public class SubStage implements Serializable{
 	}
 	public void setMinFieldHumidity(int minFieldHumidity) {
 		this.minFieldHumidity = minFieldHumidity;
+	}
+	@Override
+	public int compareTo(SubStage target) {
+		if (this.subStageId>target.subStageId) return 1;
+		else return -1;
 	}
 
 }

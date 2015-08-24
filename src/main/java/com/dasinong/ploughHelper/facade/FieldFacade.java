@@ -31,6 +31,8 @@ import com.dasinong.ploughHelper.model.Variety;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
 import com.dasinong.ploughHelper.weather.AllLocation;
 
+import java.util.Collections;
+
 @Transactional
 public class FieldFacade implements IFieldFacade {
 
@@ -196,7 +198,14 @@ public class FieldFacade implements IFieldFacade {
 		//Compute currentStage 
 		if (field.getVariety().getCrop().getCropId() == 223L){
 			//subStage must iterator follow stageId
-			for (SubStage subStage : field.getVariety().getSubStages()){
+			List<SubStage> subStages = new ArrayList<SubStage>();
+			for (SubStage subStage: field.getVariety().getSubStages()){
+				subStages.add(subStage);
+			}
+			
+			Collections.sort(subStages);			
+			//
+			for (SubStage subStage : subStages){
 				if (subStage.getSubStageId()<currentStage){
 					if (field.getVariety().getFullCycleDuration()<125){
 						sel_Cycle_min += subStage.getDurationLow();
