@@ -58,30 +58,44 @@ public class TaskSpecFacade implements ITaskSpecFacade {
 	}
 	
 	@Override
-	public Object getSteps(Long taskSpecId,Long fieldId) {
+	public List<StepWrapper> getSteps(Long taskSpecId,Long fieldId) {
 		stepDao = (IStepDao) ContextLoader.getCurrentWebApplicationContext().getBean("stepDao");
 		fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		stepRegionDao = (IStepRegionDao) ContextLoader.getCurrentWebApplicationContext().getBean("stepRegionDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		try{
-			List<Step> steps = stepDao.findByTaskSpecId(taskSpecId);
-			Field field = fieldDao.findById(fieldId);
-			List<StepWrapper> vaildS = new ArrayList<StepWrapper>();
-			if (steps==null){
-				result.put("respCode",400);
-				result.put("message","未找到合适step");
-				return result;
+		
+		List<Step> steps = stepDao.findByTaskSpecId(taskSpecId);
+		List<StepWrapper> vaildS = new ArrayList<StepWrapper>();
+		Set<String> pictures = new HashSet<String>();
+		if (fieldId==0){
+			for(Step s : steps){
+				StepWrapper sw = new StepWrapper(s);
+				String[] pictureNames = s.getPicture().split(",");
+				if (pictureNames!=null && pictureNames.length>=1){
+					if (pictures.contains(pictureNames[0])){
+						sw.setPicture("");
+					}
+					else{
+						sw.setPicture(pictureNames[0]);
+						pictures.add(pictureNames[0]);
+				}
 			}
-			Set<String> pictures = new HashSet<String>();
-			
-			
+			vaildS.add(sw);
+			}				
+		}
+		else{
+			Field field = fieldDao.findById(fieldId);
+			if (steps==null){
+				return vaildS;
+			}
+				
 			List<StepRegion> srl = stepRegionDao.findByStepRegion(field.getLocation().getRegion());
-    		Set<Long> sIds = new HashSet<Long>();
-    		for(StepRegion sr : srl){
-    			sIds.add(sr.getStepId());
-    		}
-
-			for (Step s :  steps){
+	   		Set<Long> sIds = new HashSet<Long>();
+	   		for(StepRegion sr : srl){
+	   			sIds.add(sr.getStepId());
+	   		}
+    		
+	   		for (Step s :  steps){
 				//if (s.getFitRegion().contains(region)){
 				if(sIds.contains(s.getStepId())){
 					StepWrapper sw = new StepWrapper(s);
@@ -98,16 +112,8 @@ public class TaskSpecFacade implements ITaskSpecFacade {
 					vaildS.add(sw);
 				}
 			}
-			
-			result.put("respCode",200);
-			result.put("message","获得任务描述");
-			result.put("data", vaildS);
-			return result;	
-		}catch(Exception e){
-			result.put("respCode",500);
-			result.put("message",e.getMessage());
-			return result;
 		}
+		return vaildS;	
 	}
 
 }

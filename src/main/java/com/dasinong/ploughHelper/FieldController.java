@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -23,15 +24,12 @@ import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.facade.IFieldFacade;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
+import com.dasinong.ploughHelper.outputWrapper.SubStageWrapper;
 
 
 @Controller
 public class FieldController {
 	private static final Logger logger = LoggerFactory.getLogger(FieldController.class);
-	
-	@Autowired
-	private ITaskSpecDao taskSpecDao;
-	
 	
 	@RequestMapping(value = "/createField", produces="application/json")
 	@ResponseBody
@@ -46,7 +44,6 @@ public class FieldController {
 	    
 		String fieldName; 
         Date startDate;
-        
         
     	boolean isActive;
        	boolean seedingortransplant;
@@ -158,6 +155,39 @@ public class FieldController {
 		result.put("data", fw);
 		return result;
 	}
+	
+	
+	@RequestMapping(value = "/getStages", produces="application/json")
+	@ResponseBody
+	public Object getStages(HttpServletRequest request, HttpServletResponse response)  {
+		User user = (User) request.getSession().getAttribute("User");
+		Map<String,Object> result = new HashMap<String,Object>();
+		if (user==null){
+			result.put("respCode",100);
+			result.put("message","用户尚未登陆");
+			return result;
+		}
+	    
+		Long varietyId;
+		try{
+			varietyId = Long.parseLong(request.getParameter("varietyId"));
+		}
+		catch(Exception e){
+	    	result.put("respCode",300);
+			result.put("message","参数错误");
+			return result;
+		}
+		IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");
+
+		List<SubStageWrapper> ssw = ff.getStages(varietyId);
+		result.put("respCode",200);
+		result.put("message","获得阶段列表成功");
+		result.put("data", ssw);
+		return result;
+	}
+	
+	
+	
 	
 	public static void main(String[] args) throws ParseException{
 		

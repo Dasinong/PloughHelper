@@ -1,6 +1,7 @@
 package com.dasinong.ploughHelper;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.facade.ITaskSpecFacade;
 import com.dasinong.ploughHelper.model.User;
+import com.dasinong.ploughHelper.outputWrapper.StepWrapper;
 
 @Controller
 public class TaskSpecController {
@@ -62,14 +64,25 @@ public class TaskSpecController {
 		Long fieldId;
 		try{
 			taskSpecId = Long.parseLong(request.getParameter("taskSpecId"));
+		}
+		catch(Exception e){
+			result.put("respCode",321);
+			result.put("message","taskSpecId参数格式或内容错误");
+			return result;
+		}
+		
+		
+		try{
 			fieldId = Long.parseLong(request.getParameter("fieldId"));
 		}
 		catch(Exception e){
-			result.put("respCode",301);
-			result.put("message","taskSpecId或fieldId参数格式或内容错误");
-			return result;
+			fieldId=0L;
 		}
-
-		return tsf.getSteps(taskSpecId,fieldId);
+		
+		List<StepWrapper> sw = tsf.getSteps(taskSpecId,fieldId);
+		result.put("respCode",200);
+		result.put("message","任务列表获取成功");
+		result.put("data", sw);
+		return result;
 	}
 }

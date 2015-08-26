@@ -1,10 +1,12 @@
 package com.dasinong.ploughHelper.facade;
 
 import java.util.Date;
+import java.util.List;
 
 import com.dasinong.ploughHelper.model.NatDis;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
+import com.dasinong.ploughHelper.outputWrapper.SubStageWrapper;
 
 public interface IFieldFacade {
 
@@ -15,5 +17,7 @@ public interface IFieldFacade {
 	Object addWeatherAlert(NatDis natdis);
 
 	public abstract FieldWrapper changeField(Long fieldId, Long currentStageId);
+
+	List<SubStageWrapper> getStages(long varietyId);
 
 }

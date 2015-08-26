@@ -29,6 +29,7 @@ import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.Variety;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
+import com.dasinong.ploughHelper.outputWrapper.SubStageWrapper;
 import com.dasinong.ploughHelper.weather.AllLocation;
 
 import java.util.Collections;
@@ -253,6 +254,24 @@ public class FieldFacade implements IFieldFacade {
 				}
 			}
 			return field.getCurrentStageID();
+		}		
+	}
+	
+	@Override
+	public List<SubStageWrapper>  getStages(long varietyId){
+		varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		Variety v = varietyDao.findById(varietyId);
+		
+		List<SubStage> subStages = new ArrayList<SubStage>();
+		for (SubStage subStage: v.getSubStages()){
+			subStages.add(subStage);
 		}
+		
+		Collections.sort(subStages);	
+		List<SubStageWrapper> ssw = new ArrayList<SubStageWrapper>();
+		for (SubStage subStage : subStages){
+			ssw.add(new SubStageWrapper(subStage));
+		}		
+		return ssw;		
 	}
 }
