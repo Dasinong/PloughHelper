@@ -192,7 +192,7 @@ public class FieldFacade implements IFieldFacade {
 		long computedStage = 0 ;
 		Date date = new Date();
 		double pastDay = (date.getTime() - field.getStartDate().getTime())/24/60/60/1000;
-		double act_Exp_Cycle = (pastDay+field.getDayOffset())/field.getVariety().getFullCycleDuration()*100;
+		double act_Exp_Cycle = (pastDay-field.getDayOffset())/field.getVariety().getFullCycleDuration()*100;
 		double sel_Cycle_min = 0;
 		double cycle_count = 0;
 		double cur_Cycle=0;
@@ -236,11 +236,11 @@ public class FieldFacade implements IFieldFacade {
 			//第一次设定会重新计算offset
 			if (field.getIsJustSet()){
 				if(computedStage<currentStage){
-					double newOffset = field.getVariety().getFullCycleDuration()*(sel_Cycle_min)/100-pastDay;
-					field.setDayOffset(newOffset*0.2 + field.getDayOffset()*0.8);
+					double newOffset = pastDay - field.getVariety().getFullCycleDuration()*(sel_Cycle_min)/100;
+					field.setDayOffset(newOffset*0.8 + field.getDayOffset()*0.2);
 				}else if (computedStage>currentStage){
-					double newOffset = field.getVariety().getFullCycleDuration()*(sel_Cycle_min+cur_Cycle)/100-pastDay;
-					field.setDayOffset(newOffset*0.2 + field.getDayOffset()*0.8);
+					double newOffset = pastDay - field.getVariety().getFullCycleDuration()*(sel_Cycle_min+cur_Cycle)/100;
+					field.setDayOffset(newOffset*0.8 + field.getDayOffset()*0.2);
 				}
 				field.setIsJustSet(false);
 			}

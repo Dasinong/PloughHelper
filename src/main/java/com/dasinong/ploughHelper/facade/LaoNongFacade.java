@@ -1,6 +1,8 @@
 package com.dasinong.ploughHelper.facade;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import com.dasinong.ploughHelper.modelTran.LaoNong;
@@ -41,6 +43,7 @@ public class LaoNongFacade implements ILaoNongFacade {
 		WeatherAlert wa = gwa.getWeatherAlert();
 		String DisasterInfo = "";
 		String AgriURLTag = "";
+		List<LaoNong> newLaoNong = new ArrayList<LaoNong>();
 		try{
 			AgriDisForcast agri = AllAgriDisForcast.getadf().getadf(areaId);
 			if (agri!=null) DisasterInfo = agri.getDisasterInfo();
@@ -48,25 +51,26 @@ public class LaoNongFacade implements ILaoNongFacade {
 			e.printStackTrace();
 			System.out.println("Error happend when get Agriculture Disaster Forcast");
 		}
-		if (wa!=null){
-			result.put("respCode", 200);
-			result.put("message","获得老农成功");
-			LaoNong laoNong = new LaoNong(0,2,"ohnoface.png","天气预警",wa.shortDescription(),wa.urlTag());
-			result.put("data",laoNong);
-			return result;
-		} else if(DisasterInfo != ""){
-			result.put("respCode", 200);
-			result.put("message","获得老农成功");
-			LaoNong laoNong = new LaoNong(0,2,"ohnoface.png","农业预警",DisasterInfo, AgriURLTag);
-			result.put("data",laoNong);
-			return result;
-		}
 		
 		System.out.println("szc: getLaoNong areaId : "+areaId);
 		LaoNong laoNong = NongYan.allNongYan().getNongYan(areaId);
+		result.put("data",laoNong);
+		newLaoNong.add(laoNong);
+		
+		if(!"".equals(DisasterInfo)){
+			laoNong = new LaoNong(0,2,"ohnoface.png","农业预警",DisasterInfo, AgriURLTag);
+			result.put("data",laoNong);
+			newLaoNong.add(laoNong);
+		}
+		if (wa!=null){
+			laoNong = new LaoNong(0,2,"ohnoface.png","天气预警",wa.shortDescription(),wa.urlTag());
+			result.put("data",laoNong);
+			newLaoNong.add(laoNong);
+		} 
+
 		result.put("respCode", 200);
 		result.put("message","获得老农成功");
-		result.put("data",laoNong);
+		result.put("newdata", newLaoNong);
 		return result;
 	}
 }

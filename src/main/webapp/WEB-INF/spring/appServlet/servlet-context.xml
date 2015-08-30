@@ -3,10 +3,21 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+	    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd">
 
+
+	<interceptors>
+		<!--  <mvc:interceptor>
+			<mvc:mapping path="/**"/>-->
+			<beans:bean class="com.dasinong.ploughHelper.util.KeyCheck">
+			</beans:bean>
+		<!--</mvc:interceptor>-->
+	</interceptors>
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 
 	<!-- Enables the Spring MVC @Controller programming model -->
@@ -16,5 +27,25 @@
 	<resources mapping="/resources/**" location="/resources/" />
 
 	<context:component-scan base-package="com.dasinong.ploughHelper" />
+	<beans:bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<beans:property name="messageConverters">
+			<beans:list>			
+				<beans:bean
+					class="org.springframework.http.converter.StringHttpMessageConverter">
+					<beans:property name="supportedMediaTypes">
+						<beans:list>
+							<beans:value>text/plain;charset=UTF-8</beans:value>
+						</beans:list>
+					</beans:property>
+				</beans:bean>
+				<beans:bean
+					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+			</beans:list>
+		</beans:property>		
+	</beans:bean>
+	
+	<!-- 处理器 -->  
 
+	<beans:bean name="/weatherAlert" class="com.dasinong.ploughHelper.mvc.WeatherAlertController"/>
+	<beans:bean name="/baike" class="com.dasinong.ploughHelper.mvc.BaiKeJspController"/>
 </beans:beans>
