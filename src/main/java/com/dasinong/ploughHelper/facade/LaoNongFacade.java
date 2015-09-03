@@ -1,14 +1,16 @@
 package com.dasinong.ploughHelper.facade;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
+import com.dasinong.ploughHelper.datapool.AllSystemMessage;
+import com.dasinong.ploughHelper.model.User;
+import com.dasinong.ploughHelper.model.nohibernate.SystemMessage;
 import com.dasinong.ploughHelper.modelTran.LaoNong;
 import com.dasinong.ploughHelper.modelTran.NongYan;
 import com.dasinong.ploughHelper.modelTran.WeatherAlert;
-import com.dasinong.ploughHelper.weather.All24h;
 import com.dasinong.ploughHelper.weather.AllLocation;
 import com.dasinong.ploughHelper.weather.GetWeatherAlert;
 import com.dasinong.ploughHelper.weather.AgriDisForcast;
@@ -20,10 +22,10 @@ public class LaoNongFacade implements ILaoNongFacade {
 	 * @see com.dasinong.ploughHelper.facade.ILaoNongFacade#getLaoNong(double, double)
 	 */
 	@Override
-	public Object getLaoNong(double lat, double lon){
+	public Object getLaoNong(double lat, double lon, User user){
 		try{
 			Integer mlId = AllLocation.getLocation().getNearest(lat, lon);
-			return getLaoNong(mlId);
+			return getLaoNong(mlId,user);
 		}
 		catch(Exception e){
 			HashMap<String,Object> result = new HashMap<String,Object>();
@@ -37,7 +39,7 @@ public class LaoNongFacade implements ILaoNongFacade {
 	 * @see com.dasinong.ploughHelper.facade.ILaoNongFacade#getLaoNong(java.lang.Integer)
 	 */
 	@Override
-	public Object getLaoNong(Integer areaId){
+	public Object getLaoNong(Integer areaId, User user){
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		GetWeatherAlert gwa = new GetWeatherAlert(areaId.toString()); 
 		WeatherAlert wa = gwa.getWeatherAlert();
@@ -67,6 +69,15 @@ public class LaoNongFacade implements ILaoNongFacade {
 			result.put("data",laoNong);
 			newLaoNong.add(laoNong);
 		} 
+		List<SystemMessage> sml = AllSystemMessage.getSystemMessage().get_Messages(areaId);
+		if (sml!=null && user!=null){
+			for(SystemMessage sm:sml){
+				if (sm.getChannel().equalsIgnoreCase(user.getChannel()) && (sm.getStartTime().getTime()< (new Date()).getTime())){
+					LaoNong ln = new LaoNong(1,3,"closeeyelaugh.png","系统消息",sm.getContent(),"");
+					newLaoNong.add(ln);
+				}
+			}
+		}
 
 		result.put("respCode", 200);
 		result.put("message","获得老农成功");

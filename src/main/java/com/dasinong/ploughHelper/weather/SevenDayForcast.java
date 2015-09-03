@@ -3,7 +3,7 @@ package com.dasinong.ploughHelper.weather;
 import java.util.Date;
 
 public class SevenDayForcast {
-	class ForcastInfo{
+	public class ForcastInfo{
 		public Date forecast_time;   //预报时间
 		public short weathern;       //天气现象编码
 		public String weather;

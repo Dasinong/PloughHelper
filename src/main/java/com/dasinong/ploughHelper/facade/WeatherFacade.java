@@ -1,5 +1,7 @@
 package com.dasinong.ploughHelper.facade;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -7,10 +9,13 @@ import com.dasinong.ploughHelper.ruleEngine.rules.Rule;
 import com.dasinong.ploughHelper.weather.AllLocation;
 import com.dasinong.ploughHelper.weather.All24h;
 import com.dasinong.ploughHelper.weather.All7d;
+import com.dasinong.ploughHelper.weather.AllLive7d;
 import com.dasinong.ploughHelper.weather.ForcastDInfo;
 import com.dasinong.ploughHelper.weather.GetLive24h;
 import com.dasinong.ploughHelper.weather.GetLiveWeather;
+import com.dasinong.ploughHelper.weather.Live7dFor;
 import com.dasinong.ploughHelper.weather.LiveWeatherData;
+import com.dasinong.ploughHelper.weather.SevenDayForcast.ForcastInfo;
 import com.dasinong.ploughHelper.weather.TwentyFourHourForcast;
 
 public class WeatherFacade implements IWeatherFacade {
@@ -110,12 +115,39 @@ public class WeatherFacade implements IWeatherFacade {
         //获得7天预测
 		try {
 			if (All7d.getAll7d().get7d(areaId)!=null){
+				//Fix the missing last day data;
+				int i=0;
+				ForcastInfo lastDay=null;
+				for(ForcastInfo f: All7d.getAll7d().get7d(areaId).aggregateData){
+					if (f!=null){
+						i++;
+						lastDay=f;
+					}
+				}
+				
+				try {
+					Live7dFor l7d = AllLive7d.getAllLive7d().getLive7d(areaId);
+					Long sunrise = l7d.sevenDay[0].sunrise.getTime();
+					Long sunset = AllLive7d.getAllLive7d().getLive7d(areaId).sevenDay[0].sunset.getTime();
+					result.put("sunrise", sunrise);
+					result.put("sunset", sunset);
+					if (lastDay!=null){
+						lastDay.max_temp = l7d.sevenDay[i-1].dayTemp;
+						lastDay.min_temp = l7d.sevenDay[i-1].nightTemp;
+					}
+				} catch (IOException | ParseException | InterruptedException e1) {
+					System.out.println("Not able to load normal 7d");
+					e1.printStackTrace();
+				}
+				
 				result.put("n7d", All7d.getAll7d().get7d(areaId).aggregateData);
 			}
 		} catch (Exception e) {
 			System.out.println("Get next 7d failed");
 			System.out.println(e.getMessage());
 		}
+		
+		
 		
 		try{
 			result.put("workable", Rule.workable(areaId));

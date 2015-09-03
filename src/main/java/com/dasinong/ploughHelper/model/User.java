@@ -21,6 +21,8 @@ public class User implements Serializable{
 	private String telephone;
 	private String qqtoken;
 	private String weixintoken;
+	private String deviceId;
+	private String channel;
 
 	public User(){}
 	
@@ -116,6 +118,22 @@ public class User implements Serializable{
 
 	public void setWeixintoken(String weixintoken) {
 		this.weixintoken = weixintoken;
+	}
+
+	public String getDeviceId() {
+		return deviceId;
+	}
+
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
+	}
+
+	public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
 	}
 
 }

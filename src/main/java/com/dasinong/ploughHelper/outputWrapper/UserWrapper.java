@@ -20,6 +20,7 @@ public class UserWrapper implements Serializable {
 	private String telephone;
 	private String qqtoken;
 	private String weixintoken;
+	private String channel;
 	
 	private List<Long> fields = new ArrayList<Long>();
 	private List<Integer> monitorLocationId = new ArrayList<Integer>();
@@ -41,6 +42,7 @@ public class UserWrapper implements Serializable {
 		this.telephone = (user.getTelephone()==null)?"":user.getTelephone();
 		this.qqtoken = user.getQqtoken();
 		this.weixintoken = user.getWeixintoken();
+		this.channel = user.getChannel();
 	}
 	public Long getUserId() {
 		return userId;
@@ -113,6 +115,12 @@ public class UserWrapper implements Serializable {
 	}
 	public void setWeixintoken(String weixintoken) {
 		this.weixintoken = weixintoken;
+	}
+	public String getChannel() {
+		return channel;
+	}
+	public void setChannel(String channel) {
+		this.channel = channel;
 	}
 
 }

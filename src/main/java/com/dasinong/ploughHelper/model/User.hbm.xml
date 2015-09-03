@@ -45,5 +45,11 @@
         <property name="weixintoken" type="string">
         	<column name="weixintoken" length="50" not-null="false"></column>
         </property>
+        <property name="deviceId" type="string">
+        	<column name="deviceid" length="30" not-null="false"></column>
+        </property>
+        <property name="channel" type="string">
+        	<column name="channel" length="20" not-null="false"></column>
+        </property>
     </class>
 </hibernate-mapping>

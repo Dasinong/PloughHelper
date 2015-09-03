@@ -127,7 +127,7 @@ public class HomeController {
 					result.put("message", "用户未登陆,请输入浮点格式lat,lon");
 					return result;
 				}
-				return lnf.getLaoNong(lat, lon);
+				return lnf.getLaoNong(lat, lon, user);
 			}
 				
 		if (user.getFields()==null||user.getFields().size()==0){
@@ -141,7 +141,7 @@ public class HomeController {
 				result.put("message", "用户尚未创建田地,请输入浮点格式lat,lon");
 				return result;
 			}
-			return lnf.getLaoNong(lat, lon);
+			return lnf.getLaoNong(lat, lon, user);
 		}
 		
 		String monitorLocationId = request.getParameter("monitorLocationId");
@@ -169,9 +169,9 @@ public class HomeController {
 				result.put("message", "使用当前位置，请输入浮点格式lat,lon");
 				return result;
 			}
-			return lnf.getLaoNong(lat, lon);
+			return lnf.getLaoNong(lat, lon, user);
 		}
-		return lnf.getLaoNong(mlId);
+		return lnf.getLaoNong(mlId, user);
 	}
 	
 }

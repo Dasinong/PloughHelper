@@ -7,17 +7,17 @@ import org.codehaus.jackson.JsonNode;
 public class SevenDayNormal {
 	String dayWeather;
 	String nightWeather;
-	int dayTemp;
-	int nightTemp;
+	public int dayTemp;
+	public int nightTemp;
 	short dayWD;
 	short nightWD;
 	short dayWP;
 	short nightWP;
-	String morning;
-	String night;
+	public Date sunrise;
+	public Date sunset;
 	
 	public SevenDayNormal(String dayWeather, String nightWeather, int dayTemp, int nightTemp, short dayWD, short nightWD,
-			short dayWP, short nightWP, String morning, String night) {
+			short dayWP, short nightWP, Date sunrise, Date sunset) {
 		super();
 		this.dayWeather = dayWeather;
 		this.nightWeather = nightWeather;
@@ -27,8 +27,8 @@ public class SevenDayNormal {
 		this.nightWD = nightWD;
 		this.dayWP = dayWP;
 		this.nightWP = nightWP;
-		this.morning = morning;
-		this.night = night;
+		this.sunrise = sunrise;
+		this.sunset = sunset;
 	}
 
 	public SevenDayNormal(JsonNode forcast) {
@@ -39,7 +39,12 @@ public class SevenDayNormal {
 		}catch(Exception e){
 			this.dayTemp = -100;
 		}
-		this.nightTemp = forcast.get("fd").getIntValue();
+		
+		try{
+			this.nightTemp = Integer.parseInt(forcast.get("fd").getTextValue());
+		}catch(Exception e){
+			this.nightTemp = -100;
+		}
 		try{
 			this.dayWD = Short.parseShort(forcast.get("fe").getTextValue());
 		}
@@ -62,10 +67,28 @@ public class SevenDayNormal {
 		}catch(Exception e){
 			this.nightWP = -1;
 		}
-		String[] daynight = forcast.get("fi").getTextValue().split("|");
+		String[] daynight = forcast.get("fi").getTextValue().split("\\|");
 		if (daynight.length==2){
-			this.morning = daynight[0];
-			this.night = daynight[1];
+			this.sunrise = formatDate(daynight[0]);
+			this.sunset = formatDate(daynight[1]);
+		}
+	}
+	
+	private Date formatDate(String input){
+		String[] time = input.split(":");
+		try{
+			if (time.length==2){
+				int hour = Integer.parseInt(time[0]);
+				int min = Integer.parseInt(time[1]);
+				Date date = new Date();
+				date.setHours(hour);
+				date.setMinutes(min);
+				return date;
+			}
+			else return null;
+		}
+		catch(Exception e){
+			return null;
 		}
 	}
 }

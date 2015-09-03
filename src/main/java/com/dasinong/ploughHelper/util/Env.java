@@ -14,6 +14,7 @@ public class Env {
 		
 	}
 	private Env() {
+		this.DBConnection = "jdbc:mysql://localhost:3307/ploughHelper?user=root&password=weather123";
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
 			WorkingDir = "E:/git";
 			DataDir = "E:/index";
@@ -53,6 +54,7 @@ public class Env {
 	public boolean weatherAlert;
 	public int sessionTimeout=60000; //1000 min;
 	public long live7dBufferTime=60*60*1000; //20min;
+	public String DBConnection;
 	
 	public static void main(String[] args){
 		System.out.println(System.getProperty("os.name"));

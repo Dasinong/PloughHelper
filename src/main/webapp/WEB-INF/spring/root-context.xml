@@ -1,38 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 	http://www.springframework.org/schema/mvc 
 	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
+		<!--  <mvc:interceptor>
+			<mvc:mapping path="/**"/>-->
 			<bean class="com.dasinong.ploughHelper.util.KeyCheck">
 			</bean>
-		</mvc:interceptor>
+		<!--</mvc:interceptor>-->
 	</mvc:interceptors>
 
-	<mvc:annotation-driven></mvc:annotation-driven>
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<bean
-					class="org.springframework.http.converter.StringHttpMessageConverter">
-					<property name="supportedMediaTypes">
-						<list>
-							<value>text/plain;charset=UTF-8</value>
-						</list>
-					</property>
-				</bean>
-				<bean
-					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-			</list>
-		</property>
-	</bean>
+	<!--  <mvc:annotation-driven></mvc:annotation-driven> -->
+	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<import resource="/database/DataSource.xml"></import>
 	<import resource="/database/Hibernate.xml"></import>
@@ -58,11 +43,6 @@
     	<property name="prefix" value="/WEB-INF/jsp/"/>  
     	<property name="suffix" value=".jsp"/>  
 	</bean>  
-	
-	<!-- 处理器 -->  
-
-	<bean name="/weatherAlert" class="com.dasinong.ploughHelper.mvc.WeatherAlertController"/>
-	<bean name="/baike" class="com.dasinong.ploughHelper.mvc.BaiKeJspController"/>
 	
 	<bean name="startQuertz" lazy-init="true" autowire="no"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

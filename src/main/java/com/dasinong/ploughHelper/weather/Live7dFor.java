@@ -22,8 +22,8 @@ public class Live7dFor {
 	double lat;
 	int alt;
 	String radar;	
-	Date reportTime; //The report generate time;
-	SevenDayNormal[] sevenDay = new SevenDayNormal[7];
+	public Date reportTime; //The report generate time;
+	public SevenDayNormal[] sevenDay = new SevenDayNormal[7];
 	
 	public Live7dFor(String result, int areaid) {
 		ObjectMapper mapper = new ObjectMapper();
@@ -66,6 +66,7 @@ public class Live7dFor {
 		 WISWeather wisw = new WISWeather("101020100","forecast7d");
 		 String result = wisw.Commute();	
 		 Live7dFor l7df = new Live7dFor(result,101020100);
+		 int i=1;
 	};
 	
 	
