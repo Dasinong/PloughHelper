@@ -135,9 +135,9 @@ public class WeatherFacade implements IWeatherFacade {
 						lastDay.max_temp = l7d.sevenDay[i-1].dayTemp;
 						lastDay.min_temp = l7d.sevenDay[i-1].nightTemp;
 					}
-				} catch (IOException | ParseException | InterruptedException e1) {
+				} catch (Exception e) {
 					System.out.println("Not able to load normal 7d");
-					e1.printStackTrace();
+					e.printStackTrace();
 				}
 				
 				result.put("n7d", All7d.getAll7d().get7d(areaId).aggregateData);

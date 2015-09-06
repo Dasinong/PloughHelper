@@ -17,7 +17,6 @@ import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 
-
 public class WeatherAlert  implements Comparable<WeatherAlert> {
 	
 	public String province;
@@ -34,6 +33,7 @@ public class WeatherAlert  implements Comparable<WeatherAlert> {
     public Date timeStamp;
     public String desc;//description of alert and its level
     public static Map<String, String> descriptionMap = new HashMap<String, String>(); 
+    public String trace;
 	
 	//Initialize from webapi
 	public WeatherAlert(String areaId) {
@@ -51,10 +51,10 @@ public class WeatherAlert  implements Comparable<WeatherAlert> {
 		this.areaId = areaId;
 		this.timeStamp = new Date();
 		this.timeStamp.setTime(100000);  //Time set on create routine not guarantee content is good.
-		
+		this.trace="";
 	}
 	
-	public static WeatherAlert parseHTTPResult(String areaId, String result)
+	public static List<WeatherAlert> parseHTTPResult(String areaId, String result)
 			 throws JsonParseException,JsonProcessingException,IOException {
 	//areaId is monitorLocationId in interface	
 		ObjectMapper mapper = new ObjectMapper();
@@ -147,7 +147,8 @@ public class WeatherAlert  implements Comparable<WeatherAlert> {
 				wa.levelName = w.get("w7").toString().replace('\"', ' ').trim();
 				wa.time = w.get("w8").toString().replace('\"', ' ').trim();
 				wa.content = w.get("w9").toString().replace('\"', ' ').trim();
-				wa.urlTag = "/weatherAlert?monitorLocationId="+areaId;
+				wa.trace = w.get("w10").getTextValue();
+				wa.urlTag = "/weatherAlert?monitorLocationId="+areaId+"&trace="+wa.trace;
 				wa.timeStamp = new Date();
 				wa.areaId = areaId;
 				wa.desc = descriptionMap.get(wa.typeId+wa.level);
@@ -162,7 +163,8 @@ public class WeatherAlert  implements Comparable<WeatherAlert> {
 		}
 		if (waList.size() > 0)
 			// TODO 默认是升序，所以排序后返回第一个元素，是预警编号最小的值，可能是最严重的灾害
-			return waList.get(0);
+			//return waList.get(0);
+			return waList;
 		else
 			return null;
 	}
@@ -183,4 +185,6 @@ public class WeatherAlert  implements Comparable<WeatherAlert> {
 	public int compareTo(WeatherAlert o) {
 		return Integer.parseInt(o.level) - Integer.parseInt(this.level);
 	}
+	
+	
 }

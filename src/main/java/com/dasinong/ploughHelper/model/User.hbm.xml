@@ -51,5 +51,14 @@
         <property name="channel" type="string">
         	<column name="channel" length="20" not-null="false"></column>
         </property>
+        <property name="createAt" type="timestamp">
+            <column name="createAt"/>
+        </property>
+        <property name="updateAt" type="timestamp">
+            <column name="updateAt"/>
+        </property>
+        <property name="lastLogin" type="timestamp">
+            <column name="lastLogin"/>
+        </property>
     </class>
 </hibernate-mapping>

@@ -1,6 +1,7 @@
 package com.dasinong.ploughHelper.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,6 +24,10 @@ public class User implements Serializable{
 	private String weixintoken;
 	private String deviceId;
 	private String channel;
+	
+	private Date createAt;
+	private Date updateAt;
+	private Date lastLogin;
 
 	public User(){}
 	
@@ -136,4 +141,29 @@ public class User implements Serializable{
 		this.channel = channel;
 	}
 
+	public Date getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(Date createAt) {
+		this.createAt = createAt;
+	}
+
+	public Date getUpdateAt() {
+		return updateAt;
+	}
+
+	public void setUpdateAt(Date updateAt) {
+		this.updateAt = updateAt;
+	}
+
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
+	
 }

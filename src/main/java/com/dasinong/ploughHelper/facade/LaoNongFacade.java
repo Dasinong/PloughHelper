@@ -42,7 +42,7 @@ public class LaoNongFacade implements ILaoNongFacade {
 	public Object getLaoNong(Integer areaId, User user){
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		GetWeatherAlert gwa = new GetWeatherAlert(areaId.toString()); 
-		WeatherAlert wa = gwa.getWeatherAlert();
+		List<WeatherAlert> wa = gwa.getWeatherAlert();
 		String DisasterInfo = "";
 		String AgriURLTag = "";
 		List<LaoNong> newLaoNong = new ArrayList<LaoNong>();
@@ -55,9 +55,7 @@ public class LaoNongFacade implements ILaoNongFacade {
 		}
 		
 		System.out.println("szc: getLaoNong areaId : "+areaId);
-		LaoNong laoNong = NongYan.allNongYan().getNongYan(areaId);
-		result.put("data",laoNong);
-		newLaoNong.add(laoNong);
+		LaoNong laoNong=null;
 		
 		if(!"".equals(DisasterInfo)){
 			laoNong = new LaoNong(0,2,"ohnoface.png","农业预警",DisasterInfo, AgriURLTag);
@@ -65,9 +63,15 @@ public class LaoNongFacade implements ILaoNongFacade {
 			newLaoNong.add(laoNong);
 		}
 		if (wa!=null){
-			laoNong = new LaoNong(0,2,"ohnoface.png","天气预警",wa.shortDescription(),wa.urlTag());
-			result.put("data",laoNong);
-			newLaoNong.add(laoNong);
+			boolean first=true;
+			for(WeatherAlert w: wa){
+				laoNong = new LaoNong(0,2,"ohnoface.png","天气预警",w.shortDescription(),w.urlTag());
+				if (first) {
+					result.put("data",laoNong);
+				    first=false;
+				}
+				newLaoNong.add(laoNong);
+			}
 		} 
 		List<SystemMessage> sml = AllSystemMessage.getSystemMessage().get_Messages(areaId);
 		if (sml!=null && user!=null){
@@ -77,6 +81,12 @@ public class LaoNongFacade implements ILaoNongFacade {
 					newLaoNong.add(ln);
 				}
 			}
+		}
+		
+		if (newLaoNong.size()==0){
+		    laoNong = NongYan.allNongYan().getNongYan(areaId);
+			result.put("data",laoNong);
+			newLaoNong.add(laoNong);
 		}
 
 		result.put("respCode", 200);

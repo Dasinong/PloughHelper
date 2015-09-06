@@ -1,6 +1,7 @@
 package com.dasinong.ploughHelper.weather;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.dasinong.ploughHelper.modelTran.WeatherAlert;
 import com.dasinong.ploughHelper.util.WISWeather;
@@ -10,23 +11,23 @@ import com.dasinong.ploughHelper.util.WISWeather;
 public class GetWeatherAlert {
 	
 	private String areaId;
-	private static HashMap<String,WeatherAlert> _weatheralert = new HashMap<String,WeatherAlert>();
+	private static HashMap<String,List<WeatherAlert>> _weatheralert = new HashMap<String,List<WeatherAlert>>();
 	
 	public GetWeatherAlert(String areaId){
 		this.areaId=areaId;
 	}
 	
-	public WeatherAlert getWeatherAlert() {
+	public List<WeatherAlert> getWeatherAlert() {
 		Long currentTime = System.currentTimeMillis();
 		
 		//只有在确实存在weather alert的情况下返回预警信息，其它情况一律返回null,作无预警处理
 		// 如果有缓存的新鲜数据，那么直接返回缓存的新鲜数据
-		if(_weatheralert.containsKey(areaId) && (currentTime - _weatheralert.get(areaId).timeStamp.getTime()) < 20*60*1000)
+		if(_weatheralert.containsKey(areaId) && (currentTime - _weatheralert.get(areaId).get(0).timeStamp.getTime()) < 5*60*1000)
 			return _weatheralert.get(areaId);
 		
 		WISWeather wisw = new WISWeather(this.areaId,"alarm");
 		String result = wisw.Commute();
-		WeatherAlert wa = null;
+		List<WeatherAlert> wa = null;
 		try{		
 			if(!result.equals("key error") && !result.equals("")){
 					wa = WeatherAlert.parseHTTPResult(areaId, result);
@@ -45,7 +46,7 @@ public class GetWeatherAlert {
 	}
 	
 	public static void main(String[] args){
-		GetWeatherAlert gwa = new GetWeatherAlert("101010100");
+		GetWeatherAlert gwa = new GetWeatherAlert("101260301");
 		gwa.getWeatherAlert();
 	}
 }

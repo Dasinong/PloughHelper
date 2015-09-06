@@ -60,7 +60,7 @@ public class Rule {
 		if (count<6) sprayable = false;
 		*/
 		for (int i=0;i<tfhf.getSize();i++){
-			if (tfhf.info[i].windSpeed_10m>3) sprayable =0;
+			if (tfhf.info[i].windSpeed_10m>4) sprayable =0;
 			if (tfhf.info[i].icon.equals("clear") || tfhf.info[i].icon.equals("clearnight") || tfhf.info[i].icon.equals("cloudy")||
 				tfhf.info[i].icon.equals("cloudynight") || tfhf.info[i].icon.equals("mostlyclear") || tfhf.info[i].icon.equals("mostlyclearnight")||
 				tfhf.info[i].icon.equals("mostlycloudy") || tfhf.info[i].icon.equals("mostlycloudynight") ||

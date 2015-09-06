@@ -2,6 +2,7 @@ package com.dasinong.ploughHelper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -41,6 +42,7 @@ public class UserController {
 			User user= (new UserParser(request)).getUser();
 			user.setIsPassSet(false);
 			user.setAuthenticated(true);
+			user.setCreateAt(new Date());
 			userdao.save(user);
 				
 			UserWrapper userWrapper = new UserWrapper(user);
@@ -87,6 +89,8 @@ public class UserController {
 		
 			String passWord = request.getParameter("password");
 			if (user.getPassword().equals(passWord)){
+				user.setLastLogin(new Date());
+				userDao.update(user);
 				request.getSession().setAttribute("User", user);
 				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
 				result.put("respCode",200);
@@ -129,6 +133,8 @@ public class UserController {
 			String cellphone = request.getParameter("cellphone");
 			user = userDao.findByCellphone(cellphone);
 			if (user!=null){
+				user.setLastLogin(new Date());
+				userDao.update(user);
 				request.getSession().setAttribute("User", user);
 				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
 				result.put("respCode",200);
@@ -143,6 +149,7 @@ public class UserController {
 				user.setUserName("");
 				user.setPassword(cellphone.substring(cellphone.length()-6));
 				user.setAuthenticated(true);
+				user.setCreateAt(new Date());
 
 				userDao.save(user);
 				request.getSession().setAttribute("User", user);
@@ -298,6 +305,7 @@ public class UserController {
 			if (isAuth!=null && !isAuth.isEmpty()){
 				user.setAuthenticated(true);
 			}
+			user.setUpdateAt(new Date());
 			userDao.update(user);
 			
 		    result.put("respCode", 200);
@@ -594,6 +602,7 @@ public class UserController {
 			if (user!=null){
 				if (savedCode.equals(seccode)){
 					user.setAuthenticated(true);
+				    user.setLastLogin(new Date());
 					userDao.update(user);
 					request.getSession().removeAttribute("securityCode");
 					request.getSession().setAttribute("User", user);
@@ -647,6 +656,8 @@ public class UserController {
 			String username = request.getParameter("username");
 			user = userDao.findByQQ(qqtoken);
 			if (user!=null){
+				user.setLastLogin(new Date());
+				userDao.update(user);
 				request.getSession().setAttribute("User", user);
 				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
 				result.put("respCode",200);
@@ -661,6 +672,7 @@ public class UserController {
 				user.setUserName(username);
 				user.setPassword("dasinong");
 				user.setPictureId(avater);
+				user.setCreateAt(new Date());
 
 				userDao.save(user);
 				request.getSession().setAttribute("User", user);
@@ -703,6 +715,7 @@ public class UserController {
 			String username = request.getParameter("username");
 			user = userDao.findByWeixin(weixintoken);
 			if (user!=null){
+				user.setLastLogin(new Date());
 				request.getSession().setAttribute("User", user);
 				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
 				result.put("respCode",200);
@@ -717,6 +730,7 @@ public class UserController {
 				user.setUserName(username);
 				user.setPassword("dasinong");
 				user.setPictureId(avater);
+				user.setCreateAt(new Date());
 
 				userDao.save(user);
 				request.getSession().setAttribute("User", user);

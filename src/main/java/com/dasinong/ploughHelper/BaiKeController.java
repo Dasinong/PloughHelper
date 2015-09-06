@@ -85,8 +85,6 @@ public class BaiKeController {
 		result.put("respCode", 350);
 		result.put("message", "type内容不支持");
 		return result;
-		
-		
 	}
 	
 	
