@@ -14,7 +14,7 @@ public class Env {
 		
 	}
 	private Env() {
-		this.DBConnection = "jdbc:mysql://localhost:3307/ploughHelper?user=root&password=weather123";
+		this.DBConnection = "jdbc:mysql://localhost:3306/ploughHelper?user=root&password=weather123";
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
 			WorkingDir = "E:/git";
 			DataDir = "E:/index";

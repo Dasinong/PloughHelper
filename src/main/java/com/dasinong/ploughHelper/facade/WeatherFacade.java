@@ -1,7 +1,6 @@
 package com.dasinong.ploughHelper.facade;
 
-import java.io.IOException;
-import java.text.ParseException;
+
 import java.util.Date;
 import java.util.HashMap;
 
@@ -9,9 +8,9 @@ import com.dasinong.ploughHelper.ruleEngine.rules.Rule;
 import com.dasinong.ploughHelper.weather.AllLocation;
 import com.dasinong.ploughHelper.weather.All24h;
 import com.dasinong.ploughHelper.weather.All7d;
-import com.dasinong.ploughHelper.weather.AllLive7d;
 import com.dasinong.ploughHelper.weather.ForcastDInfo;
 import com.dasinong.ploughHelper.weather.GetLive24h;
+import com.dasinong.ploughHelper.weather.GetLive7d;
 import com.dasinong.ploughHelper.weather.GetLiveWeather;
 import com.dasinong.ploughHelper.weather.Live7dFor;
 import com.dasinong.ploughHelper.weather.LiveWeatherData;
@@ -126,9 +125,11 @@ public class WeatherFacade implements IWeatherFacade {
 				}
 				
 				try {
-					Live7dFor l7d = AllLive7d.getAllLive7d().getLive7d(areaId);
+					Live7dFor l7d = GetLive7d.getAllLive7d().getLive7d(areaId);
 					Long sunrise = l7d.sevenDay[0].sunrise.getTime();
-					Long sunset = AllLive7d.getAllLive7d().getLive7d(areaId).sevenDay[0].sunset.getTime();
+					if (System.currentTimeMillis()>sunrise) sunrise = sunrise+24*60*60*1000;
+					Long sunset = l7d.sevenDay[0].sunset.getTime();
+					if (System.currentTimeMillis()>sunset) sunset = sunset+24*60*60*1000;
 					result.put("sunrise", sunrise);
 					result.put("sunset", sunset);
 					if (lastDay!=null){
@@ -146,8 +147,6 @@ public class WeatherFacade implements IWeatherFacade {
 			System.out.println("Get next 7d failed");
 			System.out.println(e.getMessage());
 		}
-		
-		
 		
 		try{
 			result.put("workable", Rule.workable(areaId));

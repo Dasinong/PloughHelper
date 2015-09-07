@@ -62,8 +62,8 @@ public class All7d implements IWeatherBuffer{
 	
     private String latestSourceFile(){
     	String sourceFile;
-    	if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-    		sourceFile = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rforcast_7days_2015061720.csv";
+    	if (System.getProperty("os.name").equalsIgnoreCase("windows 7") || System.getProperty("os.name").equalsIgnoreCase("Mac OS X") ){
+    		sourceFile = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rforcast_7days_2015090710.csv";
         }else{
         	Date date = new Date();
         	String filename = "";
