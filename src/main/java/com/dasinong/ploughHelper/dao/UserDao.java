@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.dasinong.ploughHelper.model.Crop;
+import com.dasinong.ploughHelper.model.Step;
 import com.dasinong.ploughHelper.model.User;
 
 public class UserDao extends HibernateDaoSupport implements IUserDao{
@@ -33,6 +35,12 @@ public class UserDao extends HibernateDaoSupport implements IUserDao{
 		getHibernateTemplate().delete(user);
 	}
 
+	
+	@Override
+	public User findById(Long id) {
+		return (User) this.getHibernateTemplate().get(User.class,id);
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.dasinong.ploughHelper.dao.IUserDao#findByUserName(java.lang.String)
 	 */
@@ -81,4 +89,12 @@ public class UserDao extends HibernateDaoSupport implements IUserDao{
 		return (User) list.get(0);
 	}
 
+	
+	@Override
+	public long getUIDbyRef(String refcode) {
+		List list  = getHibernateTemplate().find(
+				"from User where refcode=?",refcode);
+		if (list.size()>0) return ((User) list.get(0)).getUserId();
+		else return -1;
+	}
 }

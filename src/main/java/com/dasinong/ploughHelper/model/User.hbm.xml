@@ -60,5 +60,11 @@
         <property name="lastLogin" type="timestamp">
             <column name="lastLogin"/>
         </property>
+        <property name="refcode" type="string">
+        	<column name="refcode" length="6" not-null="false"></column>
+        </property>
+        <property name="refuid" type="java.lang.Long">
+        	<column name="refuid" length="10" not-null="false"></column>
+        </property>
     </class>
 </hibernate-mapping>

@@ -21,6 +21,8 @@ public class UserWrapper implements Serializable {
 	private String qqtoken;
 	private String weixintoken;
 	private String channel;
+	private String refcode;
+	private Long refuid;
 	
 	private List<Long> fields = new ArrayList<Long>();
 	private List<Integer> monitorLocationId = new ArrayList<Integer>();
@@ -43,6 +45,8 @@ public class UserWrapper implements Serializable {
 		this.qqtoken = user.getQqtoken();
 		this.weixintoken = user.getWeixintoken();
 		this.channel = user.getChannel();
+		this.setRefcode(user.getRefcode());
+		this.refuid = user.getRefuid()==null?-1:user.getRefuid();
 	}
 	public Long getUserId() {
 		return userId;
@@ -121,6 +125,18 @@ public class UserWrapper implements Serializable {
 	}
 	public void setChannel(String channel) {
 		this.channel = channel;
+	}
+	public String getRefcode() {
+		return refcode;
+	}
+	public void setRefcode(String refcode) {
+		this.refcode = refcode;
+	}
+	public Long getRefuid() {
+		return refuid;
+	}
+	public void setRefuid(Long refuid) {
+		this.refuid = refuid;
 	}
 
 }

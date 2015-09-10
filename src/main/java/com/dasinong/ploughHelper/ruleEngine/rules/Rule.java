@@ -36,7 +36,7 @@ public class Rule {
 		}
 		int max = 0;
 		int min= 35;
-		for (int i=0;i<tfhf.getSize();i++){
+		for (int i=0;i<tfhf.getSize()&&i<8;i++){
 			if (tfhf.info[i].temperature > max){
 				max = tfhf.info[i].temperature;
 			}
@@ -59,7 +59,7 @@ public class Rule {
 		}
 		if (count<6) sprayable = false;
 		*/
-		for (int i=0;i<tfhf.getSize();i++){
+		for (int i=0;i<tfhf.getSize() && i<8;i++){
 			if (tfhf.info[i].windSpeed_10m>4) sprayable =0;
 			if (tfhf.info[i].icon.equals("clear") || tfhf.info[i].icon.equals("clearnight") || tfhf.info[i].icon.equals("cloudy")||
 				tfhf.info[i].icon.equals("cloudynight") || tfhf.info[i].icon.equals("mostlyclear") || tfhf.info[i].icon.equals("mostlyclearnight")||
@@ -69,7 +69,6 @@ public class Rule {
 				sprayable = 0;
 			}
 		}
-		
 		return sprayable;
 	}
 

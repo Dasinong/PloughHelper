@@ -28,6 +28,9 @@ public class User implements Serializable{
 	private Date createAt;
 	private Date updateAt;
 	private Date lastLogin;
+	
+	private String refcode;
+	private Long refuid;
 
 	public User(){}
 	
@@ -163,6 +166,23 @@ public class User implements Serializable{
 
 	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
+	}
+
+
+	public String getRefcode() {
+		return refcode;
+	}
+
+	public void setRefcode(String refcode) {
+		this.refcode = refcode;
+	}
+
+	public Long getRefuid() {
+		return refuid;
+	}
+
+	public void setRefuid(Long refuid) {
+		this.refuid = refuid;
 	}
 
 	

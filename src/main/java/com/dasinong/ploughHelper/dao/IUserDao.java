@@ -9,6 +9,8 @@ public interface IUserDao {
 	void update(User user);
 
 	void delete(User user);
+	
+	User findById(Long id);
 
 	User findByUserName(String userName);
 
@@ -17,5 +19,7 @@ public interface IUserDao {
 	User findByQQ(String qqtoken);
 	
 	User findByWeixin(String weixintoken);
+	
+	long getUIDbyRef(String refcode);
 
 }

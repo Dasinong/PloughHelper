@@ -24,6 +24,7 @@ import com.dasinong.ploughHelper.inputParser.UserParser;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
 import com.dasinong.ploughHelper.util.Env;
+import com.dasinong.ploughHelper.util.Refcode;
 import com.dasinong.ploughHelper.util.SmsService;
 
 @Controller
@@ -43,6 +44,12 @@ public class UserController {
 			user.setIsPassSet(false);
 			user.setAuthenticated(true);
 			user.setCreateAt(new Date());
+			String refcode;
+			do{
+				refcode =Refcode.GenerateRefcode();
+			}
+			while (userdao.getUIDbyRef(refcode)>0);
+			user.setRefcode(refcode);
 			userdao.save(user);
 				
 			UserWrapper userWrapper = new UserWrapper(user);
@@ -90,6 +97,14 @@ public class UserController {
 			String passWord = request.getParameter("password");
 			if (user.getPassword().equals(passWord)){
 				user.setLastLogin(new Date());
+				if (user.getRefcode()==null){
+					String refcode;
+					do{
+						refcode =Refcode.GenerateRefcode();
+					}
+					while (userDao.getUIDbyRef(refcode)>0);
+					user.setRefcode(refcode);
+				}
 				userDao.update(user);
 				request.getSession().setAttribute("User", user);
 				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
@@ -134,6 +149,15 @@ public class UserController {
 			user = userDao.findByCellphone(cellphone);
 			if (user!=null){
 				user.setLastLogin(new Date());
+				if (user.getRefcode()==null){
+					String refcode;
+					do{
+						refcode =Refcode.GenerateRefcode();
+					}
+					while (userDao.getUIDbyRef(refcode)>0);
+					user.setRefcode(refcode);
+				}
+				
 				userDao.update(user);
 				request.getSession().setAttribute("User", user);
 				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
@@ -750,7 +774,61 @@ public class UserController {
 		}
 	}
 	
+	@RequestMapping(value = "/setRef",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object setRef(HttpServletRequest request, HttpServletResponse response) {
+		
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 	
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		try{
+			User user = (User) request.getSession().getAttribute("User");
+			if (user==null){
+				result.put("respCode", 100);
+				result.put("message", "用户尚未登录");
+				return result;
+			}else{
+				if (user.getRefuid()!=null){
+					result.put("respCode", 201);
+					result.put("message", "已设置过推荐人");
+					result.put("data", user.getUserId());
+					return result;
+				}
+				String refcode = request.getParameter("refcode");
+				if ( refcode == null|| "".equals(refcode)){
+					result.put("respCode", 300);
+					result.put("message", "参数名或内容错误");
+					return result;
+				}
+				else{
+					Long refuid = userDao.getUIDbyRef(refcode);
+					if (refuid==-1){
+						result.put("respCode", 300);
+						result.put("message", " 目标推荐码不存在");
+						return result;
+					}
+					else{
+						user.setRefuid(refuid);
+						User refuser = userDao.findById(refuid);
+						user.setChannel(refuser.getChannel());
+						userDao.update(user);
+						result.put("respCode", 200);
+						result.put("message", "推荐用户设置成功");
+						result.put("data", new UserWrapper(user));
+						return result;
+					}
+
+				}
+			}
+		}catch(Exception e)
+		{
+			result.put("respCode", 500);
+			result.put("respDes", e.getCause().getMessage());
+			return result;
+		}
+
+		
+	}
 	public static void main(String[] args){
 		String[] imgt = "crop_cache_file.jpg".split("\\.");
 		System.out.println(imgt.length);
