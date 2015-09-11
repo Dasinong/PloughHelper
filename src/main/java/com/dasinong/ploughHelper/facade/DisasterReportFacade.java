@@ -10,6 +10,7 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.IDisasterReportDao;
 import com.dasinong.ploughHelper.model.DisasterReport;
+import com.dasinong.ploughHelper.util.MailHelper;
 
 
 /**
@@ -36,6 +37,12 @@ public class DisasterReportFacade implements IDisasterReportFacade {
     	idrd = (IDisasterReportDao) ContextLoader.getCurrentWebApplicationContext().getBean("disasterReportDao");
     	idrd.save(dr);
     	
+    	MailHelper mh = new MailHelper();
+    	String subject = "有一个新的病虫草害报告";
+    	String content = "新的关于"+ cropName+"的"+disasterType + "。"+"灾害名称为"+disasterName+"。灾害爆发时间为"
+    	+ eruptionTime + ",灾害分布是"+disasterDist;
+    		
+    	mh.sendMail("seanjiang86@hotmail.com", subject,content);
     	result.put("respCode", 200);
     	result.put("message", "插入成功");
     	return result;

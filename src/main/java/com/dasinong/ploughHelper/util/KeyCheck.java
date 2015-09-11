@@ -41,9 +41,16 @@ public class KeyCheck implements HandlerInterceptor{
         String key = request.getParameter("key");
         String queryString = request.getQueryString();
         
+
+        
         if ("yxxwhgz".equals(key)) return true;
         else {
-        	System.out.println("warning: keyError");
+        	for (String device : Env.getEnv().checkDevice){
+        		if (request.getHeader("user-agent").toLowerCase().contains(device)){
+        			System.out.println("warning: "+ request.getHeader("user-agent"));
+        			return true;
+        		}
+        	}
         	return true;
         }
 	}

@@ -269,7 +269,11 @@
 			<artifactId>hibernate-ehcache</artifactId>
 			<version>3.6.0.Final</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.0.1</version>
+		</dependency>
 		
 	</dependencies>
     <build>
@@ -308,6 +312,7 @@
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
             </plugin>
+            
         </plugins>
     </build>
 </project>

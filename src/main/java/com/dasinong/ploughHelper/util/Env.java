@@ -1,6 +1,6 @@
 package com.dasinong.ploughHelper.util;
 
-
+import java.util.HashSet;
 
 public class Env {
 	private static Env env;
@@ -14,6 +14,12 @@ public class Env {
 		
 	}
 	private Env() {
+		checkDevice = new HashSet<String>();
+		this.checkDevice.add("ie");
+		this.checkDevice.add("mozilla");
+		this.checkDevice.add("chrome");
+		this.checkDevice.add("firefox");
+		this.checkDevice.add("applewekit");
 		this.DBConnection = "jdbc:mysql://localhost:3306/ploughHelper?user=root&password=weather123";
 		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
 			WorkingDir = "E:/git";
@@ -55,6 +61,8 @@ public class Env {
 	public int sessionTimeout=60000; //1000 min;
 	public long live7dBufferTime=60*60*1000; //20min;
 	public String DBConnection;
+	public HashSet<String> checkDevice;
+	
 	
 	public static void main(String[] args){
 		System.out.println(System.getProperty("os.name"));
