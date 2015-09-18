@@ -127,15 +127,23 @@ public class FieldFacade implements IFieldFacade {
 	     field.setMonitorLocationId(monitorLocationId);
          fd.save(field);
 	         
+         if (user.getFields()!=null){
+         	user.getFields().add(field);
+         }
+ 	     else{
+         	user.setFields(new HashSet<Field>());
+         	user.getFields().add(field);
+ 	     }
+         
        //初始化所有常见任务	         
          if (variety.getSubStages()!=null){
         	 List<TaskRegion> trl = taskRegionDao.findByTaskRegion(field.getLocation().getRegion());
-	        for(SubStage ss : variety.getSubStages()){
+	         Set<Long> tasks = new HashSet<Long>();
+	         for(TaskRegion tr : trl){
+	       		tasks.add(tr.getTaskSpecId());
+	       	 }
+	         for(SubStage ss : variety.getSubStages()){
 	        	if (ss.getTaskSpecs()!=null){
-		        	Set<Long> tasks = new HashSet<Long>();
-		       		for(TaskRegion tr : trl){
-		       			tasks.add(tr.getTaskSpecId());
-		       		}
 		       		for (TaskSpec ts : ss.getTaskSpecs()){
 		       			//if (ts.getFitRegion().contains(field.getLocation().getRegion())){
 		       			if(tasks.contains(ts.getTaskSpecId())){
@@ -150,13 +158,7 @@ public class FieldFacade implements IFieldFacade {
 	        }
         }
          
-	    if (user.getFields()!=null){
-        	user.getFields().add(field);
-        }
-	    else{
-        	user.setFields(new HashSet<Field>());
-        	user.getFields().add(field);
-	    }
+	    
 
 		FieldWrapper fw = new FieldWrapper(field,taskSpecDao,1);
 		return fw;	    

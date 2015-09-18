@@ -1,5 +1,7 @@
 package com.dasinong.ploughHelper.dao;
 
+import java.util.List;
+
 import com.dasinong.ploughHelper.model.User;
 
 public interface IUserDao {
@@ -21,5 +23,7 @@ public interface IUserDao {
 	User findByWeixin(String weixintoken);
 	
 	long getUIDbyRef(String refcode);
+	
+	public List<User> getAllUser();
 
 }

@@ -97,4 +97,11 @@ public class UserDao extends HibernateDaoSupport implements IUserDao{
 		if (list.size()>0) return ((User) list.get(0)).getUserId();
 		else return -1;
 	}
+	
+	@Override
+	public List<User> getAllUser() {
+		List<User> list  = getHibernateTemplate().find(
+				"from User");
+		return list;
+	}
 }

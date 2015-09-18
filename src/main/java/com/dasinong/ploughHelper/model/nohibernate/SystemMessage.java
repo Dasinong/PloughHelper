@@ -10,10 +10,12 @@ public class SystemMessage {
 	private String content;
 	private Date startTime;
 	private Date endTime;
+	private String picUrl;
+	private String landingUrl;
 	
 	
 	public SystemMessage(int id, int monitorLocation, String locationGroup, String channel, String content,
-			Date startTime, Date endTime) {
+			Date startTime, Date endTime,String picUrl,String landingUrl) {
 		super();
 		this.id = id;
 		this.monitorLocation = monitorLocation;
@@ -22,6 +24,8 @@ public class SystemMessage {
 		this.content = content;
 		this.startTime = startTime;
 		this.endTime = endTime;
+		this.picUrl = picUrl;
+		this.landingUrl = landingUrl;
 	}
 	public String getLocationGroup() {
 		return locationGroup;
@@ -64,6 +68,18 @@ public class SystemMessage {
 	}
 	public void setMonitorLocation(int monitorLocation) {
 		this.monitorLocation = monitorLocation;
+	}
+	public String getPicUrl() {
+		return picUrl;
+	}
+	public void setPicUrl(String picUrl) {
+		this.picUrl = picUrl;
+	}
+	public String getLandingUrl() {
+		return landingUrl;
+	}
+	public void setLandingUrl(String landingUrl) {
+		this.landingUrl = landingUrl;
 	}
 
 }

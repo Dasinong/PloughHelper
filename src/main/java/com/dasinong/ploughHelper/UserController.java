@@ -627,6 +627,14 @@ public class UserController {
 				if (savedCode.equals(seccode)){
 					user.setAuthenticated(true);
 				    user.setLastLogin(new Date());
+				    if (user.getRefcode()==null){
+						String refcode;
+						do{
+							refcode =Refcode.GenerateRefcode();
+						}
+						while (userDao.getUIDbyRef(refcode)>0);
+						user.setRefcode(refcode);
+					}
 					userDao.update(user);
 					request.getSession().removeAttribute("securityCode");
 					request.getSession().setAttribute("User", user);
@@ -791,7 +799,7 @@ public class UserController {
 				if (user.getRefuid()!=null){
 					result.put("respCode", 201);
 					result.put("message", "已设置过推荐人");
-					result.put("data", user.getUserId());
+					//result.put("data", user.getUserId());
 					return result;
 				}
 				String refcode = request.getParameter("refcode");

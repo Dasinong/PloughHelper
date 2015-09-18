@@ -38,7 +38,9 @@ public class AllSystemMessage {
 						result.getString("channel"),
 						result.getString("content"),
 						result.getDate("startTime"),
-						result.getDate("endTime")
+						result.getDate("endTime"),
+						result.getString("picUrl"),
+						result.getString("landingUrl")
 						);
 				this.addMessage(sm, true);
 			}
@@ -75,13 +77,15 @@ public class AllSystemMessage {
 				Statement stmt = conn.createStatement();
 				//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				//String dataexp = sdf.format(new Date());
-				sql = "insert into systemMessage (monitorLocation,locationGroup,channel,content,startTime,endTime) values ("+
+				sql = "insert into systemMessage (monitorLocation,locationGroup,channel,content,startTime,endTime,picUrl,landingUrl) values ("+
 							sm.getMonitorLocation()+","+
 						    sm.getLocationGroup()+"," +
 							sm.getChannel()+","+
 						    sm.getContent()+","+
 							sm.getStartTime()+","+
-						    sm.getEndTime()+")";
+						    sm.getEndTime()+","+
+						    sm.getPicUrl()+","+
+						    sm.getLandingUrl()+")";
 				stmt.execute(sql);
 				stmt.close();
 				conn.close();

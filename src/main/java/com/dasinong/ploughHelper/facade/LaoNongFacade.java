@@ -73,11 +73,21 @@ public class LaoNongFacade implements ILaoNongFacade {
 				newLaoNong.add(laoNong);
 			}
 		} 
-		List<SystemMessage> sml = AllSystemMessage.getSystemMessage().get_Messages(areaId);
+		List<SystemMessage> sml = new ArrayList<SystemMessage>();
+		List<SystemMessage> local = AllSystemMessage.getSystemMessage().get_Messages(areaId);
+		List<SystemMessage> all = AllSystemMessage.getSystemMessage().get_Messages(100);
+		if (all!=null){
+			sml.addAll(all);
+		}
+		if (local!=null){
+			sml.addAll(local);
+		}
+		
 		if (sml!=null && user!=null){
 			for(SystemMessage sm:sml){
 				if (sm.getChannel().equalsIgnoreCase(user.getChannel()) && (sm.getStartTime().getTime()< (new Date()).getTime())){
-					LaoNong ln = new LaoNong(1,3,"closeeyelaugh.png","系统消息",sm.getContent(),"");
+					LaoNong ln = new LaoNong(sm.getId(),1,sm.getPicUrl(),"系统广告",sm.getContent(),sm.getLandingUrl());
+					result.put("data",ln);
 					newLaoNong.add(ln);
 				}
 			}

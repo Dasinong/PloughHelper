@@ -98,7 +98,8 @@ public class FieldWrapper implements Serializable{
 		this.setDayToHarvest(field.getDayToHarvest());
 		
 		
-		if (field.getVariety().getSubStages()!=null){
+		//For crops with detailed stage
+		if (field.getVariety().getSubStages()!=null && field.getVariety().getSubStages().size()>0){
 			for(SubStage ss : field.getVariety().getSubStages()){
 				stagelist.add(new SubStageWrapper(ss));
 				if (ss.getSubStageId() == field.getCurrentStageID()){
@@ -118,6 +119,36 @@ public class FieldWrapper implements Serializable{
 						
 					}
 				}
+			}
+		}
+		else{
+			List<PetDisSpec> pdlist= new ArrayList<PetDisSpec>();
+			for(PetDisSpec pds : field.getVariety().getCrop().getPetDisSpecs()){
+				pdlist.add(pds);
+			}
+			Collections.sort(pdlist);
+			int count=0;
+			for(PetDisSpec pds: pdlist){
+				PetDisSpecWrapper pdsw = new PetDisSpecWrapper(pds);
+				petdisspecws.add(pdsw);
+				count++;
+				if (count>=4) break;
+			}
+		}
+		
+		//For the case when substage and crop channel not ready.
+		if(petdisspecws.size()==0){
+			List<PetDisSpec> pdlist= new ArrayList<PetDisSpec>();
+			for(PetDisSpec pds : field.getVariety().getCrop().getPetDisSpecs()){
+				pdlist.add(pds);
+			}
+			Collections.sort(pdlist);
+			int count=0;
+			for(PetDisSpec pds: pdlist){
+				PetDisSpecWrapper pdsw = new PetDisSpecWrapper(pds);
+				petdisspecws.add(pdsw);
+				count++;
+				if (count>=4) break;
 			}
 		}
 		this.setCropName(field.getVariety().getCrop().getCropName());

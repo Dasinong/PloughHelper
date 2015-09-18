@@ -43,6 +43,7 @@ public class DisasterReportFacade implements IDisasterReportFacade {
     	+ eruptionTime + ",灾害分布是"+disasterDist;
     		
     	mh.sendMail("seanjiang86@hotmail.com", subject,content);
+    	mh.sendMail("zhangyunfeng@dasinong.net", subject, content);
     	result.put("respCode", 200);
     	result.put("message", "插入成功");
     	return result;

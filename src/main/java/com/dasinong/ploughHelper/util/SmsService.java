@@ -89,6 +89,23 @@ public class SmsService {
 		return "";
 	}
 	
+	public static synchronized String sendref(String content, String[] target){
+		String postUrl = "http://cf.51welink.com/submitdata/Service.asmx/g_Submit";		
+		for(String number: target)
+		{
+			content = content+"【今日农事】";
+			try {
+				String postData = "sname="+ACCOUNT_NAME+"&spwd="+PASSWORD+"&scorpid=&sprdid=1012818&sdst="+number+"&smsg="+URLEncoder.encode(content,"UTF-8");
+				SMS(postData, postUrl);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+					
+		}
+		return "OK";
+	}
+	
 	public static synchronized String weatherAlert(String content) {
 		if (Env.getEnv().weatherAlert){
 			String postUrl = "http://cf.51welink.com/submitdata/Service.asmx/g_Submit";		
@@ -179,6 +196,7 @@ public class SmsService {
 		//String securityCode = sms.generateSecurityCode(6);
 		//System.out.println(securityCode);
 		//System.out.println(securityCodeSMS(securityCode, xiyaoCell));
-		System.out.println(SmsService.weatherAlert("load 24h failed"));
+		//System.out.println(SmsService.weatherAlert("load 24h failed"));
+		SmsService.sendref("abc", new String[]{"13162881998"});
 	}
 }

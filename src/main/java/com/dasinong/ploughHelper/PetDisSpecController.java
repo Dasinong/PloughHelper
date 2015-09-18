@@ -35,8 +35,15 @@ public class PetDisSpecController {
 		}
 		
 		Long subStageId;
+		Long varietyId;
 		try{
 			subStageId = Long.parseLong(request.getParameter("subStageId"));
+			try{
+				varietyId = Long.parseLong(request.getParameter("varietyId"));
+			}
+			catch(Exception e){ //for backward compatibility
+				varietyId =  -1L;
+			}
 		}
 		catch(Exception e){
 			result.put("respCode",300);
@@ -46,7 +53,7 @@ public class PetDisSpecController {
 
 		petDisSpecFacade = (IPetDisSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecFacade");
 		
-		return petDisSpecFacade.getPetDisBySubStage(subStageId);
+		return petDisSpecFacade.getPetDisBySubStage(subStageId,varietyId);
 	}
 	
 	@RequestMapping(value = "/getPetDisSpecDetial", produces="application/json")
