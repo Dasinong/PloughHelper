@@ -23,4 +23,6 @@ public interface IVarietyDao {
 
 	List<Variety> findVarietysByName(String varietyName);
 
+	List<Variety> findByCrop(long cropId);
+
 }

@@ -39,22 +39,22 @@ public class ChannelController {
 			if (user == null || user.getChannel() == null)
 			{
 				content = "哇朋友向你推荐“今日农事”软件！手机种田好帮手，查天气病虫草害一键搞定，马上免费下载"+
-						 normalUrl+"回T退订";
+						 normalUrl+" 回T退订";
 				SmsService.sendref(content, target);
 			}else{
 				if (user.getChannel().equals("陶氏")){
 					content = "哇朋友向你推荐“今日农事”软件！手机种田好帮手，查天气病虫草害一键搞定，马上免费下载"
-							+dowsUrl+"回T推定";
+							+dowsUrl+" 回T推定";
 					SmsService.sendref(content, target);
 				}
 			    else if(user.getChannel().equals("巴士甫")){
 			    	content = "哇朋友向你推荐“今日农事”软件！手机种田好帮手，查天气病虫草害一键搞定，马上免费下载"+
-							 bsfUrl+"回T退订";
+							 bsfUrl+" 回T退订";
 					SmsService.sendref(content, target);
 			       SmsService.sendref(content, target);
 			   }else{
 				   content = "哇朋友向你推荐“今日农事”软件！手机种田好帮手，查天气病虫草害一键搞定，马上免费下载"+
-							 normalUrl+"回T退订";
+							 normalUrl+" 回T退订";
 					SmsService.sendref(content, target);
 			   }
 			}

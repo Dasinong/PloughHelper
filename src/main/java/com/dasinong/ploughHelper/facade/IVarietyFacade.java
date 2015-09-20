@@ -10,4 +10,6 @@ public interface IVarietyFacade {
 
 	public abstract Object getVariety(long cropId, String province);
 
+	Object getNormalVariety(long cropId);
+
 }

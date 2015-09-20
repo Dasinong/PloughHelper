@@ -75,6 +75,13 @@ public class VarietyDao extends HibernateDaoSupport implements IVarietyDao {
 	}
 	
 	@Override
+	public List<Variety> findByCrop(long cropId){
+		List list = getHibernateTemplate().find(
+				"from Variety where cropId=?",cropId);
+		return list;
+	}
+	
+	@Override
 	public List<Variety> findGenericVariety(long cropId){
 		List list = getHibernateTemplate().find(
 				"from Variety where cropId=? and varietyId>=26147 and varietyId<=26452",cropId);

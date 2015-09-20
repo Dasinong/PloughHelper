@@ -46,8 +46,10 @@ public class VarietyFacade implements IVarietyFacade {
 			return result;
 		}
 		String province = l.getProvince();
-		
-		return getVariety(cropId,province);
+		if (cropId==223L) //水稻
+			return getVariety(cropId,province);
+		else
+			return getNormalVariety(cropId);
 	}
 	
 	
@@ -65,8 +67,10 @@ public class VarietyFacade implements IVarietyFacade {
 			return result;
 		}
 		Long cropId = crop.getCropId();
-		
-		return getVariety(cropId,province);
+		if (cropId==223L)				
+			return getVariety(cropId,province);
+		else 
+			return getNormalVariety(cropId);
 	}
 	
 	
@@ -85,8 +89,10 @@ public class VarietyFacade implements IVarietyFacade {
 			return result;
 		}
 		String province = l.getProvince();
-		
-		return getVariety(cropId,province);
+		if (cropId==223L)
+			return getVariety(cropId,province);
+		else
+			return getNormalVariety(cropId);
 	}
 	
 	/* (non-Javadoc)
@@ -96,10 +102,58 @@ public class VarietyFacade implements IVarietyFacade {
 	public Object getVariety(long cropId,String province) {
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
-		
+		if (cropId==223L){
+			return getNormalVariety(cropId);
+		}
 		try{
 			List<Variety> lv = varietyDao.findByCropRegion(cropId, province);
 			lv.addAll( varietyDao.findGenericVariety(cropId));
+			Map<String,HashMap<String,Long>> vlist = new  HashMap<String,HashMap<String,Long>>();
+			for (Variety v: lv){
+				if (!vlist.containsKey(v.getVarietyName())){
+					HashMap<String,Long> nrec = new HashMap<String,Long>();
+					nrec.put(v.getSubId(),v.getVarietyId());
+					vlist.put(v.getVarietyName(), nrec);
+				}
+				else{
+					vlist.get(v.getVarietyName()).put(v.getSubId(), v.getVarietyId());
+				}
+			}
+			
+		    /*
+			if (lv.size()==0){
+				lv = varietyDao.findGenericVariety(cropId);
+				for (Variety v: lv){
+					if (!vlist.containsKey(v.getVarietyName())){
+						HashMap<String,Long> nrec = new HashMap<String,Long>();
+						nrec.put(v.getSubId(),v.getVarietyId());
+						vlist.put(v.getVarietyName(), nrec);
+					}
+					else{
+						vlist.get(v.getVarietyName()).put(v.getSubId(), v.getVarietyId());
+					}
+				}
+			}*/
+			
+			result.put("respCode",200);
+			result.put("message", "加载品种列表成功");
+			result.put("data",vlist);
+			
+			return result;
+		}catch(Exception e){
+			result.put("respCode",500);
+			result.put("message", e.getMessage());
+			return result;
+		}
+	}
+	
+	@Override
+	public Object getNormalVariety(long cropId) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
+		
+		try{
+			List<Variety> lv = varietyDao.findByCrop(cropId);
 			Map<String,HashMap<String,Long>> vlist = new  HashMap<String,HashMap<String,Long>>();
 			for (Variety v: lv){
 				if (!vlist.containsKey(v.getVarietyName())){
