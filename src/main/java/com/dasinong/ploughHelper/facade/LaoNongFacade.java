@@ -85,7 +85,7 @@ public class LaoNongFacade implements ILaoNongFacade {
 		
 		if (sml!=null && user!=null){
 			for(SystemMessage sm:sml){
-				if (sm.getChannel().equalsIgnoreCase(user.getChannel()) && (sm.getStartTime().getTime()< (new Date()).getTime())){
+				if ((sm.getChannel().equalsIgnoreCase(user.getChannel())||sm.getChannel().equalsIgnoreCase("所有")) && (sm.getStartTime().getTime()< (new Date()).getTime())){
 					LaoNong ln = new LaoNong(sm.getId(),1,sm.getPicUrl(),"系统广告",sm.getContent(),sm.getLandingUrl());
 					result.put("data",ln);
 					newLaoNong.add(ln);
