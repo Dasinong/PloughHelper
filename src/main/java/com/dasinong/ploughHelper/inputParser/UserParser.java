@@ -15,6 +15,9 @@ public class UserParser {
         String deviceId = request.getParameter("deviceId");
         String channel = request.getParameter("channel");
         
+        
+
+		
         if (password==null || password.isEmpty()){
         	Exception e = new Exception("密码不能为空");
         	throw e;
@@ -34,7 +37,13 @@ public class UserParser {
         user.setCellPhone(cellPhone);
         user.setAddress(address);
         user.setDeviceId(deviceId);
-        user.setChannel(channel);
+		if (channel!=null && !"".equals(channel)){
+			if(channel.equals("TaoShi")){
+				user.setChannel("陶氏");
+			}else{
+			    user.setChannel(channel);
+			}
+		}
 	}
 
 	public User getUser(){

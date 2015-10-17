@@ -105,6 +105,14 @@ public class UserController {
 					while (userDao.getUIDbyRef(refcode)>0);
 					user.setRefcode(refcode);
 				}
+				String channel =  request.getParameter("channel");
+				if (channel!=null && !"".equals(channel)){
+					if(channel.equals("TaoShi")){
+						user.setChannel("陶氏");
+					}else{
+					    user.setChannel(channel);
+					}
+				}
 				userDao.update(user);
 				request.getSession().setAttribute("User", user);
 				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
@@ -157,7 +165,16 @@ public class UserController {
 					while (userDao.getUIDbyRef(refcode)>0);
 					user.setRefcode(refcode);
 				}
-				
+				if (user.getChannel()==null){
+					String channel =  request.getParameter("channel");
+					if (channel!=null && !"".equals(channel)){
+						if(channel.equals("TaoShi")){
+							user.setChannel("陶氏");
+						}else{
+						    user.setChannel(channel);
+						}
+					}
+				}
 				userDao.update(user);
 				request.getSession().setAttribute("User", user);
 				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
@@ -170,6 +187,14 @@ public class UserController {
 			else{
 				user = new User();
 				user.setCellPhone(cellphone);
+				String channel =  request.getParameter("channel");
+				if (channel!=null && !"".equals(channel)){
+					if(channel.equals("TaoShi")){
+						user.setChannel("陶氏");
+					}else{
+					    user.setChannel(channel);
+					}
+				}
 				user.setUserName("");
 				user.setPassword(cellphone.substring(cellphone.length()-6));
 				user.setAuthenticated(true);
