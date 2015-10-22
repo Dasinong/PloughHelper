@@ -113,7 +113,9 @@ public class Location implements Serializable {
 		this.longtitude = longtitude;
 	}
 
-	
+	public String toString() {
+		return this.province + this.city + this.country + this.district + this.community;
+	}
 	
 	
 }

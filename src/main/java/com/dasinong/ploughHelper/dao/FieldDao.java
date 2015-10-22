@@ -56,5 +56,10 @@ public class FieldDao extends HibernateDaoSupport implements IFieldDao{
 	public Field findById(Long id) {
 		return (Field) this.getHibernateTemplate().get(Field.class,id);
 	}
+	
+	@Override
+	public List<Field> findAll() {
+		return this.getHibernateTemplate().loadAll(Field.class);
+	}
 
 }

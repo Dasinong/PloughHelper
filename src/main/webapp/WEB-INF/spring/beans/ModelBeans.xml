@@ -85,5 +85,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
     <bean id="stepRegionDao" class="com.dasinong.ploughHelper.dao.StepRegionDao" >
    		<property name="sessionFactory" ref="mySessionFactory"></property>
    </bean>
+   <bean id="weatherSubscriptionDao" class="com.dasinong.ploughHelper.dao.WeatherSubscriptionDao" >
+   		<property name="sessionFactory" ref="mySessionFactory"></property>
+   </bean>
 	
 </beans>

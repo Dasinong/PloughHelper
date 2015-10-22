@@ -41,6 +41,8 @@ public class AllLocation {
 	    }else{
 	    	fullpath = Env.getEnv().WorkingDir+"/data/ftp/monitorLocation";
 	    }
+		// debug purpose
+	    fullpath = "/Users/xiahonggao/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/MonitorLocation.txt";
 	    
 		File f = new File(fullpath);
 		FileInputStream fr = new FileInputStream(f);

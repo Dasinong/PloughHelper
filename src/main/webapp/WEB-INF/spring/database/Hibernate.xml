@@ -52,6 +52,7 @@
 			   <value>/com/dasinong/ploughHelper/model/Fertilizer.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/TaskRegion.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/StepRegion.hbm.xml</value>
+			   <value>/com/dasinong/ploughHelper/model/WeatherSubscription.hbm.xml</value>
 			</list>
     	</property>	
     </bean>

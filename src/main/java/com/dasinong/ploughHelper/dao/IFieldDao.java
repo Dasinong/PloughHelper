@@ -1,5 +1,7 @@
 package com.dasinong.ploughHelper.dao;
 
+import java.util.List;
+
 import com.dasinong.ploughHelper.model.Field;
 
 public interface IFieldDao {
@@ -13,5 +15,7 @@ public interface IFieldDao {
 	public abstract Field findByFieldName(String fieldName);
 
 	public abstract Field findById(Long id);
+	
+	public abstract List<Field> findAll();
 
 }
