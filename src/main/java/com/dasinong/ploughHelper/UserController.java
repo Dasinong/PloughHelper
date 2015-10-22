@@ -483,7 +483,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/updatePassword",produces="application/json;charset=utf-8")
 	@ResponseBody
-	public Object updatePassword(MultipartHttpServletRequest request, HttpServletResponse response) {
+	public Object updatePassword(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
 			User user = (User) request.getSession().getAttribute("User");
@@ -496,13 +496,17 @@ public class UserController {
 			String oldPassword = request.getParameter("oPassword");
 			String newPassword = request.getParameter("nPassword");
 			
-			if (oldPassword==null || newPassword == null){
+			// If password is set, we expect both oPassword and nPassword
+			// to be present.
+			if ((user.getIsPassSet() && oldPassword == null) || newPassword == null){
 				result.put("respCode",300);
 				result.put("message","参数缺失");
 				return result;
 			}
 			
-			if (!user.getPassword().equals(oldPassword)){
+			// If password is set, we expect oPassword to match password on file.
+			// TODO (xiahonggao): encrypt password
+			if (user.getIsPassSet() && !user.getPassword().equals(oldPassword)){
 				result.put("respCode",320);
 				result.put("message", "旧密码错误");
 				return result;
@@ -513,6 +517,8 @@ public class UserController {
 			IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 			userDao.update(user);
 			
+			result.put("respCode", 200);
+			result.put("respMsg", "密码设置成功");
 		    return result;
 		}
 		catch(Exception e)
