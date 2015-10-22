@@ -287,6 +287,24 @@ public class BaiKeFacade implements IBaiKeFacade {
 	}
 	
 	@Override
+	public Object browsePetDisSpecsByCropIdAndType(Long cropId, String type) {
+		HashMap<String, Object> result  = new HashMap<String, Object>();
+		petDisSpecBrowseDao = (IPetDisSpecBrowseDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecBrowseDao");
+		
+		List<PetDisSpecBrowse> pdsbList = petDisSpecBrowseDao.findByCropIdAndType(cropId, type);
+		if(pdsbList == null || pdsbList.size() == 0) {
+			result.put("respCode", 400);
+			result.put("respMsg", "这些病虫草害不存在");
+			return result;
+		}
+		
+    	result.put("respCode", 200);
+    	result.put("message", "获得成功");
+    	result.put("data", pdsbList);
+    	return result;
+	}
+	
+	@Override
 	public Map<String,List<HashMap<String,String>>> searchPetDisSpec(String key){
 		Map<String,List<HashMap<String,String>>> result = new HashMap<String,List<HashMap<String,String>>>();
 		FullTextSearch bs = null;

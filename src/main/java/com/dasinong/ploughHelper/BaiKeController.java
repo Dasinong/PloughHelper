@@ -357,4 +357,30 @@ public class BaiKeController {
 	    return baiKeFacade.getVarietysByName(name);
 	}
 
+	@RequestMapping(value = "/browsePetDisSpecsByCropIdAndType", produces="application/json")
+	@ResponseBody
+	public Object browsePetDisSpecsByCropIdAndType(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		
+		Long cropId;
+		String cropIdStr = request.getParameter("cropId");
+		if (cropIdStr == null || "".equals(cropIdStr)) {
+			result.put("respCode", 300);
+			result.put("respMsg", "cropId缺失");
+			return result;
+		} else {
+			cropId = Long.parseLong(cropIdStr);
+		}
+		
+		// TODO (xiahonggao): make type Enum and validate the value here
+		String type = request.getParameter("type");
+		if (type == null || "".equals(type)) {
+			result.put("respCode", 300);
+			result.put("respMsg", "type缺失");
+			return result;
+		}
+		
+		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
+	    return baiKeFacade.browsePetDisSpecsByCropIdAndType(cropId, type);
+	}
 }

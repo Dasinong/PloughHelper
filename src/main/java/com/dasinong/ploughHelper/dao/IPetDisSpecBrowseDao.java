@@ -11,5 +11,7 @@ public interface IPetDisSpecBrowseDao {
 	public abstract PetDisSpecBrowse findById(Long id);
 
 	public abstract List<PetDisSpecBrowse> findByType(String type);
+	
+	public abstract List<PetDisSpecBrowse> findByCropIdAndType(Long cropId, String type);
 
 }

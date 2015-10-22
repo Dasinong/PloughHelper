@@ -30,7 +30,7 @@ public class PetDisSpecBrowseDao extends HibernateDaoSupport implements IPetDisS
 	 * @see com.dasinong.ploughHelper.dao.IPetDisSpecBrowseDao#findByType(java.lang.String)
 	 */
 	@Override
-	public List<PetDisSpecBrowse> findByType(String type){
+	public List<PetDisSpecBrowse> findByType(String type) {
 		//List list = getHibernateTemplate().find("from PetDisSpecBrowse where type=?",type);
 		List list=null;
 		if (type.contains("病")) {
@@ -43,6 +43,16 @@ public class PetDisSpecBrowseDao extends HibernateDaoSupport implements IPetDisS
 		if (list==null){
 			return new ArrayList<PetDisSpecBrowse>();
 		}
+		return list;
+	}
+	
+	public List<PetDisSpecBrowse> findByCropIdAndType(Long cropId, String type) {
+		List list = getHibernateTemplate().find(
+			"from PetDisSpecBrowse where cropId = ? and type like '%" + type + "%'", cropId);
+		if (list == null) {
+			return new ArrayList<PetDisSpecBrowse>();
+		}
+		
 		return list;
 	}
 }

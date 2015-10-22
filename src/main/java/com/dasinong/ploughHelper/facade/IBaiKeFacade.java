@@ -34,4 +34,6 @@ public interface IBaiKeFacade {
 
 	Map<String, List<HashMap<String, String>>> searchPetDisSpec(String key);
 
+	Object browsePetDisSpecsByCropIdAndType(Long cropId, String type);
+
 }
