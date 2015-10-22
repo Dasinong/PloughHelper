@@ -46,7 +46,7 @@ public class UserController {
 			user.setCreateAt(new Date());
 			String refcode;
 			do{
-				refcode =Refcode.GenerateRefcode();
+				refcode = Refcode.GenerateRefcode();
 			}
 			while (userdao.getUIDbyRef(refcode)>0);
 			user.setRefcode(refcode);
@@ -97,14 +97,7 @@ public class UserController {
 			String passWord = request.getParameter("password");
 			if (user.getPassword().equals(passWord)){
 				user.setLastLogin(new Date());
-				if (user.getRefcode()==null){
-					String refcode;
-					do{
-						refcode =Refcode.GenerateRefcode();
-					}
-					while (userDao.getUIDbyRef(refcode)>0);
-					user.setRefcode(refcode);
-				}
+				
 				String channel =  request.getParameter("channel");
 				if (channel!=null && !"".equals(channel)){
 					if(channel.equals("TaoShi")){
@@ -157,14 +150,6 @@ public class UserController {
 			user = userDao.findByCellphone(cellphone);
 			if (user!=null){
 				user.setLastLogin(new Date());
-				if (user.getRefcode()==null){
-					String refcode;
-					do{
-						refcode =Refcode.GenerateRefcode();
-					}
-					while (userDao.getUIDbyRef(refcode)>0);
-					user.setRefcode(refcode);
-				}
 				if (user.getChannel()==null){
 					String channel =  request.getParameter("channel");
 					if (channel!=null && !"".equals(channel)){
@@ -187,6 +172,14 @@ public class UserController {
 			else{
 				user = new User();
 				user.setCellPhone(cellphone);
+				
+				String refcode;
+				do{
+					refcode = Refcode.GenerateRefcode();
+				}
+				while (userDao.getUIDbyRef(refcode)>0);
+				user.setRefcode(refcode);
+				
 				String channel =  request.getParameter("channel");
 				if (channel!=null && !"".equals(channel)){
 					if(channel.equals("TaoShi")){
@@ -655,7 +648,7 @@ public class UserController {
 				    if (user.getRefcode()==null){
 						String refcode;
 						do{
-							refcode =Refcode.GenerateRefcode();
+							refcode = Refcode.GenerateRefcode();
 						}
 						while (userDao.getUIDbyRef(refcode)>0);
 						user.setRefcode(refcode);
@@ -730,6 +723,13 @@ public class UserController {
 				user.setPassword("dasinong");
 				user.setPictureId(avater);
 				user.setCreateAt(new Date());
+				
+				String refcode;
+				do{
+					refcode = Refcode.GenerateRefcode();
+				}
+				while (userDao.getUIDbyRef(refcode)>0);
+				user.setRefcode(refcode);
 
 				userDao.save(user);
 				request.getSession().setAttribute("User", user);
@@ -788,6 +788,13 @@ public class UserController {
 				user.setPassword("dasinong");
 				user.setPictureId(avater);
 				user.setCreateAt(new Date());
+				
+				String refcode;
+				do{
+					refcode = Refcode.GenerateRefcode();
+				}
+				while (userDao.getUIDbyRef(refcode)>0);
+				user.setRefcode(refcode);
 
 				userDao.save(user);
 				request.getSession().setAttribute("User", user);

@@ -25,5 +25,7 @@ public interface IUserDao {
 	long getUIDbyRef(String refcode);
 	
 	public List<User> getAllUser();
+	
+	public List<User> getAllUsersWithEmptyRefCode();
 
 }

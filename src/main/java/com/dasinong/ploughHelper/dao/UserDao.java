@@ -104,4 +104,9 @@ public class UserDao extends HibernateDaoSupport implements IUserDao{
 				"from User");
 		return list;
 	}
+	
+	public List<User> getAllUsersWithEmptyRefCode() {
+		List<User> list = getHibernateTemplate().find("from User where refcode IS NULL");
+		return list;
+	}
 }
