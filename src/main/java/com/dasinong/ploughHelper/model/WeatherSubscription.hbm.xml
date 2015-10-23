@@ -28,5 +28,8 @@
     		</type>
 		</property>
 		<property name="createdAt" type="timestamp" column="createdAt" />
+		<property name="ordering" type="long">
+			<column name="ordering" not-null="true" />
+		</property>
     </class>
 </hibernate-mapping>

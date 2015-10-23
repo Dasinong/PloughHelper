@@ -14,4 +14,6 @@ public interface IWeatherSubscriptionDao {
 	public abstract WeatherSubscription findById(Long id);
 	
 	public abstract List<WeatherSubscription> findByUserId(Long userId);
+	
+	public abstract void updateOrdering(Long[] id);
 }

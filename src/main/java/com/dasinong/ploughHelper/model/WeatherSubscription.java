@@ -19,6 +19,7 @@ public class WeatherSubscription implements Serializable {
 	private String locationName;
 	private WeatherSubscriptionType type;
 	private Timestamp createdAt;
+	private Long ordering;
 		
 	public Long getWeatherSubscriptionId() {
 		return this.weatherSubscriptionId;
@@ -48,6 +49,10 @@ public class WeatherSubscription implements Serializable {
 		return this.createdAt;
 	}
 	
+	public Long getOrdering() {
+		return this.ordering;
+	}
+	
 	public void setWeatherSubscriptionId(long id) {
 		this.weatherSubscriptionId = id;
 	}
@@ -74,5 +79,9 @@ public class WeatherSubscription implements Serializable {
 	
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
+	}
+	
+	public void setOrdering(Long ordering) {
+		this.ordering = ordering;
 	}
 }
