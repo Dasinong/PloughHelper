@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 import org.xml.sax.SAXException;
 
+import com.dasinong.ploughHelper.dao.IUserDao;
 import com.dasinong.ploughHelper.facade.IWeatherFacade;
 import com.dasinong.ploughHelper.model.User;
 
@@ -39,6 +40,7 @@ public class WeatherController {
 	public Object loadWeather(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, IOException, ParseException, ParserConfigurationException, SAXException {
 
 		User user = (User) request.getSession().getAttribute("User");
+				
 		Map<String,Object> result = new HashMap<String,Object>();
 		IWeatherFacade wf = (IWeatherFacade) ContextLoader.getCurrentWebApplicationContext().getBean("weatherFacade");
 		

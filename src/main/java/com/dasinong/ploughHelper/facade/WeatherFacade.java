@@ -40,7 +40,9 @@ public class WeatherFacade implements IWeatherFacade {
 	@Override
 	public Object getWeather(Integer areaId){
 		
-		HashMap<String,Object> result = new HashMap<String,Object>();
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		
 		result.put("respcode", 200);
 		result.put("message", "获取成功");
 		
@@ -48,6 +50,7 @@ public class WeatherFacade implements IWeatherFacade {
 		GetLiveWeather glw = new GetLiveWeather(areaId.toString());
 		LiveWeatherData lwd = glw.getLiveWeather();
 		result.put("current", lwd);
+		data.put("current", lwd);
 		
 		
 		//获得12小时天气
@@ -76,6 +79,7 @@ public class WeatherFacade implements IWeatherFacade {
 				lwd.daymax = Math.max(max, lwd.l1);
 				lwd.daymin = Math.min(min, lwd.l1);
 				result.put("n12h", n24h);
+				data.put("n24h", n24h);
 
 				int p1=0;
 				int p2=0;
@@ -101,6 +105,7 @@ public class WeatherFacade implements IWeatherFacade {
 				    pOP.put("night", p3);
 				    pOP.put("nextmidnight", p4);
 			        result.put("POP", pOP);
+			        data.put("POP", pOP);
 				}
 			} catch (Exception e) {
 				System.out.println("Process 24h failed "+areaId);
@@ -132,6 +137,8 @@ public class WeatherFacade implements IWeatherFacade {
 					if (System.currentTimeMillis()>sunset) sunset = sunset+24*60*60*1000;
 					result.put("sunrise", sunrise);
 					result.put("sunset", sunset);
+					data.put("sunrise", sunrise);
+					data.put("sunset", sunset);
 					if (lastDay!=null){
 						lastDay.max_temp = l7d.sevenDay[i-1].dayTemp;
 						lastDay.min_temp = l7d.sevenDay[i-1].nightTemp;
@@ -141,7 +148,9 @@ public class WeatherFacade implements IWeatherFacade {
 					e.printStackTrace();
 				}
 				
-				result.put("n7d", All7d.getAll7d().get7d(areaId).aggregateData);
+				ForcastInfo[] n7d = All7d.getAll7d().get7d(areaId).aggregateData;
+				result.put("n7d", n7d);
+				data.put("n7d", n7d);
 			}
 		} catch (Exception e) {
 			System.out.println("Get next 7d failed");
@@ -149,14 +158,22 @@ public class WeatherFacade implements IWeatherFacade {
 		}
 		
 		try{
-			result.put("workable", Rule.workable(areaId));
-			result.put("sprayable", Rule.sprayable(areaId));
+			int workable = Rule.workable(areaId);
+			int sprayable = Rule.sprayable(areaId);
+			result.put("workable", workable);
+			result.put("sprayable", sprayable);
+			data.put("workable", workable);
+			data.put("sprayable", sprayable);
 		}
 		catch(Exception e){
 			System.out.println("No detailed 24h statistic for location "+ areaId);
 			result.put("workable", -1);
 			result.put("sprayable", -1);
+			data.put("workable", -1);
+			data.put("sprayable", -1);
 		}
+		
+		result.put("data", data);
 		return result;
 		
 	}
