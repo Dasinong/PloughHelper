@@ -28,7 +28,7 @@ public class BaseController {
 	) {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("respCode", 100);
-		result.put("respMsg", "用户没有登录");
+		result.put("message", "用户没有登录");
 		return result;
 	}
 	
@@ -41,7 +41,7 @@ public class BaseController {
 	) {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("respCode", 300);
-		result.put("respMsg", exception.getParamName() + "参数缺失");
+		result.put("message", exception.getParamName() + "参数缺失");
 		return result;
 	}
 	
@@ -54,7 +54,7 @@ public class BaseController {
 	) {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("respCode", 404);
-		result.put("respMsg", "无法找到"+exception.getResourceType()+exception.getResourceId());
+		result.put("message", "无法找到"+exception.getResourceType()+exception.getResourceId());
 		return result;
 	}
 	
@@ -67,7 +67,7 @@ public class BaseController {
 	) {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("respCode", 300);
-		result.put("respMsg", "数据库访问错误");
+		result.put("message", "数据库访问错误");
 		return result;
 	}
 	
@@ -77,7 +77,7 @@ public class BaseController {
 	public Object handleError(HttpServletRequest req, Exception exception) {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("respCode", 500);
-		result.put("respMsg", "服务器内部错误");
+		result.put("message", "服务器内部错误");
 		return result;
 	}
 }

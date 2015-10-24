@@ -65,7 +65,7 @@ public class WeatherSubscriptionController extends BaseController {
 		
 		List<WeatherSubscription> subs = weatherSubsDao.findByUserId(user.getUserId());
 		result.put("respCode", 200);
-		result.put("respMsg", "获取成功");
+		result.put("message", "获取成功");
 		result.put("data", subs);
 		return result;
 	}
@@ -97,7 +97,7 @@ public class WeatherSubscriptionController extends BaseController {
 		}
 		
 		result.put("respCode", 200);
-		result.put("respMsg", "获取成功");
+		result.put("message", "获取成功");
 		result.put("data", subs);
 		return result;
 	}
@@ -130,7 +130,7 @@ public class WeatherSubscriptionController extends BaseController {
 		
 		weatherSubsDao.delete(subs);
 		result.put("respCode", 200);
-		result.put("respMsg", "删除成功");
+		result.put("message", "删除成功");
 		return result;
 	}
 	
@@ -157,7 +157,7 @@ public class WeatherSubscriptionController extends BaseController {
 		weatherSubsDao.updateOrdering(ids);
 		
 		result.put("respCode", 200);
-	    result.put("respMsg", "排序成功");
+	    result.put("message", "排序成功");
 	    
 	    return result; 
 	}
@@ -211,7 +211,7 @@ public class WeatherSubscriptionController extends BaseController {
 	    weatherSubsDao.save(subs);
 	    
 	    result.put("respCode", 200);
-	    result.put("respMsg", "创建成功");
+	    result.put("message", "创建成功");
 	    result.put("data", subs);
 	    
 	    return result;
@@ -245,7 +245,7 @@ public class WeatherSubscriptionController extends BaseController {
 		 }
 		
 		result.put("respCode", 200);
-	    result.put("respMsg", "创建成功");
+	    result.put("message", "创建成功");
 	    
 	    return result;
 	}

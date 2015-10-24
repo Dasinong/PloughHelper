@@ -518,7 +518,7 @@ public class UserController {
 			userDao.update(user);
 			
 			result.put("respCode", 200);
-			result.put("respMsg", "密码设置成功");
+			result.put("message", "密码设置成功");
 		    return result;
 		}
 		catch(Exception e)

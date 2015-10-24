@@ -366,7 +366,7 @@ public class BaiKeController {
 		String cropIdStr = request.getParameter("cropId");
 		if (cropIdStr == null || "".equals(cropIdStr)) {
 			result.put("respCode", 300);
-			result.put("respMsg", "cropId缺失");
+			result.put("message", "cropId缺失");
 			return result;
 		} else {
 			cropId = Long.parseLong(cropIdStr);
@@ -376,7 +376,7 @@ public class BaiKeController {
 		String type = request.getParameter("type");
 		if (type == null || "".equals(type)) {
 			result.put("respCode", 300);
-			result.put("respMsg", "type缺失");
+			result.put("message", "type缺失");
 			return result;
 		}
 		
