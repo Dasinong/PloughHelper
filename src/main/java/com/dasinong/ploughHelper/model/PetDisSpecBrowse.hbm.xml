@@ -18,6 +18,9 @@
         <property name="petDisSpecNamePY" type="string">
         	<column name="petDisSpecNamePY" length="50"/>
         </property>
+        <property name="thumbnailId" type="string">
+        	<column name="thumbnailId" length="500" />
+        </property>
     </class>
 
 </hibernate-mapping>

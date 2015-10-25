@@ -17,7 +17,7 @@ public class PetDisSpecBrowseDao extends HibernateDaoSupport implements IPetDisS
 	public void save(PetDisSpecBrowse petDisSpecBrowse) {
 		getHibernateTemplate().save(petDisSpecBrowse);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.dasinong.ploughHelper.dao.IPetDisSpecBrowseDao#findById(java.lang.Long)
 	 */
@@ -45,7 +45,8 @@ public class PetDisSpecBrowseDao extends HibernateDaoSupport implements IPetDisS
 		}
 		return list;
 	}
-	
+
+	@Override
 	public List<PetDisSpecBrowse> findByCropIdAndType(Long cropId, String type) {
 		List list = getHibernateTemplate().find(
 			"from PetDisSpecBrowse where cropId = ? and type like '%" + type + "%'", cropId);
@@ -54,5 +55,20 @@ public class PetDisSpecBrowseDao extends HibernateDaoSupport implements IPetDisS
 		}
 		
 		return list;
+	}
+	
+	@Override
+	public List<PetDisSpecBrowse> getAll() {
+		List list = this.getHibernateTemplate().find("from PetDisSpecBrowse");
+		if (list == null) {
+			return new ArrayList<PetDisSpecBrowse>();
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public void update(PetDisSpecBrowse petDisSpecBrowse) {
+		this.getHibernateTemplate().update(petDisSpecBrowse);
 	}
 }
