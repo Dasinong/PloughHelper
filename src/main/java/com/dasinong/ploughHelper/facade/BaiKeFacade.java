@@ -294,7 +294,7 @@ public class BaiKeFacade implements IBaiKeFacade {
 		List<PetDisSpecBrowse> pdsbList = petDisSpecBrowseDao.findByCropIdAndType(cropId, type);
 		if(pdsbList == null || pdsbList.size() == 0) {
 			result.put("respCode", 400);
-			result.put("respMsg", "这些病虫草害不存在");
+			result.put("message", "这些病虫草害不存在");
 			return result;
 		}
 		

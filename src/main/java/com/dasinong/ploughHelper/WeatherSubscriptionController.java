@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.ContextLoader;
@@ -52,9 +53,9 @@ public class WeatherSubscriptionController extends BaseController {
 	) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
 		
-		IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-		User user = userdao.findById(463L);
-		// User user = (User) request.getSession().getAttribute("User");
+		// IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		// User user = userdao.findById(463L);
+		User user = (User) request.getSession().getAttribute("User");
 		if (user == null) {
 			throw new UserNotFoundInSessionException();
 		}
@@ -64,7 +65,7 @@ public class WeatherSubscriptionController extends BaseController {
 		
 		List<WeatherSubscription> subs = weatherSubsDao.findByUserId(user.getUserId());
 		result.put("respCode", 200);
-		result.put("respMsg", "获取成功");
+		result.put("message", "获取成功");
 		result.put("data", subs);
 		return result;
 	}
@@ -96,7 +97,7 @@ public class WeatherSubscriptionController extends BaseController {
 		}
 		
 		result.put("respCode", 200);
-		result.put("respMsg", "获取成功");
+		result.put("message", "获取成功");
 		result.put("data", subs);
 		return result;
 	}
@@ -112,9 +113,9 @@ public class WeatherSubscriptionController extends BaseController {
 	) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
 		
-		IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-		User user = userdao.findById(463L);
-		// User user = (User) request.getSession().getAttribute("User");
+		// IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		// User user = userdao.findById(463L);
+		User user = (User) request.getSession().getAttribute("User");
 		if (user == null) {
 			throw new UserNotFoundInSessionException();
 		}
@@ -129,8 +130,36 @@ public class WeatherSubscriptionController extends BaseController {
 		
 		weatherSubsDao.delete(subs);
 		result.put("respCode", 200);
-		result.put("respMsg", "删除成功");
+		result.put("message", "删除成功");
 		return result;
+	}
+	
+	@RequestMapping(value = "/reorderWeatherSubscriptions",
+					method = RequestMethod.POST,
+					produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Object reorderWeatherSubscriptions(
+		HttpServletRequest request, 
+		HttpServletResponse response,
+		@RequestParam("ids[]") Long[] ids
+	) throws Exception {
+		Map<String,Object> result = new HashMap<String,Object>();
+			
+		// IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		// User user = userdao.findById(463L);
+		User user = (User) request.getSession().getAttribute("User");
+		if (user == null) {
+			throw new UserNotFoundInSessionException();
+		}
+	
+		IWeatherSubscriptionDao weatherSubsDao = 
+				(IWeatherSubscriptionDao) ContextLoader.getCurrentWebApplicationContext().getBean("weatherSubscriptionDao");
+		weatherSubsDao.updateOrdering(ids);
+		
+		result.put("respCode", 200);
+	    result.put("message", "排序成功");
+	    
+	    return result; 
 	}
 	
 	@RequestMapping(value = "/weatherSubscriptions", 
@@ -143,9 +172,9 @@ public class WeatherSubscriptionController extends BaseController {
 	) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
 		
-		IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-		User user = userdao.findById(463L);
-		// User user = (User) request.getSession().getAttribute("User");
+		// IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		// User user = userdao.findById(463L);
+		User user = (User) request.getSession().getAttribute("User");
 		if (user == null) {
 			throw new UserNotFoundInSessionException();
 		}
@@ -182,7 +211,7 @@ public class WeatherSubscriptionController extends BaseController {
 	    weatherSubsDao.save(subs);
 	    
 	    result.put("respCode", 200);
-	    result.put("respMsg", "创建成功");
+	    result.put("message", "创建成功");
 	    result.put("data", subs);
 	    
 	    return result;
@@ -216,7 +245,7 @@ public class WeatherSubscriptionController extends BaseController {
 		 }
 		
 		result.put("respCode", 200);
-	    result.put("respMsg", "创建成功");
+	    result.put("message", "创建成功");
 	    
 	    return result;
 	}

@@ -6,5 +6,6 @@ CREATE TABLE WeatherSubscription (
 	monitorLocationId int(10) not null,
 	userId int(10) not null,
 	type tinyint not null,
+	ordering int(10) not null,
 	createdAt timestamp default current_timestamp
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
