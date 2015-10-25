@@ -224,7 +224,7 @@ public class WeatherSubscriptionController extends BaseController {
 	public Object createWeatherSubscriptionsForFields(
 		HttpServletRequest request, 
 		HttpServletResponse response
-	) throws IOException {
+	) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
 		
 		IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
