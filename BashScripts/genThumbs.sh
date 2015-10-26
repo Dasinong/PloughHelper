@@ -32,7 +32,9 @@ do
 			if [ "$testMode" = true ]; then
 				echo "will generate ${dirname}/thumb_${filename}.$extension"
 			else
-				convert -sample 100x100 "$file" "${dirname}/thumb_${filename}.$extension"
+				# what I want to do is resize so that height >= 180 and width >= 140,
+				# and then crop the image with dimensions 180x140
+				convert "$file" -resize '180x140^' -gravity center -crop 180x140+0+0 +repage "${dirname}/thumb_${filename}.$extension"
 			fi
 		fi
 	fi
