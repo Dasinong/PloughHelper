@@ -1,6 +1,7 @@
 package com.dasinong.ploughHelper;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import com.dasinong.ploughHelper.dao.ILocationDao;
 import com.dasinong.ploughHelper.dao.INatDisDao;
 import com.dasinong.ploughHelper.dao.INatDisSpecDao;
 import com.dasinong.ploughHelper.dao.IPetDisDao;
+import com.dasinong.ploughHelper.dao.IPetDisSpecBrowseDao;
 import com.dasinong.ploughHelper.dao.IPetDisSpecDao;
 import com.dasinong.ploughHelper.dao.IPetSoluDao;
 import com.dasinong.ploughHelper.dao.IQualityItemDao;
@@ -39,6 +41,7 @@ import com.dasinong.ploughHelper.model.NatDis;
 import com.dasinong.ploughHelper.model.NatDisSpec;
 import com.dasinong.ploughHelper.model.PetDis;
 import com.dasinong.ploughHelper.model.PetDisSpec;
+import com.dasinong.ploughHelper.model.PetDisSpecBrowse;
 import com.dasinong.ploughHelper.model.PetSolu;
 import com.dasinong.ploughHelper.model.QualityItem;
 import com.dasinong.ploughHelper.model.QualityItemValue;
@@ -53,6 +56,83 @@ import com.dasinong.ploughHelper.model.Variety;
 public class TestController {
 	private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
+	@RequestMapping(value = "/genSympthonForPetDisSpecBrowse", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	@Transactional
+	public Object genSympthonForPetDisSpecBrowse(HttpServletRequest request, HttpServletResponse response) {
+		IPetDisSpecBrowseDao browseDao = (IPetDisSpecBrowseDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecBrowseDao");
+		IPetDisSpecDao dao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		
+		List<PetDisSpecBrowse> browses = browseDao.getAll();
+		for (PetDisSpecBrowse browse : browses) {
+			// if we already generated sympthon, skip it!
+			if (browse.getSympthon() != null) {
+				continue;
+			}
+			
+			// Get sympthon
+			PetDisSpec dis = dao.findById(browse.getPetDisSpecId());
+			String sympthon = dis.getSympthon();
+			if (sympthon == null || sympthon.length() == 0) {
+				continue;
+			} else if (sympthon.length() > 500) {
+				sympthon = sympthon.substring(0, 499);
+			}
+			
+			// update browse row
+			browse.setSympthon(sympthon);
+			browseDao.update(browse);
+		}
+		
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("test","testoutputcheck");
+		result.put("status",200);
+		return result;
+	}
+	
+	@RequestMapping(value = "/genThumbForPetDisSpecBrowse", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	@Transactional
+	public Object genThumbForPetDisSpecBrowse(HttpServletRequest request, HttpServletResponse response) {
+		IPetDisSpecBrowseDao browseDao = (IPetDisSpecBrowseDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecBrowseDao");
+		IPetDisSpecDao dao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		
+		List<PetDisSpecBrowse> browses = browseDao.getAll();
+		for (PetDisSpecBrowse browse : browses) {
+			// if we already generated thumbnailId, skip it!
+			if (browse.getThumbnailId() != null) {
+				continue;
+			}
+			
+			// Get picture Ids
+			PetDisSpec dis = dao.findById(browse.getPetDisSpecId());
+			String pictureIdsStr = dis.getPictureIds();
+			if (pictureIdsStr == null || pictureIdsStr.equals("")) {
+				continue;
+			}
+			String[] pictureIds = pictureIdsStr.split("\n");
+			if (pictureIds.length == 0) {
+				continue;
+			}
+			
+			// generate thumbnail Id
+			// For example, if pictureId is 2011-09-20-14-20.jpg, by convention
+			// the thumbnail Id is thumb_2011-09-20-14-20.jpg. 
+			String[] pathTokens = pictureIds[0].split("/");
+			pathTokens[pathTokens.length - 1] = "thumb_" + pathTokens[pathTokens.length - 1];
+			String thumbnailId = String.join("/", pathTokens);
+			
+			// update browse row
+			browse.setThumbnailId(thumbnailId);
+			browseDao.update(browse);
+		}
+		
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("test","testoutputcheck");
+		result.put("status",200);
+		return result;
+	}
+	
 	@RequestMapping(value = "/testIniUseCroFieLocVar", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	@Transactional

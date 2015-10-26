@@ -114,6 +114,10 @@ public class Location implements Serializable {
 	}
 
 	public String toString() {
+		if (this.province.equals(this.city)) {
+			return this.province + this.country + this.district + this.community;
+		}
+
 		return this.province + this.city + this.country + this.district + this.community;
 	}
 	

@@ -19,6 +19,7 @@ import com.dasinong.ploughHelper.dao.ITaskDao;
 import com.dasinong.ploughHelper.dao.ITaskRegionDao;
 import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.dao.IVarietyDao;
+import com.dasinong.ploughHelper.dao.IWeatherSubscriptionDao;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.NatDis;
@@ -28,6 +29,8 @@ import com.dasinong.ploughHelper.model.TaskRegion;
 import com.dasinong.ploughHelper.model.TaskSpec;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.Variety;
+import com.dasinong.ploughHelper.model.WeatherSubscription;
+import com.dasinong.ploughHelper.model.WeatherSubscriptionType;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
 import com.dasinong.ploughHelper.outputWrapper.SubStageWrapper;
 import com.dasinong.ploughHelper.weather.AllLocation;
@@ -45,6 +48,7 @@ public class FieldFacade implements IFieldFacade {
     ISubStageDao subStageDao;
     IPetDisSpecDao petDisSpecDao;
     ITaskRegionDao taskRegionDao;
+	IWeatherSubscriptionDao weatherSubscriptionDao;
 	
 	/* (non-Javadoc)
 	 * @see com.dasinong.ploughHelper.facade.IFieldFacade#createField(com.dasinong.ploughHelper.model.User, com.dasinong.ploughHelper.inputParser.FieldParser)
@@ -61,7 +65,8 @@ public class FieldFacade implements IFieldFacade {
 		taskDao = (ITaskDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskDao");
 		petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
 		taskRegionDao = (ITaskRegionDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskRegionDao");
-	    
+	    weatherSubscriptionDao = (IWeatherSubscriptionDao) ContextLoader.getCurrentWebApplicationContext().getBean("weatherSubscriptionDao");
+		
 	    Map<String,Object> result = new HashMap<String,Object>();
 
 	    Location location = ldDao.findById(locationId);
@@ -158,8 +163,16 @@ public class FieldFacade implements IFieldFacade {
 	        }
         }
          
-	    
-
+	    // Create WeatherSubscription Object
+        // If creation fails, do NOT block the request
+        WeatherSubscription ws = new WeatherSubscription();
+        ws.setUserId(user.getUserId());
+        ws.setLocationId(location.getLocationId());
+        ws.setLocationName(location.toString());
+        ws.setMonitorLocationId(monitorLocationId);
+        ws.setType(WeatherSubscriptionType.FIELD);
+        weatherSubscriptionDao.saveSafe(ws);
+        
 		FieldWrapper fw = new FieldWrapper(field,taskSpecDao,1);
 		return fw;	    
 	}
