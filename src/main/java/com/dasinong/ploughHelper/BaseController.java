@@ -53,7 +53,8 @@ public class BaseController {
 	}
 	
 	/**
-	 * range 400 - 500 is reserved for resource errors
+	 * range 400 - 499 is reserved for resource errors
+	 * 500 is reversed for unknown server error
 	 */
 	@ResponseStatus(value=HttpStatus.OK)
 	@ExceptionHandler(ResourceNotFoundException.class)

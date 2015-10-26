@@ -53,6 +53,15 @@ public class WeatherSubscriptionDao  extends HibernateDaoSupport
 	}
 	
 	@Override
+	public void saveSafe(WeatherSubscription weatherSubs) {
+		try {
+			this.save(weatherSubs);
+		} catch (Exception ex) {
+			// suppress any exception
+		}
+	}
+	
+	@Override
 	public void updateOrdering(Long[] ids) {
 		for (int i=0; i < ids.length; i++) {
 			this.getHibernateTemplate().bulkUpdate(

@@ -18,4 +18,6 @@ public interface IWeatherSubscriptionDao {
 	public abstract void updateOrdering(Long[] id);
 
 	WeatherSubscription findByLocationIdAndUserId(Long userId, Long locationId);
+
+	void saveSafe(WeatherSubscription weatherSubs);
 }
