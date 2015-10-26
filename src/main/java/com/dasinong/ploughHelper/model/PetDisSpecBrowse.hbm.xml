@@ -21,6 +21,9 @@
         <property name="thumbnailId" type="string">
         	<column name="thumbnailId" length="500" />
         </property>
+        <property name="sympthon" type="string">
+        	<column name="sympthon" length="500" />
+        </property>
     </class>
 
 </hibernate-mapping>

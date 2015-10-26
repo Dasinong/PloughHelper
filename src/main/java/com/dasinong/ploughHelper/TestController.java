@@ -56,6 +56,40 @@ import com.dasinong.ploughHelper.model.Variety;
 public class TestController {
 	private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
+	@RequestMapping(value = "/genSympthonForPetDisSpecBrowse", method = RequestMethod.GET,produces="application/json")
+	@ResponseBody
+	@Transactional
+	public Object genSympthonForPetDisSpecBrowse(HttpServletRequest request, HttpServletResponse response) {
+		IPetDisSpecBrowseDao browseDao = (IPetDisSpecBrowseDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecBrowseDao");
+		IPetDisSpecDao dao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		
+		List<PetDisSpecBrowse> browses = browseDao.getAll();
+		for (PetDisSpecBrowse browse : browses) {
+			// if we already generated sympthon, skip it!
+			if (browse.getSympthon() != null) {
+				continue;
+			}
+			
+			// Get sympthon
+			PetDisSpec dis = dao.findById(browse.getPetDisSpecId());
+			String sympthon = dis.getSympthon();
+			if (sympthon == null || sympthon.length() == 0) {
+				continue;
+			} else if (sympthon.length() > 500) {
+				sympthon = sympthon.substring(0, 499);
+			}
+			
+			// update browse row
+			browse.setSympthon(sympthon);
+			browseDao.update(browse);
+		}
+		
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("test","testoutputcheck");
+		result.put("status",200);
+		return result;
+	}
+	
 	@RequestMapping(value = "/genThumbForPetDisSpecBrowse", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	@Transactional

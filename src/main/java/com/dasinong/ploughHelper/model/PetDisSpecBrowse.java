@@ -10,6 +10,7 @@ public class PetDisSpecBrowse implements Serializable{
 	private String petDisSpecName;
 	private String petDisSpecNamePY;
 	private String thumbnailId; // image path on server
+	private String sympthon;
 	
 	public long getPetDisSpecId() {
 		return petDisSpecId;
@@ -35,6 +36,10 @@ public class PetDisSpecBrowse implements Serializable{
 		return this.thumbnailId;
 	}
 	
+	public String getSympthon() {
+		return this.sympthon;
+	}
+	
 	public void setPetDisSpecName(String petDisSpecName) {
 		this.petDisSpecName = petDisSpecName;
 	}
@@ -49,6 +54,10 @@ public class PetDisSpecBrowse implements Serializable{
 	
 	public void setThumbnailId(String thumbnailId) {
 		this.thumbnailId = thumbnailId;
+	}
+	
+	public void setSympthon(String sympthon) {
+		this.sympthon = sympthon;
 	}
 	
 }
