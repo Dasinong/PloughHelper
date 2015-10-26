@@ -1,5 +1,9 @@
 <!doctype html>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ taglib
+	prefix="c"
+	uri="http://java.sun.com/jsp/jstl/core" 
+%>
 <html>
 <head>
   <meta charset="utf-8">
@@ -21,8 +25,23 @@
   <div class="alias alias-1 clearfix">
     <p class="alias">${Alias}</p>
   </div>
-  <div class="disimg clearfix">
-    <img class="image" src="../pic/${ImagePath}">
+  <div class="disimg clearfix" id="imageContainer">
+  	<img class="image" src="../pic/${Images[0]}" />
+  	<c:if test="${ImagesCount gt 1}">
+		<script type="text/javascript">
+			var imageContainer = document.getElementById('imageContainer');
+			var images = new Array();
+			<c:forEach items="${Images}" var="image"> 
+				images.push("../pic/${image}");
+			</c:forEach>
+			if (typeof androidObj != 'undefined') {
+				imageContainer.onclick = function() {
+					androidObj.showAllImages(images);
+				};
+			}
+      	</script>
+	    <div class="countTag">${ImagesCount}张</div>
+	</c:if>
   </div>
   <div class="symtitle symtitle-1 clearfix">
     <p class="symtitle">为害症状<br></p>

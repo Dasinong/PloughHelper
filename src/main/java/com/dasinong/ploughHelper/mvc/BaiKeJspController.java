@@ -50,9 +50,11 @@ public class BaiKeJspController implements Controller {
 	}
 	
 	public ModelAndView handlePest(ModelAndView mv, PetDisSpecWrapper  pdsw){
+		String[] images = pdsw.getImagePath().split("\n");
 		mv.addObject("DisasterName", pdsw.getPetDisSpecName());
 		mv.addObject("Alias", pdsw.getAlias());
-		mv.addObject("ImagePath", pdsw.getImagePath().split("\n")[0]);
+		mv.addObject("ImagesCount", images.length); 
+		mv.addObject("Images", images);
 		mv.addObject("Symptom", pdsw.getSympton());
 		mv.addObject("Morphology", pdsw.getForm());
 		mv.addObject("Habit", pdsw.getHabbit());
