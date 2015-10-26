@@ -1,6 +1,5 @@
 package com.dasinong.ploughHelper;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,28 +7,20 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.ContextLoader;
-import org.springframework.web.servlet.ModelAndView;
+
 
 import com.dasinong.ploughHelper.dao.IFieldDao;
 import com.dasinong.ploughHelper.dao.ILocationDao;
-import com.dasinong.ploughHelper.dao.IUserDao;
 import com.dasinong.ploughHelper.dao.IWeatherSubscriptionDao;
+import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
 import com.dasinong.ploughHelper.exceptions.ParameterMissingException;
 import com.dasinong.ploughHelper.exceptions.ResourceNotFoundException;
 import com.dasinong.ploughHelper.exceptions.UserNotFoundInSessionException;
@@ -38,7 +29,6 @@ import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.WeatherSubscription;
 import com.dasinong.ploughHelper.model.WeatherSubscriptionType;
-import com.dasinong.ploughHelper.weather.AllLocation;
 
 @Controller
 public class WeatherSubscriptionController extends BaseController {
@@ -193,7 +183,7 @@ public class WeatherSubscriptionController extends BaseController {
 		if (loc == null) {
 			throw new ResourceNotFoundException(locationId, "location");
 		}
-		AllLocation allLocation = AllLocation.getLocation();
+		AllMonitorLocation allLocation = AllMonitorLocation.getLocation();
 		Long monitorLocationId = (long) allLocation.getNearest(loc.getLatitude(), loc.getLongtitude());
 		
 		String locationName = loc.toString();

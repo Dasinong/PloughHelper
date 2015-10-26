@@ -4,8 +4,8 @@ package com.dasinong.ploughHelper.facade;
 import java.util.Date;
 import java.util.HashMap;
 
+import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
 import com.dasinong.ploughHelper.ruleEngine.rules.Rule;
-import com.dasinong.ploughHelper.weather.AllLocation;
 import com.dasinong.ploughHelper.weather.All24h;
 import com.dasinong.ploughHelper.weather.All7d;
 import com.dasinong.ploughHelper.weather.ForcastDInfo;
@@ -24,7 +24,7 @@ public class WeatherFacade implements IWeatherFacade {
 	@Override
 	public Object getWeather(double lat, double lon){
 		try{
-			Integer mlId = AllLocation.getLocation().getNearest(lat, lon);
+			Integer mlId = AllMonitorLocation.getLocation().getNearest(lat, lon);
 			return getWeather(mlId);
 		}
 		catch(Exception e){

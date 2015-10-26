@@ -17,7 +17,7 @@ import com.dasinong.ploughHelper.model.Crop;
 								"file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
 								"file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml"
 								})
-public class TestUploader {
+public class Sample {
 	
 	@Autowired
 	private ICropDao cropDao;

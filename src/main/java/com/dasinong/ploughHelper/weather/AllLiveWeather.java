@@ -2,13 +2,16 @@ package com.dasinong.ploughHelper.weather;
 
 import java.io.IOException;
 import java.util.Set;
+
+import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
+
 import java.text.ParseException;
 import java.util.HashMap;
 
 public class AllLiveWeather {
 	private static AllLiveWeather allLiveWeather;
 	
-	public static AllLiveWeather getAllLiveWeather() throws IOException, ParseException, InterruptedException{
+	public static AllLiveWeather getAllLiveWeather() throws InterruptedException{
 		if (allLiveWeather==null){
 			allLiveWeather = new AllLiveWeather();
 			return allLiveWeather;
@@ -18,7 +21,7 @@ public class AllLiveWeather {
 		}
 		
 	}
-	private AllLiveWeather() throws IOException, ParseException, InterruptedException{
+	private AllLiveWeather() throws InterruptedException{
 		_allLiveWeather = new HashMap<Integer,LiveWeatherData>();
 		loadContent();
 	}
@@ -34,8 +37,8 @@ public class AllLiveWeather {
 		}
     }
 	
-	private void loadContent() throws IOException, ParseException, InterruptedException {
-		Set<Integer> locations  = AllLocation.getLocation()._allLocation.keySet();
+	private void loadContent() throws InterruptedException {
+		Set<Integer> locations  = AllMonitorLocation.getLocation()._allLocation.keySet();
 		GetLiveWeather glw = new GetLiveWeather();
 		for(Integer code : locations){
 			glw.setAreaId(code.toString());

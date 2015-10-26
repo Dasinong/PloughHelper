@@ -20,6 +20,7 @@ import com.dasinong.ploughHelper.dao.ITaskRegionDao;
 import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.dao.IVarietyDao;
 import com.dasinong.ploughHelper.dao.IWeatherSubscriptionDao;
+import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
 import com.dasinong.ploughHelper.model.Field;
 import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.NatDis;
@@ -33,7 +34,7 @@ import com.dasinong.ploughHelper.model.WeatherSubscription;
 import com.dasinong.ploughHelper.model.WeatherSubscriptionType;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
 import com.dasinong.ploughHelper.outputWrapper.SubStageWrapper;
-import com.dasinong.ploughHelper.weather.AllLocation;
+
 
 import java.util.Collections;
 
@@ -128,7 +129,7 @@ public class FieldFacade implements IFieldFacade {
 	         
 	     double lat = location.getLatitude();
          double lon = location.getLongtitude();
-         int monitorLocationId = AllLocation.getLocation().getNearest(lat, lon);
+         int monitorLocationId = AllMonitorLocation.getLocation().getNearest(lat, lon);
 	     field.setMonitorLocationId(monitorLocationId);
          fd.save(field);
 	         

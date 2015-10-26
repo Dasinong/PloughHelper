@@ -5,13 +5,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
 import com.dasinong.ploughHelper.datapool.AllSystemMessage;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.nohibernate.SystemMessage;
 import com.dasinong.ploughHelper.modelTran.LaoNong;
 import com.dasinong.ploughHelper.modelTran.NongYan;
 import com.dasinong.ploughHelper.modelTran.WeatherAlert;
-import com.dasinong.ploughHelper.weather.AllLocation;
 import com.dasinong.ploughHelper.weather.GetWeatherAlert;
 import com.dasinong.ploughHelper.weather.AgriDisForcast;
 import com.dasinong.ploughHelper.weather.AllAgriDisForcast;
@@ -24,7 +24,7 @@ public class LaoNongFacade implements ILaoNongFacade {
 	@Override
 	public Object getLaoNong(double lat, double lon, User user){
 		try{
-			Integer mlId = AllLocation.getLocation().getNearest(lat, lon);
+			Integer mlId = AllMonitorLocation.getLocation().getNearest(lat, lon);
 			return getLaoNong(mlId,user);
 		}
 		catch(Exception e){

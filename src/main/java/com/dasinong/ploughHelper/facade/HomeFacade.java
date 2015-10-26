@@ -10,14 +10,14 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.IFieldDao;
 import com.dasinong.ploughHelper.dao.ITaskSpecDao;
+import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
 import com.dasinong.ploughHelper.model.Field;
+import com.dasinong.ploughHelper.model.MonitorLocation;
 import com.dasinong.ploughHelper.model.SoilTestReport;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
 import com.dasinong.ploughHelper.outputWrapper.SoilTestReportWrapper;
 import com.dasinong.ploughHelper.util.LunarHelper;
-import com.dasinong.ploughHelper.weather.AllLocation;
-import com.dasinong.ploughHelper.weather.MonitorLocation;
 import com.dasinong.ploughHelper.weather.SoilLiquid;
 
 @Transactional
@@ -85,12 +85,12 @@ public class HomeFacade implements IHomeFacade {
 		//Get Hum
 		MonitorLocation ml=null;
 		try {
-			ml = AllLocation.getLocation().getMonitorLocation(f.getMonitorLocationId());
+			ml = AllMonitorLocation.getLocation().getMonitorLocation(f.getMonitorLocationId());
 			if (ml!=null){
-				double soilHum = SoilLiquid.getSoilLi().getSoil(ml.latitude, ml.longitude);
+				double soilHum = SoilLiquid.getSoilLi().getSoil(ml.getLatitude(), ml.getLongitude());
 				result.put("soilHum", soilHum);
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println("Load monitor location field or soilLiquid failed");
 		}
 	

@@ -1,6 +1,5 @@
 package com.dasinong.ploughHelper;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
 import com.dasinong.ploughHelper.model.User;
-import com.dasinong.ploughHelper.weather.AllLocation;
+
 
 //Add some short cut here to check/sync frontend and backend status
 @Controller
@@ -59,12 +59,12 @@ public class ShortCutController {
 			return result;
 		}
 		try {
-			Integer mlId = AllLocation.getLocation().getNearest(lat, lon);
+			Integer mlId = AllMonitorLocation.getLocation().getNearest(lat, lon);
 			result.put("respCode", 200);
 			result.put("message", "获得监控地址成功");
 			result.put("data", mlId);
 			return result;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			result.put("respCode", 405);
 			result.put("message", "初始化检测地址列表出错");
 			return result;

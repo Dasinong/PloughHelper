@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
 import com.dasinong.ploughHelper.util.Env;
 import com.dasinong.ploughHelper.util.WISHourWeather;
 
@@ -26,7 +27,7 @@ public class Prepare24h {
 	    file.mkdir();
 	    //for( int id : HourCity.HourCity){
 	    try {
-			for( Integer id : AllLocation.getLocation()._allLocation.keySet()){
+			for( Integer id : AllMonitorLocation.getLocation()._allLocation.keySet()){
 				wis.setAreaId(""+id);
 				String result = wis.Commute();
 				try {
@@ -43,7 +44,7 @@ public class Prepare24h {
 					e.printStackTrace();
 				}
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
