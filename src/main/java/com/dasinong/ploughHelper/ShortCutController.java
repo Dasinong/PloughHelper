@@ -59,7 +59,7 @@ public class ShortCutController {
 			return result;
 		}
 		try {
-			Integer mlId = AllMonitorLocation.getLocation().getNearest(lat, lon);
+			Integer mlId = AllMonitorLocation.getInstance().getNearest(lat, lon);
 			result.put("respCode", 200);
 			result.put("message", "获得监控地址成功");
 			result.put("data", mlId);

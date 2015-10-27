@@ -183,7 +183,7 @@ public class WeatherSubscriptionController extends BaseController {
 		if (loc == null) {
 			throw new ResourceNotFoundException(locationId, "location");
 		}
-		AllMonitorLocation allLocation = AllMonitorLocation.getLocation();
+		AllMonitorLocation allLocation = AllMonitorLocation.getInstance();
 		Long monitorLocationId = (long) allLocation.getNearest(loc.getLatitude(), loc.getLongtitude());
 		
 		String locationName = loc.toString();

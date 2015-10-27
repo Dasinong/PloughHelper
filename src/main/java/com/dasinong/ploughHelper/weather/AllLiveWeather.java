@@ -38,7 +38,7 @@ public class AllLiveWeather {
     }
 	
 	private void loadContent() throws InterruptedException {
-		Set<Integer> locations  = AllMonitorLocation.getLocation()._allLocation.keySet();
+		Set<Integer> locations  = AllMonitorLocation.getInstance()._allLocation.keySet();
 		GetLiveWeather glw = new GetLiveWeather();
 		for(Integer code : locations){
 			glw.setAreaId(code.toString());

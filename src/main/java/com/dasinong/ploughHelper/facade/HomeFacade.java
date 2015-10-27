@@ -85,7 +85,7 @@ public class HomeFacade implements IHomeFacade {
 		//Get Hum
 		MonitorLocation ml=null;
 		try {
-			ml = AllMonitorLocation.getLocation().getMonitorLocation(f.getMonitorLocationId());
+			ml = AllMonitorLocation.getInstance().getMonitorLocation(f.getMonitorLocationId());
 			if (ml!=null){
 				double soilHum = SoilLiquid.getSoilLi().getSoil(ml.getLatitude(), ml.getLongitude());
 				result.put("soilHum", soilHum);

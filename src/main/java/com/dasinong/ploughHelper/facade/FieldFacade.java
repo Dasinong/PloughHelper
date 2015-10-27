@@ -129,7 +129,7 @@ public class FieldFacade implements IFieldFacade {
 	         
 	     double lat = location.getLatitude();
          double lon = location.getLongtitude();
-         int monitorLocationId = AllMonitorLocation.getLocation().getNearest(lat, lon);
+         int monitorLocationId = AllMonitorLocation.getInstance().getNearest(lat, lon);
 	     field.setMonitorLocationId(monitorLocationId);
          fd.save(field);
 	         

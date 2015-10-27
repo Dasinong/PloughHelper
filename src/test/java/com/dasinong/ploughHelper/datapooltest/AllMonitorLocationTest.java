@@ -23,12 +23,12 @@ public class AllMonitorLocationTest {
 	
 	@Test
 	public void getNearest(){
-		AllMonitorLocation.getLocation(monitorLocationDao);
-		int code = AllMonitorLocation.getLocation().getNearest(39,116);
+		AllMonitorLocation.getInstance(monitorLocationDao);
+		int code = AllMonitorLocation.getInstance().getNearest(39,116);
 		Assert.assertEquals(101090211, code);
-		code = AllMonitorLocation.getLocation().getNearest(31.2,121.5);
+		code = AllMonitorLocation.getInstance().getNearest(31.2,121.5);
 		Assert.assertEquals(101020100, code);
-		code = AllMonitorLocation.getLocation().getNearest(39.9,116.3);
+		code = AllMonitorLocation.getInstance().getNearest(39.9,116.3);
 		Assert.assertEquals(101010100, code);
 	}
 	

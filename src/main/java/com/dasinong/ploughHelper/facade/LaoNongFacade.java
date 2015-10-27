@@ -24,7 +24,7 @@ public class LaoNongFacade implements ILaoNongFacade {
 	@Override
 	public Object getLaoNong(double lat, double lon, User user){
 		try{
-			Integer mlId = AllMonitorLocation.getLocation().getNearest(lat, lon);
+			Integer mlId = AllMonitorLocation.getInstance().getNearest(lat, lon);
 			return getLaoNong(mlId,user);
 		}
 		catch(Exception e){

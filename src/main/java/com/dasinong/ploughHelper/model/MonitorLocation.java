@@ -13,24 +13,18 @@ public class MonitorLocation implements Serializable{
     private double latitude;
     private double longitude;
     private int code;
-    public MonitorLocation(){
+	public MonitorLocation(){
     	
     }
     
-	public MonitorLocation(String city, String postCode, String cityDetail, String latitude, String longitude, String code) {
+	public MonitorLocation(String city, int postCode, String cityDetail, double latitude, double longitude, int code) {
 		super();
 		this.city = city;
-		try{
-			this.postCode = Integer.parseInt(postCode);
-		}catch(Exception e){}
+		this.postCode = postCode;
 		this.cityDetail = cityDetail;
-		try{
-			this.latitude = Double.parseDouble(latitude);
-			this.longitude = Double.parseDouble(longitude);
-		}catch(Exception e){}
-		try{
-			this.code = Integer.parseInt(code);
-		}catch(Exception e){}
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.code = code;
 	}
 
 	public int getId() {

@@ -47,9 +47,9 @@ public class MonitorLocationDao extends HibernateDaoSupport implements IMonitorL
 	}
 	
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	@Override
-	public List getAll() {
+	public List<MonitorLocation > getAll() {
 		return getHibernateTemplate().find("from MonitorLocation");
 	}
 

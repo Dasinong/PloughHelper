@@ -24,7 +24,7 @@ public class WeatherFacade implements IWeatherFacade {
 	@Override
 	public Object getWeather(double lat, double lon){
 		try{
-			Integer mlId = AllMonitorLocation.getLocation().getNearest(lat, lon);
+			Integer mlId = AllMonitorLocation.getInstance().getNearest(lat, lon);
 			return getWeather(mlId);
 		}
 		catch(Exception e){

@@ -33,7 +33,16 @@ public class LoadMonitorLocation {
 				line = line.trim();
 				String units[] = line.split(" ");
 				if (units.length==6){
-					m = new MonitorLocation(units[0],units[1],units[2],units[3],units[4],units[5]);
+					String city = units[0];
+					int postCode=0;
+				    try{
+				      postCode = Integer.parseInt(units[1]);
+				    }catch(Exception e){}
+				    String cityDetail = units[2];
+				    double latitude = Double.parseDouble(units[3]);
+				    double longitudu = Double.parseDouble(units[4]);
+				    int code = Integer.parseInt(units[5]);
+					m = new MonitorLocation(city,postCode,cityDetail,latitude,longitudu,code);
 					monitorLocationDao.save(m);
 				}
 			}catch (Exception e){

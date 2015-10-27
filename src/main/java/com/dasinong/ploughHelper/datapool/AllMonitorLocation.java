@@ -37,7 +37,7 @@ public class AllMonitorLocation {
 		}
 	}
 
-	public static AllMonitorLocation getLocation(){
+	public static AllMonitorLocation getInstance(){
 		synchronized (SynRoot){
 			if (null == allLocation){
 				{
@@ -48,7 +48,7 @@ public class AllMonitorLocation {
 		return allLocation;
 	}
 	
-	public static AllMonitorLocation getLocation(IMonitorLocationDao monitorLocationDao){
+	public static AllMonitorLocation getInstance(IMonitorLocationDao monitorLocationDao){
 		synchronized (SynRoot){
 			if (null == allLocation){
 				{
@@ -85,12 +85,12 @@ public class AllMonitorLocation {
 
 	public static void main(String[] args){
 	
-		Iterator iter= AllMonitorLocation.getLocation()._allLocation.entrySet().iterator();
+		Iterator iter= AllMonitorLocation.getInstance()._allLocation.entrySet().iterator();
 		while(iter.hasNext()){
 			Map.Entry entry = (Map.Entry) iter.next();
 			System.out.print(entry.getKey()+": ");
 			System.out.println(entry.getValue());
 		}
-		System.out.print(AllMonitorLocation.getLocation().getNearest(39,116));
+		System.out.print(AllMonitorLocation.getInstance().getNearest(39,116));
 	}
 }
