@@ -503,7 +503,7 @@ public class UserController {
 			
 			// If password is set, we expect oPassword to match password on file.
 			// TODO (xiahonggao): encrypt password
-			if (user.getIsPassSet() && !user.getPassword().equals(oldPassword)){
+			if (user.getIsPassSet() && !user.validatePassword(oldPassword)) {
 				result.put("respCode",320);
 				result.put("message", "旧密码错误");
 				return result;
