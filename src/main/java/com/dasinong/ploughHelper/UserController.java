@@ -77,6 +77,8 @@ public class UserController {
 	
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
+			// TODO (xiahonggao): remove this code when android native
+			// starts passing cellphone
 			User user = (User) request.getSession().getAttribute("User");
 			if (user!=null){
 				result.put("respCode", 200);
@@ -86,9 +88,9 @@ public class UserController {
 				return result;
 			}
 			
-			String userName = request.getParameter("username");
-			user = userDao.findByUserName(userName);
-			if (user==null){
+			String cellphone = request.getParameter("cellphone");
+			user = userDao.findByCellphone(cellphone);
+			if (user == null){
 				result.put("respCode",110);
 				result.put("message", "用户不存在");
 				return result;
@@ -253,16 +255,12 @@ public class UserController {
 		try{
 			String cellphone = request.getParameter("cellphone");
 			User user = userDao.findByCellphone(cellphone);
-			if (user!=null){
-				request.getSession().setAttribute("User", user);
-				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
+			if (user != null) {
 				result.put("respCode",200);
 				result.put("message", "用户已存在");
-				//UserWrapper userWrapper = new UserWrapper(user);
 				result.put("data",true);
 				return result;
-			}
-			else{
+			} else{
 				result.put("respCode", 200);
 				result.put("message", "用户不存在，请先注册");
 				result.put("data",false);
@@ -536,18 +534,38 @@ public class UserController {
 	public Object isPassSet(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
+			// if user has logged in
+			// TODO (xiahonggao): remove this code once native code starts
+			// passing cellphone.
 			User user = (User) request.getSession().getAttribute("User");
-			if (user==null){
-				result.put("respCode", 100);
-				result.put("message", "尚未登陆");
+			if (user != null) {
+				result.put("respCode", 200);
+				result.put("message", "检验密码是否初始化成功");
+				result.put("data", user.getIsPassSet());
 				return result;
 			}
-
-		    Boolean ispassSet = user.getIsPassSet();
+			
+			// if user comes from login flow, check cellphone
+			String cellphone = request.getParameter("cellphone");
+			if (cellphone == null) {
+				result.put("respCode", 300);
+				result.put("message", "cellphone缺失");
+			    return result;
+			}
+			
+			IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+			user = userDao.findByCellphone(cellphone);
+				
+			if (user == null) {
+				result.put("respCode", 110);
+				result.put("message", "用户不存在");
+			    return result;
+			}
+			
 			result.put("respCode", 200);
 			result.put("message", "检验密码是否初始化成功");
-			result.put("data", ispassSet);
-		    return result;
+			result.put("data", user.getIsPassSet());
+			return result;
 		}
 		catch(Exception e)
 		{
