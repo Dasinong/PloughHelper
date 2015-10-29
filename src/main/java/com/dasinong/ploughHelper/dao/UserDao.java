@@ -105,8 +105,15 @@ public class UserDao extends HibernateDaoSupport implements IUserDao{
 		return list;
 	}
 	
+	@Override
 	public List<User> getAllUsersWithEmptyRefCode() {
 		List<User> list = getHibernateTemplate().find("from User where refcode IS NULL");
+		return list;
+	}
+	
+	@Override 
+	public List<User> getAllUsersWithPassword() {
+		List<User> list = this.getHibernateTemplate().find("from User where password is not NULL");
 		return list;
 	}
 }

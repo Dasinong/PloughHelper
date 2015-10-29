@@ -66,5 +66,8 @@
         <property name="refuid" type="java.lang.Long">
         	<column name="refuid" length="10" not-null="false"></column>
         </property>
+        <property name="encryptedPassword" type="string">
+        	<column name="encryptedPassword" length="100" not-null="false"></column>
+        </property>
     </class>
 </hibernate-mapping>

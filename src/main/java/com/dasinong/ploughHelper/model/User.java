@@ -1,18 +1,29 @@
 package com.dasinong.ploughHelper.model;
 
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.dasinong.ploughHelper.util.SHA256;
+
 public class User implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	
+	// salt used to encrypt password
+	// DO NOT CHANGE SALT WITHOUT CHANGING DATABASE!!!
+	public static final String passwordSalt = "woShiZhaoRiTian";
 
 	private Long userId;
 	private String userName;
 	private String cellPhone;
+	
+	// TODO (xiahonggao): remove password field right after
+	// encryption change is live.
 	private String password;
+	private String encryptedPassword;
 	private String address;
 	private boolean isPassSet;
 	private Set<Field> fields= new HashSet<Field>();
@@ -46,36 +57,62 @@ public class User implements Serializable{
 	public Long getUserId() {
 		return userId;
 	}
+	
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
+	
 	public String getUserName() {
 		return userName;
 	}
+	
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	
 	public String getPassword() {
 		return password;
 	}
+	
+	public String getEncryptedPassword() {
+		return this.encryptedPassword;
+	}
+	
+	// TODO (xiahonggao): DO NOT USE THIS METHOD SINCE IT WILL BE DELETED VERY SOON.
+	// Use setAndEncryptPassword instead.
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public void setAndEncryptPassword(String rawPassword) throws NoSuchAlgorithmException {
+		String encryptedPassword = SHA256.encrypt(rawPassword, this.passwordSalt);
+		this.setEncryptedPassword(encryptedPassword);
+	}
+	
+	public void setEncryptedPassword(String encryptedPassword) {
+		this.encryptedPassword = encryptedPassword;
+	}
+	
 	public String getCellPhone() {
 		return cellPhone;
 	}
+	
 	public void setCellPhone(String cellPhone) {
 		this.cellPhone = cellPhone;
 	}
+	
 	public String getAddress() {
 		return address;
 	}
+	
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
 	public Set<Field> getFields() {
 		return fields;
 	}
+	
 	public void setFields(Set<Field> fields) {
 		this.fields = fields;
 	}
@@ -184,6 +221,9 @@ public class User implements Serializable{
 	public void setRefuid(Long refuid) {
 		this.refuid = refuid;
 	}
-
 	
+	public boolean validatePassword(String password) throws NoSuchAlgorithmException {
+		String encryptedPassword = SHA256.encrypt(password, User.passwordSalt);
+		return encryptedPassword.equals(this.getEncryptedPassword());
+	}
 }

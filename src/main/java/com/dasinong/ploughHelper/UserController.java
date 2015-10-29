@@ -25,6 +25,7 @@ import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
 import com.dasinong.ploughHelper.util.Env;
 import com.dasinong.ploughHelper.util.Refcode;
+import com.dasinong.ploughHelper.util.SHA256;
 import com.dasinong.ploughHelper.util.SmsService;
 
 @Controller
@@ -97,7 +98,7 @@ public class UserController {
 			}
 		
 			String passWord = request.getParameter("password");
-			if (user.getPassword().equals(passWord)){
+			if (user.validatePassword(passWord)) {
 				user.setLastLogin(new Date());
 				
 				String channel =  request.getParameter("channel");
@@ -170,13 +171,12 @@ public class UserController {
 				UserWrapper userWrapper = new UserWrapper(user);
 				result.put("data",userWrapper);
 				return result;
-			}
-			else{
+			} else {
 				user = new User();
 				user.setCellPhone(cellphone);
 				
 				String refcode;
-				do{
+				do {
 					refcode = Refcode.GenerateRefcode();
 				}
 				while (userDao.getUIDbyRef(refcode)>0);
@@ -191,7 +191,6 @@ public class UserController {
 					}
 				}
 				user.setUserName("");
-				user.setPassword(cellphone.substring(cellphone.length()-6));
 				user.setAuthenticated(true);
 				user.setCreateAt(new Date());
 
@@ -510,7 +509,7 @@ public class UserController {
 				return result;
 			}
 			
-			user.setPassword(newPassword);
+			user.setAndEncryptPassword(newPassword);
 			user.setIsPassSet(true);
 			IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 			userDao.update(user);
@@ -595,7 +594,7 @@ public class UserController {
 				return result;
 			}
 			
-			user.setPassword(newPassword);
+			user.setAndEncryptPassword(newPassword);
 			user.setIsPassSet(true);
 			IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 			userDao.update(user);
@@ -744,7 +743,6 @@ public class UserController {
 				user = new User();
 				user.setQqtoken(qqtoken);
 				user.setUserName(username);
-				user.setPassword("dasinong");
 				user.setPictureId(avater);
 				user.setCreateAt(new Date());
 				
@@ -809,7 +807,6 @@ public class UserController {
 				user = new User();
 				user.setWeixintoken(weixintoken);
 				user.setUserName(username);
-				user.setPassword("dasinong");
 				user.setPictureId(avater);
 				user.setCreateAt(new Date());
 				

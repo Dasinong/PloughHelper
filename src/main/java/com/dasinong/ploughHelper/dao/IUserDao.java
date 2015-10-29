@@ -28,4 +28,6 @@ public interface IUserDao {
 	
 	public List<User> getAllUsersWithEmptyRefCode();
 
+	List<User> getAllUsersWithPassword();
+
 }

@@ -1,5 +1,6 @@
 package com.dasinong.ploughHelper;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -136,7 +137,7 @@ public class TestController {
 	@RequestMapping(value = "/testIniUseCroFieLocVar", method = RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	@Transactional
-	public Object tIniCroFieVar(HttpServletRequest request, HttpServletResponse response) {
+	public Object tIniCroFieVar(HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException {
 	    System.out.println("For test");
 		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 		IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
@@ -150,21 +151,21 @@ public class TestController {
 		User user2 = new User();
 		user2.setAddress("beijing");
 		user2.setCellPhone("13112345678");
-		user2.setPassword("11111111");
+		user2.setAndEncryptPassword("11111111");
 		user2.setUserName("Xiyao3");
 		userDao.save(user2);
 		
 		User user1 = new User();
 		user1.setAddress("beijing");
 		user1.setCellPhone("13112345678");
-		user1.setPassword("11111111");
+		user1.setAndEncryptPassword("11111111");
 		user1.setUserName("Xiyao2");
 		userDao.save(user1);
 			
 		User user = new User();
 		user.setAddress("beijing");
 		user.setCellPhone("13112345678");
-		user.setPassword("11111111");
+		user.setAndEncryptPassword("11111111");
 		user.setUserName("Xiyao");
 		userDao.save(user);
 		
