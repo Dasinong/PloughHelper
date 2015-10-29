@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.dasinong.ploughHelper.model.CPProduct;
+import com.dasinong.ploughHelper.model.CPProductPriority;
 import com.dasinong.ploughHelper.model.PetSolu;
 
 public class PetSoluWrapper {
@@ -31,6 +32,10 @@ public class PetSoluWrapper {
 		this.subStageId = ps.getSubStageId();
 		StringBuilder ssCP = new StringBuilder();
 		for(CPProduct cp : ps.getcPProducts()){
+			if (cp.getPriority() != CPProductPriority.HIGH) {
+				continue;
+			}
+			
 			if(!cps.contains(cp.getActiveIngredient())){
 				ssCP.append(cp.getActiveIngredient()+" ");
 				cps.add(cp.getActiveIngredient());

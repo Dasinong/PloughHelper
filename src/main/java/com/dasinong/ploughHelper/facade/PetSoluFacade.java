@@ -9,6 +9,7 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.IPetSoluDao;
 import com.dasinong.ploughHelper.model.CPProduct;
+import com.dasinong.ploughHelper.model.CPProductPriority;
 import com.dasinong.ploughHelper.model.PetSolu;
 import com.dasinong.ploughHelper.outputWrapper.CPProductWrapper;
 import com.dasinong.ploughHelper.outputWrapper.PetSoluWrapper;
@@ -38,8 +39,10 @@ public class PetSoluFacade implements IPetSoluFacade {
 		if (ps.getcPProducts()!=null && ps.getcPProducts().size()!=0){
 			List<CPProductWrapper> cppws = new ArrayList<CPProductWrapper>(); 
 			for (CPProduct cpp : ps.getcPProducts()){
-				CPProductWrapper cppw = new CPProductWrapper(cpp);
-				cppws.add(cppw);
+				if (cpp.getPriority() == CPProductPriority.HIGH) {
+					CPProductWrapper cppw = new CPProductWrapper(cpp);
+					cppws.add(cppw);
+				}
 			}
 			data.put("cPProducts", cppws);
 		}

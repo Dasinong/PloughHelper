@@ -51,5 +51,8 @@
         <property name="model" type="string">
             <column name="model" length="10"/>
         </property>
+        <property name="priority" type="int">
+        	<column name="priority" length="4" />
+        </property>
     </class>
 </hibernate-mapping>
