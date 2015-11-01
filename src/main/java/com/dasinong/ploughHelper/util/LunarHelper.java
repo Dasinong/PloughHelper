@@ -271,21 +271,9 @@ public class LunarHelper {
         if(sday==day2) return term_name[idx1+1];
         return "";
     }
-    
-    
-    public static void main(String[] args) throws ParseException {    
-        Calendar today = Calendar.getInstance();    
-        today.setTime(chineseDateFormat.parse("2015年6月22日"));    
-        //today.setTime(new Date());
-        LunarHelper lunar = new LunarHelper(today);    
-    
-        System.out.println("北京时间：" + chineseDateFormat.format(today.getTime()) + "　农历" + lunar);  
-        System.out.println(lunar.getFestival());
-        System.out.println(lunar.getJieQi());
-        
-        
 
-		today = Calendar.getInstance();
+    public static Map<String, String> getTodayLunar(){
+		Calendar today = Calendar.getInstance();
 		Map<String,String> date = new HashMap<String,String>();
 		date.put("date", ""+today.getTime().getDate());
 		date.put("day", ""+today.getTime().getDay());
@@ -297,7 +285,21 @@ public class LunarHelper {
 		else{
 			date.put("lunar", jieqi);
 		}
-		int i=1;
-		i++;
-    }    
+        return date;
+	}
+    
+    public static void main(String[] args) throws ParseException {    
+        Calendar today = Calendar.getInstance();    
+        today.setTime(chineseDateFormat.parse("2015年6月22日"));    
+        //today.setTime(new Date());
+        LunarHelper lunar = new LunarHelper(today);    
+    
+        System.out.println("北京时间：" + chineseDateFormat.format(today.getTime()) + "　农历" + lunar);  
+        System.out.println(lunar.getFestival());
+        System.out.println(lunar.getJieQi());
+        
+        Map<String, String> date = LunarHelper.getTodayLunar();
+        System.out.println(date);
+    }
+    
 } 

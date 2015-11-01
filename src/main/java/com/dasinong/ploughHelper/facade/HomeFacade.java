@@ -43,7 +43,7 @@ public class HomeFacade implements IHomeFacade {
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		
 		//Lunar Date part
-		result.put("date",this.getLunar());
+		result.put("date", LunarHelper.getTodayLunar());
 		
 		//Put field List
 		HashMap<String,Long> fieldList = new HashMap<String,Long>();
@@ -102,7 +102,7 @@ public class HomeFacade implements IHomeFacade {
 	public Object LoadHome(double lat,double lon){
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		//Lunar Date part
-		result.put("date",this.getLunar());
+		result.put("date", LunarHelper.getTodayLunar());
 				
 		double soilHum=0;
 		try {
@@ -112,21 +112,5 @@ public class HomeFacade implements IHomeFacade {
 		}
 		result.put("soilHum", soilHum);
 		return result;
-	}
-	
-	private Object getLunar(){
-		Calendar today = Calendar.getInstance();
-		Map<String,String> date = new HashMap<String,String>();
-		date.put("date", ""+today.getTime().getDate());
-		date.put("day", ""+today.getTime().getDay());
-		LunarHelper lh = new LunarHelper(today);
-		String jieqi = lh.getJieQi();
-		if (jieqi.equals("")){
-			date.put("lunar", lh.getDay());
-		}
-		else{
-			date.put("lunar", jieqi);
-		}
-        return date;
 	}
 }

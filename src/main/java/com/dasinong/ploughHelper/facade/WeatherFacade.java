@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
 import com.dasinong.ploughHelper.ruleEngine.rules.Rule;
+import com.dasinong.ploughHelper.util.LunarHelper;
 import com.dasinong.ploughHelper.weather.All24h;
 import com.dasinong.ploughHelper.weather.All7d;
 import com.dasinong.ploughHelper.weather.ForcastDInfo;
@@ -172,6 +173,8 @@ public class WeatherFacade implements IWeatherFacade {
 			data.put("workable", -1);
 			data.put("sprayable", -1);
 		}
+		
+		data.put("date", LunarHelper.getTodayLunar());
 		
 		result.put("data", data);
 		return result;
