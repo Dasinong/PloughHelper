@@ -44,7 +44,9 @@ public class WeatherFacade implements IWeatherFacade {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		HashMap<String, Object> data = new HashMap<String, Object>();
 		
+		// TODO (xiahonggao): fix respcode typo
 		result.put("respcode", 200);
+		result.put("respCode", 200);
 		result.put("message", "获取成功");
 		
 		//获得当前天气
