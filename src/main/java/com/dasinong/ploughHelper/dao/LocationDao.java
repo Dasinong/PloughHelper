@@ -76,4 +76,14 @@ public class LocationDao extends HibernateDaoSupport implements ILocationDao{
 		return getHibernateTemplate().find("from Location");
 	}
 
+
+	@Override
+	public List<Location> findLocationsInRange(double lat, double lon, double range) {
+		return this.getHibernateTemplate().find(
+				"from Location where latitude < " + (lat + range) +
+				" and latitude > " + (lat - range) + 
+				" and longtitude < " + (lon + range) +
+				" and longtitude > " + (lon - range));
+	}
+
 }

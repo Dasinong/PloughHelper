@@ -48,7 +48,11 @@ public class BaseController {
 	) {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("respCode", 300);
-		result.put("message", exception.getParamName() + "参数缺失");
+		if (exception.getParamName() != null) {
+			result.put("message", exception.getParamName() + "参数缺失");
+		} else {
+			result.put("message", "参数不全");
+		}
 		return result;
 	}
 	

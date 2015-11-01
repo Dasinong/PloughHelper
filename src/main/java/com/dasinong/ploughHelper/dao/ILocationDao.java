@@ -20,5 +20,7 @@ public interface ILocationDao {
 			String country, String district);
 
 	public abstract List getAll();
+	
+	public abstract List<Location> findLocationsInRange(double lat, double lon, double range);
 
 }
