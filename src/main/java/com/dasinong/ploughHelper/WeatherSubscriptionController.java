@@ -206,38 +206,5 @@ public class WeatherSubscriptionController extends BaseController {
 	    
 	    return result;
 	}
-	
-	@RequestMapping(value = "/internal/fieldWeatherSubscriptions", 
-			method = RequestMethod.POST, 
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public Object createWeatherSubscriptionsForFields(
-		HttpServletRequest request, 
-		HttpServletResponse response
-	) throws Exception {
-		Map<String,Object> result = new HashMap<String,Object>();
-		
-		IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
-		List<Field> fields = fieldDao.findAll();
-		IWeatherSubscriptionDao weatherSubsDao = 
-				(IWeatherSubscriptionDao) ContextLoader.getCurrentWebApplicationContext().getBean("weatherSubscriptionDao");
-		
-		int i = 0;
-		for (Field field : fields) {
-			Location loc = field.getLocation();
-			WeatherSubscription subs = new WeatherSubscription();
-		    subs.setLocationId(loc.getLocationId());
-		    subs.setMonitorLocationId(field.getMonitorLocationId());
-		    subs.setLocationName(loc.toString());
-		    subs.setUserId(field.getUser().getUserId());
-		    subs.setType(WeatherSubscriptionType.FIELD);
-		    weatherSubsDao.save(subs);
-		 }
-		
-		result.put("respCode", 200);
-	    result.put("message", "创建成功");
-	    
-	    return result;
-	}
 
 }
