@@ -90,6 +90,11 @@ public class LaoNongFacade implements ILaoNongFacade {
 					result.put("data",ln);
 					newLaoNong.add(ln);
 				}
+				if ((sm.getInstitutionId()==user.getInstitutionId()||sm.getInstitutionId()==0) && (sm.getStartTime().getTime()< (new Date()).getTime())){
+					LaoNong ln = new LaoNong(sm.getId(),1,sm.getPicUrl(),"系统广告",sm.getContent(),sm.getLandingUrl());
+					result.put("data",ln);
+					newLaoNong.add(ln);
+				}
 			}
 		}
 		

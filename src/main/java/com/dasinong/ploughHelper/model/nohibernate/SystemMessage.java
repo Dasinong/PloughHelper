@@ -12,10 +12,11 @@ public class SystemMessage {
 	private Date endTime;
 	private String picUrl;
 	private String landingUrl;
+	private int institutionId;
 	
 	
 	public SystemMessage(int id, int monitorLocation, String locationGroup, String channel, String content,
-			Date startTime, Date endTime,String picUrl,String landingUrl) {
+			Date startTime, Date endTime,String picUrl,String landingUrl, int institutionId) {
 		super();
 		this.id = id;
 		this.monitorLocation = monitorLocation;
@@ -26,6 +27,7 @@ public class SystemMessage {
 		this.endTime = endTime;
 		this.picUrl = picUrl;
 		this.landingUrl = landingUrl;
+		this.institutionId = institutionId;
 	}
 	public String getLocationGroup() {
 		return locationGroup;
@@ -81,5 +83,11 @@ public class SystemMessage {
 	public void setLandingUrl(String landingUrl) {
 		this.landingUrl = landingUrl;
 	}
-
+	public int getInstitutionId() {
+		return institutionId;
+	}
+	public void setInstitutionId(int institutionId) {
+		this.institutionId = institutionId;
+	}
+	
 }

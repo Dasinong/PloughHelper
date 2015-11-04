@@ -16,6 +16,7 @@
 			<mvc:mapping path="/**"/>-->
 			<beans:bean class="com.dasinong.ploughHelper.util.KeyCheck">
 			</beans:bean>
+			<beans:bean class="com.dasinong.ploughHelper.util.VersionInterceptor"></beans:bean>
 		<!--</mvc:interceptor>-->
 	</interceptors>
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->

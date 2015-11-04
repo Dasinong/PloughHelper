@@ -13,6 +13,7 @@
 			<mvc:mapping path="/**"/>-->
 			<bean class="com.dasinong.ploughHelper.util.KeyCheck">
 			</bean>
+			<bean class="com.dasinong.ploughHelper.util.VersionInterceptor"></bean>
 		<!--</mvc:interceptor>-->
 	</mvc:interceptors>
 

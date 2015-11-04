@@ -18,9 +18,11 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.dasinong.ploughHelper.dao.IInstitutionDao;
 import com.dasinong.ploughHelper.dao.IUserDao;
 import com.dasinong.ploughHelper.dao.UserDao;
 import com.dasinong.ploughHelper.inputParser.UserParser;
+import com.dasinong.ploughHelper.model.Institution;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
 import com.dasinong.ploughHelper.util.Env;
@@ -99,16 +101,7 @@ public class UserController {
 		
 			String passWord = request.getParameter("password");
 			if (user.validatePassword(passWord)) {
-				user.setLastLogin(new Date());
-				
-				String channel =  request.getParameter("channel");
-				if (channel!=null && !"".equals(channel)){
-					if(channel.equals("TaoShi")){
-						user.setChannel("陶氏");
-					}else{
-					    user.setChannel(channel);
-					}
-				}
+				user.setLastLogin(new Date());			
 				userDao.update(user);
 				request.getSession().setAttribute("User", user);
 				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
@@ -153,16 +146,7 @@ public class UserController {
 			user = userDao.findByCellphone(cellphone);
 			if (user!=null){
 				user.setLastLogin(new Date());
-				if (user.getChannel()==null){
-					String channel =  request.getParameter("channel");
-					if (channel!=null && !"".equals(channel)){
-						if(channel.equals("TaoShi")){
-							user.setChannel("陶氏");
-						}else{
-						    user.setChannel(channel);
-						}
-					}
-				}
+				
 				userDao.update(user);
 				request.getSession().setAttribute("User", user);
 				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
@@ -182,14 +166,19 @@ public class UserController {
 				while (userDao.getUIDbyRef(refcode)>0);
 				user.setRefcode(refcode);
 				
+				//@Xiyao
+				//Generally saying authRegLog should not be used as register entry
 				String channel =  request.getParameter("channel");
-				if (channel!=null && !"".equals(channel)){
-					if(channel.equals("TaoShi")){
-						user.setChannel("陶氏");
-					}else{
-					    user.setChannel(channel);
-					}
+				user.setChannel(channel);
+				try{
+					int institutionId = Integer.parseInt(request.getParameter("institutionId"));
+					user.setInstitutionId(institutionId);
 				}
+				catch(Exception e){
+					System.out.println("Issue with institutionId");
+				}
+				
+
 				user.setUserName("");
 				user.setAuthenticated(true);
 				user.setCreateAt(new Date());
@@ -744,7 +733,19 @@ public class UserController {
 				user.setQqtoken(qqtoken);
 				user.setUserName(username);
 				user.setPictureId(avater);
+				
 				user.setCreateAt(new Date());
+
+				String channel =  request.getParameter("channel");
+				user.setChannel(channel);
+				try{
+					int institutionId = Integer.parseInt(request.getParameter("institutionId"));
+					user.setInstitutionId(institutionId);
+				}
+				catch(Exception e){
+					System.out.println("Issue with institutionId");
+				}
+				
 				
 				String refcode;
 				do{
@@ -817,6 +818,16 @@ public class UserController {
 				while (userDao.getUIDbyRef(refcode)>0);
 				user.setRefcode(refcode);
 
+				String channel =  request.getParameter("channel");
+				user.setChannel(channel);
+				try{
+					int institutionId = Integer.parseInt(request.getParameter("institutionId"));
+					user.setInstitutionId(institutionId);
+				}
+				catch(Exception e){
+					System.out.println("Issue with institutionId");
+				}
+				
 				userDao.save(user);
 				request.getSession().setAttribute("User", user);
 				request.getSession().setMaxInactiveInterval(Env.getEnv().sessionTimeout);
@@ -840,7 +851,7 @@ public class UserController {
 	public Object setRef(HttpServletRequest request, HttpServletResponse response) {
 		
 		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-	
+		IInstitutionDao institutionDao = (IInstitutionDao) ContextLoader.getCurrentWebApplicationContext().getBean("institutionDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
 			User user = (User) request.getSession().getAttribute("User");
@@ -864,14 +875,21 @@ public class UserController {
 				else{
 					Long refuid = userDao.getUIDbyRef(refcode);
 					if (refuid==-1){
-						result.put("respCode", 300);
-						result.put("message", " 目标推荐码不存在");
+						Institution ins = institutionDao.findByCode(refcode);
+						if (ins==null){
+							result.put("respCode", 300);
+							result.put("message", " 目标推荐码不存在");
+						}else{
+							user.setInstitutionId(ins.getId());
+							userDao.update(user);
+						}
 						return result;
 					}
 					else{
 						user.setRefuid(refuid);
 						User refuser = userDao.findById(refuid);
 						user.setChannel(refuser.getChannel());
+						user.setInstitutionId(refuser.getInstitutionId());
 						userDao.update(user);
 						result.put("respCode", 200);
 						result.put("message", "推荐用户设置成功");

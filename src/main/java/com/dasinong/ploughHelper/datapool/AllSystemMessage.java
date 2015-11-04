@@ -40,7 +40,8 @@ public class AllSystemMessage {
 						result.getDate("startTime"),
 						result.getDate("endTime"),
 						result.getString("picUrl"),
-						result.getString("landingUrl")
+						result.getString("landingUrl"),
+						result.getInt("institutionId")
 						);
 				this.addMessage(sm, true);
 			}

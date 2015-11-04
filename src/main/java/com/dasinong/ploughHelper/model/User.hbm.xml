@@ -66,6 +66,12 @@
         <property name="refuid" type="java.lang.Long">
         	<column name="refuid" length="10" not-null="false"></column>
         </property>
+        <property name="institutionId" type="java.lang.Integer">
+        	<column name="institutionId" length="10" not-null="false"></column>
+        </property>
+        <property name="userType" type="string">
+        	<column name="userType" length="20" not-null="false"></column>
+        </property>
         <property name="encryptedPassword" type="string">
         	<column name="encryptedPassword" length="100" not-null="false"></column>
         </property>

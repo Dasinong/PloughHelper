@@ -14,6 +14,13 @@ public class UserParser {
         String address = request.getParameter("address");
         String deviceId = request.getParameter("deviceId");
         String channel = request.getParameter("channel");
+        int institutionId = 0;
+        try{
+        	institutionId = Integer.parseInt(request.getParameter("institutionId"));
+        }catch(Exception e){
+        	System.out.println("Inproper institutionId. Use 0 as default");
+        }
+
         		
         if (password==null || password.isEmpty()){
         	Exception e = new Exception("密码不能为空");
@@ -25,22 +32,17 @@ public class UserParser {
         }
         if (userName==null || userName.isEmpty())
         {
-        	userName = cellPhone;
+        	userName = "";
         }
-        
+                
         user = new User();
         user.setUserName(userName);
         user.setAndEncryptPassword(password);
         user.setCellPhone(cellPhone);
         user.setAddress(address);
         user.setDeviceId(deviceId);
-		if (channel!=null && !"".equals(channel)){
-			if(channel.equals("TaoShi")){
-				user.setChannel("陶氏");
-			}else{
-			    user.setChannel(channel);
-			}
-		}
+        user.setChannel(channel);
+		user.setInstitutionId(institutionId);
 	}
 
 	public User getUser(){

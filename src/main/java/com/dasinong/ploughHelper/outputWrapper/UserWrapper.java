@@ -23,6 +23,7 @@ public class UserWrapper implements Serializable {
 	private String channel;
 	private String refcode;
 	private Long refuid;
+	private int institutionId;
 	
 	private List<Long> fields = new ArrayList<Long>();
 	private List<Integer> monitorLocationId = new ArrayList<Integer>();
@@ -47,6 +48,7 @@ public class UserWrapper implements Serializable {
 		this.channel = user.getChannel();
 		this.setRefcode(user.getRefcode());
 		this.refuid = user.getRefuid()==null?-1:user.getRefuid();
+		this.institutionId = user.getInstitutionId();
 	}
 	public Long getUserId() {
 		return userId;
@@ -137,6 +139,12 @@ public class UserWrapper implements Serializable {
 	}
 	public void setRefuid(Long refuid) {
 		this.refuid = refuid;
+	}
+	public int getInstitutionId() {
+		return institutionId;
+	}
+	public void setInstitutionId(int institutionId) {
+		this.institutionId = institutionId;
 	}
 
 }

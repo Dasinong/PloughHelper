@@ -42,6 +42,8 @@ public class User implements Serializable{
 	
 	private String refcode;
 	private Long refuid;
+	private int institutionId;
+	private String userType;
 
 	public User(){}
 	
@@ -222,6 +224,22 @@ public class User implements Serializable{
 		this.refuid = refuid;
 	}
 	
+	public int getInstitutionId() {
+		return institutionId;
+	}
+
+	public void setInstitutionId(int institutionId) {
+		this.institutionId = institutionId;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
 	public boolean validatePassword(String password) throws NoSuchAlgorithmException {
 		String encryptedPassword = SHA256.encrypt(password, User.passwordSalt);
 		return encryptedPassword.equals(this.getEncryptedPassword());

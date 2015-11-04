@@ -27,7 +27,7 @@ import com.dasinong.ploughHelper.util.FullTextSearch;
 import com.dasinong.ploughHelper.util.Env;
 
 @Controller
-public class BaiKeController {
+public class BaiKeController extends BaseController{
 	
 	IBaiKeFacade baiKeFacade;
 	
