@@ -882,6 +882,9 @@ public class UserController {
 						}else{
 							user.setInstitutionId(ins.getId());
 							userDao.update(user);
+							result.put("respCode", 200);
+							result.put("message", "绑定机构码成功");
+							result.put("data", new UserWrapper(user));
 						}
 						return result;
 					}
