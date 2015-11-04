@@ -114,11 +114,7 @@ public class LocationController extends BaseController {
 		HttpServletRequest request, 
 		HttpServletResponse response
 	) throws UnexpectedLatAndLonException {
-		User user = (User) request.getSession().getAttribute("User");
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user == null){
-			throw new UserNotFoundInSessionException();
-		}
 		
 		String latStr = request.getParameter("lat");
 		String lonStr = request.getParameter("lon");
