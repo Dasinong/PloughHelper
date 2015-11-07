@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.dasinong.ploughHelper.exceptions.GenerateAppAccessTokenException;
+import com.dasinong.ploughHelper.exceptions.InvalidAppAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.ParameterMissingException;
 import com.dasinong.ploughHelper.exceptions.ResourceNotFoundException;
 import com.dasinong.ploughHelper.exceptions.UserNotFoundInSessionException;
@@ -33,6 +35,32 @@ public class BaseController {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("respCode", 100);
 		result.put("message", "用户没有登录");
+		return result;
+	}
+	
+	@ResponseStatus(value=HttpStatus.OK)
+	@ExceptionHandler(InvalidAppAccessTokenException.class)
+	@ResponseBody
+	public Object handleInvalidAppAccessTokenException(
+		HttpServletRequest req, 
+		InvalidAppAccessTokenException exception
+	) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("respCode", 110);
+		result.put("message", "不合法的App Access Token");
+		return result;
+	}
+	
+	@ResponseStatus(value=HttpStatus.OK)
+	@ExceptionHandler(GenerateAppAccessTokenException.class)
+	@ResponseBody
+	public Object handleGenerateAppAccessTokenException(
+		HttpServletRequest req, 
+		GenerateAppAccessTokenException exception
+	) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("respCode", 111);
+		result.put("message", "无法产生App Access Token (appId=" + exception.getAppId() + ")");
 		return result;
 	}
 	
