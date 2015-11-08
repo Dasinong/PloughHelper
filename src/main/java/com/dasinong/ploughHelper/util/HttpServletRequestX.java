@@ -50,7 +50,47 @@ public class HttpServletRequestX {
 		}
 	}
 	
-	public Integer getIntOptional(String paramName) throws InvalidParameterException, MissingParameterException {
+	public Long[] getArrayOfLong(String paramName) throws MissingParameterException, InvalidParameterException {
+		String valStr = request.getParameter(paramName);
+		if (valStr == null) {
+			throw new MissingParameterException(paramName);
+		}
+		
+		String[] units = valStr.split(",");
+		Long[] ret = new Long[units.length];
+		
+		try {
+			for (int i = 0; i < units.length; i++) {
+				ret[i] = Long.valueOf(ret[i]);
+			}
+		} catch (Exception ex) {
+			throw new InvalidParameterException(paramName, "Array<Long>");
+		}
+		
+		return ret;
+	}
+	
+	public Long[] getArrayOfLongOptional(String paramName, Long[] defaultVal) throws InvalidParameterException {
+		String valStr = request.getParameter(paramName);
+		if (valStr == null) {
+			return defaultVal;
+		}
+		
+		String[] units = valStr.split(",");
+		Long[] ret = new Long[units.length];
+		
+		try {
+			for (int i = 0; i < units.length; i++) {
+				ret[i] = Long.valueOf(ret[i]);
+			}
+		} catch (Exception ex) {
+			throw new InvalidParameterException(paramName, "Array<Long>");
+		}
+		
+		return ret;
+	}
+	
+	public Integer getInt(String paramName) throws InvalidParameterException, MissingParameterException {
 		String valStr = request.getParameter(paramName);
 		if (valStr == null) {
 			throw new MissingParameterException(paramName);
@@ -74,6 +114,46 @@ public class HttpServletRequestX {
 		} catch (Exception ex) {
 			throw new InvalidParameterException(paramName, "Integer");
 		}
+	}
+	
+	public Integer[] getArrayOfInt(String paramName) throws MissingParameterException, InvalidParameterException {
+		String valStr = request.getParameter(paramName);
+		if (valStr == null) {
+			throw new MissingParameterException(paramName);
+		}
+		
+		String[] units = valStr.split(",");
+		Integer[] ret = new Integer[units.length];
+		
+		try {
+			for (int i = 0; i < units.length; i++) {
+				ret[i] = Integer.valueOf(ret[i]);
+			}
+		} catch (Exception ex) {
+			throw new InvalidParameterException(paramName, "Array<Long>");
+		}
+		
+		return ret;
+	}
+	
+	public Integer[] getArrayOfIntOptional(String paramName, Integer[] defaultVal) throws InvalidParameterException {
+		String valStr = request.getParameter(paramName);
+		if (valStr == null) {
+			return defaultVal;
+		}
+		
+		String[] units = valStr.split(",");
+		Integer[] ret = new Integer[units.length];
+		
+		try {
+			for (int i = 0; i < units.length; i++) {
+				ret[i] = Integer.valueOf(units[i]);
+			}
+		} catch (Exception ex) {
+			throw new InvalidParameterException(paramName, "Array<Long>");
+		}
+		
+		return ret;
 	}
 	
 	public Double getDouble(String paramName) throws InvalidParameterException, MissingParameterException {
@@ -102,6 +182,46 @@ public class HttpServletRequestX {
 		}
 	}
 	
+	public Double[] getArrayOfDouble(String paramName) throws MissingParameterException, InvalidParameterException {
+		String valStr = request.getParameter(paramName);
+		if (valStr == null) {
+			throw new MissingParameterException(paramName);
+		}
+		
+		String[] units = valStr.split(",");
+		Double[] ret = new Double[units.length];
+		
+		try {
+			for (int i = 0; i < units.length; i++) {
+				ret[i] = Double.valueOf(ret[i]);
+			}
+		} catch (Exception ex) {
+			throw new InvalidParameterException(paramName, "Array<Long>");
+		}
+		
+		return ret;
+	}
+	
+	public Double[] getArrayOfDoubleOptional(String paramName, Double[] defaultVal) throws InvalidParameterException {
+		String valStr = request.getParameter(paramName);
+		if (valStr == null) {
+			return defaultVal;
+		}
+		
+		String[] units = valStr.split(",");
+		Double[] ret = new Double[units.length];
+		
+		try {
+			for (int i = 0; i < units.length; i++) {
+				ret[i] = Double.valueOf(units[i]);
+			}
+		} catch (Exception ex) {
+			throw new InvalidParameterException(paramName, "Array<Long>");
+		}
+		
+		return ret;
+	}
+	
 	public Boolean getBool(String paramName) throws InvalidParameterException, MissingParameterException {
 		String valStr = request.getParameter(paramName);
 		if (valStr == null) {
@@ -126,6 +246,46 @@ public class HttpServletRequestX {
 		} catch (Exception ex) {
 			throw new InvalidParameterException(paramName, "Boolean");
 		}
+	}
+	
+	public Boolean[] getArrayOfBoolean(String paramName) throws MissingParameterException, InvalidParameterException {
+		String valStr = request.getParameter(paramName);
+		if (valStr == null) {
+			throw new MissingParameterException(paramName);
+		}
+		
+		String[] units = valStr.split(",");
+		Boolean[] ret = new Boolean[units.length];
+		
+		try {
+			for (int i = 0; i < units.length; i++) {
+				ret[i] = Boolean.parseBoolean(units[i]);
+			}
+		} catch (Exception ex) {
+			throw new InvalidParameterException(paramName, "Array<Long>");
+		}
+		
+		return ret;
+	}
+	
+	public Boolean[] getArrayOfBooleanOptional(String paramName, Boolean[] defaultVal) throws InvalidParameterException {
+		String valStr = request.getParameter(paramName);
+		if (valStr == null) {
+			return defaultVal;
+		}
+		
+		String[] units = valStr.split(",");
+		Boolean[] ret = new Boolean[units.length];
+		
+		try {
+			for (int i = 0; i < units.length; i++) {
+				ret[i] = Boolean.parseBoolean(units[i]);
+			}
+		} catch (Exception ex) {
+			throw new InvalidParameterException(paramName, "Array<Long>");
+		}
+		
+		return ret;
 	}
 	
 	public String getString(String paramName) throws MissingParameterException {
