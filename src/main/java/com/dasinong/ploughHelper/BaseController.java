@@ -20,7 +20,8 @@ import com.dasinong.ploughHelper.exceptions.GenerateUserAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.InvalidAppAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.InvalidUserAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.MultipleUserAccessTokenException;
-import com.dasinong.ploughHelper.exceptions.ParameterMissingException;
+import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
+import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 import com.dasinong.ploughHelper.exceptions.ResourceNotFoundException;
 import com.dasinong.ploughHelper.exceptions.UserIsNotLoggedInException;
 import com.dasinong.ploughHelper.exceptions.UserNotFoundInSessionException;
@@ -151,11 +152,11 @@ public class BaseController {
 	 * Range 300 - 400 is reserved for parameter validation
 	 */
 	@ResponseStatus(value=HttpStatus.OK)
-	@ExceptionHandler(ParameterMissingException.class)
+	@ExceptionHandler(MissingParameterException.class)
 	@ResponseBody
 	public Object hanleMissingParameterError(
 		HttpServletRequest req, 
-		ParameterMissingException exception
+		MissingParameterException exception
 	) {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("respCode", 300);
@@ -164,6 +165,19 @@ public class BaseController {
 		} else {
 			result.put("message", "参数不全");
 		}
+		return result;
+	}
+	
+	@ResponseStatus(value=HttpStatus.OK)
+	@ExceptionHandler(InvalidParameterException.class)
+	@ResponseBody
+	public Object hanleInvalidParameterException(
+		HttpServletRequest req, 
+		InvalidParameterException exception
+	) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("respCode", 300);
+		result.put("message", exception.getParamName() + "参数不正确");
 		return result;
 	}
 	

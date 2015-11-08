@@ -18,7 +18,7 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.ILocationDao;
 import com.dasinong.ploughHelper.dao.LocationDao;
-import com.dasinong.ploughHelper.exceptions.ParameterMissingException;
+import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 import com.dasinong.ploughHelper.exceptions.UnexpectedLatAndLonException;
 import com.dasinong.ploughHelper.exceptions.UserIsNotLoggedInException;
 import com.dasinong.ploughHelper.exceptions.UserNotFoundInSessionException;
@@ -49,8 +49,8 @@ public class LocationController extends BaseController {
 		String city = request.getParameter("city");
 		String country = request.getParameter("country");
 		String district = request.getParameter("district");
-		if (province == null || city == null || country == null || district == null){
-			throw new ParameterMissingException();
+		if (province == null || city == null || country == null || district == null) {
+			throw new MissingParameterException();
 		}
 		
 		ILocationDao ld = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
@@ -91,7 +91,7 @@ public class LocationController extends BaseController {
 		String latitude = request.getParameter("lat");
 		String longitude = request.getParameter("lon");
 		if (province==null || city==null || country==null || latitude==null || longitude==null){
-			throw new ParameterMissingException();
+			throw new MissingParameterException();
 		}
 		
 		double lat = Double.parseDouble(latitude);

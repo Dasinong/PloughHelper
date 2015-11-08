@@ -21,7 +21,7 @@ import com.dasinong.ploughHelper.dao.IFieldDao;
 import com.dasinong.ploughHelper.dao.ILocationDao;
 import com.dasinong.ploughHelper.dao.IWeatherSubscriptionDao;
 import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
-import com.dasinong.ploughHelper.exceptions.ParameterMissingException;
+import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 import com.dasinong.ploughHelper.exceptions.ResourceNotFoundException;
 import com.dasinong.ploughHelper.exceptions.UserNotFoundInSessionException;
 import com.dasinong.ploughHelper.model.Field;
@@ -142,7 +142,7 @@ public class WeatherSubscriptionController extends RequireUserLoginController {
 		Long locationId = 0L;
 		String locationIdStr = request.getParameter("locationId");
 		if (locationIdStr == null || "".equals(locationIdStr)) {
-			throw new ParameterMissingException("locationId");
+			throw new MissingParameterException("locationId");
 		} else {
 			locationId = Long.parseLong(locationIdStr);
 		}

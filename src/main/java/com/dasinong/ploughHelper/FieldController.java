@@ -21,15 +21,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.ITaskSpecDao;
+import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
 import com.dasinong.ploughHelper.facade.IFieldFacade;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.FieldWrapper;
 import com.dasinong.ploughHelper.outputWrapper.SubStageWrapper;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 
 @Controller
 public class FieldController extends RequireUserLoginController {
-	
 	private static final Logger logger = LoggerFactory.getLogger(FieldController.class);
 	
 	@RequestMapping(value = "/createField", produces="application/json")
@@ -38,40 +39,17 @@ public class FieldController extends RequireUserLoginController {
 		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
 	    
-		String fieldName; 
-        Date startDate;
-        
-    	boolean isActive;
-       	boolean seedingortransplant;
-       	double area;
-       	long locationId;
-       	long varietyId;
-       	String currentStageId;
-       	String yield;
-       	
-		try{
-			fieldName =  request.getParameter("fieldName");
-			isActive =  Boolean.parseBoolean(request.getParameter("isActive"));
-			seedingortransplant = Boolean.parseBoolean(request.getParameter("seedingortransplant"));
-			area = Double.parseDouble(request.getParameter("area"));
-			try{
-				startDate = new Date(Long.parseLong(request.getParameter("startDate")));
-			}
-			catch(Exception e){
-				startDate = new Date(request.getParameter("startDate"));
-			}
-			
-			locationId = Long.parseLong(request.getParameter("locationId"));
-		    varietyId =  Long.parseLong(request.getParameter("varietyId"));
-            currentStageId = request.getParameter("currentStageId");
-            yield = request.getParameter("yield");
-            
-		}
-		catch(Exception e){
-	    	result.put("respCode",300);
-			result.put("message","参数错误");
-			return result;
-		}
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		
+		String fieldName = requestX.getNonEmptyString("fieldName");
+		boolean isActive = requestX.getBool("isActive");
+		boolean seedingortransplant = requestX.getBool("seedingortransplant");
+		double area = requestX.getDouble("area");
+		Long locationId = requestX.getLong("locationId");
+	    Long varietyId =  requestX.getLong("varietyId");
+        Long currentStageId = requestX.getLongOptional("currentStageId", null);
+        Long yield = requestX.getLongOptional("yield", 0L);
+        Date startDate = requestX.getDate("startDate");
   	    
 	    IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");
 		try{
@@ -95,7 +73,7 @@ public class FieldController extends RequireUserLoginController {
 	@ResponseBody
 	public Object searchNearUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
-	    
+		
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 			Calendar ccal = Calendar.getInstance();
@@ -155,6 +133,7 @@ public class FieldController extends RequireUserLoginController {
 			result.put("message","参数错误");
 			return result;
 		}
+
 		IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");
 
 		List<SubStageWrapper> ssw = ff.getStages(varietyId);

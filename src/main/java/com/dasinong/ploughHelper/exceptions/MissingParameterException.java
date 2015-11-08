@@ -1,12 +1,12 @@
 package com.dasinong.ploughHelper.exceptions;
 
-public class ParameterMissingException extends RuntimeException {
+public class MissingParameterException extends RuntimeException {
 
 	private String paramName = null;
 	
-	public ParameterMissingException() {}
+	public MissingParameterException() {}
 	
-	public ParameterMissingException(String name) {
+	public MissingParameterException(String name) {
 		this.paramName = name;
 	}
 	

@@ -12,7 +12,7 @@ public interface IFieldFacade {
 
 	public abstract FieldWrapper createField(User user, String fieldName,
 			Date startDate, boolean isActive, boolean seedingortransplant,
-			double area, long locationId, long varietyId, String currentStageId, String yield) throws Exception;
+			double area, long locationId, long varietyId, Long currentStageId, Long yield) throws Exception;
 
 	Object addWeatherAlert(NatDis natdis);
 

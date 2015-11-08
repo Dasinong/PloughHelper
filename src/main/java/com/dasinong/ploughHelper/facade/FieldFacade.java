@@ -55,9 +55,9 @@ public class FieldFacade implements IFieldFacade {
 	 * @see com.dasinong.ploughHelper.facade.IFieldFacade#createField(com.dasinong.ploughHelper.model.User, com.dasinong.ploughHelper.inputParser.FieldParser)
 	 */
 	@Override
-	public FieldWrapper createField(User user, String fieldName, Date startDate,
-			boolean isActive, boolean seedingortransplant, double area,
-			long locationId, long varietyId, String currentStageId,String yield) throws Exception {
+	public FieldWrapper createField(User user, String fieldName, Date startDate, boolean isActive,
+			boolean seedingortransplant, double area, long locationId, long varietyId, Long currentStageId,
+			Long yield) throws Exception {
 		fd = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		ldDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
 		varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
@@ -76,24 +76,12 @@ public class FieldFacade implements IFieldFacade {
 	       	Exception e = new Exception("locationId或varietyId无效");
           	throw e;
         }
-	    Long csid; 
-	    Long yie;
-	    if (currentStageId == null || currentStageId.equalsIgnoreCase("")){
+	    if (currentStageId == null){
 	       	 if (variety.getSubStages()!=null && variety.getSubStages().size()!=0){
-	       		 csid = variety.getSubStages().iterator().next().getSubStageId();
+	       		 currentStageId = variety.getSubStages().iterator().next().getSubStageId();
 	       	 }
-	       	 else csid=0L;
          }
-	     else{
-	       	 csid = Long.parseLong(currentStageId);
-	     }
          
-	     if (yield == null || yield.equalsIgnoreCase("")){
-	       	 yie = 0L;
-         }
-         else{
-        	 yie = Long.parseLong(yield);
-	     }
 	     if (fieldName == null || fieldName.equals("")){
 	    	 fieldName = location.getCommunity()+variety.getVarietyName();
 	     }
@@ -117,9 +105,9 @@ public class FieldFacade implements IFieldFacade {
 	     field.setStartDate(startDate);
 	     field.setLocation(location);
 	     field.setVariety(variety);
-	     field.setCurrentStageID(csid);
+	     field.setCurrentStageID(currentStageId);
 	     field.setUser(user);   
-	     field.setYield(yie);
+	     field.setYield(yield);
 	     
 	     Date date = new Date();
 	     field.setLastForceSet(date);
