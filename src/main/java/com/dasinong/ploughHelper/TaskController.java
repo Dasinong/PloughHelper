@@ -18,19 +18,14 @@ import com.dasinong.ploughHelper.model.User;
 
 
 @Controller
-public class TaskController {
+public class TaskController extends RequireUserLoginController {
 	private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
 		
 	@RequestMapping(value = "/getAllTask", produces="application/json")
 	@ResponseBody
 	public Object getAllTask(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("User");
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
+		
 		Long fId;
 		try{
 			fId = Long.parseLong(request.getParameter("fieldId"));
@@ -47,13 +42,8 @@ public class TaskController {
 	@RequestMapping(value = "/getCurrentTask", produces="application/json")
 	@ResponseBody
 	public Object getCurrentTask(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("User");
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
+		
 		Long fId;
 		Long currentStageId;
 		try{
@@ -72,13 +62,7 @@ public class TaskController {
 	@RequestMapping(value = "/updateTask", produces="application/json")
 	@ResponseBody
 	public Object updateTask(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("User");
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
 		
 		Long fieldId;
 		try{

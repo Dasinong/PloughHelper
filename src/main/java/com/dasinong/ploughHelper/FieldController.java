@@ -28,19 +28,15 @@ import com.dasinong.ploughHelper.outputWrapper.SubStageWrapper;
 
 
 @Controller
-public class FieldController {
+public class FieldController extends RequireUserLoginController {
+	
 	private static final Logger logger = LoggerFactory.getLogger(FieldController.class);
 	
 	@RequestMapping(value = "/createField", produces="application/json")
 	@ResponseBody
-	public Object createField(HttpServletRequest request, HttpServletResponse response)  {
-		User user = (User) request.getSession().getAttribute("User");
+	public Object createField(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
 	    
 		String fieldName; 
         Date startDate;
@@ -97,14 +93,8 @@ public class FieldController {
 	
 	@RequestMapping(value = "/searchNearUser", produces="application/json")
 	@ResponseBody
-	public Object searchNearUser(HttpServletRequest request, HttpServletResponse response)  {
-		User user = (User) request.getSession().getAttribute("User");
+	public Object searchNearUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
 	    
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -127,14 +117,8 @@ public class FieldController {
 	@RequestMapping(value = "/changeStage", produces="application/json")
 	@ResponseBody
 	public Object changeStage(HttpServletRequest request, HttpServletResponse response)  {
-		User user = (User) request.getSession().getAttribute("User");
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
-	    
+		
 		Long fieldId; 
 		Long currentStageId;
 		
@@ -160,14 +144,8 @@ public class FieldController {
 	@RequestMapping(value = "/getStages", produces="application/json")
 	@ResponseBody
 	public Object getStages(HttpServletRequest request, HttpServletResponse response)  {
-		User user = (User) request.getSession().getAttribute("User");
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
-	    
+		
 		Long varietyId;
 		try{
 			varietyId = Long.parseLong(request.getParameter("varietyId"));

@@ -17,6 +17,8 @@ public interface IUserAccessTokenDao {
 
 	abstract public void delete(UserAccessToken token);
 	
+	abstract public void deleteByUserIdAndAppId(Long userId, Long appId);
+	
 	abstract public UserAccessToken findByToken(String token);
 	
 	abstract public UserAccessToken findLiveByToken(String token) throws UserAccessTokenExpiredException;

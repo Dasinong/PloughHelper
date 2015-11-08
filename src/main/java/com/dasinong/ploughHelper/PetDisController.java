@@ -8,11 +8,13 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,20 +25,17 @@ import com.dasinong.ploughHelper.model.User;
 
 
 @Controller
-public class PetDisController {
+public class PetDisController extends RequireUserLoginController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PetDisController.class);
 	
+	@Autowired
+    ServletContext servletContext; 
+	
 	@RequestMapping(value = "/getPetDisByLocation", produces="application/json")
 	@ResponseBody
-	public Object getPetDisByLocation(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("User");
+	public Object getPetDisByLocation(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
 		
 		Long locationId;
 		try{
@@ -54,14 +53,9 @@ public class PetDisController {
 	
 	@RequestMapping(value = "/uploadPetDisPic", produces="application/json")
 	@ResponseBody
-	public Object uploadPetDisPic(MultipartHttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException {
-		User user = (User) request.getSession().getAttribute("User");
+	public Object uploadPetDisPic(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
+		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
 		
 	    System.out.println(System.getProperty("user.dir"));
 		Map<String,MultipartFile> imgFiles = request.getFileMap();
@@ -78,7 +72,7 @@ public class PetDisController {
 					ext = origf[origf.length-1];
 				}
 
-				String filePath = request.getSession().getServletContext().getRealPath("/");
+				String filePath = this.servletContext.getRealPath("/");
 				Date date = new Date();
 				String fileName = ""+ date.getTime();
 				fileName = fileName.substring(4);

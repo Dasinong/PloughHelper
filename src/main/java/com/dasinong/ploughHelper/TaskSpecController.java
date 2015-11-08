@@ -18,7 +18,7 @@ import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.StepWrapper;
 
 @Controller
-public class TaskSpecController {
+public class TaskSpecController extends RequireUserLoginController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TaskSpecController.class);
 	
@@ -27,13 +27,8 @@ public class TaskSpecController {
 	@RequestMapping(value = "/getTaskSpec", produces="application/json")
 	@ResponseBody
 	public Object getTaskSpec(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("User");
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
+		
 		tsf =  (ITaskSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecFacade");
 		Long taskSpecId;
 		try{
@@ -52,13 +47,8 @@ public class TaskSpecController {
 	@RequestMapping(value = "/getSteps", produces="application/json")
 	@ResponseBody
 	public Object getSteps(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("User");
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
+		
 		tsf =  (ITaskSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecFacade");
 		Long taskSpecId;
 		Long fieldId;

@@ -18,20 +18,15 @@ import com.dasinong.ploughHelper.facade.ISoilFacade;
 import com.dasinong.ploughHelper.model.User;
 
 @Controller
-public class SoilReportController {
+public class SoilReportController extends RequireUserLoginController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(SoilReportController.class);
 	
 	@RequestMapping(value = "/insertSoilReport", produces="application/json")
 	@ResponseBody
-	public Object insertSoilReport(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("User");
+	public Object insertSoilReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
+
 		try{
 			String userId = request.getParameter("userId");
 			String fieldId = request.getParameter("fieldId");
@@ -118,14 +113,10 @@ public class SoilReportController {
 	
 	@RequestMapping(value = "/getSoilReport", produces="application/json")
 	@ResponseBody
-	public Object getSoilReport(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("User");
+	public Object getSoilReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
+		
 		ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
 		
 		String reportId = request.getParameter("reportId");
@@ -175,14 +166,8 @@ public class SoilReportController {
 	
 	@RequestMapping(value = "/updateSoilReport", produces="application/json")
 	@ResponseBody
-	public Object updateSoilReport(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("User");
+	public Object updateSoilReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
       
 		Long reportId;
 		String type;

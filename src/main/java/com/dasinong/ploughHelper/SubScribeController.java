@@ -17,21 +17,17 @@ import com.dasinong.ploughHelper.facade.ISubScribeFacade;
 import com.dasinong.ploughHelper.model.User;
 
 @Controller
-public class SubScribeController {
+public class SubScribeController extends RequireUserLoginController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(SubScribeController.class);
 
 	@RequestMapping(value = "/insertSubScribeList", produces="application/json")
 	@ResponseBody
-	public Object insertSubScribeList(HttpServletRequest request, HttpServletResponse response) {
+	public Object insertSubScribeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		User user = (User) request.getSession().getAttribute("User");
+		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
+
 		String targetName;
 		String cellphone;
 		String province;
@@ -84,15 +80,11 @@ public class SubScribeController {
 	
 	@RequestMapping(value = "/getSubScribeLists", produces="application/json")
 	@ResponseBody
-	public Object getSubScribeLists(HttpServletRequest request, HttpServletResponse response) {
+	public Object getSubScribeLists(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		User user = (User) request.getSession().getAttribute("User");
+		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
+
 		try{
 			ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
 			return ssf.getSubScribeLists(user);
@@ -106,15 +98,11 @@ public class SubScribeController {
 	
 	@RequestMapping(value = "/loadSubScribeList", produces="application/json")
 	@ResponseBody
-	public Object loadSubScribeList(HttpServletRequest request, HttpServletResponse response) {
+	public Object loadSubScribeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		User user = (User) request.getSession().getAttribute("User");
+		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
+
 		Long id;
 		try{
 			id =  Long.parseLong(request.getParameter("id"));
@@ -138,15 +126,11 @@ public class SubScribeController {
 	
 	@RequestMapping(value = "/updateSubScribeList", produces="application/json")
 	@ResponseBody
-	public Object updateSubScribeList(HttpServletRequest request, HttpServletResponse response) {
+	public Object updateSubScribeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		User user = (User) request.getSession().getAttribute("User");
+		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
+
 		Long id;
 		String targetName;
 		String cellphone;
@@ -203,13 +187,8 @@ public class SubScribeController {
 	@ResponseBody
 	public Object deleteSubScribeList(HttpServletRequest request, HttpServletResponse response) {
 
-		User user = (User) request.getSession().getAttribute("User");
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
+		
 		Long id;
 		try{
 			id =  Long.parseLong(request.getParameter("id"));

@@ -22,7 +22,7 @@ import com.dasinong.ploughHelper.facade.IWeatherFacade;
 import com.dasinong.ploughHelper.model.User;
 
 @Controller
-public class WeatherController {
+public class WeatherController extends BaseController {
 
 	IWeatherFacade wf;
 	
@@ -37,9 +37,9 @@ public class WeatherController {
 		 */
 	@RequestMapping(value = "/loadWeather", produces="application/json")
 	@ResponseBody
-	public Object loadWeather(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, IOException, ParseException, ParserConfigurationException, SAXException {
+	public Object loadWeather(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		User user = (User) request.getSession().getAttribute("User");
+		User user = this.getLoginUser(request);
 				
 		Map<String,Object> result = new HashMap<String,Object>();
 		IWeatherFacade wf = (IWeatherFacade) ContextLoader.getCurrentWebApplicationContext().getBean("weatherFacade");

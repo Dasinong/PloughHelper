@@ -1,5 +1,6 @@
 package com.dasinong.ploughHelper.model;
 
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Base64;

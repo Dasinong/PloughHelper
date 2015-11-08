@@ -52,7 +52,7 @@ public class ViewerContextInitializer extends HandlerInterceptorAdapter {
 		}
 		
 		String token = request.getParameter("accessToken");
-		
+
 		// initialize viewer context from session
 		if (token == null) {
 			// TODO (xiahonggao): deprecate session

@@ -9,18 +9,22 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.dasinong.ploughHelper.BaseController;
 import com.dasinong.ploughHelper.facade.IBaiKeFacade;
 import com.dasinong.ploughHelper.outputWrapper.CPProductWrapper;
 import com.dasinong.ploughHelper.outputWrapper.PetDisSpecWrapper;
 import com.dasinong.ploughHelper.outputWrapper.VarietyWrapper;
 
-public class BaiKeJspController implements Controller {
+public class BaiKeJspController extends BaseController implements Controller {
 	
 	IBaiKeFacade baiKeFacade;
 	
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request,
 			HttpServletResponse reponse) throws Exception {
+		System.out.println(this.getViewerContext(request).getUserId());
+
+		System.out.println(this.getViewerContext(request).getAppId());
     	ModelAndView mv = new ModelAndView();
     	String type = request.getParameter("type");
     	String id = request.getParameter("id");

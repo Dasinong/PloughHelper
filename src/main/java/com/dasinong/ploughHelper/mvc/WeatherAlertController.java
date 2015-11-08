@@ -6,11 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;  
 
 import org.springframework.web.servlet.ModelAndView;  
-import org.springframework.web.servlet.mvc.Controller;  
+import org.springframework.web.servlet.mvc.Controller;
 
+import com.dasinong.ploughHelper.BaseController;
 import com.dasinong.ploughHelper.modelTran.WeatherAlert;
 import com.dasinong.ploughHelper.weather.GetWeatherAlert;
-public class WeatherAlertController implements Controller {  
+public class WeatherAlertController extends BaseController implements Controller {  
     @Override  
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {  
 		//1、收集参数、验证参数  

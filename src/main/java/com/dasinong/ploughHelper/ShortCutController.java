@@ -17,17 +17,18 @@ import com.dasinong.ploughHelper.model.User;
 
 //Add some short cut here to check/sync frontend and backend status
 @Controller
-public class ShortCutController {
+public class ShortCutController extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger(ShortCutController.class);
 
 	/**
 	 * Simply selects the home view to render by returning its name.
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/checkIsLogin", produces="application/json")
 	@ResponseBody
-	public Object checkLogin(HttpServletRequest request, HttpServletResponse response){
+	public Object checkLogin(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		User user = (User) request.getSession().getAttribute("User");
+		User user = this.getLoginUser(request);
 		if (user==null){
 			result.put("respCode", 100);
 			result.put("message","尚未登陆");

@@ -3,6 +3,7 @@ package com.dasinong.ploughHelper.dao;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.exceptions.GenerateUserAccessTokenException;
@@ -30,6 +31,14 @@ public class UserAccessTokenDao extends HibernateDaoSupport
 	@Override
 	public void delete(UserAccessToken token) {
 		this.getHibernateTemplate().delete(token);
+	}
+	
+	@Override
+	public void deleteByUserIdAndAppId(Long userId, Long appId) {
+		Query query = this.getSession().createQuery("delete from UserAccessToken where userId = :userId and appId = :appId");
+		query.setParameter("userId", userId);
+		query.setParameter("appId", appId);
+		query.executeUpdate();
 	}
 	
 	@Override

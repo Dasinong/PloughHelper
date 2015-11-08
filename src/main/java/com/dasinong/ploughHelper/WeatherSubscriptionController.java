@@ -31,7 +31,7 @@ import com.dasinong.ploughHelper.model.WeatherSubscription;
 import com.dasinong.ploughHelper.model.WeatherSubscriptionType;
 
 @Controller
-public class WeatherSubscriptionController extends BaseController {
+public class WeatherSubscriptionController extends RequireUserLoginController {
 
 	@RequestMapping(value = "/weatherSubscriptions", 
 					method = RequestMethod.GET,
@@ -42,13 +42,7 @@ public class WeatherSubscriptionController extends BaseController {
 		HttpServletResponse response
 	) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
-		
-		// IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-		// User user = userdao.findById(463L);
-		User user = (User) request.getSession().getAttribute("User");
-		if (user == null) {
-			throw new UserNotFoundInSessionException();
-		}
+		User user = this.getLoginUser(request);
 		
 		IWeatherSubscriptionDao weatherSubsDao = 
 			(IWeatherSubscriptionDao) ContextLoader.getCurrentWebApplicationContext().getBean("weatherSubscriptionDao");
@@ -70,13 +64,7 @@ public class WeatherSubscriptionController extends BaseController {
 		@PathVariable Long id
 	) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
-		
-		// IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-		// User user = userdao.findById(463L);
-		User user = (User) request.getSession().getAttribute("User");
-		if (user == null) {
-			throw new UserNotFoundInSessionException();
-		}
+		User user = this.getLoginUser(request);
 		
 		IWeatherSubscriptionDao weatherSubsDao = 
 			(IWeatherSubscriptionDao) ContextLoader.getCurrentWebApplicationContext().getBean("weatherSubscriptionDao");
@@ -102,13 +90,7 @@ public class WeatherSubscriptionController extends BaseController {
 		@PathVariable Long id
 	) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
-		
-		// IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-		// User user = userdao.findById(463L);
-		User user = (User) request.getSession().getAttribute("User");
-		if (user == null) {
-			throw new UserNotFoundInSessionException();
-		}
+		User user = this.getLoginUser(request);
 		
 		IWeatherSubscriptionDao weatherSubsDao = 
 			(IWeatherSubscriptionDao) ContextLoader.getCurrentWebApplicationContext().getBean("weatherSubscriptionDao");
@@ -134,13 +116,7 @@ public class WeatherSubscriptionController extends BaseController {
 		@RequestParam("ids[]") Long[] ids
 	) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
-			
-		// IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-		// User user = userdao.findById(463L);
-		User user = (User) request.getSession().getAttribute("User");
-		if (user == null) {
-			throw new UserNotFoundInSessionException();
-		}
+		User user = this.getLoginUser(request);
 	
 		IWeatherSubscriptionDao weatherSubsDao = 
 				(IWeatherSubscriptionDao) ContextLoader.getCurrentWebApplicationContext().getBean("weatherSubscriptionDao");
@@ -161,13 +137,7 @@ public class WeatherSubscriptionController extends BaseController {
 		HttpServletResponse response
 	) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
-		
-		// IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-		// User user = userdao.findById(463L);
-		User user = (User) request.getSession().getAttribute("User");
-		if (user == null) {
-			throw new UserNotFoundInSessionException();
-		}
+		User user = this.getLoginUser(request);
 		
 		Long locationId = 0L;
 		String locationIdStr = request.getParameter("locationId");

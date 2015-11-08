@@ -16,18 +16,18 @@ import com.dasinong.ploughHelper.util.SmsService;
 
 
 @Controller
-public class ChannelController {
-	
+public class ChannelController extends RequireUserLoginController {
 
 	private static final Logger logger = LoggerFactory.getLogger(BaiKeController.class);
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/refapp", produces="application/json")
 	@ResponseBody
-	public Object refapp(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("User");
+	public Object refapp(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		User user = this.getLoginUser(request);
 		String cellphone = request.getParameter("cellPhones");
 		String normalUrl = "http://t.im/rctw";
 		//String dowsUrl = "http://jinrinongshi.com/dows.html";

@@ -1,5 +1,6 @@
 package com.dasinong.ploughHelper.accessTokenManager;
 
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 
 import org.springframework.context.ApplicationContext;
@@ -107,7 +108,8 @@ public class UserAccessTokenManager {
 	              "file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml"); 
 	    
 		 IUserAccessTokenDao tokenDao = (IUserAccessTokenDao) applicationContext.getBean("userAccessTokenDao");
-	    
+		 System.out.println(URLEncoder.encode("TKb+kwnBHZlTO84dYGRFLXypeUjxWNmBFH6G3e6wZkA="));
+		 /*
 		 Long appId = DasinongApp.ANDROID_FARM_LOG;
 		 Long userId = 498L;
 		 UserAccessTokenManager manager = new UserAccessTokenManager(tokenDao);
@@ -117,6 +119,6 @@ public class UserAccessTokenManager {
 		 System.out.println(token.getUserId());
 		 System.out.println(token.getAppId());
 		 
-		 tokenDao.delete(token);
+		 tokenDao.deleteByUserIdAndAppId(userId, appId);*/
 	}
 }

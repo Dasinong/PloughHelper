@@ -19,18 +19,14 @@ import com.dasinong.ploughHelper.model.User;
 
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-   
 	@RequestMapping(value = "/home", produces="application/json")
 	@ResponseBody
-	public Object home(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("User");
+	public Object home(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		User user = this.getLoginUser(request);
 		IHomeFacade hf = (IHomeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("homeFacade");
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		//用户未登陆,或用户没有田地,需根据地点获取基础信息
@@ -110,9 +106,8 @@ public class HomeController {
 	
 	@RequestMapping(value = "/getLaoNong", produces="application/json")
 	@ResponseBody
-	public Object getLaoNong(HttpServletRequest request, HttpServletResponse response) {
-		
-		User user = (User) request.getSession().getAttribute("User");
+	public Object getLaoNong(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
 		ILaoNongFacade lnf = (ILaoNongFacade) ContextLoader.getCurrentWebApplicationContext().getBean("laoNongFacade");
 		//用户未登陆,或用户没有田地,需根据地点获取基础信息

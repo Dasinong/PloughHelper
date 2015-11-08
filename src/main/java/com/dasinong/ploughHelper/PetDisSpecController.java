@@ -17,7 +17,8 @@ import com.dasinong.ploughHelper.facade.IPetSoluFacade;
 import com.dasinong.ploughHelper.model.User;
 
 @Controller
-public class PetDisSpecController {
+public class PetDisSpecController extends RequireUserLoginController {
+	
 	private static final Logger logger = LoggerFactory.getLogger(PetDisController.class);
 
 	IPetDisSpecFacade petDisSpecFacade;
@@ -25,14 +26,8 @@ public class PetDisSpecController {
 	
 	@RequestMapping(value = "/getPetDisBySubStage", produces="application/json")
 	@ResponseBody
-	public Object getPetDisBySubStage(HttpServletRequest request, HttpServletResponse response){
+	public Object getPetDisBySubStage(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		User user = (User) request.getSession().getAttribute("User");
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
 		
 		Long subStageId;
 		Long varietyId;
@@ -58,14 +53,8 @@ public class PetDisSpecController {
 	
 	@RequestMapping(value = "/getPetDisSpecDetial", produces="application/json")
 	@ResponseBody
-	public Object getPetDisSpecDetial(HttpServletRequest request, HttpServletResponse response){
+	public Object getPetDisSpecDetial(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		User user = (User) request.getSession().getAttribute("User");
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
 		
 		Long petDisSpecId;
 		try{
@@ -87,12 +76,6 @@ public class PetDisSpecController {
 	@ResponseBody
 	public Object getPetSolu(HttpServletRequest request, HttpServletResponse response){
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		User user = (User) request.getSession().getAttribute("User");
-		if (user==null){
-			result.put("respCode",100);
-			result.put("message","用户尚未登陆");
-			return result;
-		}
 		
 		Long petSoluId;
 		try{

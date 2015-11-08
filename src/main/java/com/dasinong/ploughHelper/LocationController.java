@@ -20,6 +20,7 @@ import com.dasinong.ploughHelper.dao.ILocationDao;
 import com.dasinong.ploughHelper.dao.LocationDao;
 import com.dasinong.ploughHelper.exceptions.ParameterMissingException;
 import com.dasinong.ploughHelper.exceptions.UnexpectedLatAndLonException;
+import com.dasinong.ploughHelper.exceptions.UserIsNotLoggedInException;
 import com.dasinong.ploughHelper.exceptions.UserNotFoundInSessionException;
 import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.User;
@@ -29,25 +30,26 @@ import com.dasinong.ploughHelper.util.GeoUtil;
 
 @Controller
 public class LocationController extends BaseController {
+	
 	private static final Logger logger = LoggerFactory.getLogger(LocationController.class);
 	
 	@RequestMapping(value = "/getLocation",
 					method = RequestMethod.GET,
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Object getLocation(HttpServletRequest request, HttpServletResponse response)
+	public Object getLocation(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
-		User user = (User) request.getSession().getAttribute("User");
+		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
 		if (user == null) {
-			throw new UserNotFoundInSessionException();
+			throw new UserIsNotLoggedInException();
 		}
 		
 		String province = request.getParameter("province");
 		String city = request.getParameter("city");
 		String country = request.getParameter("country");
 		String district = request.getParameter("district");
-		if (province == null || city == null || country == null || district == null) {
+		if (province == null || city == null || country == null || district == null){
 			throw new ParameterMissingException();
 		}
 		
@@ -77,10 +79,10 @@ public class LocationController extends BaseController {
 		HttpServletRequest request, 
 		HttpServletResponse response
 	) throws Exception {
-		User user = (User) request.getSession().getAttribute("User");
+		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
 		if (user == null){
-			throw new UserNotFoundInSessionException();
+			throw new UserIsNotLoggedInException();
 		}
 		
 		String province = request.getParameter("province");
@@ -113,7 +115,7 @@ public class LocationController extends BaseController {
 	public Object searchLocationByLatAndLon(
 		HttpServletRequest request, 
 		HttpServletResponse response
-	) throws UnexpectedLatAndLonException {
+	) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
 		
 		String latStr = request.getParameter("lat");
