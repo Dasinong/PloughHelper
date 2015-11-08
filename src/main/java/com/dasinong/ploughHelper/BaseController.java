@@ -5,12 +5,16 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.dao.IUserDao;
 import com.dasinong.ploughHelper.exceptions.GenerateAppAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.GenerateUserAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.InvalidAppAccessTokenException;
@@ -18,12 +22,36 @@ import com.dasinong.ploughHelper.exceptions.InvalidUserAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.MultipleUserAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.ParameterMissingException;
 import com.dasinong.ploughHelper.exceptions.ResourceNotFoundException;
+import com.dasinong.ploughHelper.exceptions.UserIsNotLoggedInException;
 import com.dasinong.ploughHelper.exceptions.UserNotFoundInSessionException;
+import com.dasinong.ploughHelper.exceptions.ViewerContextNotInitializedException;
 import com.dasinong.ploughHelper.exceptions.WeatherAlreadySubscribedException;
+import com.dasinong.ploughHelper.model.AppAccessToken;
+import com.dasinong.ploughHelper.model.User;
+import com.dasinong.ploughHelper.model.UserAccessToken;
+import com.dasinong.ploughHelper.viewerContext.ViewerContext;
 
 public class BaseController {
 
 	// TODO (xiahonggao): make all controllers extend this controller
+	
+	public ViewerContext getViewerContext(HttpServletRequest request) throws Exception {
+		ViewerContext vc = (ViewerContext) request.getAttribute(ViewerContext.REQUEST_KEY);
+		if (vc == null) {
+			throw new ViewerContextNotInitializedException();
+		}	
+		return vc;
+	}
+
+	public User getLoginUser(HttpServletRequest request) throws Exception {
+		ViewerContext vc = this.getViewerContext(request);
+		if (!vc.isUserLogin()) {
+			return null;
+		}
+		
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		return userDao.findById(vc.getUserId());
+	}
 	
 	/**
 	 * Range 100 - 200 is reserved for session/token
@@ -103,6 +131,19 @@ public class BaseController {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("respCode", 122);
 		result.put("message", "无法生成UserAccessToken");
+		return result;
+	}
+	
+	@ResponseStatus(value=HttpStatus.OK)
+	@ExceptionHandler(UserIsNotLoggedInException.class)
+	@ResponseBody
+	public Object handleUserIsNotLoggedInException(
+		HttpServletRequest req, 
+		UserIsNotLoggedInException exception
+	) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("respCode", 123);
+		result.put("message", "用户没有登录");
 		return result;
 	}
 	

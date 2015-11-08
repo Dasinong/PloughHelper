@@ -9,15 +9,11 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context.xsd">
-
-
+	 
 	<interceptors>
-		<!--  <mvc:interceptor>
-			<mvc:mapping path="/**"/>-->
-			<beans:bean class="com.dasinong.ploughHelper.util.KeyCheck">
-			</beans:bean>
-			<beans:bean class="com.dasinong.ploughHelper.util.VersionInterceptor"></beans:bean>
-		<!--</mvc:interceptor>-->
+		<beans:bean class="com.dasinong.ploughHelper.util.KeyCheck" />
+		<beans:bean class="com.dasinong.ploughHelper.util.VersionInterceptor" />
+		<beans:bean class="com.dasinong.ploughHelper.interceptor.ViewerContextInitializer" />
 	</interceptors>
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 
