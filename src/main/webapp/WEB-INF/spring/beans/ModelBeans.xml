@@ -97,5 +97,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    <bean id="dasinongAppDao" class="com.dasinong.ploughHelper.dao.DasinongAppDao" >
    		<property name="sessionFactory" ref="mySessionFactory"></property>
    </bean>
-	
+   <bean id="userAccessTokenDao" class="com.dasinong.ploughHelper.dao.UserAccessTokenDao" >
+   		<property name="sessionFactory" ref="mySessionFactory"></property>
+   </bean>
 </beans>

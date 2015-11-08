@@ -1,6 +1,17 @@
 package com.dasinong.ploughHelper.model;
 
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Base64;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.web.context.ContextLoader;
+
+import com.dasinong.ploughHelper.dao.IDasinongAppDao;
+import com.dasinong.ploughHelper.dao.IUserAccessTokenDao;
+import com.dasinong.ploughHelper.exceptions.InvalidUserAccessTokenException;
+import com.dasinong.ploughHelper.util.AES;
 
 /**
  * 
@@ -24,8 +35,16 @@ import java.sql.Timestamp;
  * - createdAt
  * - expiredAt
  * - token
+ * 
+ * Example code to generate/parse user access token:
+ * 
+ *   UserAccessToken token = UserAccessToken.generate(userId, appId);
+ *   UserAccessToken token = UserAccessToken.parse(tokenStr);
+ *   
  */
 public class UserAccessToken {
+	
+	public static final String SALT = Base64.getEncoder().encodeToString("woShiZhaoRiTian!".getBytes());
 
 	private Long userId;
 	private Long appId;
@@ -33,4 +52,57 @@ public class UserAccessToken {
 	private Timestamp expiredAt;
 	private String token;
 	
+	public UserAccessToken() {}
+	
+	public UserAccessToken(Long userId, Long appId, String token, Timestamp createdAt, Timestamp expiredAt) {
+		this.userId = userId;
+	    this.appId = appId;
+	    this.token = token;
+	    this.createdAt = createdAt;
+	    this.expiredAt = expiredAt;
+	}
+	  
+	public void setUserId(Long userId) {
+	    this.userId = userId;
+	}
+	  
+	public void setAppId(Long appId) {
+	    this.appId = appId;
+	}
+	  
+	public void setToken(String token) {
+	    this.token = token;
+	}
+	  
+	public void setCreatedAt(Timestamp createdAt) {
+	    this.createdAt = createdAt;
+	}
+	  
+	public void setExpiredAt(Timestamp expiredAt) {
+	    this.expiredAt = expiredAt;
+	}
+	
+	public Long getUserId() {
+	    return this.userId;
+	}
+	  
+	public Long getAppId() {
+	    return this.appId;
+	}
+	  
+	public String getToken() {
+	    return this.token;
+	}
+	  
+	public Timestamp getCreatedAt() {
+	    return this.createdAt;
+	}
+	  
+	public Timestamp getExpiredAt() {
+	    return this.expiredAt;
+	}
+	
+	public boolean isExpired() {
+		return this.expiredAt.before(new Date());
+	}
 }

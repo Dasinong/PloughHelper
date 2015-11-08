@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.dasinong.ploughHelper.exceptions.GenerateAppAccessTokenException;
+import com.dasinong.ploughHelper.exceptions.GenerateUserAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.InvalidAppAccessTokenException;
+import com.dasinong.ploughHelper.exceptions.InvalidUserAccessTokenException;
+import com.dasinong.ploughHelper.exceptions.MultipleUserAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.ParameterMissingException;
 import com.dasinong.ploughHelper.exceptions.ResourceNotFoundException;
 import com.dasinong.ploughHelper.exceptions.UserNotFoundInSessionException;
@@ -61,6 +64,45 @@ public class BaseController {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("respCode", 111);
 		result.put("message", "无法产生App Access Token (appId=" + exception.getAppId() + ")");
+		return result;
+	}
+	
+	@ResponseStatus(value=HttpStatus.OK)
+	@ExceptionHandler(InvalidUserAccessTokenException.class)
+	@ResponseBody
+	public Object handleInvalidUserAccessTokenException(
+		HttpServletRequest req, 
+		InvalidUserAccessTokenException exception
+	) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("respCode", 120);
+		result.put("message", "不合法的User Access Token");
+		return result;
+	}
+	
+	@ResponseStatus(value=HttpStatus.OK)
+	@ExceptionHandler(MultipleUserAccessTokenException.class)
+	@ResponseBody
+	public Object handleMultipleUserAccessTokenException(
+		HttpServletRequest req, 
+		MultipleUserAccessTokenException exception
+	) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("respCode", 121);
+		result.put("message", "多个User Access Token");
+		return result;
+	}
+	
+	@ResponseStatus(value=HttpStatus.OK)
+	@ExceptionHandler(GenerateUserAccessTokenException.class)
+	@ResponseBody
+	public Object handleGenerateUserAccessTokenException(
+		HttpServletRequest req, 
+		GenerateUserAccessTokenException exception
+	) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("respCode", 122);
+		result.put("message", "无法生成UserAccessToken");
 		return result;
 	}
 	

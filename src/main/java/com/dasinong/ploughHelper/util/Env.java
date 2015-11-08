@@ -60,6 +60,7 @@ public class Env {
 	public boolean weatherAlert;
 	public int sessionTimeout=60000; //1000 min;
 	public long live7dBufferTime=60*60*1000; //20min;
+	public long accessTokenLifeMS=1000*24*3600*60; // 60 days;
 	public String DBConnection;
 	public HashSet<String> checkDevice;
 	

@@ -56,6 +56,7 @@
 			   <value>/com/dasinong/ploughHelper/model/Institution.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/MonitorLocation.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/DasinongApp.hbm.xml</value>
+			   <value>/com/dasinong/ploughHelper/model/UserAccessToken.hbm.xml</value>
 			</list>
     	</property>	
     </bean>
