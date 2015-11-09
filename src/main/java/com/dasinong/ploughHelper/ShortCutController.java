@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
+import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
+import com.dasinong.ploughHelper.exceptions.UnexpectedLatAndLonException;
 import com.dasinong.ploughHelper.model.User;
 
 
@@ -32,7 +34,7 @@ public class ShortCutController extends BaseController {
 		if (user==null){
 			result.put("respCode", 100);
 			result.put("message","尚未登陆");
-			result.put("data", false);
+			result.put("data", false); //Check when this is used. Should deprecate this function.
 			return result;
 		}
 		else{
@@ -47,7 +49,7 @@ public class ShortCutController extends BaseController {
 	
 	@RequestMapping(value = "/getMonLocIdByGeo", produces="application/json")
 	@ResponseBody
-	public Object getMonLocIdByGeo(HttpServletRequest request, HttpServletResponse response){
+	public Object getMonLocIdByGeo(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		double lat;
 		double lon;
@@ -55,9 +57,7 @@ public class ShortCutController extends BaseController {
 			lat = Double.parseDouble(request.getParameter("lat"));
 			lon = Double.parseDouble(request.getParameter("lon"));
 		}catch(Exception e){
-			result.put("respCode", 300);
-			result.put("message", "输入参数或参数格式错误");
-			return result;
+			throw new InvalidParameterException("lat;lon","double;double");
 		}
 		try {
 			Integer mlId = AllMonitorLocation.getInstance().getNearest(lat, lon);
@@ -66,18 +66,8 @@ public class ShortCutController extends BaseController {
 			result.put("data", mlId);
 			return result;
 		} catch (Exception e) {
-			result.put("respCode", 405);
-			result.put("message", "初始化检测地址列表出错");
-			return result;
+			throw new UnexpectedLatAndLonException(lat,lon);
 		}
-	}
-	
-	
-	@RequestMapping(value = "/loadLoc", produces="application/json")
-	@ResponseBody
-	public Object loadLoc(HttpServletRequest request, HttpServletResponse response){
-			com.dasinong.ploughHelper.datapool.AllLocation.getLocation();
-			return "OK";
-	}
+	}	
 	
 }

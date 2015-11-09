@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
+import com.dasinong.ploughHelper.exceptions.MissingParameterException;
+import com.dasinong.ploughHelper.exceptions.ResourceNotFoundException;
 import com.dasinong.ploughHelper.facade.IBaiKeFacade;
 import com.dasinong.ploughHelper.outputWrapper.CPProductWrapper;
 import com.dasinong.ploughHelper.outputWrapper.PetDisSpecWrapper;
@@ -38,17 +41,16 @@ public class BaiKeController extends BaseController{
 	 */
 	@RequestMapping(value = "/searchWord", produces="application/json")
 	@ResponseBody
-	public Object searchWord(HttpServletRequest request, HttpServletResponse response) {
+	public Object searchWord(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		HashMap<String,Object> content = new HashMap<String,Object>();
 		String key = request.getParameter("key");
 		if (key==null ||key.equals("")){
-			result.put("respCode", 300);
-			result.put("message", "参数或参数格式错误");
+			throw new MissingParameterException("key");
 		};
 		String type = request.getParameter("type");
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
-		if (type==null || key.equals("")){
+		if (type==null){
 			result.put("respCode", 200);
 			result.put("message", "检索成功");
 			content.put("variety",baiKeFacade.searchVariety(key));
@@ -58,7 +60,6 @@ public class BaiKeController extends BaseController{
 			return result;
 		}
 		if (type.equalsIgnoreCase("variety")){
-			
 			result.put("respCode", 200);
 			result.put("message", "获取成功");
 			result.put("data", baiKeFacade.searchVariety(key));
@@ -82,9 +83,7 @@ public class BaiKeController extends BaseController{
 			result.put("data", target);
 			return result;
 		}
-		result.put("respCode", 350);
-		result.put("message", "type内容不支持");
-		return result;
+		throw new InvalidParameterException("type","Enum");
 	}
 	
 	
@@ -185,23 +184,19 @@ public class BaiKeController extends BaseController{
 	
 	@RequestMapping(value = "/getVarietyBaiKeById", produces="application/json")
 	@ResponseBody
-	public Object getVarietyBaiKeById(HttpServletRequest request, HttpServletResponse response) {
+	public Object getVarietyBaiKeById(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		Long id;
 		try{
 			id = Long.parseLong(request.getParameter("id"));
 		}
 		catch(Exception e){
-			result.put("respCode",300);
-			result.put("message","参数或参数格式错误");
-			return result;
+			throw new MissingParameterException("id");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		VarietyWrapper vw = baiKeFacade.getVarietyById(id);
 		if (vw==null){
-			result.put("respCode",450);
-			result.put("message", "品种未找到");
-			return result;
+			throw new ResourceNotFoundException(id,"variety");
 		}
 		else{
 			result.put("respCode", 200);
@@ -220,16 +215,12 @@ public class BaiKeController extends BaseController{
 			id = Long.parseLong(request.getParameter("id"));
 		}
 		catch(Exception e){
-			result.put("respCode",300);
-			result.put("message","参数或参数格式错误");
-			return result;
+			throw new MissingParameterException("id");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		PetDisSpecWrapper pdsw = baiKeFacade.getPetDisSpecById(id);
 		if (pdsw==null){
-			result.put("respCode",451);
-			result.put("message", "病虫草害未找到");
-			return result;
+			throw new ResourceNotFoundException(id,"petdisspec");
 		}
 		else{
 			result.put("respCode", 200);
@@ -248,17 +239,13 @@ public class BaiKeController extends BaseController{
 			id = Long.parseLong(request.getParameter("id"));
 		}
 		catch(Exception e){
-			result.put("respCode",300);
-			result.put("message","参数或参数格式错误");
-			return result;
+			throw new MissingParameterException("id");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		CPProductWrapper cpw = baiKeFacade.getCPProductById(id);
 		
     	if (cpw==null){
-    		result.put("respCode", 452);
-    		result.put("message","农药未找到");
-    		return result;
+    		throw new ResourceNotFoundException(id,"cpproduct");
     	}else{
     		result.put("respCode", 200);
     		result.put("message", "获得成功");
@@ -274,9 +261,7 @@ public class BaiKeController extends BaseController{
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		String type = request.getParameter("type");
 		if (type==null || type.equals("")){
-			result.put("respCode",300);
-			result.put("message","参数或参数格式错误");
-			return result;
+			throw new MissingParameterException("type");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 	    return baiKeFacade.getCropByType(type);
@@ -292,9 +277,7 @@ public class BaiKeController extends BaseController{
 			cropId = Long.parseLong(request.getParameter("cropId"));
 		}
 		catch(Exception e){
-			result.put("respCode",300);
-			result.put("message","参数或参数格式错误");
-			return result;
+			throw new MissingParameterException("cropId");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 	    return baiKeFacade.browseVarietyByCropId(cropId);
@@ -306,9 +289,7 @@ public class BaiKeController extends BaseController{
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		String type = request.getParameter("type");
 		if (type==null || type.equals("")){
-			result.put("respCode",300);
-			result.put("message","参数或参数格式错误");
-			return result;
+			throw new MissingParameterException("type");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 	    return baiKeFacade.browsePetDisByType(type);
@@ -321,9 +302,7 @@ public class BaiKeController extends BaseController{
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		String model = request.getParameter("model");
 		if (model==null || model.equals("")){
-			result.put("respCode",300);
-			result.put("message","参数或参数格式错误");
-			return result;
+			throw new MissingParameterException("model");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 	    return baiKeFacade.browseCPProductByModel(model);
@@ -335,9 +314,7 @@ public class BaiKeController extends BaseController{
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		String ingredient = request.getParameter("ingredient");
 		if (ingredient==null || ingredient.equals("")){
-			result.put("respCode",300);
-			result.put("message","参数或参数格式错误");
-			return result;
+			throw new MissingParameterException("ingredient");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 	    return baiKeFacade.getCPProdcutsByIngredient(ingredient);
@@ -349,9 +326,7 @@ public class BaiKeController extends BaseController{
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		String name = request.getParameter("name");
 		if (name==null || name.equals("")){
-			result.put("respCode",300);
-			result.put("message","参数或参数格式错误");
-			return result;
+			throw new MissingParameterException("name");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 	    return baiKeFacade.getVarietysByName(name);
@@ -365,9 +340,7 @@ public class BaiKeController extends BaseController{
 		Long cropId;
 		String cropIdStr = request.getParameter("cropId");
 		if (cropIdStr == null || "".equals(cropIdStr)) {
-			result.put("respCode", 300);
-			result.put("message", "cropId缺失");
-			return result;
+			throw new MissingParameterException("cropId");
 		} else {
 			cropId = Long.parseLong(cropIdStr);
 		}
@@ -375,9 +348,7 @@ public class BaiKeController extends BaseController{
 		// TODO (xiahonggao): make type Enum and validate the value here
 		String type = request.getParameter("type");
 		if (type == null || "".equals(type)) {
-			result.put("respCode", 300);
-			result.put("message", "type缺失");
-			return result;
+			throw new MissingParameterException("type");
 		}
 		
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");

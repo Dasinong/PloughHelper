@@ -1,26 +1,22 @@
 package com.dasinong.ploughHelper;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
-import com.dasinong.ploughHelper.dao.ITaskSpecDao;
 import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
 import com.dasinong.ploughHelper.facade.IFieldFacade;
 import com.dasinong.ploughHelper.model.User;
@@ -52,7 +48,10 @@ public class FieldController extends RequireUserLoginController {
         Date startDate = requestX.getDate("startDate");
   	    
 	    IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");
-		try{
+		
+	    //Double check what happens if expose internal server exception directly to client.
+	    //Wrapper internal server error
+	    try{
 			FieldWrapper fw = ff.createField(user, fieldName, startDate, isActive, seedingortransplant, area, 
 					locationId, varietyId, currentStageId, yield);
 			result.put("respCode", 200);
@@ -94,7 +93,7 @@ public class FieldController extends RequireUserLoginController {
 	
 	@RequestMapping(value = "/changeStage", produces="application/json")
 	@ResponseBody
-	public Object changeStage(HttpServletRequest request, HttpServletResponse response)  {
+	public Object changeStage(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		Map<String,Object> result = new HashMap<String,Object>();
 		
 		Long fieldId; 
@@ -105,9 +104,7 @@ public class FieldController extends RequireUserLoginController {
 			currentStageId = Long.parseLong(request.getParameter("currentStageId"));
 		}
 		catch(Exception e){
-	    	result.put("respCode",300);
-			result.put("message","参数错误");
-			return result;
+	    	throw new InvalidParameterException("fieldId;currentStageId","long;long");
 		}
   	    
 	    IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");
@@ -121,7 +118,7 @@ public class FieldController extends RequireUserLoginController {
 	
 	@RequestMapping(value = "/getStages", produces="application/json")
 	@ResponseBody
-	public Object getStages(HttpServletRequest request, HttpServletResponse response)  {
+	public Object getStages(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
 		
 		Long varietyId;
@@ -129,9 +126,7 @@ public class FieldController extends RequireUserLoginController {
 			varietyId = Long.parseLong(request.getParameter("varietyId"));
 		}
 		catch(Exception e){
-	    	result.put("respCode",300);
-			result.put("message","参数错误");
-			return result;
+	    	throw new InvalidParameterException("varietyId","Long");
 		}
 
 		IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");
@@ -141,13 +136,6 @@ public class FieldController extends RequireUserLoginController {
 		result.put("message","获得阶段列表成功");
 		result.put("data", ssw);
 		return result;
-	}
-	
-	
-	
-	
-	public static void main(String[] args) throws ParseException{
-		
 	}
 		
 }

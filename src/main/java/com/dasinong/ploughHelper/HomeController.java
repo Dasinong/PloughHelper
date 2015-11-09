@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
+import com.dasinong.ploughHelper.exceptions.UnexpectedLatAndLonException;
 import com.dasinong.ploughHelper.facade.IHomeFacade;
 import com.dasinong.ploughHelper.facade.ILaoNongFacade;
 import com.dasinong.ploughHelper.model.User;
@@ -38,9 +40,7 @@ public class HomeController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				result.put("respCode", 306);
-				result.put("message", "用户未登陆,请输入浮点格式lat,lon");
-				return result;
+				throw new InvalidParameterException("lat;lon","double;double");
 			}
 			return hf.LoadHome(lat, lon);
 		}
@@ -52,9 +52,8 @@ public class HomeController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				result.put("respCode", 307);
-				result.put("message", "用户尚未创建田地,请输入浮点格式lat,lon");
-				return result;
+				throw new InvalidParameterException("lat;lon","double;double");
+				//result.put("message", "用户尚未创建田地,请输入浮点格式lat,lon");
 			}
 			return hf.LoadHome(lat, lon);
 		}
@@ -67,9 +66,7 @@ public class HomeController extends BaseController {
 			try{
 				fId = Long.parseLong(fieldId);
 			}catch(Exception e){
-				result.put("respCode", 310);
-				result.put("message", "fieldId参数错误内容格式错误");
-				return result;
+				throw new InvalidParameterException("fieldId","long");
 			}
 		}
 		//如果没有田地,输入fieldId=-1;
@@ -80,9 +77,8 @@ public class HomeController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				result.put("respCode", 315);
-				result.put("message", "使用当前位置，请输入浮点格式lat,lon");
-				return result;
+				throw new InvalidParameterException("lat;lon","double;double");
+				//result.put("message", "使用当前位置，请输入浮点格式lat,lon");
 			}
 			return hf.LoadHome(lat, lon);
 		}
@@ -117,9 +113,8 @@ public class HomeController extends BaseController {
 					lat = Double.parseDouble(request.getParameter("lat"));
 					lon = Double.parseDouble(request.getParameter("lon"));
 				}catch (Exception e){
-					result.put("respCode", 306);
-					result.put("message", "用户未登陆,请输入浮点格式lat,lon");
-					return result;
+					throw new InvalidParameterException("lat;lon","double;double");
+					//result.put("message", "用户未登陆,请输入浮点格式lat,lon");
 				}
 				return lnf.getLaoNong(lat, lon, user);
 			}
@@ -131,9 +126,8 @@ public class HomeController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				result.put("respCode", 307);
-				result.put("message", "用户尚未创建田地,请输入浮点格式lat,lon");
-				return result;
+				throw new InvalidParameterException("lat;lon","double;double");
+				//result.put("message", "用户尚未创建田地,请输入浮点格式lat,lon");
 			}
 			return lnf.getLaoNong(lat, lon, user);
 		}
@@ -146,9 +140,7 @@ public class HomeController extends BaseController {
 			try{
 				mlId = Integer.parseInt(monitorLocationId);
 			}catch(Exception e){
-				result.put("respCode", 313);
-				result.put("message", "monitorLocationId参数错误内容格式错误");
-				return result;
+				throw new InvalidParameterException("monitorLocationId","integer");
 			}
 		}
 		//如果没有田地,输入fieldId=-1;
@@ -159,9 +151,8 @@ public class HomeController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				result.put("respCode", 315);
-				result.put("message", "使用当前位置，请输入浮点格式lat,lon");
-				return result;
+				throw new InvalidParameterException("lat;lon","double;double");
+				//result.put("message", "使用当前位置，请输入浮点格式lat,lon");
 			}
 			return lnf.getLaoNong(lat, lon, user);
 		}

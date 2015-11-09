@@ -20,12 +20,10 @@ import com.dasinong.ploughHelper.contentLoader.LoadLocation;
 import com.dasinong.ploughHelper.contentLoader.LoadProverb;
 import com.dasinong.ploughHelper.contentLoader.LoadStep;
 import com.dasinong.ploughHelper.contentLoader.LoadVariety;
-import com.dasinong.ploughHelper.contentLoader.UpdateDisease;
 import com.dasinong.ploughHelper.contentLoader.UpdateDiseasePicture;
 import com.dasinong.ploughHelper.contentLoader.UpdateSolution;
-import com.dasinong.ploughHelper.contentLoader.UpdateStep;
 import com.dasinong.ploughHelper.contentLoader.UpdateVariety;
-import com.dasinong.ploughHelper.dao.IFieldDao;
+
 
 @Controller
 public class ContentController {
@@ -182,6 +180,22 @@ private static final Logger logger = LoggerFactory.getLogger(Test1Controller.cla
 	public Object loadProverb(HttpServletRequest request, HttpServletResponse response) {
 	  LoadProverb lp = new LoadProverb();
 	  lp.readFile();
+	  
+	  return "OK";
+	}
+	
+	@RequestMapping(value = "/loadCrop", produces="application/json")
+	@ResponseBody
+	public Object loadCrop(HttpServletRequest request, HttpServletResponse response) {
+	  LoadStep ls = new LoadStep();
+	  
+	  try {
+			ls.readFile();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	  
 	  return "OK";
 	}

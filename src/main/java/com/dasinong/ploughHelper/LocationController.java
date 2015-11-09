@@ -21,7 +21,6 @@ import com.dasinong.ploughHelper.dao.LocationDao;
 import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 import com.dasinong.ploughHelper.exceptions.UnexpectedLatAndLonException;
 import com.dasinong.ploughHelper.exceptions.UserIsNotLoggedInException;
-import com.dasinong.ploughHelper.exceptions.UserNotFoundInSessionException;
 import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.LocationWrapper;
@@ -44,7 +43,7 @@ public class LocationController extends BaseController {
 		if (user == null) {
 			throw new UserIsNotLoggedInException();
 		}
-		
+
 		String province = request.getParameter("province");
 		String city = request.getParameter("city");
 		String country = request.getParameter("country");

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
+import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 import com.dasinong.ploughHelper.facade.ISoilFacade;
 import com.dasinong.ploughHelper.model.User;
 
@@ -55,9 +57,7 @@ public class SoilReportController extends RequireUserLoginController {
 			String mg = request.getParameter("mg");
 			
 			if (userId==null || fieldId==null){
-				result.put("respCode",300);
-				result.put("message", "userID 和 fieldId必填");
-				return result;
+				throw new MissingParameterException("userId and fieldId");
 			}
             
 			try{
@@ -99,9 +99,7 @@ public class SoilReportController extends RequireUserLoginController {
 		    	result.put("data", sf.insertSoil(uId, fId, type, color, fertility, humidityv, date, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv, znv, bv, mov, cav, sv, siv, mgv));
 				return result;
 			}catch(Exception e){
-				result.put("respCode",300);
-				result.put("message", "参数内容或格式错误");
-				return result;
+				throw new MissingParameterException();
 			}
 		}catch (Exception e) {
 			result.put("respCode", 500);
@@ -126,9 +124,7 @@ public class SoilReportController extends RequireUserLoginController {
 				rId = Long.parseLong(reportId);
 			}
 			catch(Exception e){
-				result.put("respCode", 330);
-				result.put("message", "reportId格式错误");
-				return result;
+				throw new InvalidParameterException("reportId","Long");
 			}
 	    	result.put("respCode", 200);
 	    	result.put("message", "读取成功");
@@ -147,9 +143,7 @@ public class SoilReportController extends RequireUserLoginController {
 					fid = Long.parseLong(fieldId);
 				}
 				catch(Exception e){
-					result.put("respCode", 330);
-					result.put("message", "fieldId格式错误");
-					return result;
+					throw new InvalidParameterException("fieldId","Long");
 				}
 		    	result.put("respCode", 200);
 		    	result.put("message", "读取成功");
@@ -216,9 +210,7 @@ public class SoilReportController extends RequireUserLoginController {
 			siv = Double.parseDouble(request.getParameter("si"));
 			mgv = Double.parseDouble(request.getParameter("mg"));
 		}catch(Exception e){
-			result.put("respCode",300);
-			result.put("message", "参数错误");
-			return result;
+			throw new MissingParameterException();
 		}
 		
 		ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");

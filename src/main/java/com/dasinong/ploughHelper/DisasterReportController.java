@@ -1,7 +1,6 @@
 package com.dasinong.ploughHelper;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.dasinong.ploughHelper.facade.IDisasterReportFacade;
-import com.dasinong.ploughHelper.model.User;
+
 
 @Controller
 public class DisasterReportController extends BaseController {

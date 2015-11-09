@@ -5,11 +5,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.ContextLoader;
@@ -27,9 +25,7 @@ import com.dasinong.ploughHelper.exceptions.UserIsNotLoggedInException;
 import com.dasinong.ploughHelper.exceptions.UserNotFoundInSessionException;
 import com.dasinong.ploughHelper.exceptions.ViewerContextNotInitializedException;
 import com.dasinong.ploughHelper.exceptions.WeatherAlreadySubscribedException;
-import com.dasinong.ploughHelper.model.AppAccessToken;
 import com.dasinong.ploughHelper.model.User;
-import com.dasinong.ploughHelper.model.UserAccessToken;
 import com.dasinong.ploughHelper.viewerContext.ViewerContext;
 
 public class BaseController {
@@ -66,7 +62,7 @@ public class BaseController {
 	) {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("respCode", 100);
-		result.put("message", "用户没有登录");
+		result.put("message", "用户未找到");
 		return result;
 	}
 	
