@@ -71,6 +71,19 @@ public class BaseController {
 	}
 	
 	@ResponseStatus(value=HttpStatus.OK)
+	@ExceptionHandler(UserIsNotLoggedInException.class)
+	@ResponseBody
+	public Object handleUserIsNotLoggedInException(
+		HttpServletRequest req, 
+		UserIsNotLoggedInException exception
+	) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("respCode", 100);
+		result.put("message", "用户没有登录");
+		return result;
+	}
+	
+	@ResponseStatus(value=HttpStatus.OK)
 	@ExceptionHandler(InvalidAppAccessTokenException.class)
 	@ResponseBody
 	public Object handleInvalidAppAccessTokenException(
@@ -132,19 +145,6 @@ public class BaseController {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("respCode", 122);
 		result.put("message", "无法生成UserAccessToken");
-		return result;
-	}
-	
-	@ResponseStatus(value=HttpStatus.OK)
-	@ExceptionHandler(UserIsNotLoggedInException.class)
-	@ResponseBody
-	public Object handleUserIsNotLoggedInException(
-		HttpServletRequest req, 
-		UserIsNotLoggedInException exception
-	) {
-		Map<String,Object> result = new HashMap<String,Object>();
-		result.put("respCode", 123);
-		result.put("message", "用户没有登录");
 		return result;
 	}
 	
