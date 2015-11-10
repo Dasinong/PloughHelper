@@ -1,6 +1,10 @@
 package com.dasinong.ploughHelper.outputWrapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dasinong.ploughHelper.model.PetDisSpec;
+import com.dasinong.ploughHelper.model.PetSolu;
 
 public class PetDisSpecWrapper {
 	Long id;
@@ -10,9 +14,10 @@ public class PetDisSpecWrapper {
 	String form="";
 	String habbit="";
 	String rule="";
-	String imagePath="";
+	String[] imagesPath=null;
 	private String type="";
 	private int severity;
+	private List<PetSoluWrapper> solutions = null;
 
 	public PetDisSpecWrapper(PetDisSpec p){
 		this.id = p.getPetDisSpecId();
@@ -23,8 +28,15 @@ public class PetDisSpecWrapper {
 		this.form = p.getForms();
 		this.habbit = p.getHabits();
 		this.rule = p.getRules();
-		this.imagePath = p.getPictureIds();
+		this.imagesPath = p.getPictureIdsArray();
 		this.setType(p.getType());
+		
+		this.solutions = new ArrayList<PetSoluWrapper>();
+		if (p.getPetSolus() != null) {
+			for (PetSolu solution : p.getPetSolus()) {
+				this.solutions.add(new PetSoluWrapper(solution));
+			}
+		}
 	}
 
 	public Long getId() {
@@ -78,12 +90,12 @@ public class PetDisSpecWrapper {
 	}
 	
 	
-	public String getImagePath() {
-		return imagePath;
+	public String[] getImagesPath() {
+		return imagesPath;
 	}
 
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
+	public void setImagePath(String[] imagesPath) {
+		this.imagesPath = imagesPath;
 	}
 
 	public String getPetDisSpecName() {
@@ -108,6 +120,14 @@ public class PetDisSpecWrapper {
 
 	public void setSeverity(int severity) {
 		this.severity = severity;
+	}
+	
+	public List<PetSoluWrapper> getSolutions() {
+		return this.solutions;
+	}
+	
+	public void setSolutions(List<PetSoluWrapper> solutions) {
+		this.solutions = solutions;
 	}
 	
 }

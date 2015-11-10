@@ -190,6 +190,9 @@ public class PetDisSpec implements Serializable, Comparable<PetDisSpec>{
 	public String getPictureIds() {
 		return pictureIds;
 	}
+	public String[] getPictureIdsArray() {
+		return pictureIds.split("\n");
+	}
 	public void setPictureIds(String pictureIds) {
 		this.pictureIds = pictureIds;
 	}
