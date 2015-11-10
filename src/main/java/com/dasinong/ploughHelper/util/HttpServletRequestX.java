@@ -26,7 +26,7 @@ public class HttpServletRequestX {
 	
 	public Long getLong(String paramName) throws InvalidParameterException, MissingParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			throw new MissingParameterException(paramName);
 		}
 		
@@ -39,7 +39,7 @@ public class HttpServletRequestX {
 	
 	public Long getLongOptional(String paramName, Long defaultVal) throws InvalidParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			return defaultVal;
 		}
 		
@@ -52,7 +52,7 @@ public class HttpServletRequestX {
 	
 	public Long[] getArrayOfLong(String paramName) throws MissingParameterException, InvalidParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			throw new MissingParameterException(paramName);
 		}
 		
@@ -72,7 +72,7 @@ public class HttpServletRequestX {
 	
 	public Long[] getArrayOfLongOptional(String paramName, Long[] defaultVal) throws InvalidParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			return defaultVal;
 		}
 		
@@ -92,7 +92,7 @@ public class HttpServletRequestX {
 	
 	public Integer getInt(String paramName) throws InvalidParameterException, MissingParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			throw new MissingParameterException(paramName);
 		}
 		
@@ -105,7 +105,7 @@ public class HttpServletRequestX {
 	
 	public Integer getIntOptional(String paramName, Integer defaultVal) throws InvalidParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			return defaultVal;
 		}
 		
@@ -118,7 +118,7 @@ public class HttpServletRequestX {
 	
 	public Integer[] getArrayOfInt(String paramName) throws MissingParameterException, InvalidParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			throw new MissingParameterException(paramName);
 		}
 		
@@ -138,7 +138,7 @@ public class HttpServletRequestX {
 	
 	public Integer[] getArrayOfIntOptional(String paramName, Integer[] defaultVal) throws InvalidParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			return defaultVal;
 		}
 		
@@ -158,7 +158,7 @@ public class HttpServletRequestX {
 	
 	public Double getDouble(String paramName) throws InvalidParameterException, MissingParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			throw new MissingParameterException(paramName);
 		}
 		
@@ -171,7 +171,7 @@ public class HttpServletRequestX {
 	
 	public Double getDoubleOptional(String paramName, Double defaultVal) throws InvalidParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			return defaultVal;
 		}
 		
@@ -184,7 +184,7 @@ public class HttpServletRequestX {
 	
 	public Double[] getArrayOfDouble(String paramName) throws MissingParameterException, InvalidParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			throw new MissingParameterException(paramName);
 		}
 		
@@ -204,7 +204,7 @@ public class HttpServletRequestX {
 	
 	public Double[] getArrayOfDoubleOptional(String paramName, Double[] defaultVal) throws InvalidParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			return defaultVal;
 		}
 		
@@ -224,7 +224,7 @@ public class HttpServletRequestX {
 	
 	public Boolean getBool(String paramName) throws InvalidParameterException, MissingParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			throw new MissingParameterException(paramName);
 		}
 		
@@ -237,7 +237,7 @@ public class HttpServletRequestX {
 	
 	public Boolean getBoolOptional(String paramName, Boolean defaultVal) throws InvalidParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			return defaultVal;
 		}
 		
@@ -250,7 +250,7 @@ public class HttpServletRequestX {
 	
 	public Boolean[] getArrayOfBoolean(String paramName) throws MissingParameterException, InvalidParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			throw new MissingParameterException(paramName);
 		}
 		
@@ -270,7 +270,7 @@ public class HttpServletRequestX {
 	
 	public Boolean[] getArrayOfBooleanOptional(String paramName, Boolean[] defaultVal) throws InvalidParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			return defaultVal;
 		}
 		
@@ -290,6 +290,7 @@ public class HttpServletRequestX {
 	
 	public String getString(String paramName) throws MissingParameterException {
 		String valStr = request.getParameter(paramName);
+		// It's valid that client side pass a string as ""
 		if (valStr == null) {
 			throw new MissingParameterException(paramName);
 		}
@@ -318,7 +319,7 @@ public class HttpServletRequestX {
 	
 	public Date getDate(String paramName) throws InvalidParameterException, MissingParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			throw new MissingParameterException(paramName);
 		}
 		
@@ -335,7 +336,7 @@ public class HttpServletRequestX {
 	
 	public Date getDateOptional(String paramName, Date defaultVal) throws InvalidParameterException {
 		String valStr = request.getParameter(paramName);
-		if (valStr == null) {
+		if (valStr == null || valStr.isEmpty()) {
 			return defaultVal;
 		}
 		

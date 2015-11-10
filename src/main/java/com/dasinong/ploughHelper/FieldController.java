@@ -41,7 +41,7 @@ public class FieldController extends RequireUserLoginController {
 	    
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
-		String fieldName = requestX.getNonEmptyString("fieldName");
+		String fieldName = requestX.getStringOptional("fieldName", "");
 		boolean isActive = requestX.getBool("isActive");
 		boolean seedingortransplant = requestX.getBool("seedingortransplant");
 		double area = requestX.getDouble("area");
