@@ -47,7 +47,7 @@ public class FieldController extends RequireUserLoginController {
 		double area = requestX.getDouble("area");
 		Long locationId = requestX.getLong("locationId");
 	    Long varietyId =  requestX.getLong("varietyId");
-        Long currentStageId = requestX.getLongOptional("currentStageId", null);
+        Long currentStageId = requestX.getLongOptional("currentStageId", 0L);
         Long yield = requestX.getLongOptional("yield", 0L);
         Date startDate = requestX.getDate("startDate");
   	    

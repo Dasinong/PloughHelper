@@ -76,7 +76,7 @@ public class FieldFacade implements IFieldFacade {
 	       	Exception e = new Exception("locationId或varietyId无效");
           	throw e;
         }
-	    if (currentStageId == null){
+	    if (currentStageId == 0){
 	       	 if (variety.getSubStages()!=null && variety.getSubStages().size()!=0){
 	       		 currentStageId = variety.getSubStages().iterator().next().getSubStageId();
 	       	 }
