@@ -76,7 +76,12 @@ public class FieldFacade implements IFieldFacade {
 	       	Exception e = new Exception("locationId或varietyId无效");
           	throw e;
         }
+<<<<<<< Upstream, based on origin/master
 	    if (currentStageId == 0L){
+=======
+
+	    if (currentStageId == 0L){
+>>>>>>> 742fc29 MergeConflict
 	       	 if (variety.getSubStages()!=null && variety.getSubStages().size()!=0){
 	       		 currentStageId = variety.getSubStages().iterator().next().getSubStageId();
 	       	 }

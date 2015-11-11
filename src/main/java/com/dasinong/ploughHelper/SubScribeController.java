@@ -27,7 +27,7 @@ public class SubScribeController extends RequireUserLoginController {
 
 		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
-
+		
 		String targetName;
 		String cellphone;
 		String province;
