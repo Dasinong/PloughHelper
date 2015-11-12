@@ -350,4 +350,8 @@ public class HttpServletRequestX {
 			throw new InvalidParameterException(paramName, "Date");
 		}
 	}
+	
+	public boolean hasParameter(String parameter){
+		return (request.getParameter(parameter) !=null);
+	}
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
 import com.dasinong.ploughHelper.weather.All24h;
 import com.dasinong.ploughHelper.weather.All7d;
 import com.dasinong.ploughHelper.weather.All7dHum;
@@ -80,16 +81,14 @@ public class WeatherBackEndController {
 	
 	@RequestMapping(value = "/update24Weather", produces="application/json")
 	@ResponseBody
-	public Object update24Weather(HttpServletRequest request, HttpServletResponse response){
+	public Object update24Weather(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		Map<String,Object> result = new HashMap<String,Object>();
 		int monitorLocationId;
 		try{
 			monitorLocationId = Integer.parseInt(request.getParameter("monitorLocationId"));
 		}
 		catch(Exception e){
-			result.put("respCode",300);
-			result.put("message", "参数或内容错误");
-			return result;
+			throw new InvalidParameterException("monitorLocationId","Integer");
 		}
 
 		result.put("respCode",200);

@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
 import com.dasinong.ploughHelper.facade.ISubScribeFacade;
 import com.dasinong.ploughHelper.model.User;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 @Controller
 public class SubScribeController extends RequireUserLoginController {
@@ -28,53 +30,30 @@ public class SubScribeController extends RequireUserLoginController {
 		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
 		
-		String targetName;
-		String cellphone;
-		String province;
-		String city;
-		String country;
-		String district;
-		String cropName;
-		double area;
-		Long cropId;
-		boolean isAgriWeather;
-		boolean isNatAlter;
-		boolean isRiceHelper;
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		String targetName = requestX.getString("targetName");
+		String cellphone = requestX.getString("cellphone");
+		String province = requestX.getString("province");
+		String city = requestX.getString("city");
+		String country = requestX.getString("country");
+		String district = requestX.getString("district");
+		//Check parameter here
+		String cropName = requestX.getString("cropId");
+		//Long cropId = requestX.getString("");
+		double area = requestX.getDouble("area");
+		boolean isAgriWeather = requestX.getBool("isAgriWeather");
+		boolean isNatAlter = requestX.getBool("isNatAlter");
+		boolean isRiceHelper = requestX.getBool("isRiceHelper");;
+	
+		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
 		try{
-			targetName =  request.getParameter("targetName");
-			cellphone =  request.getParameter("cellphone");
-			province =  request.getParameter("province");
-			city =  request.getParameter("city");
-			country =  request.getParameter("country");
-			district =  request.getParameter("district");
-			area =  Double.parseDouble(request.getParameter("area"));
-			//cropId =  Long.parseLong(request.getParameter("cropId"));
-			cropName = request.getParameter("cropId");
-			isAgriWeather =  Boolean.parseBoolean(request.getParameter("isAgriWeather"));
-			isNatAlter =  Boolean.parseBoolean(request.getParameter("isNatAlter"));
-			isRiceHelper =  Boolean.parseBoolean(request.getParameter("isRiceHelper"));
+			Long cropId = Long.parseLong(cropName);
+			return ssf.insertSubScribeList(user, targetName, cellphone, province, city, country, 
+				district, area, cropId, isAgriWeather, isNatAlter, isRiceHelper);
 		}
-	    catch(Exception e){
-	    	result.put("respCode",300);
-	    	result.put("message","参数错误");
-	    	return result;
-	    }
-		try{
-			ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
-			try{
-				cropId = Long.parseLong(cropName);
-				return ssf.insertSubScribeList(user, targetName, cellphone, province, city, country, 
-						district, area, cropId, isAgriWeather, isNatAlter, isRiceHelper);
-			}
-			catch (Exception e){
-				return ssf.insertSubScribeList(user, targetName, cellphone, province, city, country, 
-						district, area, cropName, isAgriWeather, isNatAlter, isRiceHelper);
-			}
-			
-		}catch(Exception e){
-			result.put("respCode", 500);
-			result.put("message", e.getCause());
-			return result;
+		catch (Exception e){
+			return ssf.insertSubScribeList(user, targetName, cellphone, province, city, country, 
+					district, area, cropName, isAgriWeather, isNatAlter, isRiceHelper);
 		}
 	}
 	
@@ -84,15 +63,9 @@ public class SubScribeController extends RequireUserLoginController {
 
 		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
-
-		try{
-			ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
-			return ssf.getSubScribeLists(user);
-		}catch(Exception e){
-			result.put("respCode", 500);
-			result.put("message", e.getCause());
-			return result;
-		}
+		
+		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
+		return ssf.getSubScribeLists(user);
 	}
 	
 	
@@ -108,19 +81,11 @@ public class SubScribeController extends RequireUserLoginController {
 			id =  Long.parseLong(request.getParameter("id"));
 		}
 	    catch(Exception e){
-	    	result.put("respCode",300);
-	    	result.put("message","参数错误");
-	    	return result;
+	    	throw new InvalidParameterException("id","long");
 	    }
 		
-		try{
-			ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
-			return ssf.loadSubScribeList(id);
-		}catch(Exception e){
-			result.put("respCode", 500);
-			result.put("message", e.getCause());
-			return result;
-		}
+		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
+		return ssf.loadSubScribeList(id);
 	}
 	
 	
@@ -131,53 +96,29 @@ public class SubScribeController extends RequireUserLoginController {
 		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
 
-		Long id;
-		String targetName;
-		String cellphone;
-		String province;
-		String city;
-		String country;
-		String district;
-		double area;
-		Long cropId;
-		String cropName;
-		boolean isAgriWeather;
-		boolean isNatAlter;
-		boolean isRiceHelper;
-		try{
-			id =  Long.parseLong(request.getParameter("id"));
-			targetName =  request.getParameter("targetName");
-			cellphone =  request.getParameter("cellphone");
-			province =  request.getParameter("province");
-			city =  request.getParameter("city");
-			country =  request.getParameter("country");
-			district =  request.getParameter("district");
-			area =  Double.parseDouble(request.getParameter("area"));
-			cropName =  request.getParameter("cropId");
-			isAgriWeather =  Boolean.parseBoolean(request.getParameter("isAgriWeather"));
-			isNatAlter =  Boolean.parseBoolean(request.getParameter("isNatAlter"));
-			isRiceHelper =  Boolean.parseBoolean(request.getParameter("isRiceHelper"));
-		}
-	    catch(Exception e){
-	    	result.put("respCode",300);
-	    	result.put("message","参数错误");
-	    	return result;
-	    }
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		Long id = requestX.getLong("id");
+		String targetName = requestX.getString("targetName");
+		String cellphone = requestX.getString("cellphone");
+		String province = requestX.getString("province");
+		String city = requestX.getString("city");
+		String country = requestX.getString("country");
+		String district = requestX.getString("district");
+		double area = requestX.getDouble("area");
+		String cropName = requestX.getString("cropName");
+		boolean isAgriWeather = requestX.getBool("isAgriWeather");
+		boolean isNatAlter = requestX.getBool("isNatAlter");
+		boolean isRiceHelper = requestX.getBool("isRiceHelper");
 		
+		
+		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
 		try{
-			ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
-			try{
-				cropId = Long.parseLong(cropName);
-				return ssf.updateSubScribeList(id, user, targetName, cellphone, province, city, country,
-						district, area, cropId, isAgriWeather, isNatAlter, isRiceHelper);
-			}catch(Exception e){
-				return ssf.updateSubScribeList(id, user, targetName, cellphone, province, city, country,
-					district, area, cropName, isAgriWeather, isNatAlter, isRiceHelper);
-			}
+			Long cropId = Long.parseLong(cropName);
+			return ssf.updateSubScribeList(id, user, targetName, cellphone, province, city, country,
+					district, area, cropId, isAgriWeather, isNatAlter, isRiceHelper);
 		}catch(Exception e){
-			result.put("respCode", 500);
-			result.put("message", e.getCause());
-			return result;
+			return ssf.updateSubScribeList(id, user, targetName, cellphone, province, city, country,
+				district, area, cropName, isAgriWeather, isNatAlter, isRiceHelper);
 		}
 	}
 	
@@ -185,29 +126,17 @@ public class SubScribeController extends RequireUserLoginController {
 	
 	@RequestMapping(value = "/deleteSubScribeList", produces="application/json")
 	@ResponseBody
-	public Object deleteSubScribeList(HttpServletRequest request, HttpServletResponse response) {
+	public Object deleteSubScribeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		Map<String,Object> result = new HashMap<String,Object>();
-		
 		Long id;
 		try{
 			id =  Long.parseLong(request.getParameter("id"));
 		}
 	    catch(Exception e){
-	    	result.put("respCode",300);
-	    	result.put("message","参数错误");
-	    	return result;
+	    	throw new InvalidParameterException("id","long");
 	    }
 		
-		try{
-			ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
-			return ssf.deleteSubScribeList(id);
-		}catch(Exception e){
-			result.put("respCode", 500);
-			result.put("message", e.getCause());
-			return result;
-		}
+		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
+		return ssf.deleteSubScribeList(id);
 	}
-	
-
 }

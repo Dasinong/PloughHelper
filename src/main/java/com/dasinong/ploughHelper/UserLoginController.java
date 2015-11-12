@@ -48,7 +48,7 @@ public class UserLoginController extends BaseController {
 		UserAccessTokenManager tokenManager = new UserAccessTokenManager();
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		try{
+		
 			User user= (new UserParser(request)).getUser();
 			user.setIsPassSet(false);
 			user.setAuthenticated(true);
@@ -77,13 +77,6 @@ public class UserLoginController extends BaseController {
 				result.put("accessToken", token.getToken());
 			
 			return result;
-		}
-		catch(Exception e)
-		{
-			result.put("respCode", 500);
-			result.put("message", e.getMessage());
-			return result;
-		}
 	}
 	
 	@RequestMapping(value = "/login",produces="application/json")
@@ -94,7 +87,6 @@ public class UserLoginController extends BaseController {
 		UserAccessTokenManager tokenManager = new UserAccessTokenManager();
 	
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		try{
 			// TODO (xiahonggao): remove this code when android native
 			// starts passing cellphone
 			User user = this.getLoginUser(request);
@@ -140,12 +132,6 @@ public class UserLoginController extends BaseController {
 				return result;
 			}
 		}
-		catch(Exception e)
-		{
-			result.put("respCode", 500);
-			result.put("respDes", e.getCause().getMessage());
-			return result;
-		}
 	}
 	
 	@RequestMapping(value = "/authRegLog",produces="application/json;charset=utf-8")
@@ -156,7 +142,7 @@ public class UserLoginController extends BaseController {
 		UserAccessTokenManager tokenManager = new UserAccessTokenManager();
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		try{
+
 			User user = this.getLoginUser(request);
 			if (user!=null){
 				result.put("respCode", 200);
@@ -240,15 +226,7 @@ public class UserLoginController extends BaseController {
 				if (token != null)
 					result.put("accessToken", token.getToken());
 				return result;
-			}
-		    
-		}
-		catch(Exception e)
-		{
-			result.put("respCode", 500);
-			result.put("respDes", e.getCause().getMessage());
-			return result;
-		}
+			}		    
 	}
 	
 	
@@ -261,7 +239,6 @@ public class UserLoginController extends BaseController {
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		UserAccessTokenManager tokenManager = new UserAccessTokenManager();
 		
-		try{
 			User user = this.getLoginUser(request);
 			ViewerContext vc = this.getViewerContext(request);
 			if (user!=null){
@@ -279,13 +256,6 @@ public class UserLoginController extends BaseController {
 				result.put("message", "用户尚未登陆");
 				return result;
 			}
- 		}
-		catch(Exception e)
-		{
-			result.put("respCode", 500);
-			result.put("respDes", e.getCause().getMessage());
-			return result;
-		}
 	}
 	
 	
@@ -296,7 +266,6 @@ public class UserLoginController extends BaseController {
 		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 	
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		try{
 			String cellphone = request.getParameter("cellphone");
 			User user = userDao.findByCellphone(cellphone);
 			if (user != null) {
@@ -310,20 +279,12 @@ public class UserLoginController extends BaseController {
 				result.put("data",false);
 				return result;
 			}
-		}
-		catch(Exception e)
-		{
-			result.put("respCode", 500);
-			result.put("respDes", e.getCause().getMessage());
-			return result;
-		}
 	}
 	
 	@RequestMapping(value = "/isPassSet",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public Object isPassSet(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		try{
 			// if user comes from login flow, check cellphone
 			String cellphone = request.getParameter("cellphone");
 			if (cellphone == null) {
@@ -345,13 +306,6 @@ public class UserLoginController extends BaseController {
 			result.put("message", "检验密码是否初始化成功");
 			result.put("data", user.getIsPassSet());
 			return result;
-		}
-		catch(Exception e)
-		{
-			result.put("respCode", 500);
-			result.put("respDes", e.getCause().getMessage());
-			return result;
-		}
 	}
 	
 	@RequestMapping(value = "/requestSecurityCode",produces="application/json;charset=utf-8")
@@ -363,7 +317,6 @@ public class UserLoginController extends BaseController {
 		SecurityCodeManager codeManager = new SecurityCodeManager(codeDao);
 		
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		try{
 			String cellphone = request.getParameter("cellphone");
 			User user = userDao.findByCellphone(cellphone);
 			if (user!=null){
@@ -385,13 +338,6 @@ public class UserLoginController extends BaseController {
 				result.put("message", "用户不存在，请先注册");
 				return result;
 			}
-		}
-		catch(Exception e)
-		{
-			result.put("respCode", 500);
-			result.put("respDes", e.getCause().getMessage());
-			return result;
-		}
 	}
 	
 	@RequestMapping(value = "/loginWithSecCode",produces="application/json;charset=utf-8")
@@ -403,7 +349,6 @@ public class UserLoginController extends BaseController {
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		UserAccessTokenManager tokenManager = new UserAccessTokenManager();
 		
-		try{
 			String cellphone = request.getParameter("cellphone");
 			String seccode = request.getParameter("seccode");
 			String codeId = request.getParameter("codeId");
@@ -470,13 +415,6 @@ public class UserLoginController extends BaseController {
 				result.put("message", "用户不存在，请先注册");
 				return result;
 			}
-		}
-		catch(Exception e)
-		{
-			result.put("respCode", 500);
-			result.put("respDes", e.getCause().getMessage());
-			return result;
-		}
 	}
 	
 	
@@ -487,7 +425,7 @@ public class UserLoginController extends BaseController {
 		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 		UserAccessTokenManager tokenManager = new UserAccessTokenManager();
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		try{
+
 			User user = this.getLoginUser(request);
 			if (user!=null){
 				result.put("respCode", 200);
@@ -563,13 +501,6 @@ public class UserLoginController extends BaseController {
 					result.put("accessToken", token.getToken());
 				return result;
 			}
-		}
-		catch(Exception e)
-		{
-			result.put("respCode", 500);
-			result.put("respDes", e.getCause().getMessage());
-			return result;
-		}
 	}
 	
 	
@@ -580,7 +511,6 @@ public class UserLoginController extends BaseController {
 		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 		UserAccessTokenManager tokenManager = new UserAccessTokenManager();
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		try{
 			User user = this.getLoginUser(request);
 			if (user!=null){
 				result.put("respCode", 200);
@@ -653,13 +583,6 @@ public class UserLoginController extends BaseController {
 					result.put("accessToken", token.getToken());
 				return result;
 			}
-		}
-		catch(Exception e)
-		{
-			result.put("respCode", 500);
-			result.put("respDes", e.getCause().getMessage());
-			return result;
-		}
 	}
 	
 }

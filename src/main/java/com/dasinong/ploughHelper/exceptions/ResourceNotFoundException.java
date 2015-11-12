@@ -9,7 +9,7 @@ public class ResourceNotFoundException extends RuntimeException {
 		this.resourceId = resourceId;
 		this.resourceType = resourceType;
 	}
-	
+
 	public Long getResourceId() {
 		return this.resourceId;
 	}

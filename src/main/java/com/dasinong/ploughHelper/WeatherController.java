@@ -18,6 +18,7 @@ import org.springframework.web.context.ContextLoader;
 import org.xml.sax.SAXException;
 
 import com.dasinong.ploughHelper.dao.IUserDao;
+import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
 import com.dasinong.ploughHelper.facade.IWeatherFacade;
 import com.dasinong.ploughHelper.model.User;
 
@@ -51,9 +52,10 @@ public class WeatherController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				result.put("respCode", 306);
-				result.put("message", "用户未登陆,请输入浮点格式lat,lon");
-				return result;
+				throw new InvalidParameterException("lat;lat","double;double");
+				//result.put("respCode", 306);
+				//result.put("message", "用户未登陆,请输入浮点格式lat,lon");
+				//return result;
 			}
 			return wf.getWeather(lat, lon);
 		}
@@ -65,9 +67,10 @@ public class WeatherController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				result.put("respCode", 307);
-				result.put("message", "用户尚无田地,请输入浮点格式lat,lon");
-				return result;
+				throw new InvalidParameterException("lat;lat","double;double");
+				//result.put("respCode", 307);
+				//result.put("message", "用户尚无田地,请输入浮点格式lat,lon");
+				//return result;
 			}
 			return wf.getWeather(lat, lon);
 		}
@@ -76,9 +79,7 @@ public class WeatherController extends BaseController {
 		try{
 			mlid =  Integer.parseInt(request.getParameter("monitorLocationId"));
 		}catch(Exception e){
-			result.put("respCode",309);
-			result.put("message","monitorLocationId参数错误");
-			return result;
+			throw new InvalidParameterException("monitorLocationId","Integer");
 		}
 		if (mlid==-1){
 			double lat;
@@ -87,9 +88,10 @@ public class WeatherController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				result.put("respCode", 315);
-				result.put("message", "使用当前位置,请输入浮点格式lat,lon");
-				return result;
+				throw new InvalidParameterException("lat;lat","double;double");
+				//result.put("respCode", 315);
+				//result.put("message", "使用当前位置,请输入浮点格式lat,lon");
+				//return result;
 			}
 			return wf.getWeather(lat, lon);
 		}

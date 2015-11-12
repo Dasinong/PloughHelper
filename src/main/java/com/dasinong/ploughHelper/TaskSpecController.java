@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
 import com.dasinong.ploughHelper.facade.ITaskSpecFacade;
-import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.StepWrapper;
 
 @Controller
@@ -26,7 +26,7 @@ public class TaskSpecController extends RequireUserLoginController {
 	
 	@RequestMapping(value = "/getTaskSpec", produces="application/json")
 	@ResponseBody
-	public Object getTaskSpec(HttpServletRequest request, HttpServletResponse response) {
+	public Object getTaskSpec(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		
 		tsf =  (ITaskSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecFacade");
@@ -35,9 +35,7 @@ public class TaskSpecController extends RequireUserLoginController {
 			taskSpecId = Long.parseLong(request.getParameter("taskSpecId"));
 		}
 		catch(Exception e){
-			result.put("respCode",300);
-			result.put("message","参数格式或内容错误");
-			return result;
+			throw new InvalidParameterException("taskSpecId","Long");
 		}
 
 		return tsf.getTaskSpec(taskSpecId);
@@ -46,7 +44,7 @@ public class TaskSpecController extends RequireUserLoginController {
 	
 	@RequestMapping(value = "/getSteps", produces="application/json")
 	@ResponseBody
-	public Object getSteps(HttpServletRequest request, HttpServletResponse response) {
+	public Object getSteps(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		
 		tsf =  (ITaskSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecFacade");
@@ -56,12 +54,10 @@ public class TaskSpecController extends RequireUserLoginController {
 			taskSpecId = Long.parseLong(request.getParameter("taskSpecId"));
 		}
 		catch(Exception e){
-			result.put("respCode",321);
-			result.put("message","taskSpecId参数格式或内容错误");
-			return result;
+			throw new InvalidParameterException("taskSpecId","Long");
 		}
 		
-		
+		//fieldId is optional, default to 0
 		try{
 			fieldId = Long.parseLong(request.getParameter("fieldId"));
 		}
