@@ -49,9 +49,9 @@ public class IniPetSolCPP {
 	    petSoluDao.save(ps52);
 	    
 	    
-	    CPProduct cppd1 = new CPProduct("农药1","各种配料","什么类型","一堆作物","神经病","用量","打电话","多问人", 0);
-	    CPProduct cppd2 = new CPProduct("农药2","各种配料","什么类型","一堆作物","神经病","用量","打电话","多问人", 0);
-	    CPProduct cppd3 = new CPProduct("农药3","各种配料","什么类型","一堆作物","神经病","用量","打电话","多问人", 0);
+	    CPProduct cppd1 = new CPProduct("农药1","各种配料","什么类型","一堆作物","神经病","用量","打电话","多问人", 0, "");
+	    CPProduct cppd2 = new CPProduct("农药2","各种配料","什么类型","一堆作物","神经病","用量","打电话","多问人", 0, "");
+	    CPProduct cppd3 = new CPProduct("农药3","各种配料","什么类型","一堆作物","神经病","用量","打电话","多问人", 0, "");
 	    cPProductDao.save(cppd1);
 	    cPProductDao.save(cppd2);
 	    cPProductDao.save(cppd3);

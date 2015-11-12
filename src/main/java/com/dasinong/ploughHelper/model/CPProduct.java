@@ -24,12 +24,13 @@ public class CPProduct implements Serializable {
 	private String tip;
 	private String model;
 	private Integer priority;
+	private String telephone;
 	
 	public CPProduct() {}
 
 	public CPProduct(String cPProductName, String activeIngredient,
 			String type, String crop, String disease, String volume,
-			String guideline, String tip, Integer priority) {
+			String guideline, String tip, Integer priority, String telephone) {
 		super();
 		this.cPProductName = cPProductName;
 		this.activeIngredient = activeIngredient;
@@ -40,6 +41,7 @@ public class CPProduct implements Serializable {
 		this.guideline = guideline;
 		this.tip = tip;
 		this.priority = priority;
+		this.telephone = telephone;
 	}
 
 	public Long getcPProductId() {
@@ -162,4 +164,11 @@ public class CPProduct implements Serializable {
 		this.priority = priority;
 	}
 
+	public String getTelephone() {
+		return this.telephone;
+	}
+	
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
 }

@@ -15,6 +15,7 @@ public class CPProductWrapper {
 	String registrationId="";
 	String manufacturer="";
 	String tip="";
+	String telephone="";
 	
 	public CPProductWrapper(CPProduct cp) {
 		super();
@@ -30,6 +31,7 @@ public class CPProductWrapper {
 		this.manufacturer = cp.getManufacturer();
 		this.tip = cp.getTip();
 		this.id = cp.getcPProductId();
+		this.telephone = cp.getTelephone();
 	}
 
 	public String getCrop() {
@@ -128,6 +130,12 @@ public class CPProductWrapper {
 		this.tip = tip;
 	}
 	
+	public String getTelephone() {
+		return this.telephone;
+	}
 	
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
 	
 }

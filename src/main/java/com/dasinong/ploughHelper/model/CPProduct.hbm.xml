@@ -54,5 +54,8 @@
         <property name="priority" type="int">
         	<column name="priority" length="4" />
         </property>
+        <property name="telephone" type="string">
+            <column name="telephone" length="30" />
+        </property>
     </class>
 </hibernate-mapping>
