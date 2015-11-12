@@ -18,6 +18,7 @@ import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
 import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 import com.dasinong.ploughHelper.facade.ISoilFacade;
 import com.dasinong.ploughHelper.model.User;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 @Controller
 public class SoilReportController extends RequireUserLoginController {
@@ -29,83 +30,40 @@ public class SoilReportController extends RequireUserLoginController {
 	public Object insertSoilReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
 
-		try{
-			String userId = request.getParameter("userId");
-			String fieldId = request.getParameter("fieldId");
-			String type = request.getParameter("type");
-			String color = request.getParameter("color");
-			String fertility = request.getParameter("fertility");
-			String humidity = request.getParameter("humidity");
-			String testDate = request.getParameter("testDate");
-			String phValue = request.getParameter("phValue");
-			String organic = request.getParameter("organic");
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		
+		Long uId = requestX.getLong("userId");
+		Long fId =  requestX.getLong("fieldId");
+		String type = requestX.getStringOptional("type", "");
+		String color = requestX.getStringOptional("color", "");
+		String fertility = requestX.getStringOptional("fertility", "");
+		double humidityv = requestX.getDouble("humidity");
+		Date date = requestX.getDate("testDate");
+		double phValuev = requestX.getDouble("phValue");
+		String organic = requestX.getStringOptional("organic","");
+	
 			
-			String an = request.getParameter("an");
-			String qn = request.getParameter("qn");
-			String p = request.getParameter("p");
-			String qK = request.getParameter("qK");
-			String sK = request.getParameter("sK");
-			String fe = request.getParameter("fe");
-			String mn = request.getParameter("mn");
-			String cu = request.getParameter("cu");
-			String zn = request.getParameter("zn");
-			String b = request.getParameter("b");
-			String mo = request.getParameter("mo");
-			String ca = request.getParameter("ca");
-			String s = request.getParameter("s");
-			String si = request.getParameter("si");
-			String mg = request.getParameter("mg");
-			
-			if (userId==null || fieldId==null){
-				throw new MissingParameterException("userId and fieldId");
-			}
-            
-			try{
-				Long uId = Long.parseLong(userId);
-				Long fId = Long.parseLong(fieldId);
-				type = (type==null) ? "":type;
-				color = (color==null) ? "":color;
-				fertility = (fertility==null) ? "":fertility;
-				double humidityv = Double.parseDouble(humidity);
-				Date date = new Date();
+		double anv = requestX.getDouble("an");
+		double qnv = requestX.getDouble("qn");	
+		double pv = requestX.getDouble("p");
+		double qKv = requestX.getDouble("qK");
+		double sKv = requestX.getDouble("sK");
+		double fev = requestX.getDouble("fe");
+		double mnv = requestX.getDouble("mn");
+		double cuv = requestX.getDouble("cu");
+		double znv = requestX.getDouble("zn");
+		double bv = requestX.getDouble("b");
+		double mov = requestX.getDouble("mo");
+		double cav = requestX.getDouble("ca");
+		double sv = requestX.getDouble("s");
+		double siv = requestX.getDouble("si");
+		double mgv = requestX.getDouble("mg");
 				
-				try{
-					date = new Date(Long.parseLong(testDate));
-				}
-				catch(Exception e){
-					date = new Date(testDate);
-				}
-				double phValuev = Double.parseDouble(phValue);
-				organic = (organic==null) ? "":organic;
-				double anv =  Double.parseDouble(an);
-	        	double qnv = Double.parseDouble(qn);
-				double pv = Double.parseDouble(p);
-				double qKv = Double.parseDouble(qK);
-				double sKv = Double.parseDouble(sK);
-				double fev = Double.parseDouble(fe);
-				double mnv = Double.parseDouble(mn);
-				double cuv = Double.parseDouble(cu);
-				double znv = Double.parseDouble(zn);
-				double bv = Double.parseDouble(b);
-				double mov = Double.parseDouble(mo);
-				double cav = Double.parseDouble(ca);
-				double sv = Double.parseDouble(s);
-				double siv = Double.parseDouble(si);
-				double mgv = Double.parseDouble(mg);
-				
-				ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
-		    	result.put("respCode", 200);
-		    	result.put("message", "插入成功");
-		    	result.put("data", sf.insertSoil(uId, fId, type, color, fertility, humidityv, date, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv, znv, bv, mov, cav, sv, siv, mgv));
-				return result;
-			}catch(Exception e){
-				throw new MissingParameterException();
-			}
-		}catch (Exception e) {
-			result.put("respCode", 500);
-			result.put("message", e.getMessage());
-			return result;
-		}
+		ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
+		result.put("respCode", 200);
+		result.put("message", "插入成功");
+		result.put("data", sf.insertSoil(uId, fId, type, color, fertility, humidityv, date, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv, znv, bv, mov, cav, sv, siv, mgv));
+		return result;
 	}
 	
 	
@@ -133,26 +91,21 @@ public class SoilReportController extends RequireUserLoginController {
 		}
       
 		String fieldId = request.getParameter("fieldId");
-		try{
-			if (fieldId==null){
-				return sf.loadSoilReportsByUid(user.getUserId());
+		
+		if (fieldId==null){
+			return sf.loadSoilReportsByUid(user.getUserId());
+		}
+		else{
+			Long fid;
+			try{
+				fid = Long.parseLong(fieldId);
 			}
-			else{
-				Long fid;
-				try{
-					fid = Long.parseLong(fieldId);
-				}
-				catch(Exception e){
-					throw new InvalidParameterException("fieldId","Long");
-				}
-		    	result.put("respCode", 200);
-		    	result.put("message", "读取成功");
-		    	result.put("data", sf.loadSoilReportsByFid(fid));
-				return result;
+			catch(Exception e){
+				throw new InvalidParameterException("fieldId","Long");
 			}
-		}catch (Exception e) {
-			result.put("respCode", 500);
-			result.put("message", e.getMessage());
+	    	result.put("respCode", 200);
+	    	result.put("message", "读取成功");
+	    	result.put("data", sf.loadSoilReportsByFid(fid));
 			return result;
 		}
 	}
@@ -163,67 +116,38 @@ public class SoilReportController extends RequireUserLoginController {
 	public Object updateSoilReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
       
-		Long reportId;
-		String type;
-		String color;
-		String fertility;
-		double humidityv;
-		double phValuev;
-		String organic;
-		double anv;
-		double qnv;
-		double pv;
-		double qKv;
-		double sKv;
-		double fev;
-		double mnv;
-		double cuv;
-		double znv;
-		double bv;
-		double mov;
-		double cav;
-		double sv;
-		double siv;
-		double mgv;
-
-		try{
-			reportId = Long.parseLong(request.getParameter("reportId"));
-			type = request.getParameter("type");
-			color = request.getParameter("color");
-			fertility = request.getParameter("fertility");
-			humidityv = Double.parseDouble(request.getParameter("humidity"));
-			phValuev =  Double.parseDouble(request.getParameter("phValue"));
-			organic = request.getParameter("organic");
-			anv = Double.parseDouble(request.getParameter("an"));
-			qnv = Double.parseDouble(request.getParameter("qn"));
-			pv = Double.parseDouble(request.getParameter("p"));
-			qKv = Double.parseDouble(request.getParameter("qK"));
-			sKv = Double.parseDouble(request.getParameter("sK"));
-			fev = Double.parseDouble(request.getParameter("fe"));
-			mnv = Double.parseDouble(request.getParameter("mn"));
-			cuv = Double.parseDouble(request.getParameter("cu"));
-			znv = Double.parseDouble(request.getParameter("zn"));
-			bv = Double.parseDouble(request.getParameter("b"));
-			mov = Double.parseDouble(request.getParameter("mo"));
-			cav = Double.parseDouble(request.getParameter("ca"));
-			sv = Double.parseDouble(request.getParameter("s"));
-			siv = Double.parseDouble(request.getParameter("si"));
-			mgv = Double.parseDouble(request.getParameter("mg"));
-		}catch(Exception e){
-			throw new MissingParameterException();
-		}
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
+		Long reportId = requestX.getLong("userId");
+		String type = requestX.getStringOptional("type", "");
+		String color = requestX.getStringOptional("color", "");
+		String fertility = requestX.getStringOptional("fertility", "");
+		double humidityv = requestX.getDouble("humidity");
+		double phValuev = requestX.getDouble("phValue");
+		String organic = requestX.getStringOptional("organic","");
+	
+		double anv = requestX.getDouble("an");
+		double qnv = requestX.getDouble("qn");	
+		double pv = requestX.getDouble("p");
+		double qKv = requestX.getDouble("qK");
+		double sKv = requestX.getDouble("sK");
+		double fev = requestX.getDouble("fe");
+		double mnv = requestX.getDouble("mn");
+		double cuv = requestX.getDouble("cu");
+		double znv = requestX.getDouble("zn");
+		double bv = requestX.getDouble("b");
+		double mov = requestX.getDouble("mo");
+		double cav = requestX.getDouble("ca");
+		double sv = requestX.getDouble("s");
+		double siv = requestX.getDouble("si");
+		double mgv = requestX.getDouble("mg");
+	
 		ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
-		try{
-			result.put("respCode", 200);
-	    	result.put("message", "更新报告成功");
-	    	result.put("data", sf.updateSoil(reportId, type, color, fertility, humidityv, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv,
+		
+		result.put("respCode", 200);
+		result.put("message", "更新报告成功");	    
+		result.put("data", sf.updateSoil(reportId, type, color, fertility, humidityv, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv,
 					znv, bv, mov, cav, sv, siv, mgv));
-			return result;
-		}catch (Exception e) {
-			result.put("respCode", 500);
-			result.put("message", e.getMessage());
-			return result;
-		}
+		return result;
 	}
 }

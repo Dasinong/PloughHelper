@@ -49,8 +49,6 @@ public class FieldController extends RequireUserLoginController {
   	    
 	    IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");
 		
-	    //Double check what happens if expose internal server exception directly to client.
-	    //Wrapper internal server error
 	    try{
 			FieldWrapper fw = ff.createField(user, fieldName, startDate, isActive, seedingortransplant, area, 
 					locationId, varietyId, currentStageId, yield);
