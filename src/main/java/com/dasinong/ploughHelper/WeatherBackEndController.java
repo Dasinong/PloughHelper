@@ -25,14 +25,12 @@ public class WeatherBackEndController {
 	
 	@RequestMapping(value = "/weatherBuffer", produces="application/json")
 	@ResponseBody
-	public Object weatherBuffer(HttpServletRequest request, HttpServletResponse response){
+	public Object weatherBuffer(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		Map<String,Object> result = new HashMap<String,Object>();
 		String target = request.getParameter("target");
 		String action = request.getParameter("action");
 		if (target==null || target.equals("") || action==null || action.equals("")){
-			result.put("respCode",300);
-			result.put("message","参数错误，请输入target及action");
-			return result;
+			throw new InvalidParameterException("target;action","string;string");
 		}
 		IWeatherBuffer weatherBuffer = null;
 		if (target.equalsIgnoreCase("24h")){
