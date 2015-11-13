@@ -30,7 +30,7 @@ public class WeatherBackEndController {
 		String target = request.getParameter("target");
 		String action = request.getParameter("action");
 		if (target==null || target.equals("") || action==null || action.equals("")){
-			throw new InvalidParameterException("target;action","string;string");
+			throw new InvalidParameterException("target","string","action","string");
 		}
 		IWeatherBuffer weatherBuffer = null;
 		if (target.equalsIgnoreCase("24h")){

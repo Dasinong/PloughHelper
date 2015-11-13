@@ -40,7 +40,7 @@ public class HomeController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				throw new InvalidParameterException("lat;lon","double;double");
+				throw new InvalidParameterException("lat","double","lon","double");
 			}
 			return hf.LoadHome(lat, lon);
 		}
@@ -52,7 +52,7 @@ public class HomeController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				throw new InvalidParameterException("lat;lon","double;double");
+				throw new InvalidParameterException("lat","double","lon","double");
 				//result.put("message", "用户尚未创建田地,请输入浮点格式lat,lon");
 			}
 			return hf.LoadHome(lat, lon);
@@ -77,7 +77,7 @@ public class HomeController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				throw new InvalidParameterException("lat;lon","double;double");
+				throw new InvalidParameterException("lat","double","lon","double");
 				//result.put("message", "使用当前位置，请输入浮点格式lat,lon");
 			}
 			return hf.LoadHome(lat, lon);
@@ -113,7 +113,7 @@ public class HomeController extends BaseController {
 					lat = Double.parseDouble(request.getParameter("lat"));
 					lon = Double.parseDouble(request.getParameter("lon"));
 				}catch (Exception e){
-					throw new InvalidParameterException("lat;lon","double;double");
+					throw new InvalidParameterException("lat","double","lon","double");
 					//result.put("message", "用户未登陆,请输入浮点格式lat,lon");
 				}
 				return lnf.getLaoNong(lat, lon, user);
@@ -126,7 +126,7 @@ public class HomeController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				throw new InvalidParameterException("lat;lon","double;double");
+				throw new InvalidParameterException("lat","double","lon","double");
 				//result.put("message", "用户尚未创建田地,请输入浮点格式lat,lon");
 			}
 			return lnf.getLaoNong(lat, lon, user);
@@ -151,7 +151,7 @@ public class HomeController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				throw new InvalidParameterException("lat;lon","double;double");
+				throw new InvalidParameterException("lat","double","lon","double");
 				//result.put("message", "使用当前位置，请输入浮点格式lat,lon");
 			}
 			return lnf.getLaoNong(lat, lon, user);

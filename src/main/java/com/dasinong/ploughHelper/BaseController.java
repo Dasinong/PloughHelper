@@ -174,8 +174,7 @@ public class BaseController {
 		InvalidParameterException exception
 	) {
 		Map<String,Object> result = new HashMap<String,Object>();
-		Map<String, Object> errorData = new HashMap<String, Object>();
-		errorData.put("name", exception.getParamName());
+		Map<String, String> errorData = exception.getParams();
 		result.put("respCode", 301);
 		result.put("message", "参数不正确");
 		result.put("data", errorData);

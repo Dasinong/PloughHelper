@@ -52,7 +52,7 @@ public class WeatherController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				throw new InvalidParameterException("lat;lat","double;double");
+				throw new InvalidParameterException("lat","double","lon","double");
 				//result.put("respCode", 306);
 				//result.put("message", "用户未登陆,请输入浮点格式lat,lon");
 				//return result;
@@ -67,7 +67,7 @@ public class WeatherController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				throw new InvalidParameterException("lat;lat","double;double");
+				throw new InvalidParameterException("lat","double","lon","double");
 				//result.put("respCode", 307);
 				//result.put("message", "用户尚无田地,请输入浮点格式lat,lon");
 				//return result;
@@ -88,7 +88,7 @@ public class WeatherController extends BaseController {
 				lat = Double.parseDouble(request.getParameter("lat"));
 				lon = Double.parseDouble(request.getParameter("lon"));
 			}catch (Exception e){
-				throw new InvalidParameterException("lat;lat","double;double");
+				throw new InvalidParameterException("lat","double","lon","double");
 				//result.put("respCode", 315);
 				//result.put("message", "使用当前位置,请输入浮点格式lat,lon");
 				//return result;

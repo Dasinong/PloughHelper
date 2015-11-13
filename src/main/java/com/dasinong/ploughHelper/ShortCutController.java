@@ -57,7 +57,7 @@ public class ShortCutController extends BaseController {
 			lat = Double.parseDouble(request.getParameter("lat"));
 			lon = Double.parseDouble(request.getParameter("lon"));
 		}catch(Exception e){
-			throw new InvalidParameterException("lat;lon","double;double");
+			throw new InvalidParameterException("lat","double","lon","double");
 		}
 		try {
 			Integer mlId = AllMonitorLocation.getInstance().getNearest(lat, lon);

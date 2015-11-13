@@ -102,7 +102,7 @@ public class FieldController extends RequireUserLoginController {
 			currentStageId = Long.parseLong(request.getParameter("currentStageId"));
 		}
 		catch(Exception e){
-	    	throw new InvalidParameterException("fieldId;currentStageId","long;long");
+	    	throw new InvalidParameterException("fieldId","long","currentStageId","long");
 		}
   	    
 	    IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");

@@ -51,7 +51,7 @@ public class TaskController extends RequireUserLoginController {
 			fId = Long.parseLong(request.getParameter("fieldId"));
 			currentStageId = Long.parseLong(request.getParameter("currentStageId"));
 		}catch(Exception e){
-			throw new InvalidParameterException("fieldId,currentStageId","long,long");
+			throw new InvalidParameterException("fieldId","long","currentStageId","long");
 		}
 		
 		ITaskFacade tf = (ITaskFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskFacade");
@@ -73,16 +73,15 @@ public class TaskController extends RequireUserLoginController {
 			return tf.updateTask(fieldId, id, status);
 		}
 		else if (requestX.hasParameter("taskIds") && requestX.hasParameter("taskStatuss")){
-			String taskIds = requestX.getString("taskIds");
-			String taskStatuss = requestX.getString("taskStatuss");
-			String[] unitIds = taskIds.split(",");
-		    String[] unitStatuss = taskStatuss.split(",");	
-		    if (unitIds.length!=unitStatuss.length){
-		    	throw new InvalidParameterException("unitIds;unitStatuss","2,3,4;true,true,false");
+			Long[] taskIds = requestX.getArrayOfLong("taskIds");
+			Boolean[] taskStatuss =requestX.getArrayOfBoolean("taskStatuss");
+		    if (taskIds.length!=taskStatuss.length){
+		    	throw new InvalidParameterException("taskIds","List<int>","taskStatuss","List<boolean>");
 		    }
+		    
 		    HashMap<Long,Boolean> tasks = new HashMap<Long,Boolean>();
-		    for (int i=0;i<unitIds.length;i++){
-		    	tasks.put(Long.parseLong(unitIds[i]), Boolean.parseBoolean(unitStatuss[i]));
+		    for (int i=0;i<taskIds.length;i++){
+		    	tasks.put(taskIds[i], taskStatuss[i]);
 		    }
 			ITaskFacade tf = (ITaskFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskFacade");
 			return tf.updateTasks(fieldId, tasks);
