@@ -15,9 +15,10 @@ import com.dasinong.ploughHelper.weather.LiveWeatherData;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class NongYan {
+	
 	private static NongYan nongYan;
 	
-	public LaoNong getNongYan(Integer areaId){
+	public Proverb getNongYan(Integer areaId) {
 		IProverbDao proverbDao = null;
 
 		try{
@@ -77,14 +78,8 @@ public class NongYan {
 		if (proverb == null){
 			proverb = proverbDao.findByAccident();
 		}
-
-		if (proverb == null){
-			LaoNong d = new LaoNong(1,3,"closeeyelaugh.png","每日农谚","日出胭脂红，无雨也有风。","");
-			return d;
-		}
 		
-		LaoNong d = new LaoNong(1,3,"closeeyelaugh.png","每日农谚",proverb.getContent(),"");
-		return d;
+		return proverb;
 	}
 	
 	public static NongYan allNongYan(){
@@ -93,11 +88,6 @@ public class NongYan {
 		return nongYan;
 	}
 	
-	private NongYan(){
-	}
-
-	public static void main(String[] args){
-		System.out.println(NongYan.allNongYan().getNongYan(101010100).content);		
-	}
+	private NongYan() {}
 	
 }

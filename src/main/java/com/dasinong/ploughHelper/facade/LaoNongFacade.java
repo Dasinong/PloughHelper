@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
 import com.dasinong.ploughHelper.datapool.AllSystemMessage;
+import com.dasinong.ploughHelper.model.LaoNongType;
+import com.dasinong.ploughHelper.model.Proverb;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.nohibernate.SystemMessage;
 import com.dasinong.ploughHelper.modelTran.LaoNong;
@@ -99,7 +101,8 @@ public class LaoNongFacade implements ILaoNongFacade {
 		}
 		
 		if (newLaoNong.size()==0){
-		    laoNong = NongYan.allNongYan().getNongYan(areaId);
+		    Proverb proverb = NongYan.allNongYan().getNongYan(areaId);
+		    laoNong = new LaoNong(1, 2, "closeeyelaugh.png", "每日农谚", proverb.getContent(), "");
 			result.put("data",laoNong);
 			newLaoNong.add(laoNong);
 		}
@@ -108,5 +111,74 @@ public class LaoNongFacade implements ILaoNongFacade {
 		result.put("message","获得老农成功");
 		result.put("newdata", newLaoNong);
 		return result;
+	}
+	
+	// TODO (xiahonggao): deprecate getLaoNong
+	@Override
+	public Object getLaoNongs(Integer areaId, User user){
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		GetWeatherAlert gwa = new GetWeatherAlert(areaId.toString()); 
+		List<WeatherAlert> wa = gwa.getWeatherAlert();
+		String disasterInfo = "";
+		String agriURLTag = "";
+		List<LaoNong> laoNongs = new ArrayList<LaoNong>();
+		try{
+			AgriDisForcast agri = AllAgriDisForcast.getadf().getadf(areaId);
+			if (agri!=null) disasterInfo = agri.getDisasterInfo();
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Error happend when get Agriculture Disaster Forcast");
+		}
+		
+		System.out.println("szc: getLaoNong areaId : "+areaId);
+		LaoNong laoNong=null;
+		
+		if(!"".equals(disasterInfo)){
+			laoNong = new LaoNong(0, LaoNongType.AGRICULTURE_WEATHER_ALERT,"ohnoface.png","农业预警",disasterInfo, agriURLTag);
+			laoNongs.add(laoNong);
+		}
+		if (wa!=null){
+			for(WeatherAlert w: wa){
+				laoNong = new LaoNong(0, LaoNongType.AGRICULTURE_WEATHER_ALERT, "ohnoface.png","天气预警",w.shortDescription(),w.urlTag());
+				laoNongs.add(laoNong);
+			}
+		} 
+		List<SystemMessage> sml = new ArrayList<SystemMessage>();
+		List<SystemMessage> local = AllSystemMessage.getSystemMessage().get_Messages(areaId);
+		List<SystemMessage> all = AllSystemMessage.getSystemMessage().get_Messages(100);
+		if (all!=null){
+			sml.addAll(all);
+		}
+		if (local!=null){
+			sml.addAll(local);
+		}
+		
+		if (sml!=null && user!=null){
+			for(SystemMessage sm:sml){
+				if ((sm.getInstitutionId()==user.getInstitutionId()||sm.getInstitutionId()==0) && (sm.getStartTime().getTime()< (new Date()).getTime())){
+					LaoNong ln = new LaoNong(sm.getId(),1,sm.getPicUrl(),"系统广告",sm.getContent(),sm.getLandingUrl());
+					laoNongs.add(ln);
+				}
+			}
+		}
+		
+		if (laoNongs.size()==0){
+		    Proverb proverb = NongYan.allNongYan().getNongYan(areaId);
+		    laoNong = new LaoNong(1, 2, "closeeyelaugh.png", "每日农谚", proverb.getContent(), "");
+			laoNongs.add(laoNong);
+		}
+
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		data.put("laonongs", laoNongs);
+		result.put("respCode", 200);
+		result.put("message","获得老农成功");
+		result.put("data", data);
+		return result;
+	}
+
+	@Override
+	public Object getLaoNongs(double lat, double lon, User user) {
+		Integer mlId = AllMonitorLocation.getInstance().getNearest(lat, lon);
+		return getLaoNongs(mlId, user);
 	}
 }

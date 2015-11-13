@@ -16,6 +16,7 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.facade.IHomeFacade;
 import com.dasinong.ploughHelper.facade.ILaoNongFacade;
 import com.dasinong.ploughHelper.model.User;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 
 @Controller
@@ -101,9 +102,7 @@ public class HomeController extends BaseController {
 		return hf.LoadHome(user, fId,1);
 	}
 	
-	
-	
-	
+	// TODO (xiahonggao): deprecate /getLaoNong and use /laonongs instead
 	@RequestMapping(value = "/getLaoNong", produces="application/json")
 	@ResponseBody
 	public Object getLaoNong(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -167,6 +166,23 @@ public class HomeController extends BaseController {
 			return lnf.getLaoNong(lat, lon, user);
 		}
 		return lnf.getLaoNong(mlId, user);
+	}
+	
+	@RequestMapping(value = "/laonongs", produces = "application/json")
+	@ResponseBody
+	public Object getBanners(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		User user = this.getLoginUser(request);
+		ILaoNongFacade lnf = (ILaoNongFacade) ContextLoader.getCurrentWebApplicationContext().getBean("laoNongFacade");
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		
+		if (user == null) {
+			double lat = requestX.getDouble("lat");
+			double lon = requestX.getDouble("lon");
+			return lnf.getLaoNongs(lat, lon, user);
+		}
+
+		Integer mlId = requestX.getInt("monitorLocationId");
+		return lnf.getLaoNongs(mlId, user);
 	}
 	
 }
