@@ -131,7 +131,6 @@ public class UserLoginController extends BaseController {
 				result.put("message", "密码错误");
 				return result;
 			}
-		}
 	}
 	
 	@RequestMapping(value = "/authRegLog",produces="application/json;charset=utf-8")
@@ -234,7 +233,7 @@ public class UserLoginController extends BaseController {
 	
 	@RequestMapping(value = "/logout",produces="application/json")
 	@ResponseBody
-	public Object logout(HttpServletRequest request, HttpServletResponse response) {
+	public Object logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		IUserAccessTokenDao tokenDao = (IUserAccessTokenDao) ContextLoader.getCurrentWebApplicationContext().getBean("userAccessTokenDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		UserAccessTokenManager tokenManager = new UserAccessTokenManager();
@@ -310,7 +309,7 @@ public class UserLoginController extends BaseController {
 	
 	@RequestMapping(value = "/requestSecurityCode",produces="application/json;charset=utf-8")
 	@ResponseBody
-	public Object requestSecurityCode(HttpServletRequest request, HttpServletResponse response) {
+	public Object requestSecurityCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 		ISecurityCodeDao codeDao = (ISecurityCodeDao) ContextLoader.getCurrentWebApplicationContext().getBean("securityCodeDao");
