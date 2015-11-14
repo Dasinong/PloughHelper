@@ -169,11 +169,11 @@ public class HomeController extends BaseController {
 		if (user == null) {
 			double lat = requestX.getDouble("lat");
 			double lon = requestX.getDouble("lon");
-			return lnf.getLaoNongs(lat, lon, user);
+			return lnf.getLaoNong(lat, lon, user);
 		}
 
 		Integer mlId = requestX.getInt("monitorLocationId");
-		return lnf.getLaoNongs(mlId, user);
+		return lnf.getLaoNong(mlId, user);
 	}
 	
 }
