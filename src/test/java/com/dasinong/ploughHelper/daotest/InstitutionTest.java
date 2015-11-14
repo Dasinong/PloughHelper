@@ -7,6 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.dasinong.ploughHelper.dao.IInstitutionDao;
+import com.dasinong.ploughHelper.dao.IUserDao;
 import com.dasinong.ploughHelper.model.Institution;
 
 import junit.framework.Assert;
@@ -24,7 +25,7 @@ public class InstitutionTest {
 	@Test
 	public void findByName() {
 		Institution i = institutionDao.findByName("陶氏益农");
-		Assert.assertEquals(i.getId(),1);
+		Assert.assertEquals(i.getId().longValue(), 1L);
 		Assert.assertEquals(i.getName(), "陶氏益农");
 		Assert.assertEquals(i.getCode(), "DOWS");
 	}
@@ -32,15 +33,15 @@ public class InstitutionTest {
 	@Test
 	public void findByCode(){
 		Institution i = institutionDao.findByCode("DOWS");
-		Assert.assertEquals(i.getId(),1);
+		Assert.assertEquals(i.getId().longValue(),1L);
 		Assert.assertEquals(i.getName(), "陶氏益农");
 		Assert.assertEquals(i.getCode(), "DOWS");
 	}
 	
 	@Test
 	public void findById(){
-		Institution i = institutionDao.findById(1);
-		Assert.assertEquals(i.getId(),1);
+		Institution i = institutionDao.findById(1L);
+		Assert.assertEquals(i.getId().longValue(),1L);
 		Assert.assertEquals(i.getName(), "陶氏益农");
 		Assert.assertEquals(i.getCode(), "DOWS");
 	}

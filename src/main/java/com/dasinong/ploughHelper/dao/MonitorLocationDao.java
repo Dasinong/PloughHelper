@@ -7,30 +7,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.dasinong.ploughHelper.model.MonitorLocation;
 
 
-public class MonitorLocationDao extends HibernateDaoSupport implements IMonitorLocationDao{
-	
-	@Override
-	public void save(MonitorLocation monitorLocation) {
-		getHibernateTemplate().save(monitorLocation);
-	}
-
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.ILocationDao#update(com.dasinong.ploughHelper.model.Location)
-	 */
-	@Override
-	public void update(MonitorLocation monitorLocation) {
-		getHibernateTemplate().update(monitorLocation);
-
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.ILocationDao#delete(com.dasinong.ploughHelper.model.Location)
-	 */
-	@Override
-	public void delete(MonitorLocation monitorLocation) {
-		getHibernateTemplate().delete(monitorLocation);
-	}
+public class MonitorLocationDao extends EntityHibernateDao<MonitorLocation> implements IMonitorLocationDao{
 
 	/* (non-Javadoc)
 	 * @see com.dasinong.ploughHelper.dao.ILocationDao#findByLocationName(java.lang.String)
@@ -44,13 +21,6 @@ public class MonitorLocationDao extends HibernateDaoSupport implements IMonitorL
 			return null;
 		}
 		return (MonitorLocation) list.get(0);
-	}
-	
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<MonitorLocation > getAll() {
-		return getHibernateTemplate().find("from MonitorLocation");
 	}
 
 }

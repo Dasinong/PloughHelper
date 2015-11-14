@@ -4,15 +4,7 @@ import java.util.List;
 
 import com.dasinong.ploughHelper.model.User;
 
-public interface IUserDao {
-
-	void save(User user);
-
-	void update(User user);
-
-	void delete(User user);
-	
-	User findById(Long id);
+public interface IUserDao extends IEntityDao<User>{
 
 	User findByUserName(String userName);
 
@@ -23,8 +15,6 @@ public interface IUserDao {
 	User findByWeixin(String weixintoken);
 	
 	long getUIDbyRef(String refcode);
-	
-	public List<User> getAllUser();
 	
 	public List<User> getAllUsersWithEmptyRefCode();
 

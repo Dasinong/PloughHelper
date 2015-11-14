@@ -15,24 +15,10 @@ import com.dasinong.ploughHelper.model.UserAccessToken;
 import com.dasinong.ploughHelper.util.AES;
 import com.dasinong.ploughHelper.util.Env;
 
-public class UserAccessTokenDao extends HibernateDaoSupport
+// TODO
+public class UserAccessTokenDao extends EntityHibernateDao<UserAccessToken>
 	implements IUserAccessTokenDao {
 
-	@Override
-	public void save(UserAccessToken token) {
-		this.getHibernateTemplate().save(token);
-	}
-
-	@Override
-	public void update(UserAccessToken token) {
-		this.getHibernateTemplate().update(token);
-	}
-	
-	@Override
-	public void delete(UserAccessToken token) {
-		this.getHibernateTemplate().delete(token);
-	}
-	
 	@Override
 	public void deleteByUserIdAndAppId(Long userId, Long appId) {
 		Query query = this.getSession().createQuery("delete from UserAccessToken where userId = :userId and appId = :appId");

@@ -160,7 +160,7 @@ public class FieldFacade implements IFieldFacade {
         ws.setLocationName(location.toString());
         ws.setMonitorLocationId(monitorLocationId);
         ws.setType(WeatherSubscriptionType.FIELD);
-        weatherSubscriptionDao.saveSafe(ws);
+        weatherSubscriptionDao.save(ws);
         
 		FieldWrapper fw = new FieldWrapper(field,taskSpecDao,1);
 		return fw;	    

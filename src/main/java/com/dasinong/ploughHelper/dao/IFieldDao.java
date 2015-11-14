@@ -4,18 +4,8 @@ import java.util.List;
 
 import com.dasinong.ploughHelper.model.Field;
 
-public interface IFieldDao {
-
-	public abstract void save(Field field);
-
-	public abstract void update(Field field);
-
-	public abstract void delete(Field field);
+public interface IFieldDao extends IEntityDao<Field> {
 
 	public abstract Field findByFieldName(String fieldName);
-
-	public abstract Field findById(Long id);
-	
-	public abstract List<Field> findAll();
 
 }

@@ -9,13 +9,7 @@ import com.dasinong.ploughHelper.exceptions.UserAccessTokenExpiredException;
 import com.dasinong.ploughHelper.exceptions.UserAccessTokenNotFoundException;
 import com.dasinong.ploughHelper.model.UserAccessToken;
 
-public interface IUserAccessTokenDao {
-
-	abstract public void save(UserAccessToken token);
-	
-	abstract public void update(UserAccessToken token);
-
-	abstract public void delete(UserAccessToken token);
+public interface IUserAccessTokenDao extends IEntityDao<UserAccessToken> {
 	
 	abstract public void deleteByUserIdAndAppId(Long userId, Long appId);
 	

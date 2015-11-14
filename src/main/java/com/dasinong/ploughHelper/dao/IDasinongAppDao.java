@@ -2,9 +2,6 @@ package com.dasinong.ploughHelper.dao;
 
 import com.dasinong.ploughHelper.model.DasinongApp;
 
-public interface IDasinongAppDao {
+public interface IDasinongAppDao extends IEntityDao<DasinongApp> {
 
-	abstract DasinongApp findByAppId(Long appId);
-	
-	abstract DasinongApp create(String appName);
 }

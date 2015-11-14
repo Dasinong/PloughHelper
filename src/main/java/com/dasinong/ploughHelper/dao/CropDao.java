@@ -7,36 +7,8 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.Crop;
 
-public class CropDao extends HibernateDaoSupport implements ICropDao{
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.ICropDao#save(com.dasinong.ploughHelper.model.Crop)
-	 */
-	@Override
-	public void save(Crop crop) {
-		getHibernateTemplate().save(crop);
-	}
-
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.ICropDao#update(com.dasinong.ploughHelper.model.Crop)
-	 */
-	@Override
-	public void update(Crop crop) {
-		getHibernateTemplate().update(crop);
-
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.ICropDao#delete(com.dasinong.ploughHelper.model.Crop)
-	 */
-	@Override
-	public void delete(Crop crop) {
-		getHibernateTemplate().delete(crop);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.ICropDao#findByCropName(java.lang.String)
-	 */
+public class CropDao extends EntityHibernateDao<Crop> implements ICropDao {
+	
 	@Override
 	public Crop findByCropName(String cropName) {
 		@SuppressWarnings("rawtypes")
@@ -46,11 +18,6 @@ public class CropDao extends HibernateDaoSupport implements ICropDao{
 			return null;
 		}
 		return (Crop) list.get(0);
-	}
-	
-	@Override
-	public Crop findById(Long id) {
-		return (Crop) this.getHibernateTemplate().get(Crop.class,id);
 	}
 	
 	@Override

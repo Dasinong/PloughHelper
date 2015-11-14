@@ -8,27 +8,8 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.dasinong.ploughHelper.model.PetDisSpecBrowse;
 
 
-public class PetDisSpecBrowseDao extends HibernateDaoSupport implements IPetDisSpecBrowseDao{
-	
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IPetDisSpecBrowseDao#save(com.dasinong.ploughHelper.model.PetDisSpecBrowse)
-	 */
-	@Override
-	public void save(PetDisSpecBrowse petDisSpecBrowse) {
-		getHibernateTemplate().save(petDisSpecBrowse);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IPetDisSpecBrowseDao#findById(java.lang.Long)
-	 */
-	@Override
-	public PetDisSpecBrowse findById(Long id) {
-		return (PetDisSpecBrowse) this.getHibernateTemplate().get(PetDisSpecBrowse.class,id);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IPetDisSpecBrowseDao#findByType(java.lang.String)
-	 */
+public class PetDisSpecBrowseDao extends EntityHibernateDao<PetDisSpecBrowse> implements IPetDisSpecBrowseDao{
+
 	@Override
 	public List<PetDisSpecBrowse> findByType(String type) {
 		//List list = getHibernateTemplate().find("from PetDisSpecBrowse where type=?",type);
@@ -55,20 +36,5 @@ public class PetDisSpecBrowseDao extends HibernateDaoSupport implements IPetDisS
 		}
 		
 		return list;
-	}
-	
-	@Override
-	public List<PetDisSpecBrowse> getAll() {
-		List list = this.getHibernateTemplate().find("from PetDisSpecBrowse");
-		if (list == null) {
-			return new ArrayList<PetDisSpecBrowse>();
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public void update(PetDisSpecBrowse petDisSpecBrowse) {
-		this.getHibernateTemplate().update(petDisSpecBrowse);
 	}
 }

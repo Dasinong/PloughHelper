@@ -29,7 +29,7 @@ public class AppAccessTokenManager {
 	    String token;
 	    
 		try {
-			app = this.appDao.findByAppId(appId);
+			app = this.appDao.findById(appId);
 			appSecret = app.getAppSecret();
 			String encryptedAppId = AES.encrypt(appId.toString(), appSecret);
 			token = appId + "|" + encryptedAppId;
@@ -51,7 +51,7 @@ public class AppAccessTokenManager {
 		try {
 			String[] tokens = token.split("\\|");
 			appId = Long.valueOf(tokens[0]);
-			app = this.appDao.findByAppId(appId);
+			app = this.appDao.findById(appId);
 			appSecret = app.getAppSecret();
 			decryptedAppId = Long.valueOf(AES.decrypt(tokens[1], appSecret));
 		} catch (Exception ex) {
@@ -65,20 +65,5 @@ public class AppAccessTokenManager {
 		}
 		    
 		return new AppAccessToken(appId, appSecret, token);
-	}
-	
-	public static void main(String[] args) throws Exception {
-		 ApplicationContext applicationContext = new FileSystemXmlApplicationContext(
-	              "file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
-	              "file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
-	              "file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml"); 
-	    
-	    IDasinongAppDao appDao = (IDasinongAppDao) applicationContext.getBean("dasinongAppDao");
-	    DasinongApp app = appDao.create("测试App");
-	    AppAccessTokenManager manager = new AppAccessTokenManager(appDao);
-	    AppAccessToken token = manager.generate(app.getAppId());
-	    System.out.println(token.getToken());
-	    AppAccessToken decryptedToken = manager.parse(token.getToken());
-	    System.out.println(decryptedToken.getAppId());
 	}
 }

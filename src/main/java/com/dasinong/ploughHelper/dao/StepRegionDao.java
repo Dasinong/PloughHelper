@@ -7,7 +7,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.StepRegion;
 
-public class StepRegionDao extends HibernateDaoSupport implements IStepRegionDao{
+public class StepRegionDao extends EntityHibernateDao<StepRegion> implements IStepRegionDao{
 	
 	@Override
 	public List<StepRegion> findByStepRegion(String region) {

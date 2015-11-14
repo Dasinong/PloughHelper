@@ -23,7 +23,7 @@ public class AddThumbnailToPetDisSpecBrowse {
 		IPetDisSpecBrowseDao browseDao = (IPetDisSpecBrowseDao)applicationContext.getBean("petDisSpecBrowseDao");
 		IPetDisSpecDao dao = (IPetDisSpecDao) applicationContext.getBean("petDisSpecDao");
 		
-		List<PetDisSpecBrowse> browses = browseDao.getAll();
+		List<PetDisSpecBrowse> browses = browseDao.findAll();
 		for (PetDisSpecBrowse browse : browses) {
 			// if we already generated thumbnailId, skip it!
 			if (browse.getThumbnailId() != null) {

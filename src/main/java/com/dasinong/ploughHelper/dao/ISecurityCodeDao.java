@@ -2,11 +2,6 @@ package com.dasinong.ploughHelper.dao;
 
 import com.dasinong.ploughHelper.model.SecurityCode;
 
-public interface ISecurityCodeDao {
+public interface ISecurityCodeDao extends IEntityDao<SecurityCode> {
 
-  public SecurityCode create(String code);
-  
-  public SecurityCode findById(Long codeId);
-  
-  public void delete(SecurityCode code);
 }

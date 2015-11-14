@@ -18,7 +18,7 @@ public class UserRelation {
 	}
 	IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 	
-	List<User> userList = userDao.getAllUser();
+	List<User> userList = userDao.findAll();
 	
 	
 }

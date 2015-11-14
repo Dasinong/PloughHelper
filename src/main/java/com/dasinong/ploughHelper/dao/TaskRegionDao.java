@@ -7,7 +7,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.TaskRegion;
 
-public class TaskRegionDao extends HibernateDaoSupport implements ITaskRegionDao{
+public class TaskRegionDao extends EntityHibernateDao<TaskRegion> implements ITaskRegionDao{
 	
 	@Override
 	public List<TaskRegion> findByTaskRegion(String region) {

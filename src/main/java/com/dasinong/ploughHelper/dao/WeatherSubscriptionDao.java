@@ -8,13 +8,8 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.dasinong.ploughHelper.exceptions.WeatherAlreadySubscribedException;
 import com.dasinong.ploughHelper.model.WeatherSubscription;
 
-public class WeatherSubscriptionDao  extends HibernateDaoSupport 
+public class WeatherSubscriptionDao  extends EntityHibernateDao<WeatherSubscription> 
 	implements IWeatherSubscriptionDao {
-	
-	@Override
-	public WeatherSubscription findById(Long id) {
-		return getHibernateTemplate().get(WeatherSubscription.class, id);
-	}
 	
 	@Override
 	public WeatherSubscription findByLocationIdAndUserId(Long userId, Long locationId) {
@@ -35,30 +30,16 @@ public class WeatherSubscriptionDao  extends HibernateDaoSupport
 	}
 
 	@Override
-	public void delete(WeatherSubscription weatherSubs) {
-		this.getHibernateTemplate().delete(weatherSubs);
-	}
-
-	@Override
-	public void save(WeatherSubscription weatherSubs) throws Exception {
+	public void save(WeatherSubscription weatherSubs) {
 		Long userId = weatherSubs.getUserId();
 		Long locationId = weatherSubs.getLocationId();
 		if (this.findByLocationIdAndUserId(userId, locationId) != null) {
-			throw new WeatherAlreadySubscribedException(locationId);
+			return;
 		}
 		
 		Long maxOrdering = this.getMaxOrdering(weatherSubs.getUserId());
 		weatherSubs.setOrdering(maxOrdering + 1);
 		this.getHibernateTemplate().save(weatherSubs);
-	}
-	
-	@Override
-	public void saveSafe(WeatherSubscription weatherSubs) {
-		try {
-			this.save(weatherSubs);
-		} catch (Exception ex) {
-			// suppress any exception
-		}
 	}
 	
 	@Override
@@ -83,4 +64,5 @@ public class WeatherSubscriptionDao  extends HibernateDaoSupport
 		
 		return ret.get(0).longValue();
 	}
+	
 }

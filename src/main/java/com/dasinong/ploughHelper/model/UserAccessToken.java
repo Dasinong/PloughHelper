@@ -47,6 +47,7 @@ public class UserAccessToken {
 	
 	public static final String SALT = Base64.getEncoder().encodeToString("woShiZhaoRiTian!".getBytes());
 
+	private Long id;
 	private Long userId;
 	private Long appId;
 	private Timestamp createdAt;
@@ -55,12 +56,17 @@ public class UserAccessToken {
 	
 	public UserAccessToken() {}
 	
-	public UserAccessToken(Long userId, Long appId, String token, Timestamp createdAt, Timestamp expiredAt) {
+	public UserAccessToken(Long id, Long userId, Long appId, String token, Timestamp createdAt, Timestamp expiredAt) {
+		this.id = id;
 		this.userId = userId;
 	    this.appId = appId;
 	    this.token = token;
 	    this.createdAt = createdAt;
 	    this.expiredAt = expiredAt;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 	  
 	public void setUserId(Long userId) {
@@ -81,6 +87,10 @@ public class UserAccessToken {
 	  
 	public void setExpiredAt(Timestamp expiredAt) {
 	    this.expiredAt = expiredAt;
+	}
+	
+	public Long getId() {
+		return this.id;
 	}
 	
 	public Long getUserId() {

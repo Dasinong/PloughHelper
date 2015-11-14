@@ -42,7 +42,7 @@ public class User implements Serializable{
 	
 	private String refcode;
 	private Long refuid;
-	private int institutionId;
+	private Long institutionId;
 	private String userType;
 
 	public User(){}
@@ -224,11 +224,11 @@ public class User implements Serializable{
 		this.refuid = refuid;
 	}
 	
-	public int getInstitutionId() {
+	public Long getInstitutionId() {
 		return institutionId;
 	}
 
-	public void setInstitutionId(int institutionId) {
+	public void setInstitutionId(Long institutionId) {
 		this.institutionId = institutionId;
 	}
 

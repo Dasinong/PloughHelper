@@ -5,9 +5,13 @@
 
 <hibernate-mapping>
     <class name="com.dasinong.ploughHelper.model.UserAccessToken" table="useraccesstoken" catalog="ploughHelper">
-        <id name="token" type="string">
-            <column name="token" length="100" />
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="identity" />
         </id>
+        <property name="token" type="string">
+            <column name="token" length="100" />
+        </property>
         <property name="userId" type="long">
             <column name="userId" not-null="true" />
         </property>

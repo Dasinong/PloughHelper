@@ -8,42 +8,8 @@ import com.dasinong.ploughHelper.model.Crop;
 import com.dasinong.ploughHelper.model.Step;
 import com.dasinong.ploughHelper.model.User;
 
-public class UserDao extends HibernateDaoSupport implements IUserDao{
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IUserDao#save(com.dasinong.ploughHelper.model.User)
-	 */
-	@Override
-	public void save(User user) {
-		getHibernateTemplate().save(user);
-	}
-
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IUserDao#update(com.dasinong.ploughHelper.model.User)
-	 */
-	@Override
-	public void update(User user) {
-		getHibernateTemplate().update(user);
-
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IUserDao#delete(com.dasinong.ploughHelper.model.User)
-	 */
-	@Override
-	public void delete(User user) {
-		getHibernateTemplate().delete(user);
-	}
-
+public class UserDao extends EntityHibernateDao<User> implements IUserDao{
 	
-	@Override
-	public User findById(Long id) {
-		return (User) this.getHibernateTemplate().get(User.class,id);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IUserDao#findByUserName(java.lang.String)
-	 */
 	@Override
 	public User findByUserName(String userName) {
 		List list = getHibernateTemplate().find(
@@ -54,9 +20,6 @@ public class UserDao extends HibernateDaoSupport implements IUserDao{
 		return (User) list.get(0);
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IUserDao#findByCellphone(java.lang.String)
-	 */
 	@Override
 	public User findByCellphone(String cellphone) {
 		List list = getHibernateTemplate().find(
@@ -66,7 +29,6 @@ public class UserDao extends HibernateDaoSupport implements IUserDao{
 		}
 		return (User) list.get(0);
 	}
-
 
 	@Override
 	public User findByQQ(String qqtoken) {
@@ -78,7 +40,6 @@ public class UserDao extends HibernateDaoSupport implements IUserDao{
 		return (User) list.get(0);
 	}
 
-
 	@Override
 	public User findByWeixin(String weixintoken) {
 		List list = getHibernateTemplate().find(
@@ -88,7 +49,6 @@ public class UserDao extends HibernateDaoSupport implements IUserDao{
 		}
 		return (User) list.get(0);
 	}
-
 	
 	@Override
 	public long getUIDbyRef(String refcode) {
@@ -96,13 +56,6 @@ public class UserDao extends HibernateDaoSupport implements IUserDao{
 				"from User where refcode=?",refcode);
 		if (list.size()>0) return ((User) list.get(0)).getUserId();
 		else return -1;
-	}
-	
-	@Override
-	public List<User> getAllUser() {
-		List<User> list  = getHibernateTemplate().find(
-				"from User");
-		return list;
 	}
 	
 	@Override

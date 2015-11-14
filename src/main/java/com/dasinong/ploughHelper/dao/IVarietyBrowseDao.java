@@ -4,13 +4,9 @@ import java.util.List;
 
 import com.dasinong.ploughHelper.model.VarietyBrowse;
 
-public interface IVarietyBrowseDao {
-
-	void save(VarietyBrowse varietyBrowse);
+public interface IVarietyBrowseDao extends IEntityDao<VarietyBrowse> {
 
 	VarietyBrowse findByVarietyBrowseName(String varietyBrowseName);
-
-	VarietyBrowse findById(Long id);
 
 	List<VarietyBrowse> findByCropId(Long id);
 

@@ -5,37 +5,8 @@ import java.util.List;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.dasinong.ploughHelper.model.Step;
 
-public class StepDao extends HibernateDaoSupport implements IStepDao{
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IStepDao#save(com.dasinong.ploughHelper.model.Step)
-	 */
-	@Override
-	public void save(Step step) {
-		getHibernateTemplate().save(step);
-	}
-
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IStepDao#update(com.dasinong.ploughHelper.model.Step)
-	 */
-	@Override
-	public void update(Step step) {
-		getHibernateTemplate().update(step);
-
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IStepDao#delete(com.dasinong.ploughHelper.model.Step)
-	 */
-	@Override
-	public void delete(Step step) {
-		getHibernateTemplate().delete(step);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IStepDao#findByStepName(java.lang.String)
-	 */
+public class StepDao extends EntityHibernateDao<Step> implements IStepDao{
+	
 	@Override
 	public Step findByStepName(String stepName) {
 		List list = getHibernateTemplate().find(
@@ -46,9 +17,6 @@ public class StepDao extends HibernateDaoSupport implements IStepDao{
 		return (Step) list.get(0);
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IStepDao#findByStepName(java.lang.String)
-	 */
 	@Override
 	public List<Step> findByTaskSpecId(Long taskSpecId) {
 		List list = getHibernateTemplate().find(

@@ -18,7 +18,7 @@ public class InitializeChannelRoot {
 				"file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml");
 		
 		IUserDao userDao = (IUserDao) applicationContext.getBean("userDao");
-		List<User> users = userDao.getAllUser();
+		List<User> users = userDao.findAll();
 		System.out.println("total " + users.size() + " users");
 		long startId = 559L;
 		long endId = 717L;
@@ -30,15 +30,12 @@ public class InitializeChannelRoot {
 					refcode = Refcode.GenerateRefcode();
 				}while (userDao.getUIDbyRef(refcode)!= -1);
 				user.setRefcode(refcode);
-				user.setInstitutionId(2);
+				user.setInstitutionId(2L);
 				user.setUserType("Sales");
 				userDao.update(user);
 				
 				System.out.println("Initiaze user: " + user.getUserName());
-				
 			}
-			
-			
 		}
 	}
 }

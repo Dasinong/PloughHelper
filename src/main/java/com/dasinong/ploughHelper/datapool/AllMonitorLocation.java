@@ -20,7 +20,7 @@ public class AllMonitorLocation {
 		_allLocation = new HashMap<Integer,MonitorLocation>();
 		monitorLocationDao = (IMonitorLocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("monitorLocationDao");
 
-		List<MonitorLocation> mls = monitorLocationDao.getAll();
+		List<MonitorLocation> mls = monitorLocationDao.findAll();
 		for (MonitorLocation ml : mls ){
 			_allLocation.put(ml.getCode(), ml);
 		}
@@ -31,7 +31,7 @@ public class AllMonitorLocation {
 		if (monitorLocationDao==null){
 			monitorLocationDao = (IMonitorLocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("monitorLocationDao");
 		}
-		List<MonitorLocation> mls = monitorLocationDao.getAll();
+		List<MonitorLocation> mls = monitorLocationDao.findAll();
 		for (MonitorLocation ml : mls ){
 			_allLocation.put(ml.getCode(), ml);
 		}

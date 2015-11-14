@@ -7,37 +7,8 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.QualityItem;
 
-public class QualityItemDao extends HibernateDaoSupport implements IQualityItemDao{
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IQualityItemDao#save(com.dasinong.ploughHelper.model.QualityItem)
-	 */
-	@Override
-	public void save(QualityItem qualityItem) {
-		getHibernateTemplate().save(qualityItem);
-	}
-
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IQualityItemDao#update(com.dasinong.ploughHelper.model.QualityItem)
-	 */
-	@Override
-	public void update(QualityItem qualityItem) {
-		getHibernateTemplate().update(qualityItem);
-
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IQualityItemDao#delete(com.dasinong.ploughHelper.model.QualityItem)
-	 */
-	@Override
-	public void delete(QualityItem qualityItem) {
-		getHibernateTemplate().delete(qualityItem);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IQualityItemDao#findByQualityItemName(java.lang.String)
-	 */
+public class QualityItemDao extends EntityHibernateDao<QualityItem> implements IQualityItemDao{
+	
 	@Override
 	public QualityItem findByQualityItemName(String qualityItemName) {
 		@SuppressWarnings("rawtypes")

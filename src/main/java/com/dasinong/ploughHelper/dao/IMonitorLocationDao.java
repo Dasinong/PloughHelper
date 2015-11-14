@@ -4,15 +4,8 @@ import java.util.List;
 
 import com.dasinong.ploughHelper.model.MonitorLocation;
 
-public interface IMonitorLocationDao {
-
-	public abstract void save(MonitorLocation monitorLocation);
-
-	public abstract void update(MonitorLocation monitorLocation);
-
-	public abstract void delete(MonitorLocation monitorLocation);
+public interface IMonitorLocationDao extends IEntityDao<MonitorLocation> {
 
 	public abstract MonitorLocation findByCode(int code);
-
-	List getAll();
+	
 }

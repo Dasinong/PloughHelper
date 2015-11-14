@@ -19,6 +19,7 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.dasinong.ploughHelper.accessTokenManager.SecurityCodeManager;
 import com.dasinong.ploughHelper.accessTokenManager.UserAccessTokenManager;
 import com.dasinong.ploughHelper.dao.ISecurityCodeDao;
 import com.dasinong.ploughHelper.dao.IUserAccessTokenDao;
@@ -211,7 +212,7 @@ public class UserLoginController extends BaseController {
 				String channel =  request.getParameter("channel");
 				user.setChannel(channel);
 				try{
-					int institutionId = Integer.parseInt(request.getParameter("institutionId"));
+					Long institutionId = Long.parseLong(request.getParameter("institutionId"));
 					user.setInstitutionId(institutionId);
 				}
 				catch(Exception e){
@@ -359,7 +360,8 @@ public class UserLoginController extends BaseController {
 		
 		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 		ISecurityCodeDao codeDao = (ISecurityCodeDao) ContextLoader.getCurrentWebApplicationContext().getBean("securityCodeDao");
-	
+		SecurityCodeManager codeManager = new SecurityCodeManager(codeDao);
+		
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		try{
 			String cellphone = request.getParameter("cellphone");
@@ -370,7 +372,7 @@ public class UserLoginController extends BaseController {
 				SmsService.securityCodeSMS(securityCode, cellphone);
 				
 				// TODO (xiahonggao): deprecate session
-				SecurityCode codeObj = codeDao.create(securityCode);
+				SecurityCode codeObj = codeManager.generate(securityCode);
 				request.getSession().setAttribute("securityCode", securityCode);
 				
 				result.put("respCode",200);
@@ -529,7 +531,7 @@ public class UserLoginController extends BaseController {
 				String channel =  request.getParameter("channel");
 				user.setChannel(channel);
 				try{
-					int institutionId = Integer.parseInt(request.getParameter("institutionId"));
+					Long institutionId = Long.parseLong(request.getParameter("institutionId"));
 					user.setInstitutionId(institutionId);
 				}
 				catch(Exception e){
@@ -627,7 +629,7 @@ public class UserLoginController extends BaseController {
 				String channel =  request.getParameter("channel");
 				user.setChannel(channel);
 				try{
-					int institutionId = Integer.parseInt(request.getParameter("institutionId"));
+					Long institutionId = Long.parseLong(request.getParameter("institutionId"));
 					user.setInstitutionId(institutionId);
 				}
 				catch(Exception e){

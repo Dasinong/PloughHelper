@@ -8,18 +8,8 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.dasinong.ploughHelper.model.VarietyBrowse;
 
 
-public class VarietyBrowseDao extends HibernateDaoSupport implements IVarietyBrowseDao {
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IVarietyBrowseDao#save(com.dasinong.ploughHelper.model.VarietyBrowse)
-	 */
-	@Override
-	public void save(VarietyBrowse varietyBrowse) {
-		getHibernateTemplate().save(varietyBrowse);
-	}
+public class VarietyBrowseDao extends EntityHibernateDao<VarietyBrowse> implements IVarietyBrowseDao {
 
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IVarietyBrowseDao#findByVarietyBrowseName(java.lang.String)
-	 */
 	@Override
 	public VarietyBrowse findByVarietyBrowseName(String varietyBrowseName) {
 		List list = getHibernateTemplate().find(
@@ -28,14 +18,6 @@ public class VarietyBrowseDao extends HibernateDaoSupport implements IVarietyBro
 			return null;
 		}
 		return (VarietyBrowse) list.get(0);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.dao.IVarietyBrowseDao#findById(java.lang.Long)
-	 */
-	@Override
-	public VarietyBrowse findById(Long id) {
-		return (VarietyBrowse) this.getHibernateTemplate().get(VarietyBrowse.class,id);
 	}
 	
 	@Override

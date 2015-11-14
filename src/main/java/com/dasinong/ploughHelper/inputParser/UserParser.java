@@ -14,9 +14,9 @@ public class UserParser {
         String address = request.getParameter("address");
         String deviceId = request.getParameter("deviceId");
         String channel = request.getParameter("channel");
-        int institutionId = 0;
+        Long institutionId = 0L;
         try{
-        	institutionId = Integer.parseInt(request.getParameter("institutionId"));
+        	institutionId = Long.parseLong(request.getParameter("institutionId"));
         }catch(Exception e){
         	System.out.println("Inproper institutionId. Use 0 as default");
         }

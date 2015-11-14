@@ -38,7 +38,7 @@ public class MonitorLocationTest {
 	@Test
 	public void dataCountCheck(){
 		@SuppressWarnings("unchecked")
-		List<MonitorLocation> monitorLocations = monitorLocationDao.getAll();
+		List<MonitorLocation> monitorLocations = monitorLocationDao.findAll();
 		Assert.assertEquals(2027,monitorLocations.size());
 	}
 }
