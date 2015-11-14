@@ -76,7 +76,6 @@ public class FieldFacade implements IFieldFacade {
 	       	Exception e = new Exception("locationId或varietyId无效");
           	throw e;
         }
-
 	    if (currentStageId == 0L){
 	       	 if (variety.getSubStages()!=null && variety.getSubStages().size()!=0){
 	       		 currentStageId = variety.getSubStages().iterator().next().getSubStageId();
@@ -161,7 +160,7 @@ public class FieldFacade implements IFieldFacade {
         ws.setLocationName(location.toString());
         ws.setMonitorLocationId(monitorLocationId);
         ws.setType(WeatherSubscriptionType.FIELD);
-        weatherSubscriptionDao.save(ws);
+        weatherSubscriptionDao.saveSafe(ws);
         
 		FieldWrapper fw = new FieldWrapper(field,taskSpecDao,1);
 		return fw;	    
