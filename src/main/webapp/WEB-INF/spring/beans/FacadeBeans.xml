@@ -49,4 +49,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    <bean id="institutionEmployeeApplicationFacade" class="com.dasinong.ploughHelper.facade.InstitutionEmployeeApplicationFacade" >
    </bean>
    
+   <bean id="storeFacade" class="com.dasinong.ploughHelper.facade.StoreFacade" >
+   </bean>
+   
 </beans>
