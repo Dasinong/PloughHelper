@@ -100,4 +100,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    <bean id="userAccessTokenDao" class="com.dasinong.ploughHelper.dao.UserAccessTokenDao" >
    		<property name="sessionFactory" ref="mySessionFactory"></property>
    </bean>
+   <bean id="storeDao" class="com.dasinong.ploughHelper.dao.StoreDao" >
+        <property name="sessionFactory" ref="mySessionFactory"></property>
+   </bean>
 </beans>

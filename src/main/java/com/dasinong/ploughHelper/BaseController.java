@@ -212,6 +212,7 @@ public class BaseController {
 		HttpServletRequest req, 
 		DataAccessException exception
 	) {
+		exception.printStackTrace();
 		Map<String,Object> result = new HashMap<String,Object>();
 		Map<String,Object> errorData = new HashMap<String,Object>();
 		errorData.put("class", exception.getClass());
