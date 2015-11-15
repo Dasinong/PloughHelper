@@ -23,6 +23,7 @@ import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 import com.dasinong.ploughHelper.exceptions.ResourceNotFoundException;
 import com.dasinong.ploughHelper.exceptions.UserIsNotLoggedInException;
 import com.dasinong.ploughHelper.exceptions.UserNotFoundInSessionException;
+import com.dasinong.ploughHelper.exceptions.UserTypeAlreadyDefinedException;
 import com.dasinong.ploughHelper.exceptions.ViewerContextNotInitializedException;
 import com.dasinong.ploughHelper.exceptions.WeatherAlreadySubscribedException;
 import com.dasinong.ploughHelper.model.User;
@@ -198,6 +199,26 @@ public class BaseController {
 		errorData.put("resourceId", exception.getResourceId());
 		result.put("respCode", 404);
 		result.put("message", "请求的资源不存在");
+		result.put("data", errorData);
+		return result;
+	}
+	
+	/**
+	 * range 600 - 699 is reserved for user profile errors
+	 */
+	@ResponseStatus(value=HttpStatus.OK)
+	@ExceptionHandler(UserTypeAlreadyDefinedException.class)
+	@ResponseBody
+	public Object handleResourceNotFound(
+		HttpServletRequest req, 
+		UserTypeAlreadyDefinedException ex
+	) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		Map<String,Object> errorData = new HashMap<String,Object>();
+		errorData.put("userType", ex.getUserType());
+		errorData.put("userId", ex.getUserId());
+		result.put("respCode", 600);
+		result.put("message", "用户的类型已经设置了");
 		result.put("data", errorData);
 		return result;
 	}

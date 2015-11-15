@@ -23,13 +23,17 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.dasinong.ploughHelper.dao.IInstitutionDao;
 import com.dasinong.ploughHelper.dao.IUserDao;
 import com.dasinong.ploughHelper.dao.UserDao;
+import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
 import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 import com.dasinong.ploughHelper.exceptions.ResourceNotFoundException;
 import com.dasinong.ploughHelper.exceptions.UserIsNotLoggedInException;
+import com.dasinong.ploughHelper.exceptions.UserTypeAlreadyDefinedException;
 import com.dasinong.ploughHelper.inputParser.UserParser;
 import com.dasinong.ploughHelper.model.Institution;
 import com.dasinong.ploughHelper.model.User;
+import com.dasinong.ploughHelper.model.UserType;
 import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 
 @Controller
@@ -238,8 +242,6 @@ public class UserController extends RequireUserLoginController {
 		result.put("message", "密码设置成功");
 	    return result;
 	}
-
-	
 	
 	
 	@RequestMapping(value = "/resetPassword",produces="application/json;charset=utf-8")
@@ -320,5 +322,30 @@ public class UserController extends RequireUserLoginController {
 				}
 			}
 		}
-	}	
+	}
+	
+	@RequestMapping(value = "/setUserType", produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Object setType(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		User user = this.getLoginUser(request);
+		
+		if (user.getUserType() != null) {
+			throw new UserTypeAlreadyDefinedException(user.getUserId(), user.getUserType());
+		}
+		
+		String userType = requestX.getString("type");
+		if (!UserType.isValid(userType)) {
+			throw new InvalidParameterException("type", "UserType");
+		}		
+		
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+		user.setUserType(userType);
+		userDao.update(user);
+		
+		result.put("respCode", 200);
+		result.put("message", "更新成功");
+		return result;
+	}
 }
