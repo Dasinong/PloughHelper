@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
-import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 import com.dasinong.ploughHelper.exceptions.ResourceNotFoundException;
 import com.dasinong.ploughHelper.facade.IBaiKeFacade;
 import com.dasinong.ploughHelper.outputWrapper.CPProductWrapper;
 import com.dasinong.ploughHelper.outputWrapper.PetDisSpecWrapper;
 import com.dasinong.ploughHelper.outputWrapper.VarietyWrapper;
 import com.dasinong.ploughHelper.util.FullTextSearch;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 import com.dasinong.ploughHelper.util.Env;
 
 @Controller
@@ -44,12 +44,11 @@ public class BaiKeController extends BaseController {
 	public Object searchWord(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		HashMap<String, Object> content = new HashMap<String, Object>();
-		String key = request.getParameter("key");
-		if (key == null || key.equals("")) {
-			throw new MissingParameterException("key");
-		}
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
-		String type = request.getParameter("type");
+		String key = requestX.getNonEmptyString("key");
+		String type = requestX.getStringOptional("type", null);
+		
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		if (type == null) {
 			result.put("respCode", 200);
@@ -202,12 +201,9 @@ public class BaiKeController extends BaseController {
 	@ResponseBody
 	public Object getPetDisSpecById(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		Long id;
-		try {
-			id = Long.parseLong(request.getParameter("id"));
-		} catch (Exception e) {
-			throw new InvalidParameterException("id", "Long");
-		}
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		Long id = requestX.getLong("id");
+		
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		PetDisSpecWrapper pdsw = baiKeFacade.getPetDisSpecById(id);
 		if (pdsw == null) {
@@ -224,12 +220,9 @@ public class BaiKeController extends BaseController {
 	@ResponseBody
 	public Object getCPProductById(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		Long id;
-		try {
-			id = Long.parseLong(request.getParameter("id"));
-		} catch (Exception e) {
-			throw new InvalidParameterException("id", "Long");
-		}
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		
+		Long id = requestX.getLong("id");
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		CPProductWrapper cpw = baiKeFacade.getCPProductById(id);
 
@@ -246,11 +239,8 @@ public class BaiKeController extends BaseController {
 	@RequestMapping(value = "/browseCropByType", produces = "application/json")
 	@ResponseBody
 	public Object browseCropByType(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		String type = request.getParameter("type");
-		if (type == null || type.equals("")) {
-			throw new MissingParameterException("type");
-		}
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		String type = requestX.getNonEmptyString("type");
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		return baiKeFacade.getCropByType(type);
 	}
@@ -258,13 +248,8 @@ public class BaiKeController extends BaseController {
 	@RequestMapping(value = "/browseVarietyByCropId", produces = "application/json")
 	@ResponseBody
 	public Object browseVarietyByCropId(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		Long cropId;
-		try {
-			cropId = Long.parseLong(request.getParameter("cropId"));
-		} catch (Exception e) {
-			throw new InvalidParameterException("cropId", "Long");
-		}
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		Long cropId = requestX.getLong("cropId");
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		return baiKeFacade.browseVarietyByCropId(cropId);
 	}
@@ -272,11 +257,8 @@ public class BaiKeController extends BaseController {
 	@RequestMapping(value = "/browsePetDisByType", produces = "application/json")
 	@ResponseBody
 	public Object browsePetDisByType(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		String type = request.getParameter("type");
-		if (type == null || type.equals("")) {
-			throw new MissingParameterException("type");
-		}
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		String type = requestX.getNonEmptyString("type");
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		return baiKeFacade.browsePetDisByType(type);
 	}
@@ -284,11 +266,8 @@ public class BaiKeController extends BaseController {
 	@RequestMapping(value = "/browseCPProductByModel", produces = "application/json")
 	@ResponseBody
 	public Object browseCPProductByModel(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		String model = request.getParameter("model");
-		if (model == null || model.equals("")) {
-			throw new MissingParameterException("model");
-		}
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		String model = requestX.getNonEmptyString("model");
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		return baiKeFacade.browseCPProductByModel(model);
 	}
@@ -296,11 +275,8 @@ public class BaiKeController extends BaseController {
 	@RequestMapping(value = "/getCPProdcutsByIngredient", produces = "application/json")
 	@ResponseBody
 	public Object getCPProdcutsByIngredient(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		String ingredient = request.getParameter("ingredient");
-		if (ingredient == null || ingredient.equals("")) {
-			throw new MissingParameterException("ingredient");
-		}
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		String ingredient = requestX.getNonEmptyString("ingredient");
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		return baiKeFacade.getCPProdcutsByIngredient(ingredient);
 	}
@@ -308,33 +284,19 @@ public class BaiKeController extends BaseController {
 	@RequestMapping(value = "/getVarietysByName", produces = "application/json")
 	@ResponseBody
 	public Object getVarietysByName(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		String name = request.getParameter("name");
-		if (name == null || name.equals("")) {
-			throw new MissingParameterException("name");
-		}
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		String name = requestX.getNonEmptyString("name");
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		return baiKeFacade.getVarietysByName(name);
 	}
 
 	@RequestMapping(value = "/browsePetDisSpecsByCropIdAndType", produces = "application/json")
 	@ResponseBody
-	public Object browsePetDisSpecsByCropIdAndType(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String, Object> result = new HashMap<String, Object>();
+	public Object browsePetDisSpecsByCropIdAndType(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 
-		Long cropId;
-		String cropIdStr = request.getParameter("cropId");
-		if (cropIdStr == null || "".equals(cropIdStr)) {
-			throw new MissingParameterException("cropId");
-		} else {
-			cropId = Long.parseLong(cropIdStr);
-		}
-
-		// TODO (xiahonggao): make type Enum and validate the value here
-		String type = request.getParameter("type");
-		if (type == null || "".equals(type)) {
-			throw new MissingParameterException("type");
-		}
+		Long cropId = requestX.getLong("cropId");
+		String type = requestX.getNonEmptyString("type");
 
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		return baiKeFacade.browsePetDisSpecsByCropIdAndType(cropId, type);
