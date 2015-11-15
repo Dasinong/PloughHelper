@@ -29,6 +29,7 @@ import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.WeatherSubscription;
 import com.dasinong.ploughHelper.model.WeatherSubscriptionType;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 @Controller
 public class WeatherSubscriptionController extends RequireUserLoginController {
@@ -136,16 +137,11 @@ public class WeatherSubscriptionController extends RequireUserLoginController {
 		HttpServletRequest request, 
 		HttpServletResponse response
 	) throws Exception {
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		Map<String,Object> result = new HashMap<String,Object>();
 		User user = this.getLoginUser(request);
 		
-		Long locationId = 0L;
-		String locationIdStr = request.getParameter("locationId");
-		if (locationIdStr == null || "".equals(locationIdStr)) {
-			throw new MissingParameterException("locationId");
-		} else {
-			locationId = Long.parseLong(locationIdStr);
-		}
+		Long locationId = requestX.getLong("locationId");
 		
 		ILocationDao locDao = (ILocationDao) 
 			ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");

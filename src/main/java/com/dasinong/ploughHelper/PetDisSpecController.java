@@ -15,6 +15,7 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
 import com.dasinong.ploughHelper.facade.IPetDisSpecFacade;
 import com.dasinong.ploughHelper.facade.IPetSoluFacade;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 
 @Controller
@@ -29,21 +30,10 @@ public class PetDisSpecController extends RequireUserLoginController {
 	@ResponseBody
 	public Object getPetDisBySubStage(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HashMap<String,Object> result = new HashMap<String,Object>();
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
-		Long subStageId;
-		Long varietyId;
-		try{
-			subStageId = Long.parseLong(request.getParameter("subStageId"));
-			try{
-				varietyId = Long.parseLong(request.getParameter("varietyId"));
-			}
-			catch(Exception e){ //for backward compatibility
-				varietyId =  -1L;
-			}
-		}
-		catch(Exception e){
-			throw new InvalidParameterException("subStageId","Long");
-		}
+		Long subStageId = requestX.getLong("sugStageId");
+		Long varietyId = requestX.getLongOptional("varietyId", -1L);
 
 		petDisSpecFacade = (IPetDisSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecFacade");
 		
@@ -53,15 +43,9 @@ public class PetDisSpecController extends RequireUserLoginController {
 	@RequestMapping(value = "/getPetDisSpecDetial", produces="application/json")
 	@ResponseBody
 	public Object getPetDisSpecDetial(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HashMap<String,Object> result = new HashMap<String,Object>();
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
-		Long petDisSpecId;
-		try{
-			petDisSpecId = Long.parseLong(request.getParameter("petDisSpecId"));
-		}
-		catch(Exception e){
-			throw new InvalidParameterException("petDisSpecId","Long");
-		}
+		Long petDisSpecId = requestX.getLong("petDisSpecId");
 
 		petDisSpecFacade = (IPetDisSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecFacade");
 		
@@ -72,15 +56,9 @@ public class PetDisSpecController extends RequireUserLoginController {
 	@RequestMapping(value = "/getPetSolu", produces="application/json")
 	@ResponseBody
 	public Object getPetSolu(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HashMap<String,Object> result = new HashMap<String,Object>();
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
-		Long petSoluId;
-		try{
-			petSoluId = Long.parseLong(request.getParameter("petSoluId"));
-		}
-		catch(Exception e){
-			throw new InvalidParameterException("petSoluId","Long");
-		}
+		Long petSoluId = requestX.getLong("petSoluId");
 
 		petSoluFacade = (IPetSoluFacade) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluFacade");
 		return petSoluFacade.getPetSoluDetail(petSoluId);

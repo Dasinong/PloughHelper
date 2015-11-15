@@ -16,6 +16,7 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
 import com.dasinong.ploughHelper.facade.ITaskSpecFacade;
 import com.dasinong.ploughHelper.outputWrapper.StepWrapper;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 @Controller
 public class TaskSpecController extends RequireUserLoginController {
@@ -27,45 +28,23 @@ public class TaskSpecController extends RequireUserLoginController {
 	@RequestMapping(value = "/getTaskSpec", produces="application/json")
 	@ResponseBody
 	public Object getTaskSpec(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HashMap<String,Object> result = new HashMap<String,Object>();
-		
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		tsf =  (ITaskSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecFacade");
-		Long taskSpecId;
-		try{
-			taskSpecId = Long.parseLong(request.getParameter("taskSpecId"));
-		}
-		catch(Exception e){
-			throw new InvalidParameterException("taskSpecId","Long");
-		}
-
+		Long taskSpecId = requestX.getLong("taskSpecId");
 		return tsf.getTaskSpec(taskSpecId);
-
 	}
 	
 	@RequestMapping(value = "/getSteps", produces="application/json")
 	@ResponseBody
 	public Object getSteps(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap<String,Object> result = new HashMap<String,Object>();
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
 		tsf =  (ITaskSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecFacade");
-		Long taskSpecId;
-		Long fieldId;
-		try{
-			taskSpecId = Long.parseLong(request.getParameter("taskSpecId"));
-		}
-		catch(Exception e){
-			throw new InvalidParameterException("taskSpecId","Long");
-		}
-		
-		//fieldId is optional, default to 0
-		try{
-			fieldId = Long.parseLong(request.getParameter("fieldId"));
-		}
-		catch(Exception e){
-			fieldId=0L;
-		}
-		
+		Long taskSpecId = requestX.getLong("taskSpecId");
+		Long fieldId = requestX.getLongOptional("fieldId", 0L);
 		List<StepWrapper> sw = tsf.getSteps(taskSpecId,fieldId);
+		
 		result.put("respCode",200);
 		result.put("message","任务列表获取成功");
 		result.put("data", sw);

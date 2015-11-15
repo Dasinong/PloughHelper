@@ -25,10 +25,11 @@ import com.dasinong.ploughHelper.model.Location;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.outputWrapper.LocationWrapper;
 import com.dasinong.ploughHelper.util.GeoUtil;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 
 @Controller
-public class LocationController extends BaseController {
+public class LocationController extends RequireUserLoginController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LocationController.class);
 	
@@ -40,17 +41,12 @@ public class LocationController extends BaseController {
 	{
 		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user == null) {
-			throw new UserIsNotLoggedInException();
-		}
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 
-		String province = request.getParameter("province");
-		String city = request.getParameter("city");
-		String country = request.getParameter("country");
-		String district = request.getParameter("district");
-		if (province == null || city == null || country == null || district == null) {
-			throw new MissingParameterException();
-		}
+		String province = requestX.getString("province");
+		String city = requestX.getString("city");
+		String country = requestX.getString("country");
+		String district = requestX.getString("district");
 		
 		ILocationDao ld = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
 		List<Location> ls = (List<Location>) ld.getIdList(province, city, country,district);
@@ -80,21 +76,14 @@ public class LocationController extends BaseController {
 	) throws Exception {
 		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
-		if (user == null){
-			throw new UserIsNotLoggedInException();
-		}
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
-		String province = request.getParameter("province");
-		String city = request.getParameter("city");
-		String country = request.getParameter("country");
-		String latitude = request.getParameter("lat");
-		String longitude = request.getParameter("lon");
-		if (province==null || city==null || country==null || latitude==null || longitude==null){
-			throw new MissingParameterException();
-		}
+		String province = requestX.getString("province");
+		String city = requestX.getString("city");
+		String country = requestX.getString("country");
+		Double lat = requestX.getDouble("lat");
+		Double lon = requestX.getDouble("lon");
 		
-		double lat = Double.parseDouble(latitude);
-		double lon = Double.parseDouble(longitude);
 		LocationDao ld = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
 		List<Location> ls = (List<Location>) ld.getHibernateTemplate().find("from Location where province=? and city=? and country=?",province,city,country);
 		GeoUtil geo = new GeoUtil(ls);
@@ -104,50 +93,6 @@ public class LocationController extends BaseController {
 		result.put("message", "获取成功");
 		result.put("data", nearl);
 			
-		return result;
-	}
-	
-	@RequestMapping(value = "/searchLocationByLatAndLon",
-					method = RequestMethod.GET,
-					produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public Object searchLocationByLatAndLon(
-		HttpServletRequest request, 
-		HttpServletResponse response
-	) throws Exception {
-		Map<String,Object> result = new HashMap<String,Object>();
-		
-		String latStr = request.getParameter("lat");
-		String lonStr = request.getParameter("lon");
-		double lat = Double.parseDouble(latStr);
-		double lon = Double.parseDouble(lonStr);
-		
-		LocationDao ld = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
-		Location nearest = null;
-		
-		// normally you can find hundreds of locations with range = 0.01
-		// and thousands of locations with range = 0.1
-		// and tens of thousands of locations with range = 1
-		double[] ranges = {0.01, 0.1, 1};
-		for (double range : ranges) {
-			List<Location> ls = (List<Location>) ld.findLocationsInRange(lat, lon, range);
-			if (ls != null && ls.size() > 0) {
-				GeoUtil geo = new GeoUtil(ls);
-				nearest = geo.getNearLoc(lat, lon);
-				break;
-			}
-		}
-		
-		if (nearest == null) {
-			// This should NEVER happen!
-			throw new UnexpectedLatAndLonException(lat, lon);
-		}
-		
-		LocationWrapper locWrapper = new LocationWrapper(nearest);
-		result.put("respCode", 200);
-		result.put("message", "获取成功");
-		result.put("data", locWrapper);
-		
 		return result;
 	}
 }

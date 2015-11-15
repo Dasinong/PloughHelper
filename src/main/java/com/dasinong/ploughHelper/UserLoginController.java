@@ -31,6 +31,7 @@ import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.UserAccessToken;
 import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
 import com.dasinong.ploughHelper.util.Env;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 import com.dasinong.ploughHelper.util.Refcode;
 import com.dasinong.ploughHelper.util.SmsService;
 import com.dasinong.ploughHelper.viewerContext.ViewerContext;
@@ -139,7 +140,7 @@ public class UserLoginController extends BaseController {
 		ViewerContext vc = this.getViewerContext(request);
 		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 		UserAccessTokenManager tokenManager = new UserAccessTokenManager();
-		
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		HashMap<String,Object> result = new HashMap<String,Object>();
 
 			User user = this.getLoginUser(request);
@@ -160,7 +161,7 @@ public class UserLoginController extends BaseController {
 				return result;
 			}
 			
-			String cellphone = request.getParameter("cellphone");
+			String cellphone = requestX.getString("cellphone");
 			user = userDao.findByCellphone(cellphone);
 			if (user!=null){
 				user.setLastLogin(new Date());
@@ -196,15 +197,10 @@ public class UserLoginController extends BaseController {
 				//Generally saying authRegLog should not be used as register entry
 				String channel =  request.getParameter("channel");
 				user.setChannel(channel);
-				try{
-					Long institutionId = Long.parseLong(request.getParameter("institutionId"));
-					user.setInstitutionId(institutionId);
-				}
-				catch(Exception e){
-					System.out.println("Issue with institutionId");
-				}
 				
-
+				Long institutionId = requestX.getLong("institutionId");
+				user.setInstitutionId(institutionId);
+				
 				user.setUserName("");
 				user.setAuthenticated(true);
 				user.setCreateAt(new Date());
@@ -424,7 +420,8 @@ public class UserLoginController extends BaseController {
 		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 		UserAccessTokenManager tokenManager = new UserAccessTokenManager();
 		HashMap<String,Object> result = new HashMap<String,Object>();
-
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		
 			User user = this.getLoginUser(request);
 			if (user!=null){
 				result.put("respCode", 200);
@@ -465,16 +462,10 @@ public class UserLoginController extends BaseController {
 				
 				user.setCreateAt(new Date());
 
-				String channel =  request.getParameter("channel");
+				String channel =  requestX.getString("channel");
 				user.setChannel(channel);
-				try{
-					Long institutionId = Long.parseLong(request.getParameter("institutionId"));
-					user.setInstitutionId(institutionId);
-				}
-				catch(Exception e){
-					System.out.println("Issue with institutionId");
-				}
-				
+				Long institutionId = requestX.getLong("institutionId");
+				user.setInstitutionId(institutionId);
 				
 				String refcode;
 				do{
@@ -510,6 +501,8 @@ public class UserLoginController extends BaseController {
 		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 		UserAccessTokenManager tokenManager = new UserAccessTokenManager();
 		HashMap<String,Object> result = new HashMap<String,Object>();
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		
 			User user = this.getLoginUser(request);
 			if (user!=null){
 				result.put("respCode", 200);
@@ -555,15 +548,11 @@ public class UserLoginController extends BaseController {
 				while (userDao.getUIDbyRef(refcode)>0);
 				user.setRefcode(refcode);
 
-				String channel =  request.getParameter("channel");
+				String channel =  requestX.getString("channel");
 				user.setChannel(channel);
-				try{
-					Long institutionId = Long.parseLong(request.getParameter("institutionId"));
-					user.setInstitutionId(institutionId);
-				}
-				catch(Exception e){
-					System.out.println("Issue with institutionId");
-				}
+				
+				Long institutionId = requestX.getLong("institutionId");
+				user.setInstitutionId(institutionId);
 				
 				userDao.save(user);
 				

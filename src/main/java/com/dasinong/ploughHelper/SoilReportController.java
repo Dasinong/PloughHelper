@@ -72,40 +72,26 @@ public class SoilReportController extends RequireUserLoginController {
 	public Object getSoilReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		User user = this.getLoginUser(request);
 		Map<String,Object> result = new HashMap<String,Object>();
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
 		ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
 		
-		String reportId = request.getParameter("reportId");
-		if (reportId!=null && !reportId.equals("")){
-			Long rId;
-			try{
-				rId = Long.parseLong(reportId);
-			}
-			catch(Exception e){
-				throw new InvalidParameterException("reportId","Long");
-			}
-	    	result.put("respCode", 200);
+		Long reportId = requestX.getLongOptional("reportId", null);
+		if (reportId != null) {
+			result.put("respCode", 200);
 	    	result.put("message", "读取成功");
-	    	result.put("data", sf.loadSoilReportsByRid(rId));
+	    	result.put("data", sf.loadSoilReportsByRid(reportId));
 			return result;
 		}
       
-		String fieldId = request.getParameter("fieldId");
+		Long fieldId = requestX.getLongOptional("fieldId", null);
 		
-		if (fieldId==null){
+		if (fieldId == null) {
 			return sf.loadSoilReportsByUid(user.getUserId());
-		}
-		else{
-			Long fid;
-			try{
-				fid = Long.parseLong(fieldId);
-			}
-			catch(Exception e){
-				throw new InvalidParameterException("fieldId","Long");
-			}
-	    	result.put("respCode", 200);
+		} else {
+			result.put("respCode", 200);
 	    	result.put("message", "读取成功");
-	    	result.put("data", sf.loadSoilReportsByFid(fid));
+	    	result.put("data", sf.loadSoilReportsByFid(fieldId));
 			return result;
 		}
 	}

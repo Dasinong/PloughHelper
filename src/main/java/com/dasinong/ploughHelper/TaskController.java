@@ -27,15 +27,8 @@ public class TaskController extends RequireUserLoginController {
 	@RequestMapping(value = "/getAllTask", produces="application/json")
 	@ResponseBody
 	public Object getAllTask(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Map<String,Object> result = new HashMap<String,Object>();
-		
-		Long fId;
-		try{
-			fId = Long.parseLong(request.getParameter("fieldId"));
-		}catch(Exception e){
-			throw new InvalidParameterException("fieldId","long");
-		}
-		
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		Long fId = requestX.getLong("fieldId");
 		ITaskFacade tf = (ITaskFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskFacade");
 		return tf.getAllTask(fId);
 	}
@@ -43,17 +36,10 @@ public class TaskController extends RequireUserLoginController {
 	@RequestMapping(value = "/getCurrentTask", produces="application/json")
 	@ResponseBody
 	public Object getCurrentTask(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Map<String,Object> result = new HashMap<String,Object>();
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
-		Long fId;
-		Long currentStageId;
-		try{
-			fId = Long.parseLong(request.getParameter("fieldId"));
-			currentStageId = Long.parseLong(request.getParameter("currentStageId"));
-		}catch(Exception e){
-			throw new InvalidParameterException("fieldId","long","currentStageId","long");
-		}
-		
+		Long fId = requestX.getLong("fieldId");
+		Long currentStageId = requestX.getLong("currentStageId");
 		ITaskFacade tf = (ITaskFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskFacade");
 		return tf.getCurrentTask(fId, currentStageId);
 	}
@@ -61,10 +47,8 @@ public class TaskController extends RequireUserLoginController {
 	@RequestMapping(value = "/updateTask", produces="application/json")
 	@ResponseBody
 	public Object updateTask(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Map<String,Object> result = new HashMap<String,Object>();
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		Long fieldId = requestX.getLong("fieldId");
-
 		
 		if (requestX.hasParameter("taskId") && requestX.hasParameter("taskStatus")){
 			Long id = requestX.getLong("taskId");

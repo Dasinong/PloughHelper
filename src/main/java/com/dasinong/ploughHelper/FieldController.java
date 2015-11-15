@@ -118,15 +118,9 @@ public class FieldController extends RequireUserLoginController {
 	@ResponseBody
 	public Object getStages(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
-		Long varietyId;
-		try{
-			varietyId = Long.parseLong(request.getParameter("varietyId"));
-		}
-		catch(Exception e){
-	    	throw new InvalidParameterException("varietyId","Long");
-		}
-
+		Long varietyId = requestX.getLong("varietyId");
 		IFieldFacade ff =  (IFieldFacade) ContextLoader.getCurrentWebApplicationContext().getBean("fieldFacade");
 
 		List<SubStageWrapper> ssw = ff.getStages(varietyId);

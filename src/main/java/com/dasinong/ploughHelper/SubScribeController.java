@@ -72,18 +72,9 @@ public class SubScribeController extends RequireUserLoginController {
 	@RequestMapping(value = "/loadSubScribeList", produces="application/json")
 	@ResponseBody
 	public Object loadSubScribeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		User user = this.getLoginUser(request);
-		Map<String,Object> result = new HashMap<String,Object>();
-
-		Long id;
-		try{
-			id =  Long.parseLong(request.getParameter("id"));
-		}
-	    catch(Exception e){
-	    	throw new InvalidParameterException("id","long");
-	    }
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
+		Long id = requestX.getLong("id");		
 		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
 		return ssf.loadSubScribeList(id);
 	}
@@ -92,10 +83,8 @@ public class SubScribeController extends RequireUserLoginController {
 	@RequestMapping(value = "/updateSubScribeList", produces="application/json")
 	@ResponseBody
 	public Object updateSubScribeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		User user = this.getLoginUser(request);
-		Map<String,Object> result = new HashMap<String,Object>();
-
+		
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		Long id = requestX.getLong("id");
 		String targetName = requestX.getString("targetName");
@@ -127,15 +116,9 @@ public class SubScribeController extends RequireUserLoginController {
 	@RequestMapping(value = "/deleteSubScribeList", produces="application/json")
 	@ResponseBody
 	public Object deleteSubScribeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		Long id;
-		try{
-			id =  Long.parseLong(request.getParameter("id"));
-		}
-	    catch(Exception e){
-	    	throw new InvalidParameterException("id","long");
-	    }
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
+		Long id = requestX.getLong("id");
 		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
 		return ssf.deleteSubScribeList(id);
 	}

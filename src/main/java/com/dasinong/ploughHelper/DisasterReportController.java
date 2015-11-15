@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.dasinong.ploughHelper.facade.IDisasterReportFacade;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 
 @Controller
@@ -35,15 +36,16 @@ public class DisasterReportController extends BaseController {
 	@ResponseBody
 	public Object insertDisasterReport(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> result = new HashMap<String,Object>();
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
-		String cropName = request.getParameter("cropName");
-		Long fieldId = Long.parseLong(request.getParameter("fieldId"));
-		String disasterType = request.getParameter("disasterType");
-		String disasterName = request.getParameter("disasterName");
-		String affectedArea = request.getParameter("affectedArea");
-		String eruptionTime = request.getParameter("eruptionTime");
-		String disasterDist = request.getParameter("disasterDist"); //disaster distribution 灾害分布
-		String fieldOperations = request.getParameter("fieldOperations");
+		String cropName = requestX.getString("cropName");
+		Long fieldId = requestX.getLong("fieldId");
+		String disasterType = requestX.getString("disasterType");
+		String disasterName = requestX.getString("disasterName");
+		String affectedArea = requestX.getString("affectedArea");
+		String eruptionTime = requestX.getString("eruptionTime");
+		String disasterDist = requestX.getString("disasterDist"); //disaster distribution 灾害分布
+		String fieldOperations = requestX.getString("fieldOperations");
 		String imageFilenames = ""; //存放图片文件名，多个文件名用逗号分隔，最多六张图片
 		
 		try{

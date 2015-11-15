@@ -16,60 +16,43 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
 import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 import com.dasinong.ploughHelper.facade.IVarietyFacade;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 
 @Controller
-public class VarietyController {
+public class VarietyController extends BaseController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(VarietyController.class);
 
 	@RequestMapping(value = "/getVarietyList",produces="application/json")
 	@ResponseBody
 	public Object getVariety(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String cropName = request.getParameter("cropName");
-		String cropId = request.getParameter("cropId");
-		String locationId = request.getParameter("locationId");
-		String province = request.getParameter("province");
-		if (cropId!=null&&!cropId.equals("")&&province!=null&&!province.equals("")){
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		String cropName = requestX.getString("cropName");
+		Long cropId = requestX.getLongOptional("cropId", null);
+		Long locationId = requestX.getLongOptional("locationId", null);
+		String province = requestX.getString("province");
+		
+		if (cropId != null && province != null && !province.equals("")) {
 			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext().getBean("varietyFacade");
-			Long cropid;
-			try{
-				cropid = Long.parseLong(cropId);
-			}catch(Exception e){
-				throw new InvalidParameterException("cropId","Long");
-			}
-			return vf.getVariety(cropid, province);
+			return vf.getVariety(cropId, province);
 		}
-		if (cropId!=null&&!cropId.equals("")&&locationId!=null&&!locationId.equals("")){
+		
+		if (cropId != null && locationId != null) {
 			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext().getBean("varietyFacade");
-			Long cropid;
-			try{
-				cropid = Long.parseLong(cropId);
-			}catch(Exception e){
-				throw new InvalidParameterException("cropId","Long");
-			}
-			Long locationid;
-			try{
-				locationid = Long.parseLong(locationId);
-			}catch(Exception e){
-				throw new InvalidParameterException("locationId","Long");
-			}
-			return vf.getVariety(cropid, locationid);
+			return vf.getVariety(cropId, locationId);
 		}
-		if (cropName!=null&&!cropName.equals("")&&province!=null&&!province.equals("")){
+		
+		if (cropName != null && !cropName.equals("") && province!=null && !province.equals("")){
 			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext().getBean("varietyFacade");
 			return vf.getVariety(cropName, province);
 		}
-		if (cropName!=null&&!cropName.equals("")&&locationId!=null&&!locationId.equals("")){
+		
+		if (cropName != null && !cropName.equals("") && locationId != null) {
 			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext().getBean("varietyFacade");
-			Long locationid;
-			try{
-				locationid = Long.parseLong(locationId);
-			}catch(Exception e){
-				throw new InvalidParameterException("locationId","Long");
-			}
-			return vf.getVariety(cropName, locationid);
+			return vf.getVariety(cropName, locationId);
 		}
+		
 		throw new MissingParameterException();
 	}
 
