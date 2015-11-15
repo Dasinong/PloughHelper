@@ -7,8 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface IUpdateDisease {
 
-	public final static File FILE = new File(
-			"/Users/jiachengwu/Documents/sourcefiles/petDisSpec.csv");
+	public final static File FILE = new File("/Users/jiachengwu/Documents/sourcefiles/petDisSpec.csv");
 
 	public abstract void run();
 

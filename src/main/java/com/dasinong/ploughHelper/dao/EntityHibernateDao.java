@@ -12,17 +12,17 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  * 
  * @author xiahonggao
  *
- * Hibernate implementation of IEntityDao
+ *         Hibernate implementation of IEntityDao
  */
 public class EntityHibernateDao<T> extends HibernateDaoSupport implements IEntityDao<T> {
 
 	protected Class<T> entityType;
-	
+
 	public EntityHibernateDao() {
-		this.entityType = ((Class<T>) ((ParameterizedType) getClass()
-		        .getGenericSuperclass()).getActualTypeArguments()[0]);
+		this.entityType = ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
+				.getActualTypeArguments()[0]);
 	}
-	
+
 	@Override
 	public void save(T entity) {
 		this.getHibernateTemplate().save(entity);

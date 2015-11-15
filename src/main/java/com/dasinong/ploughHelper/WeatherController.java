@@ -27,37 +27,37 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 public class WeatherController extends BaseController {
 
 	IWeatherFacade wf;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(WeatherController.class);
 
-	@RequestMapping(value = "/loadWeather", produces="application/json")
+	@RequestMapping(value = "/loadWeather", produces = "application/json")
 	@ResponseBody
 	public Object loadWeather(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		User user = this.getLoginUser(request);
-				
-		Map<String,Object> result = new HashMap<String,Object>();
+
+		Map<String, Object> result = new HashMap<String, Object>();
 		IWeatherFacade wf = (IWeatherFacade) ContextLoader.getCurrentWebApplicationContext().getBean("weatherFacade");
-		
-		if (user==null){
+
+		if (user == null) {
 			double lat = requestX.getDouble("lat");
 			double lon = requestX.getDouble("lon");
 			return wf.getWeather(lat, lon);
 		}
-		
-		if (user.getFields()==null || user.getFields().size()==0){
+
+		if (user.getFields() == null || user.getFields().size() == 0) {
 			double lat = requestX.getDouble("lat");
 			double lon = requestX.getDouble("lon");
 			return wf.getWeather(lat, lon);
 		}
-	
+
 		int mlid = requestX.getIntOptional("monitorLocationId", -1);
-		if (mlid==-1){
+		if (mlid == -1) {
 			double lat = requestX.getDouble("lat");
 			double lon = requestX.getDouble("lon");
 			return wf.getWeather(lat, lon);
 		}
-		
+
 		return wf.getWeather(mlid);
 	}
 

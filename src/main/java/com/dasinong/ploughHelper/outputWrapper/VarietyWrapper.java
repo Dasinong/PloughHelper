@@ -4,15 +4,15 @@ import com.dasinong.ploughHelper.model.Variety;
 
 public class VarietyWrapper {
 	Long id;
-	String varietyName="";
-	String subId="";
-	String registrationId="";
-	String owner="";
-	String suitableArea="";
-	String characteristics="";
-	String yieldPerformance="";
-	
-	public VarietyWrapper(Variety v){
+	String varietyName = "";
+	String subId = "";
+	String registrationId = "";
+	String owner = "";
+	String suitableArea = "";
+	String characteristics = "";
+	String yieldPerformance = "";
+
+	public VarietyWrapper(Variety v) {
 		this.id = v.getVarietyId();
 		this.varietyName = v.getVarietyName();
 		this.subId = v.getSubId();
@@ -87,5 +87,4 @@ public class VarietyWrapper {
 		this.subId = subId;
 	}
 
-	
 }

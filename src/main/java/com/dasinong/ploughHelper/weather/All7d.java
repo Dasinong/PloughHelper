@@ -15,95 +15,93 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.util.Env;
 import com.dasinong.ploughHelper.util.SmsService;
 
-public class All7d implements IWeatherBuffer{
+public class All7d implements IWeatherBuffer {
 	private static All7d all7d;
 
-	public static All7d getAll7d(){
-		if (all7d==null){
-			//all7d = new All7d();
+	public static All7d getAll7d() {
+		if (all7d == null) {
+			// all7d = new All7d();
 			all7d = (All7d) ContextLoader.getCurrentWebApplicationContext().getBean("all7d");
 			return all7d;
-		}
-		else{
+		} else {
 			return all7d;
 		}
 	}
 
-	private All7d(){
-		_all7d = new HashMap<Integer,SevenDayForcast>();
-		try{
+	private All7d() {
+		_all7d = new HashMap<Integer, SevenDayForcast>();
+		try {
 			loadContent(latestSourceFile());
-		}catch(Exception e){
+		} catch (Exception e) {
 			System.out.println("Initialize 7d failed");
-			SmsService.weatherAlert("Initialize 7d failed on "+new Date()+ " with file "+latestSourceFile());
+			SmsService.weatherAlert("Initialize 7d failed on " + new Date() + " with file " + latestSourceFile());
 		}
 	}
-	
-	//自动更新
+
+	// 自动更新
 	@Override
-    public void updateContent(){
-     	updateContent(latestSourceFile());
-    }
-    
-    //强制更新
+	public void updateContent() {
+		updateContent(latestSourceFile());
+	}
+
+	// 强制更新
 	@Override
-    public void updateContent(String sourceFile){
-     	HashMap<Integer,SevenDayForcast> old7d = _all7d;
-    	_all7d = new HashMap<Integer,SevenDayForcast>();
-		try{
+	public void updateContent(String sourceFile) {
+		HashMap<Integer, SevenDayForcast> old7d = _all7d;
+		_all7d = new HashMap<Integer, SevenDayForcast>();
+		try {
 			loadContent(sourceFile);
-		}
-		catch(Exception e){
-			System.out.println("update 7d failed. " +  e.getCause());
-			SmsService.weatherAlert("update 7d failed on "+new Date()+ " with file "+ sourceFile);
+		} catch (Exception e) {
+			System.out.println("update 7d failed. " + e.getCause());
+			SmsService.weatherAlert("update 7d failed on " + new Date() + " with file " + sourceFile);
 			_all7d = old7d;
 		}
-    }
-	
-    private String latestSourceFile(){
-    	String sourceFile;
-    	if (System.getProperty("os.name").equalsIgnoreCase("windows 7") || System.getProperty("os.name").equalsIgnoreCase("Mac OS X") ){
-    		sourceFile = Env.getEnv().WorkingDir + "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rforcast_7days_2015090710.csv";
-        }else{
-        	Date date = new Date();
-        	String filename = "";
-        	SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-        	if (date.getHours()<=9){
-        		date.setTime(date.getTime()-24*60*60*1000);
-        		filename = "rforcast_7days_"+df.format(date)+"20.csv";
-        	}
-        	else if (date.getHours()<=19) {
-        		filename = "rforcast_7days_"+df.format(date)+"09.csv";
-        	}
-        	else{
-        		filename = "rforcast_7days_"+df.format(date)+"20.csv";
-        	}
-        	sourceFile = Env.getEnv().WorkingDir + "/data/ftp/rforecast7days/"+filename;
-        }
-    	System.out.println(sourceFile);
-    	return sourceFile;
-    }
-    
-	private void loadContent(String sourceFile) throws IOException{
-		SevenDayForcast sdf=null;
-		TwentyFourHourForcast tfhf=null;
+	}
+
+	private String latestSourceFile() {
+		String sourceFile;
+		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")
+				|| System.getProperty("os.name").equalsIgnoreCase("Mac OS X")) {
+			sourceFile = Env.getEnv().WorkingDir
+					+ "/PloughHelper/src/main/java/com/dasinong/ploughHelper/weather/rforcast_7days_2015090710.csv";
+		} else {
+			Date date = new Date();
+			String filename = "";
+			SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+			if (date.getHours() <= 9) {
+				date.setTime(date.getTime() - 24 * 60 * 60 * 1000);
+				filename = "rforcast_7days_" + df.format(date) + "20.csv";
+			} else if (date.getHours() <= 19) {
+				filename = "rforcast_7days_" + df.format(date) + "09.csv";
+			} else {
+				filename = "rforcast_7days_" + df.format(date) + "20.csv";
+			}
+			sourceFile = Env.getEnv().WorkingDir + "/data/ftp/rforecast7days/" + filename;
+		}
+		System.out.println(sourceFile);
+		return sourceFile;
+	}
+
+	private void loadContent(String sourceFile) throws IOException {
+		SevenDayForcast sdf = null;
+		TwentyFourHourForcast tfhf = null;
 		Date curtime = new Date();
 		File f = new File(sourceFile);
 
 		FileInputStream fr;
 		fr = new FileInputStream(f);
 		StringBuilder notification = new StringBuilder();
-		notification.append("load 7d on " + new Date()+". Issue loading: "); 
-		BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
+		notification.append("load 7d on " + new Date() + ". Issue loading: ");
+		BufferedReader br = new BufferedReader(new InputStreamReader(fr, "UTF-8"));
 		String line;
 		br.readLine();
-		int currentCode =0;
+		int currentCode = 0;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		while ((line=br.readLine())!=null) {
+		while ((line = br.readLine()) != null) {
 			line = line.trim();
-			try{
+			try {
 				String units[] = line.split("\t");
-				if (units.length==9){
+				if (units.length == 9) {
 					int code = Integer.parseInt(units[0]);
 					Date forcast_time = df.parse(units[1]);
 					short weather = Short.parseShort(units[2]);
@@ -113,100 +111,125 @@ public class All7d implements IWeatherBuffer{
 					short ff_level = Short.parseShort(units[6]);
 					short dd_level = Short.parseShort(units[7]);
 					double rain = Double.parseDouble(units[8]);
-					//Use for 24h
-					
-					
-					if (code!=currentCode){
-						sdf = new SevenDayForcast(code,forcast_time);					
+					// Use for 24h
+
+					if (code != currentCode) {
+						sdf = new SevenDayForcast(code, forcast_time);
 						currentCode = code;
-						if (tfhf!=null) tfhf.padding();
-						if ((forcast_time.getTime() - curtime.getTime()<25*60*60*1000) && !HourCity.contains(currentCode)){
+						if (tfhf != null)
+							tfhf.padding();
+						if ((forcast_time.getTime() - curtime.getTime() < 25 * 60 * 60 * 1000)
+								&& !HourCity.contains(currentCode)) {
 							tfhf = new TwentyFourHourForcast(currentCode);
-							ForcastDInfo fdi = new ForcastDInfo(forcast_time,(int) temp,-1,wind7dto24h(ff_level),wins7dto24h(dd_level),rain,0,0,0,WeatherPhenomena.getWeatherPhenomena().getIcon(weather));
+							ForcastDInfo fdi = new ForcastDInfo(forcast_time, (int) temp, -1, wind7dto24h(ff_level),
+									wins7dto24h(dd_level), rain, 0, 0, 0,
+									WeatherPhenomena.getWeatherPhenomena().getIcon(weather));
 							tfhf.add(fdi);
 							All24h.get24h()._all24h.put(currentCode, tfhf);
 						}
 						sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
 						_all7d.put(code, sdf);
-					}
-					else{
-						sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp,ff_level, dd_level, rain);
-						if ((forcast_time.getTime() - curtime.getTime()<25*60*60*1000) && !HourCity.contains(currentCode)){
-							ForcastDInfo fdi = new ForcastDInfo(forcast_time,(int) temp,-1,wind7dto24h(ff_level),wins7dto24h(dd_level),rain,0,0,0,WeatherPhenomena.getWeatherPhenomena().getIcon(weather));
+					} else {
+						sdf.addRawData(forcast_time, weather, temp, max_temp, min_temp, ff_level, dd_level, rain);
+						if ((forcast_time.getTime() - curtime.getTime() < 25 * 60 * 60 * 1000)
+								&& !HourCity.contains(currentCode)) {
+							ForcastDInfo fdi = new ForcastDInfo(forcast_time, (int) temp, -1, wind7dto24h(ff_level),
+									wins7dto24h(dd_level), rain, 0, 0, 0,
+									WeatherPhenomena.getWeatherPhenomena().getIcon(weather));
 							tfhf.add(fdi);
 						}
 					}
+				} else {
+					notification.append(units[0] + " ");
 				}
-				else{
-					notification.append(units[0]+" ");
-				}
-			}catch (Exception e){
-				System.out.println("Error happend while inserting 7 day forcast "+ line);
-				notification.append(line.substring(0,Math.min(line.length(),10))+" ");
+			} catch (Exception e) {
+				System.out.println("Error happend while inserting 7 day forcast " + line);
+				notification.append(line.substring(0, Math.min(line.length(), 10)) + " ");
 			}
 		}
-		if (tfhf!=null)	tfhf.padding();
-		String sms = notification.substring(0,Math.min(notification.length(),  SmsService.maxLength));
+		if (tfhf != null)
+			tfhf.padding();
+		String sms = notification.substring(0, Math.min(notification.length(), SmsService.maxLength));
 		SmsService.weatherAlert(sms);
 		br.close();
 		fr.close();
 	}
-	
-	private HashMap<Integer,SevenDayForcast> _all7d;
-	
-	public SevenDayForcast get7d(Integer aid){
+
+	private HashMap<Integer, SevenDayForcast> _all7d;
+
+	public SevenDayForcast get7d(Integer aid) {
 		return _all7d.get(aid);
 	}
-	
+
 	@Override
-	public String latestUpdate(){
+	public String latestUpdate() {
 		SevenDayForcast sdf = this._all7d.get(101010100);
-		if (sdf!=null){
+		if (sdf != null) {
 			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
-			return df.format(sdf.startDate); 
-		}
-		else return "No data found. Check whether initialize failed.";
+			return df.format(sdf.startDate);
+		} else
+			return "No data found. Check whether initialize failed.";
 	}
-	
-	private int wind7dto24h(short ff_level){
-		switch (ff_level){
-			case 0: return 0;
-			case 1: return 45;
-			case 2: return 90;
-			case 3: return 135;
-			case 4: return 180;
-			case 5: return 225;
-			case 6: return 270;
-			case 7: return 315;
-			case 8: return 360;
-			default: return 0;
-		}
-	}
-	
-	private double wins7dto24h(short dd_level){
-		switch (dd_level){
-			case 0: return 2.2;
-			case 1: return 5;
-			case 2: return 6.3;
-			case 3: return 9.1;
-			case 4: return 12;
-			case 5: return 15.5;
-			case 6: return 19.0;
-			case 7: return 22.5;
-			case 8: return 26.9;
-			case 9: return 30.5;
-			default: return 0;
+
+	private int wind7dto24h(short ff_level) {
+		switch (ff_level) {
+		case 0:
+			return 0;
+		case 1:
+			return 45;
+		case 2:
+			return 90;
+		case 3:
+			return 135;
+		case 4:
+			return 180;
+		case 5:
+			return 225;
+		case 6:
+			return 270;
+		case 7:
+			return 315;
+		case 8:
+			return 360;
+		default:
+			return 0;
 		}
 	}
-	public static void main(String[] args) throws IOException, ParseException{
+
+	private double wins7dto24h(short dd_level) {
+		switch (dd_level) {
+		case 0:
+			return 2.2;
+		case 1:
+			return 5;
+		case 2:
+			return 6.3;
+		case 3:
+			return 9.1;
+		case 4:
+			return 12;
+		case 5:
+			return 15.5;
+		case 6:
+			return 19.0;
+		case 7:
+			return 22.5;
+		case 8:
+			return 26.9;
+		case 9:
+			return 30.5;
+		default:
+			return 0;
+		}
+	}
+
+	public static void main(String[] args) throws IOException, ParseException {
 		/*
-		Iterator iter= All7d.getAll7d()._all7d.entrySet().iterator();
-		while(iter.hasNext()){
-			Map.Entry entry = (Map.Entry) iter.next();
-			System.out.print(entry.getKey()+": ");
-			System.out.println(entry.getValue());
-		}
-		All7d.getAll7d().get7d(101090301);
-		*/
+		 * Iterator iter= All7d.getAll7d()._all7d.entrySet().iterator();
+		 * while(iter.hasNext()){ Map.Entry entry = (Map.Entry) iter.next();
+		 * System.out.print(entry.getKey()+": ");
+		 * System.out.println(entry.getValue()); }
+		 * All7d.getAll7d().get7d(101090301);
+		 */
 	}
 }

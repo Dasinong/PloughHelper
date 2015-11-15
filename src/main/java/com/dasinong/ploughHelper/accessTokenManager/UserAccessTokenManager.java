@@ -89,36 +89,37 @@ public class UserAccessTokenManager {
 
 		return accessToken;
 	}
-	
+
 	public void renew(UserAccessToken accessToken) throws UserAccessTokenExpiredException {
 		if (accessToken.isExpired()) {
 			throw new UserAccessTokenExpiredException(accessToken.getToken());
 		}
-		
+
 		Timestamp createdAt = new Timestamp(System.currentTimeMillis());
 		Timestamp expiredAt = new Timestamp(createdAt.getTime() + Env.getEnv().accessTokenLifeMS);
 		accessToken.setExpiredAt(expiredAt);
 		this.tokenDao.update(accessToken);
 	}
-	
+
 	public static void main(String[] args) throws Exception {
-		 ApplicationContext applicationContext = new FileSystemXmlApplicationContext(
-	              "file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
-	              "file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
-	              "file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml"); 
-	    
-		 IUserAccessTokenDao tokenDao = (IUserAccessTokenDao) applicationContext.getBean("userAccessTokenDao");
-		 System.out.println(URLEncoder.encode("TKb+kwnBHZlTO84dYGRFLXypeUjxWNmBFH6G3e6wZkA="));
-		 /*
-		 Long appId = DasinongApp.ANDROID_FARM_LOG;
-		 Long userId = 498L;
-		 UserAccessTokenManager manager = new UserAccessTokenManager(tokenDao);
-		 UserAccessToken token = manager.generate(userId, appId);
-		 System.out.println(token.getToken());
-		 UserAccessToken decryptedToken = manager.parse(token.getToken());
-		 System.out.println(token.getUserId());
-		 System.out.println(token.getAppId());
-		 
-		 tokenDao.deleteByUserIdAndAppId(userId, appId);*/
+		ApplicationContext applicationContext = new FileSystemXmlApplicationContext(
+				"file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
+				"file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
+				"file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml");
+
+		IUserAccessTokenDao tokenDao = (IUserAccessTokenDao) applicationContext.getBean("userAccessTokenDao");
+		System.out.println(URLEncoder.encode("TKb+kwnBHZlTO84dYGRFLXypeUjxWNmBFH6G3e6wZkA="));
+		/*
+		 * Long appId = DasinongApp.ANDROID_FARM_LOG; Long userId = 498L;
+		 * UserAccessTokenManager manager = new
+		 * UserAccessTokenManager(tokenDao); UserAccessToken token =
+		 * manager.generate(userId, appId);
+		 * System.out.println(token.getToken()); UserAccessToken decryptedToken
+		 * = manager.parse(token.getToken());
+		 * System.out.println(token.getUserId());
+		 * System.out.println(token.getAppId());
+		 * 
+		 * tokenDao.deleteByUserIdAndAppId(userId, appId);
+		 */
 	}
 }

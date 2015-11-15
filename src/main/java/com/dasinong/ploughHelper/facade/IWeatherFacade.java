@@ -10,8 +10,7 @@ import org.xml.sax.SAXException;
 public interface IWeatherFacade {
 
 	public abstract Object getWeather(double lat, double lon)
-			throws IOException, ParseException, NumberFormatException,
-			ParserConfigurationException, SAXException;
+			throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException;
 
 	public abstract Object getWeather(Integer areaId);
 

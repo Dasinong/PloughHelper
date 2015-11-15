@@ -10,15 +10,16 @@ import com.dasinong.ploughHelper.exceptions.UserAccessTokenNotFoundException;
 import com.dasinong.ploughHelper.model.UserAccessToken;
 
 public interface IUserAccessTokenDao extends IEntityDao<UserAccessToken> {
-	
+
 	abstract public void deleteByUserIdAndAppId(Long userId, Long appId);
-	
+
 	abstract public UserAccessToken findByToken(String token);
-	
+
 	abstract public UserAccessToken findLiveByToken(String token) throws UserAccessTokenExpiredException;
-	
+
 	abstract public UserAccessToken findByUserIdAndAppId(Long userId, Long appId);
-	
-	abstract public UserAccessToken findLiveByUserIdAndAppId(Long userId, Long appId) throws UserAccessTokenExpiredException;
+
+	abstract public UserAccessToken findLiveByUserIdAndAppId(Long userId, Long appId)
+			throws UserAccessTokenExpiredException;
 
 }

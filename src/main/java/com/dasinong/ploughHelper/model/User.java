@@ -8,10 +8,10 @@ import java.util.Set;
 
 import com.dasinong.ploughHelper.util.SHA256;
 
-public class User implements Serializable{
+public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	// salt used to encrypt password
 	// DO NOT CHANGE SALT WITHOUT CHANGING DATABASE!!!
 	public static final String passwordSalt = "woShiZhaoRiTian";
@@ -19,36 +19,36 @@ public class User implements Serializable{
 	private Long userId;
 	private String userName;
 	private String cellPhone;
-	
+
 	// TODO (xiahonggao): remove password field right after
 	// encryption change is live.
 	private String password;
 	private String encryptedPassword;
 	private String address;
 	private boolean isPassSet;
-	private Set<Field> fields= new HashSet<Field>();
-	
+	private Set<Field> fields = new HashSet<Field>();
+
 	private boolean authenticated = false;
-	private String pictureId="default.jpg";
+	private String pictureId = "default.jpg";
 	private String telephone;
 	private String qqtoken;
 	private String weixintoken;
 	private String deviceId;
 	private String channel;
-	
+
 	private Date createAt;
 	private Date updateAt;
 	private Date lastLogin;
-	
+
 	private String refcode;
 	private Long refuid;
 	private Long institutionId;
 	private String userType;
 
-	public User(){}
-	
-	public User(String userName, String password, String cellPhone,
-			String address) {
+	public User() {
+	}
+
+	public User(String userName, String password, String cellPhone, String address) {
 		super();
 		this.userName = userName;
 		this.password = password;
@@ -59,62 +59,63 @@ public class User implements Serializable{
 	public Long getUserId() {
 		return userId;
 	}
-	
+
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	
+
 	public String getUserName() {
 		return userName;
 	}
-	
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
-	
+
 	public String getEncryptedPassword() {
 		return this.encryptedPassword;
 	}
-	
-	// TODO (xiahonggao): DO NOT USE THIS METHOD SINCE IT WILL BE DELETED VERY SOON.
+
+	// TODO (xiahonggao): DO NOT USE THIS METHOD SINCE IT WILL BE DELETED VERY
+	// SOON.
 	// Use setAndEncryptPassword instead.
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public void setAndEncryptPassword(String rawPassword) throws NoSuchAlgorithmException {
 		String encryptedPassword = SHA256.encrypt(rawPassword, this.passwordSalt);
 		this.setEncryptedPassword(encryptedPassword);
 	}
-	
+
 	public void setEncryptedPassword(String encryptedPassword) {
 		this.encryptedPassword = encryptedPassword;
 	}
-	
+
 	public String getCellPhone() {
 		return cellPhone;
 	}
-	
+
 	public void setCellPhone(String cellPhone) {
 		this.cellPhone = cellPhone;
 	}
-	
+
 	public String getAddress() {
 		return address;
 	}
-	
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
 	public Set<Field> getFields() {
 		return fields;
 	}
-	
+
 	public void setFields(Set<Field> fields) {
 		this.fields = fields;
 	}
@@ -207,7 +208,6 @@ public class User implements Serializable{
 		this.lastLogin = lastLogin;
 	}
 
-
 	public String getRefcode() {
 		return refcode;
 	}
@@ -223,7 +223,7 @@ public class User implements Serializable{
 	public void setRefuid(Long refuid) {
 		this.refuid = refuid;
 	}
-	
+
 	public Long getInstitutionId() {
 		return institutionId;
 	}

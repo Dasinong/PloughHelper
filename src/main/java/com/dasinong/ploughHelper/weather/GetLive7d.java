@@ -6,57 +6,53 @@ import com.dasinong.ploughHelper.util.Env;
 import com.dasinong.ploughHelper.util.WISWeather;
 
 public class GetLive7d {
-	
+
 	private static GetLive7d live7d;
-	public static GetLive7d getAllLive7d(){
-		if (live7d==null){
+
+	public static GetLive7d getAllLive7d() {
+		if (live7d == null) {
 			live7d = new GetLive7d();
 			return live7d;
-		}
-		else{
+		} else {
 			return live7d;
 		}
 	}
-	
-	private GetLive7d(){
+
+	private GetLive7d() {
 		/*
-		Set<Integer> locations = null;
-		try {
-			locations = AllLocation.getLocation()._allLocation.keySet();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		for(Integer code : locations){
-			Live7dFor result = getLive7d(code);
-			_Live7dFor.put(code,result);
-		}*/
+		 * Set<Integer> locations = null; try { locations =
+		 * AllLocation.getLocation()._allLocation.keySet(); } catch (IOException
+		 * e) { e.printStackTrace(); } for(Integer code : locations){ Live7dFor
+		 * result = getLive7d(code); _Live7dFor.put(code,result); }
+		 */
 	}
-	
-	public Live7dFor getLive7d(Integer areaId){
-        long currentTime = System.currentTimeMillis();
-        //如果上次关于这个地方的天气请求距离这次不到live7dBufferTime分钟，那么直接返回缓存的天气数据
-        if (this._Live7dFor.containsKey(areaId) && (currentTime - this._Live7dFor.get(areaId).timeStamp.getTime())< Env.getEnv().live7dBufferTime )
-        	return this._Live7dFor.get(areaId);
-        
-        WISWeather wisw = new WISWeather(""+areaId,"forecast7d");
+
+	public Live7dFor getLive7d(Integer areaId) {
+		long currentTime = System.currentTimeMillis();
+		// 如果上次关于这个地方的天气请求距离这次不到live7dBufferTime分钟，那么直接返回缓存的天气数据
+		if (this._Live7dFor.containsKey(areaId)
+				&& (currentTime - this._Live7dFor.get(areaId).timeStamp.getTime()) < Env.getEnv().live7dBufferTime)
+			return this._Live7dFor.get(areaId);
+
+		WISWeather wisw = new WISWeather("" + areaId, "forecast7d");
 		String result = wisw.Commute();
-		
+
 		Live7dFor live7dFor = null;
-		try{
-			live7dFor = new Live7dFor(result,areaId);
-			 _Live7dFor.put(areaId, live7dFor);
-	    } catch (Exception e) {
-			 System.out.println("Error happend when processing 7d live forcast!");
-			 System.out.println(result);
-			 this._Live7dFor.get(areaId);
-	    }	
+		try {
+			live7dFor = new Live7dFor(result, areaId);
+			_Live7dFor.put(areaId, live7dFor);
+		} catch (Exception e) {
+			System.out.println("Error happend when processing 7d live forcast!");
+			System.out.println(result);
+			this._Live7dFor.get(areaId);
+		}
 		return live7dFor;
 	}
-	
-	private HashMap<Integer,Live7dFor> _Live7dFor = new HashMap<Integer,Live7dFor>();
-		
-	public static void main (String args[]){	
+
+	private HashMap<Integer, Live7dFor> _Live7dFor = new HashMap<Integer, Live7dFor>();
+
+	public static void main(String args[]) {
 		GetLive7d gh = new GetLive7d();
-		gh.getLive7d(101010100);		
+		gh.getLive7d(101010100);
 	}
 }

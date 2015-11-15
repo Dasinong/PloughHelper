@@ -22,33 +22,32 @@ public class InstitutionEmployeeApplicationFacade implements IInstitutionEmploye
 	@Override
 	public Object create(User user, String cellphone, String code, String title, String region) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
-		IInstitutionEmployeeApplicationDao appDao = (IInstitutionEmployeeApplicationDao)
-				ContextLoader.getCurrentWebApplicationContext().getBean("institutionEmployeeApplicationDao");
-		IInstitutionDao instDao = (IInstitutionDao)
-				ContextLoader.getCurrentWebApplicationContext().getBean("institutionDao");
-		IUserDao userDao = (IUserDao)
-				ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-		
+		IInstitutionEmployeeApplicationDao appDao = (IInstitutionEmployeeApplicationDao) ContextLoader
+				.getCurrentWebApplicationContext().getBean("institutionEmployeeApplicationDao");
+		IInstitutionDao instDao = (IInstitutionDao) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("institutionDao");
+		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
+
 		if (user.getUserType() != null) {
 			throw new UserTypeAlreadyDefinedException(user.getUserId(), user.getUserType());
 		}
-		
+
 		Institution inst = instDao.findByCode(code);
 		if (inst == null) {
 			throw new InvalidParameterException("code", "String");
 		}
-		
+
 		InstitutionEmployeeApplication app = new InstitutionEmployeeApplication();
 		app.setCellphone(cellphone);
 		app.setInstitutionId(inst.getId());
 		app.setTitle(title);
 		app.setRegion(region);
 		appDao.save(app);
-		
+
 		user.setInstitutionId(inst.getId());
 		user.setUserType(UserType.SALES);
 		userDao.update(user);
-		
+
 		HashMap<String, Object> data = new HashMap<String, Object>();
 		data.put("application", app);
 		result.put("respCode", 200);

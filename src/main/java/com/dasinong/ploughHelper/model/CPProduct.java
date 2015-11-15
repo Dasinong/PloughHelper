@@ -5,13 +5,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CPProduct implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long cPProductId;
 	private String cPProductName;
 	private Set<PetSolu> petSolus = new HashSet<PetSolu>();
-	
+
 	private String registerationId;
 	private String activeIngredient;
 	private String type;
@@ -25,12 +25,12 @@ public class CPProduct implements Serializable {
 	private String model;
 	private Integer priority;
 	private String telephone;
-	
-	public CPProduct() {}
 
-	public CPProduct(String cPProductName, String activeIngredient,
-			String type, String crop, String disease, String volume,
-			String guideline, String tip, Integer priority, String telephone) {
+	public CPProduct() {
+	}
+
+	public CPProduct(String cPProductName, String activeIngredient, String type, String crop, String disease,
+			String volume, String guideline, String tip, Integer priority, String telephone) {
 		super();
 		this.cPProductName = cPProductName;
 		this.activeIngredient = activeIngredient;
@@ -63,7 +63,7 @@ public class CPProduct implements Serializable {
 	public Set<PetSolu> getPetSolus() {
 		return petSolus;
 	}
-	
+
 	public Integer getPriority() {
 		return this.priority;
 	}
@@ -167,7 +167,7 @@ public class CPProduct implements Serializable {
 	public String getTelephone() {
 		return this.telephone;
 	}
-	
+
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}

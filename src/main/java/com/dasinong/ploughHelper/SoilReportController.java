@@ -22,29 +22,28 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 @Controller
 public class SoilReportController extends RequireUserLoginController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(SoilReportController.class);
-	
-	@RequestMapping(value = "/insertSoilReport", produces="application/json")
+
+	@RequestMapping(value = "/insertSoilReport", produces = "application/json")
 	@ResponseBody
 	public Object insertSoilReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Map<String,Object> result = new HashMap<String,Object>();
+		Map<String, Object> result = new HashMap<String, Object>();
 
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
+
 		Long uId = requestX.getLong("userId");
-		Long fId =  requestX.getLong("fieldId");
+		Long fId = requestX.getLong("fieldId");
 		String type = requestX.getStringOptional("type", "");
 		String color = requestX.getStringOptional("color", "");
 		String fertility = requestX.getStringOptional("fertility", "");
 		double humidityv = requestX.getDouble("humidity");
 		Date date = requestX.getDate("testDate");
 		double phValuev = requestX.getDouble("phValue");
-		String organic = requestX.getStringOptional("organic","");
-	
-			
+		String organic = requestX.getStringOptional("organic", "");
+
 		double anv = requestX.getDouble("an");
-		double qnv = requestX.getDouble("qn");	
+		double qnv = requestX.getDouble("qn");
 		double pv = requestX.getDouble("p");
 		double qKv = requestX.getDouble("qK");
 		double sKv = requestX.getDouble("sK");
@@ -58,62 +57,61 @@ public class SoilReportController extends RequireUserLoginController {
 		double sv = requestX.getDouble("s");
 		double siv = requestX.getDouble("si");
 		double mgv = requestX.getDouble("mg");
-				
+
 		ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
 		result.put("respCode", 200);
 		result.put("message", "插入成功");
-		result.put("data", sf.insertSoil(uId, fId, type, color, fertility, humidityv, date, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv, znv, bv, mov, cav, sv, siv, mgv));
+		result.put("data", sf.insertSoil(uId, fId, type, color, fertility, humidityv, date, phValuev, organic, anv, qnv,
+				pv, qKv, sKv, fev, mnv, cuv, znv, bv, mov, cav, sv, siv, mgv));
 		return result;
 	}
-	
-	
-	@RequestMapping(value = "/getSoilReport", produces="application/json")
+
+	@RequestMapping(value = "/getSoilReport", produces = "application/json")
 	@ResponseBody
 	public Object getSoilReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		User user = this.getLoginUser(request);
-		Map<String,Object> result = new HashMap<String,Object>();
+		Map<String, Object> result = new HashMap<String, Object>();
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
+
 		ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
-		
+
 		Long reportId = requestX.getLongOptional("reportId", null);
 		if (reportId != null) {
 			result.put("respCode", 200);
-	    	result.put("message", "读取成功");
-	    	result.put("data", sf.loadSoilReportsByRid(reportId));
+			result.put("message", "读取成功");
+			result.put("data", sf.loadSoilReportsByRid(reportId));
 			return result;
 		}
-      
+
 		Long fieldId = requestX.getLongOptional("fieldId", null);
-		
+
 		if (fieldId == null) {
 			return sf.loadSoilReportsByUid(user.getUserId());
 		} else {
 			result.put("respCode", 200);
-	    	result.put("message", "读取成功");
-	    	result.put("data", sf.loadSoilReportsByFid(fieldId));
+			result.put("message", "读取成功");
+			result.put("data", sf.loadSoilReportsByFid(fieldId));
 			return result;
 		}
 	}
-	
-	
-	@RequestMapping(value = "/updateSoilReport", produces="application/json")
+
+	@RequestMapping(value = "/updateSoilReport", produces = "application/json")
 	@ResponseBody
 	public Object updateSoilReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Map<String,Object> result = new HashMap<String,Object>();
-      
+		Map<String, Object> result = new HashMap<String, Object>();
+
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
+
 		Long reportId = requestX.getLong("userId");
 		String type = requestX.getStringOptional("type", "");
 		String color = requestX.getStringOptional("color", "");
 		String fertility = requestX.getStringOptional("fertility", "");
 		double humidityv = requestX.getDouble("humidity");
 		double phValuev = requestX.getDouble("phValue");
-		String organic = requestX.getStringOptional("organic","");
-	
+		String organic = requestX.getStringOptional("organic", "");
+
 		double anv = requestX.getDouble("an");
-		double qnv = requestX.getDouble("qn");	
+		double qnv = requestX.getDouble("qn");
 		double pv = requestX.getDouble("p");
 		double qKv = requestX.getDouble("qK");
 		double sKv = requestX.getDouble("sK");
@@ -127,13 +125,13 @@ public class SoilReportController extends RequireUserLoginController {
 		double sv = requestX.getDouble("s");
 		double siv = requestX.getDouble("si");
 		double mgv = requestX.getDouble("mg");
-	
+
 		ISoilFacade sf = (ISoilFacade) ContextLoader.getCurrentWebApplicationContext().getBean("soilFacade");
-		
+
 		result.put("respCode", 200);
-		result.put("message", "更新报告成功");	    
-		result.put("data", sf.updateSoil(reportId, type, color, fertility, humidityv, phValuev, organic, anv, qnv, pv, qKv, sKv, fev, mnv, cuv,
-					znv, bv, mov, cav, sv, siv, mgv));
+		result.put("message", "更新报告成功");
+		result.put("data", sf.updateSoil(reportId, type, color, fertility, humidityv, phValuev, organic, anv, qnv, pv,
+				qKv, sKv, fev, mnv, cuv, znv, bv, mov, cav, sv, siv, mgv));
 		return result;
 	}
 }

@@ -12,28 +12,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 
-
 @Controller
 public class SystemManagement {
-	@RequestMapping(value = "/weatherIssue", produces="application/json")
+	@RequestMapping(value = "/weatherIssue", produces = "application/json")
 	@ResponseBody
 	public Object insertSoilReport(HttpServletRequest request, HttpServletResponse response) {
-		Map<String,Object> result = new HashMap<String,Object>();
+		Map<String, Object> result = new HashMap<String, Object>();
 		String issue = request.getParameter("issue");
 		String monitorLocationId = request.getParameter("monitorLocationId");
-		if (issue==null || issue.equals("") || monitorLocationId==null || monitorLocationId.equals("")){
+		if (issue == null || issue.equals("") || monitorLocationId == null || monitorLocationId.equals("")) {
 			throw new MissingParameterException();
 		}
-		System.out.println("Issue: " + issue +" on "+monitorLocationId);
+		System.out.println("Issue: " + issue + " on " + monitorLocationId);
 		result.put("message", "提交成功");
 		result.put("respCode", 200);
 		return result;
 	}
-	
-	@RequestMapping(value = "/userFeedback", produces="application/json")
+
+	@RequestMapping(value = "/userFeedback", produces = "application/json")
 	@ResponseBody
 	public Object userFeedback(HttpServletRequest request, HttpServletResponse response) {
-		Map<String,Object> result = new HashMap<String,Object>();
+		Map<String, Object> result = new HashMap<String, Object>();
 		String id = request.getParameter("msgId");
 		String monitorLocationId = request.getParameter("Up_YourNum");
 		String tel = request.getParameter("Up_UserTel");

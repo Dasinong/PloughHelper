@@ -9,16 +9,17 @@ import com.dasinong.ploughHelper.model.User;
 
 //This is dynamic analysis from database directly.
 public class UserRelation {
-	class UserTree{
+	class UserTree {
 		public User user;
 		public User parent;
-		public UserTree(User user, User parent){
-			
+
+		public UserTree(User user, User parent) {
+
 		}
 	}
+
 	IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-	
+
 	List<User> userList = userDao.findAll();
-	
-	
+
 }

@@ -17,5 +17,5 @@ public class Field {
 	public void setGreenHouse(boolean isGreenHouse) {
 		this.isGreenHouse = isGreenHouse;
 	}
-	
+
 }

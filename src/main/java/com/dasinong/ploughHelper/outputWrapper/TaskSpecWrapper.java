@@ -8,28 +8,28 @@ import com.dasinong.ploughHelper.model.Step;
 import com.dasinong.ploughHelper.model.SubStage;
 import com.dasinong.ploughHelper.model.TaskSpec;
 
-public class TaskSpecWrapper implements Serializable{
+public class TaskSpecWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long taskSpecId;
 	private String taskSpecName;
 	private SubStage subStage;
-	private List<Long> stepIds =  new ArrayList<Long>();
+	private List<Long> stepIds = new ArrayList<Long>();
 	private String type;
-//	private String fitRegion;
-	
-	public TaskSpecWrapper(TaskSpec ts){
-		
+	// private String fitRegion;
+
+	public TaskSpecWrapper(TaskSpec ts) {
+
 		this.setTaskSpecId(ts.getTaskSpecId());
 		this.setTaskSpecName(ts.getTaskSpecName());
 		this.setSubStage(ts.getSubStage());
-		if (ts.getSteps()!=null){
-			for (Step s : ts.getSteps()){
+		if (ts.getSteps() != null) {
+			for (Step s : ts.getSteps()) {
 				getStepIds().add(s.getStepId());
 			}
 		}
 		this.setType(ts.getType());
-//		this.setFitRegion(ts.getFitRegion());
+		// this.setFitRegion(ts.getFitRegion());
 	}
 
 	public Long getTaskSpecId() {
@@ -72,11 +72,11 @@ public class TaskSpecWrapper implements Serializable{
 		this.type = type;
 	}
 
-//	public String getFitRegion() {
-//		return fitRegion;
-//	}
-//
-//	public void setFitRegion(String fitRegion) {
-//		this.fitRegion = fitRegion;
-//	}
+	// public String getFitRegion() {
+	// return fitRegion;
+	// }
+	//
+	// public void setFitRegion(String fitRegion) {
+	// this.fitRegion = fitRegion;
+	// }
 }

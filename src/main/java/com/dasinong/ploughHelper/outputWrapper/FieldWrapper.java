@@ -14,7 +14,7 @@ import com.dasinong.ploughHelper.model.PetDisSpec;
 import com.dasinong.ploughHelper.model.SubStage;
 import com.dasinong.ploughHelper.model.Task;
 
-public class FieldWrapper implements Serializable{
+public class FieldWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long fieldId;
@@ -26,10 +26,10 @@ public class FieldWrapper implements Serializable{
 	private int monitorLocationId;
 	private List<SubStageWrapper> stagelist = new ArrayList<SubStageWrapper>();
 	private List<TaskWrapper> taskws = new ArrayList<TaskWrapper>();
-	private List<PetDisWrapper> petdisws =  new ArrayList<PetDisWrapper>();
+	private List<PetDisWrapper> petdisws = new ArrayList<PetDisWrapper>();
 	private List<NatDisWrapper> natdisws = new ArrayList<NatDisWrapper>();
 	private List<PetDisSpecWrapper> petdisspecws = new ArrayList<PetDisSpecWrapper>();
-	
+
 	private long currentStageID;
 	private Date startDate;
 	private Date endDate;
@@ -37,118 +37,119 @@ public class FieldWrapper implements Serializable{
 	private boolean workable;
 	private boolean sprayable;
 	private int dayToHarvest;
-	
+
 	private String cropName;
-	
-	public FieldWrapper(Field field, ITaskSpecDao taskSpecDao, int taskLoadType){
+
+	public FieldWrapper(Field field, ITaskSpecDao taskSpecDao, int taskLoadType) {
 		this.setFieldId(field.getFieldId());
-		this.fieldName = (field.getFieldName()==null)?"":field.getFieldName();
+		this.fieldName = (field.getFieldName() == null) ? "" : field.getFieldName();
 		this.setActive(field.getIsActive());
 		this.setVarietyId(field.getVariety().getVarietyId());
 		this.setUserId(field.getUser().getUserId());
 		this.setLocationId(field.getLocation().getLocationId());
 		this.setMonitorLocationId(field.getMonitorLocationId());
-		if (taskLoadType==1){
-			if (field.getTasks()!=null){
-				for (Task t : field.getTasks().values()){
-					taskws.add(new TaskWrapper(t,taskSpecDao));
+		if (taskLoadType == 1) {
+			if (field.getTasks() != null) {
+				for (Task t : field.getTasks().values()) {
+					taskws.add(new TaskWrapper(t, taskSpecDao));
 				}
 			}
 		}
-		if (taskLoadType==2){
-			if (field.getTasks()!=null){
-				for (Task t : field.getTasks().values()){
-					TaskWrapper tw = new TaskWrapper(t,taskSpecDao);
-					if (tw.getSubStageId() == field.getCurrentStageID()){
+		if (taskLoadType == 2) {
+			if (field.getTasks() != null) {
+				for (Task t : field.getTasks().values()) {
+					TaskWrapper tw = new TaskWrapper(t, taskSpecDao);
+					if (tw.getSubStageId() == field.getCurrentStageID()) {
 						taskws.add(tw);
 					}
 				}
 			}
 		}
-		if (field.getNatDiss()!=null){
-			for (NatDis nd :  field.getNatDiss().values()){
+		if (field.getNatDiss() != null) {
+			for (NatDis nd : field.getNatDiss().values()) {
 				natdisws.add(new NatDisWrapper(nd));
 			}
 		}
-		if (field.getPetDiss()!=null){
-			for (PetDis pd : field.getPetDiss().values()){
+		if (field.getPetDiss() != null) {
+			for (PetDis pd : field.getPetDiss().values()) {
 				petdisws.add(new PetDisWrapper(pd));
 			}
 		}
 		this.setCurrentStageID(field.getCurrentStageID());
-		this.startDate = (field.getStartDate()==null)?null:field.getStartDate();
-		this.endDate = (field.getEndDate()==null)?null:field.getEndDate();
+		this.startDate = (field.getStartDate() == null) ? null : field.getStartDate();
+		this.endDate = (field.getEndDate() == null) ? null : field.getEndDate();
 		this.setYield(field.getYield());
-		
+
 		this.setWorkable(true);
 		this.setSprayable(true);
-		
-		//Compute day to Harvest here
-		if (field.getVariety().getFullCycleDuration()!=0){
-			//Check whether the date make sense.
+
+		// Compute day to Harvest here
+		if (field.getVariety().getFullCycleDuration() != 0) {
+			// Check whether the date make sense.
 			Date date = new Date();
-			int dayTH= (int) Math.floor(field.getVariety().getFullCycleDuration()-
-					(date.getTime() - field.getStartDate().getTime())/24/60/60/1000+field.getDayOffset());
-			if (dayTH>0){
+			int dayTH = (int) Math.floor(field.getVariety().getFullCycleDuration()
+					- (date.getTime() - field.getStartDate().getTime()) / 24 / 60 / 60 / 1000 + field.getDayOffset());
+			if (dayTH > 0) {
 				field.setDayToHarvest(dayTH);
-			}else {
+			} else {
 				field.setDayToHarvest(0);
 			}
 		}
 		this.setDayToHarvest(field.getDayToHarvest());
-		
-		
-		//For crops with detailed stage
-		if (field.getVariety().getSubStages()!=null && field.getVariety().getSubStages().size()>0){
-			for(SubStage ss : field.getVariety().getSubStages()){
+
+		// For crops with detailed stage
+		if (field.getVariety().getSubStages() != null && field.getVariety().getSubStages().size() > 0) {
+			for (SubStage ss : field.getVariety().getSubStages()) {
 				stagelist.add(new SubStageWrapper(ss));
-				if (ss.getSubStageId() == field.getCurrentStageID()){
-					if(ss.getPetDisSpecs()!=null){
+				if (ss.getSubStageId() == field.getCurrentStageID()) {
+					if (ss.getPetDisSpecs() != null) {
 						List<PetDisSpec> pdlist = new ArrayList<PetDisSpec>();
-						for (PetDisSpec pds: ss.getPetDisSpecs()){
+						for (PetDisSpec pds : ss.getPetDisSpecs()) {
 							pdlist.add(pds);
 						}
 						Collections.sort(pdlist);
-						int count=0;
-						for(PetDisSpec pds: pdlist){
+						int count = 0;
+						for (PetDisSpec pds : pdlist) {
 							PetDisSpecWrapper pdsw = new PetDisSpecWrapper(pds);
 							petdisspecws.add(pdsw);
 							count++;
-							if (count>=4) break;
+							if (count >= 4)
+								break;
 						}
-						
+
 					}
 				}
 			}
-		}
-		else{
-			List<PetDisSpec> pdlist= new ArrayList<PetDisSpec>();
-			for(PetDisSpec pds : field.getVariety().getCrop().getPetDisSpecs()){
+		} else {
+			List<PetDisSpec> pdlist = new ArrayList<PetDisSpec>();
+			for (PetDisSpec pds : field.getVariety().getCrop().getPetDisSpecs()) {
 				pdlist.add(pds);
 			}
 			Collections.sort(pdlist);
-			int count=0;
-			for(PetDisSpec pds: pdlist){
+			int count = 0;
+			for (PetDisSpec pds : pdlist) {
 				PetDisSpecWrapper pdsw = new PetDisSpecWrapper(pds);
 				petdisspecws.add(pdsw);
 				count++;
-				if (count>=4) break;
+				if (count >= 4)
+					break;
 			}
 		}
-		
-		//For the case when substage and crop channel not ready.
-		if(petdisspecws.size()==0){
-			List<PetDisSpec> pdlist= new ArrayList<PetDisSpec>();
-			for(PetDisSpec pds : field.getVariety().getCrop().getPetDisSpecs()){
+
+		// For the case when substage and crop channel not ready.
+		if (petdisspecws.size() == 0) {
+			List<PetDisSpec> pdlist = new ArrayList<PetDisSpec>();
+			for (PetDisSpec pds : field.getVariety().getCrop().getPetDisSpecs()) {
 				pdlist.add(pds);
 			}
 			Collections.sort(pdlist);
-			int count=0;
-			for(PetDisSpec pds: pdlist){
+			int count = 0;
+			for (PetDisSpec pds : pdlist) {
 				PetDisSpecWrapper pdsw = new PetDisSpecWrapper(pds);
 				petdisspecws.add(pdsw);
 				count++;
-				if (count>=4) break;
+				if (count >= 4)
+					break;
 			}
 		}
 		this.setCropName(field.getVariety().getCrop().getCropName());
@@ -313,6 +314,5 @@ public class FieldWrapper implements Serializable{
 	public void setStagelist(List<SubStageWrapper> stagelist) {
 		this.stagelist = stagelist;
 	}
-	
-	
+
 }

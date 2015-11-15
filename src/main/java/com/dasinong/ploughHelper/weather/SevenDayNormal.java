@@ -15,9 +15,9 @@ public class SevenDayNormal {
 	short nightWP;
 	public Date sunrise;
 	public Date sunset;
-	
-	public SevenDayNormal(String dayWeather, String nightWeather, int dayTemp, int nightTemp, short dayWD, short nightWD,
-			short dayWP, short nightWP, Date sunrise, Date sunset) {
+
+	public SevenDayNormal(String dayWeather, String nightWeather, int dayTemp, int nightTemp, short dayWD,
+			short nightWD, short dayWP, short nightWP, Date sunrise, Date sunset) {
 		super();
 		this.dayWeather = dayWeather;
 		this.nightWeather = nightWeather;
@@ -34,60 +34,57 @@ public class SevenDayNormal {
 	public SevenDayNormal(JsonNode forcast) {
 		this.dayWeather = forcast.get("fa").getTextValue();
 		this.nightWeather = forcast.get("fb").getTextValue();
-		try{
+		try {
 			this.dayTemp = Integer.parseInt(forcast.get("fc").getTextValue());
-		}catch(Exception e){
+		} catch (Exception e) {
 			this.dayTemp = -100;
 		}
-		
-		try{
+
+		try {
 			this.nightTemp = Integer.parseInt(forcast.get("fd").getTextValue());
-		}catch(Exception e){
+		} catch (Exception e) {
 			this.nightTemp = -100;
 		}
-		try{
+		try {
 			this.dayWD = Short.parseShort(forcast.get("fe").getTextValue());
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			this.dayWD = -1;
 		}
-		try{
+		try {
 			this.nightWD = Short.parseShort(forcast.get("ff").getTextValue());
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			this.nightWD = -1;
 		}
-		try{
+		try {
 			this.dayWP = Short.parseShort(forcast.get("fg").getTextValue());
-		}catch(Exception e){
+		} catch (Exception e) {
 			this.dayWP = -1;
 		}
-		try{
+		try {
 			this.nightWP = Short.parseShort(forcast.get("fh").getTextValue());
-		}catch(Exception e){
+		} catch (Exception e) {
 			this.nightWP = -1;
 		}
 		String[] daynight = forcast.get("fi").getTextValue().split("\\|");
-		if (daynight.length==2){
+		if (daynight.length == 2) {
 			this.sunrise = formatDate(daynight[0]);
 			this.sunset = formatDate(daynight[1]);
 		}
 	}
-	
-	private Date formatDate(String input){
+
+	private Date formatDate(String input) {
 		String[] time = input.split(":");
-		try{
-			if (time.length==2){
+		try {
+			if (time.length == 2) {
 				int hour = Integer.parseInt(time[0]);
 				int min = Integer.parseInt(time[1]);
 				Date date = new Date();
 				date.setHours(hour);
 				date.setMinutes(min);
 				return date;
-			}
-			else return null;
-		}
-		catch(Exception e){
+			} else
+				return null;
+		} catch (Exception e) {
 			return null;
 		}
 	}

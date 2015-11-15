@@ -9,7 +9,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.dasinong.ploughHelper.util.WISWeather;
 
 public class Live7dFor {
-	Date timeStamp; //System cache update time;
+	Date timeStamp; // System cache update time;
 	int areaid;
 	String country;
 	String city;
@@ -20,19 +20,19 @@ public class Live7dFor {
 	double lon;
 	double lat;
 	int alt;
-	String radar;	
-	public Date reportTime; //The report generate time;
+	String radar;
+	public Date reportTime; // The report generate time;
 	public SevenDayNormal[] sevenDay = new SevenDayNormal[7];
-	
+
 	public Live7dFor(String result, int areaid) {
 		ObjectMapper mapper = new ObjectMapper();
 		this.areaid = areaid;
 		this.timeStamp = new Date();
-		try{
+		try {
 			JsonNode root = mapper.readTree(result);
 			JsonNode f7d = root.get("forecast7d");
-			JsonNode loc = f7d.get(""+areaid);
-			System.out.println("areaid:"+areaid);
+			JsonNode loc = f7d.get("" + areaid);
+			System.out.println("areaid:" + areaid);
 			JsonNode c = loc.get("c");
 			this.country = c.get("c2").getTextValue();
 			this.city = c.get("c4").getTextValue();
@@ -44,29 +44,28 @@ public class Live7dFor {
 			this.lat = c.get("c14").getDoubleValue();
 			this.alt = Integer.parseInt(c.get("c15").getTextValue());
 			this.radar = c.get("c16").getTextValue();
-			
+
 			JsonNode f = loc.get("f");
 			JsonNode f1 = f.get("f1");
 			Iterator<JsonNode> sevendaynormal = f1.iterator();
-			int count=0;
-			while(sevendaynormal.hasNext()&& count<7){
+			int count = 0;
+			while (sevendaynormal.hasNext() && count < 7) {
 				SevenDayNormal sdn = new SevenDayNormal(sevendaynormal.next());
-				this.sevenDay[count]=sdn;
+				this.sevenDay[count] = sdn;
 				count++;
 			}
 			this.timeStamp = new Date();
-		} catch (Exception e){
+		} catch (Exception e) {
 			System.out.println("Error happened when processing json live weather data!");
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
-	
-	public static void main(String[] args){
-		 WISWeather wisw = new WISWeather("101020100","forecast7d");
-		 String result = wisw.Commute();	
-		 Live7dFor l7df = new Live7dFor(result,101020100);
-		 int i=1;
+
+	public static void main(String[] args) {
+		WISWeather wisw = new WISWeather("101020100", "forecast7d");
+		String result = wisw.Commute();
+		Live7dFor l7df = new Live7dFor(result, 101020100);
+		int i = 1;
 	};
-	
-	
+
 }

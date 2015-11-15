@@ -9,20 +9,20 @@ import com.dasinong.ploughHelper.dao.IPetDisSpecDao;
 import com.dasinong.ploughHelper.model.PetDis;
 import com.dasinong.ploughHelper.model.PetDisSpec;
 
-public class PetDisWrapper implements Serializable{
+public class PetDisWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long petDisId;
 	private Long petDisSpecId;
 	private String petDisSpecName;
 	private Long fieldId;
 	private boolean petDisStatus;
-	
+
 	private boolean alerttype;
 	private String type;
 	private String description;
-	
-	public PetDisWrapper(PetDis pd){
+
+	public PetDisWrapper(PetDis pd) {
 		this.petDisId = pd.getPetDisId();
 		this.petDisSpecId = pd.getPetDisSpecId();
 		this.fieldId = pd.getFieldId();
@@ -30,13 +30,13 @@ public class PetDisWrapper implements Serializable{
 		IPetDisSpecDao pdsd = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
 		PetDisSpec pds = pdsd.findById(petDisSpecId);
 		this.petDisSpecName = pds.getPetDisSpecName();
-		this.type =pds.getType();
+		this.type = pds.getType();
 		this.description = pds.getSympthon();
 		Random rnd = new Random();
-		if (rnd.nextInt(5) >2){
+		if (rnd.nextInt(5) > 2) {
 			setAlerttype(true);
-		}
-		else setAlerttype(false);
+		} else
+			setAlerttype(false);
 	}
 
 	public Long getPetDisId() {
@@ -79,7 +79,6 @@ public class PetDisWrapper implements Serializable{
 		this.petDisStatus = petDisStatus;
 	}
 
-
 	public String getType() {
 		return type;
 	}
@@ -104,5 +103,4 @@ public class PetDisWrapper implements Serializable{
 		this.alerttype = alerttype;
 	}
 
-	
 }

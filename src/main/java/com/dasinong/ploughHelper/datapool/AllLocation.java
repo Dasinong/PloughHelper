@@ -1,4 +1,5 @@
 package com.dasinong.ploughHelper.datapool;
+
 import java.util.List;
 
 import org.springframework.web.context.ContextLoader;
@@ -9,12 +10,14 @@ import com.dasinong.ploughHelper.model.*;
 public class AllLocation {
 
 	private static AllLocation allLocation;
-	private AllLocation(){
-			ILocationDao locationDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
+
+	private AllLocation() {
+		ILocationDao locationDao = (ILocationDao) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("locationDao");
 	}
-	
-	public static AllLocation getLocation(){
-		if (null == allLocation){
+
+	public static AllLocation getLocation() {
+		if (null == allLocation) {
 			{
 				allLocation = new AllLocation();
 			}
@@ -22,10 +25,11 @@ public class AllLocation {
 		return allLocation;
 	}
 
-	//All OwnerRideInfo reference can be directly accessed through RID
-	//public Hashtable<Integer,OwnerRideInfo> _availRides;  //All available rides. Represent by RID.
+	// All OwnerRideInfo reference can be directly accessed through RID
+	// public Hashtable<Integer,OwnerRideInfo> _availRides; //All available
+	// rides. Represent by RID.
 
-    public List<Location> get_allLoc() {
+	public List<Location> get_allLoc() {
 		return _allLoc;
 	}
 
@@ -34,5 +38,5 @@ public class AllLocation {
 	}
 
 	private List<Location> _allLoc;
-    
+
 }

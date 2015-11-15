@@ -30,82 +30,81 @@ import com.dasinong.ploughHelper.util.FullTextSearch;
 import com.dasinong.ploughHelper.util.Env;
 
 @Controller
-public class BaiKeController extends BaseController{
-	
+public class BaiKeController extends BaseController {
+
 	IBaiKeFacade baiKeFacade;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(BaiKeController.class);
-	
+
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/searchWord", produces="application/json")
+	@RequestMapping(value = "/searchWord", produces = "application/json")
 	@ResponseBody
-	public Object searchWord(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HashMap<String,Object> result = new HashMap<String,Object>();
-		HashMap<String,Object> content = new HashMap<String,Object>();
+	public Object searchWord(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		HashMap<String, Object> content = new HashMap<String, Object>();
 		String key = request.getParameter("key");
-		if (key==null ||key.equals("")){
+		if (key == null || key.equals("")) {
 			throw new MissingParameterException("key");
-		};
+		}
+		
 		String type = request.getParameter("type");
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
-		if (type==null){
+		if (type == null) {
 			result.put("respCode", 200);
 			result.put("message", "检索成功");
-			content.put("variety",baiKeFacade.searchVariety(key));
-			content.put("cpproduct",baiKeFacade.searchCPProduct(key));
+			content.put("variety", baiKeFacade.searchVariety(key));
+			content.put("cpproduct", baiKeFacade.searchCPProduct(key));
 			content.putAll(baiKeFacade.searchPetDisSpec(key));
 			result.put("data", content);
 			return result;
 		}
-		if (type.equalsIgnoreCase("variety")){
+		if (type.equalsIgnoreCase("variety")) {
 			result.put("respCode", 200);
 			result.put("message", "获取成功");
 			result.put("data", baiKeFacade.searchVariety(key));
 			return result;
 		}
-		if (type.equalsIgnoreCase("cpproduct")){
+		if (type.equalsIgnoreCase("cpproduct")) {
 			result.put("respCode", 200);
 			result.put("message", "获取成功");
 			result.put("data", baiKeFacade.searchCPProduct(key));
 			return result;
 		}
-		
-		if (type.equalsIgnoreCase("petdisspec")){
+
+		if (type.equalsIgnoreCase("petdisspec")) {
 			result.put("respCode", 200);
 			result.put("message", "获取成功");
-			Map<String,List<HashMap<String,String>>> orig = baiKeFacade.searchPetDisSpec(key);
-			List<HashMap<String,String>> target = new ArrayList<HashMap<String,String>>();
-			for(Entry<String,List<HashMap<String,String>>> es : orig.entrySet() ){
+			Map<String, List<HashMap<String, String>>> orig = baiKeFacade.searchPetDisSpec(key);
+			List<HashMap<String, String>> target = new ArrayList<HashMap<String, String>>();
+			for (Entry<String, List<HashMap<String, String>>> es : orig.entrySet()) {
 				target.addAll(es.getValue());
 			}
 			result.put("data", target);
 			return result;
 		}
-		throw new InvalidParameterException("type","Enum");
+		throw new InvalidParameterException("type", "Enum");
 	}
-	
-	
-	@RequestMapping(value = "/createVarietyIndex", produces="application/json")
+
+	@RequestMapping(value = "/createVarietyIndex", produces = "application/json")
 	@ResponseBody
 	public Object createVarietyIndex(HttpServletRequest request, HttpServletResponse response) {
 		FullTextSearch bs = null;
-		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-		     bs = new FullTextSearch("variety",Env.getEnv().DataDir+"/varietyIndex");
-		}
-		else{
-			bs = new FullTextSearch("variety",Env.getEnv().DataDir+"/lucene/variety");
+		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")) {
+			bs = new FullTextSearch("variety", Env.getEnv().DataDir + "/varietyIndex");
+		} else {
+			bs = new FullTextSearch("variety", Env.getEnv().DataDir + "/lucene/variety");
 		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
 		bs.createVarietyIndex();
-		String[] a = {"varietyName", "varietySource"};
-		String[] b = {"varietyName", "varietyId", "varietySource"};
+		String[] a = { "varietyName", "varietySource" };
+		String[] b = { "varietyName", "varietyId", "varietySource" };
 		try {
 			HashMap[] h = bs.search("玉米", a, b);
 			System.out.println(h.length);
-			for(int k = 0; k < h.length; k++){
-				if(h[k] == null){
+			for (int k = 0; k < h.length; k++) {
+				if (h[k] == null) {
 					break;
 				}
 				System.out.println(h[k].toString());
@@ -113,30 +112,28 @@ public class BaiKeController extends BaseController{
 		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
 			e.printStackTrace();
 		}
-	
-	  return "OK";
+
+		return "OK";
 	}
-	
-	
-	@RequestMapping(value = "/createPetDisSpecIndex", produces="application/json")
+
+	@RequestMapping(value = "/createPetDisSpecIndex", produces = "application/json")
 	@ResponseBody
 	public Object createPetDisSpecIndex(HttpServletRequest request, HttpServletResponse response) {
 		FullTextSearch bs = null;
-		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-		     bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/petDisSpecIndex");
-		}
-		else{
-			bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/lucene/petDisSpec");
+		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")) {
+			bs = new FullTextSearch("petDisSpec", Env.getEnv().DataDir + "/petDisSpecIndex");
+		} else {
+			bs = new FullTextSearch("petDisSpec", Env.getEnv().DataDir + "/lucene/petDisSpec");
 		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
 		bs.createPetIndex(); // only need create index once
-		String[] resource = {"petDisSpecName", "cropName","sympthon"};
-		String[] result= {"petDisSpecName", "petDisSpecId", "cropName","sympthon","type"};
+		String[] resource = { "petDisSpecName", "cropName", "sympthon" };
+		String[] result = { "petDisSpecName", "petDisSpecId", "cropName", "sympthon", "type" };
 		try {
 			HashMap[] h = bs.search("玉米", resource, result);
 			System.out.println(h.length);
-			for(int k = 0; k < h.length; k++){
-				if(h[k] == null){
+			for (int k = 0; k < h.length; k++) {
+				if (h[k] == null) {
 					break;
 				}
 				System.out.println(h[k].toString());
@@ -145,30 +142,28 @@ public class BaiKeController extends BaseController{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
-	  return "OK";
+
+		return "OK";
 	}
-	
-	
-	@RequestMapping(value = "/createCPProductIndex", produces="application/json")
+
+	@RequestMapping(value = "/createCPProductIndex", produces = "application/json")
 	@ResponseBody
 	public Object createCPProductIndex(HttpServletRequest request, HttpServletResponse response) {
 		FullTextSearch bs = null;
-		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")){
-		     bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/petCPProductIndex");
-		}
-		else{
-			bs = new FullTextSearch("petDisSpec",Env.getEnv().DataDir+"/lucene/cPProduct");
+		if (System.getProperty("os.name").equalsIgnoreCase("windows 7")) {
+			bs = new FullTextSearch("petDisSpec", Env.getEnv().DataDir + "/petCPProductIndex");
+		} else {
+			bs = new FullTextSearch("petDisSpec", Env.getEnv().DataDir + "/lucene/cPProduct");
 		}
 		bs.setHighlighterFormatter("<font color='red'>", "</font>");
 		bs.createCPProductIndex(); // only need create index once
-		String[] resource = {"cPProductName","manufacturer","crop"};
-		String[] result = {"cPProductName", "manufacturer","crop","cPProductId"};
+		String[] resource = { "cPProductName", "manufacturer", "crop" };
+		String[] result = { "cPProductName", "manufacturer", "crop", "cPProductId" };
 		try {
 			HashMap[] h = bs.search("玉米", resource, result);
 			System.out.println(h.length);
-			for(int k = 0; k < h.length; k++){
-				if(h[k] == null){
+			for (int k = 0; k < h.length; k++) {
+				if (h[k] == null) {
 					break;
 				}
 				System.out.println(h[k].toString());
@@ -177,166 +172,156 @@ public class BaiKeController extends BaseController{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
-	  return "OK";
+
+		return "OK";
 	}
-	
-	
-	@RequestMapping(value = "/getVarietyBaiKeById", produces="application/json")
+
+	@RequestMapping(value = "/getVarietyBaiKeById", produces = "application/json")
 	@ResponseBody
-	public Object getVarietyBaiKeById(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HashMap<String,Object> result = new HashMap<String,Object>();
+	public Object getVarietyBaiKeById(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		Long id;
-		try{
+		try {
 			id = Long.parseLong(request.getParameter("id"));
-		}
-		catch(Exception e){
-			throw new InvalidParameterException("id","Long");
+		} catch (Exception e) {
+			throw new InvalidParameterException("id", "Long");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		VarietyWrapper vw = baiKeFacade.getVarietyById(id);
-		if (vw==null){
-			throw new ResourceNotFoundException(id,"variety");
-		}
-		else{
+		if (vw == null) {
+			throw new ResourceNotFoundException(id, "variety");
+		} else {
 			result.put("respCode", 200);
-			result.put("message","检索成功");
-			result.put("data",vw);
+			result.put("message", "检索成功");
+			result.put("data", vw);
 			return result;
 		}
 	}
-	
-	@RequestMapping(value = "/getPetDisSpecBaiKeById", produces="application/json")
+
+	@RequestMapping(value = "/getPetDisSpecBaiKeById", produces = "application/json")
 	@ResponseBody
-	public Object getPetDisSpecById(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HashMap<String,Object> result = new HashMap<String,Object>();
+	public Object getPetDisSpecById(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		Long id;
-		try{
+		try {
 			id = Long.parseLong(request.getParameter("id"));
-		}
-		catch(Exception e){
-			throw new InvalidParameterException("id","Long");
+		} catch (Exception e) {
+			throw new InvalidParameterException("id", "Long");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		PetDisSpecWrapper pdsw = baiKeFacade.getPetDisSpecById(id);
-		if (pdsw==null){
-			throw new ResourceNotFoundException(id,"petdisspec");
-		}
-		else{
+		if (pdsw == null) {
+			throw new ResourceNotFoundException(id, "petdisspec");
+		} else {
 			result.put("respCode", 200);
-			result.put("message","检索成功");
-			result.put("data",pdsw);
+			result.put("message", "检索成功");
+			result.put("data", pdsw);
 			return result;
 		}
 	}
-	
-	@RequestMapping(value = "/getCPProductById", produces="application/json")
+
+	@RequestMapping(value = "/getCPProductById", produces = "application/json")
 	@ResponseBody
 	public Object getCPProductById(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HashMap<String,Object> result = new HashMap<String,Object>();
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		Long id;
-		try{
+		try {
 			id = Long.parseLong(request.getParameter("id"));
-		}
-		catch(Exception e){
-			throw new InvalidParameterException("id","Long");
+		} catch (Exception e) {
+			throw new InvalidParameterException("id", "Long");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
 		CPProductWrapper cpw = baiKeFacade.getCPProductById(id);
-		
-    	if (cpw==null){
-    		throw new ResourceNotFoundException(id,"cpproduct");
-    	}else{
-    		result.put("respCode", 200);
-    		result.put("message", "获得成功");
-    		result.put("data", cpw);
-    		return result;
-    	}
+
+		if (cpw == null) {
+			throw new ResourceNotFoundException(id, "cpproduct");
+		} else {
+			result.put("respCode", 200);
+			result.put("message", "获得成功");
+			result.put("data", cpw);
+			return result;
+		}
 	}
-	
-	
-	@RequestMapping(value = "/browseCropByType", produces="application/json")
+
+	@RequestMapping(value = "/browseCropByType", produces = "application/json")
 	@ResponseBody
 	public Object browseCropByType(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String,Object> result = new HashMap<String,Object>();
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		String type = request.getParameter("type");
-		if (type==null || type.equals("")){
+		if (type == null || type.equals("")) {
 			throw new MissingParameterException("type");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
-	    return baiKeFacade.getCropByType(type);
+		return baiKeFacade.getCropByType(type);
 	}
-	
-	
-	@RequestMapping(value = "/browseVarietyByCropId", produces="application/json")
+
+	@RequestMapping(value = "/browseVarietyByCropId", produces = "application/json")
 	@ResponseBody
-	public Object browseVarietyByCropId(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HashMap<String,Object> result = new HashMap<String,Object>();
+	public Object browseVarietyByCropId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		Long cropId;
-		try{
+		try {
 			cropId = Long.parseLong(request.getParameter("cropId"));
-		}
-		catch(Exception e){
-			throw new InvalidParameterException("cropId","Long");
+		} catch (Exception e) {
+			throw new InvalidParameterException("cropId", "Long");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
-	    return baiKeFacade.browseVarietyByCropId(cropId);
+		return baiKeFacade.browseVarietyByCropId(cropId);
 	}
-	
-	@RequestMapping(value = "/browsePetDisByType", produces="application/json")
+
+	@RequestMapping(value = "/browsePetDisByType", produces = "application/json")
 	@ResponseBody
 	public Object browsePetDisByType(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String,Object> result = new HashMap<String,Object>();
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		String type = request.getParameter("type");
-		if (type==null || type.equals("")){
+		if (type == null || type.equals("")) {
 			throw new MissingParameterException("type");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
-	    return baiKeFacade.browsePetDisByType(type);
+		return baiKeFacade.browsePetDisByType(type);
 	}
-	
-	
-	@RequestMapping(value = "/browseCPProductByModel", produces="application/json")
+
+	@RequestMapping(value = "/browseCPProductByModel", produces = "application/json")
 	@ResponseBody
 	public Object browseCPProductByModel(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String,Object> result = new HashMap<String,Object>();
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		String model = request.getParameter("model");
-		if (model==null || model.equals("")){
+		if (model == null || model.equals("")) {
 			throw new MissingParameterException("model");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
-	    return baiKeFacade.browseCPProductByModel(model);
+		return baiKeFacade.browseCPProductByModel(model);
 	}
-	
-	@RequestMapping(value = "/getCPProdcutsByIngredient", produces="application/json")
+
+	@RequestMapping(value = "/getCPProdcutsByIngredient", produces = "application/json")
 	@ResponseBody
 	public Object getCPProdcutsByIngredient(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String,Object> result = new HashMap<String,Object>();
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		String ingredient = request.getParameter("ingredient");
-		if (ingredient==null || ingredient.equals("")){
+		if (ingredient == null || ingredient.equals("")) {
 			throw new MissingParameterException("ingredient");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
-	    return baiKeFacade.getCPProdcutsByIngredient(ingredient);
+		return baiKeFacade.getCPProdcutsByIngredient(ingredient);
 	}
-	
-	@RequestMapping(value = "/getVarietysByName", produces="application/json")
+
+	@RequestMapping(value = "/getVarietysByName", produces = "application/json")
 	@ResponseBody
 	public Object getVarietysByName(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String,Object> result = new HashMap<String,Object>();
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		String name = request.getParameter("name");
-		if (name==null || name.equals("")){
+		if (name == null || name.equals("")) {
 			throw new MissingParameterException("name");
 		}
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
-	    return baiKeFacade.getVarietysByName(name);
+		return baiKeFacade.getVarietysByName(name);
 	}
 
-	@RequestMapping(value = "/browsePetDisSpecsByCropIdAndType", produces="application/json")
+	@RequestMapping(value = "/browsePetDisSpecsByCropIdAndType", produces = "application/json")
 	@ResponseBody
 	public Object browsePetDisSpecsByCropIdAndType(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String,Object> result = new HashMap<String,Object>();
-		
+		HashMap<String, Object> result = new HashMap<String, Object>();
+
 		Long cropId;
 		String cropIdStr = request.getParameter("cropId");
 		if (cropIdStr == null || "".equals(cropIdStr)) {
@@ -344,14 +329,14 @@ public class BaiKeController extends BaseController{
 		} else {
 			cropId = Long.parseLong(cropIdStr);
 		}
-		
+
 		// TODO (xiahonggao): make type Enum and validate the value here
 		String type = request.getParameter("type");
 		if (type == null || "".equals(type)) {
 			throw new MissingParameterException("type");
 		}
-		
+
 		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
-	    return baiKeFacade.browsePetDisSpecsByCropIdAndType(cropId, type);
+		return baiKeFacade.browsePetDisSpecsByCropIdAndType(cropId, type);
 	}
 }

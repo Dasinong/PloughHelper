@@ -22,20 +22,22 @@ import com.dasinong.ploughHelper.model.PetSolu;
 
 public class UpdateSolution {
 	public final static File FILE = new File("/Users/jiachengwu/Documents/sourcefiles/petSolu.csv");
-	
+
 	public void run() {
-		IPetDisSpecDao petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		IPetDisSpecDao petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("petDisSpecDao");
 		IPetSoluDao petSoluDao = (IPetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
-		ICPProductDao cPProductDao = (ICPProductDao) ContextLoader.getCurrentWebApplicationContext().getBean("cPProductDao");
+		ICPProductDao cPProductDao = (ICPProductDao) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("cPProductDao");
 		try {
 			FileInputStream fr = new FileInputStream(FILE);
-			CSVReader reader = new CSVReader(new InputStreamReader(fr,"UTF-8"), ',', '\"',1);
+			CSVReader reader = new CSVReader(new InputStreamReader(fr, "UTF-8"), ',', '\"', 1);
 			List entries = reader.readAll();
 			for (int i = 0; i < entries.size(); i++) {
 				// create a subStage object for each entry
 				String items[] = (String[]) entries.get(i);
 				String petDisSpecName = items[5];
-				String petSoluDes = items[1]+"："+items[3];
+				String petSoluDes = items[1] + "：" + items[3];
 				PetDisSpec petDisSpec = petDisSpecDao.findByNameAndCrop(petDisSpecName, "水稻");
 				if (petDisSpec != null) {
 					Set<PetSolu> petSolus = petDisSpec.getPetSolus();
@@ -52,9 +54,8 @@ public class UpdateSolution {
 										CPProduct cPProduct = cPProductDao.findByRegisterationId(registerationId);
 										if (cPProduct != null) {
 											cPProducts.add(cPProduct);
-										}
-										else {
-											System.out.println(petSolu.getPetSoluId()+","+registerationId);
+										} else {
+											System.out.println(petSolu.getPetSoluId() + "," + registerationId);
 										}
 									}
 									cPProductSet.add(registerationId);
@@ -64,30 +65,29 @@ public class UpdateSolution {
 							petSoluDao.update(petSolu);
 						}
 					}
-				}
-				else {
+				} else {
 					System.out.println(petDisSpecName);
 				}
 			}
 			reader.close();
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 	public void test() {
-		IPetDisSpecDao petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
+		IPetDisSpecDao petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("petDisSpecDao");
 		IPetSoluDao petSoluDao = (IPetSoluDao) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluDao");
-		
+
 		// test on 稻瘟病
 		// find petDisSpec whose name is 稻瘟病
 		PetDisSpec petDisSpec = petDisSpecDao.findByNameAndCrop("稻瘟病", "水稻");
 		Set<PetSolu> petSolus = petDisSpec.getPetSolus();
-		//种子处理：播种前用40％多菌灵可湿性粉剂、70％甲基硫菌灵可湿性粉剂、40％异稻瘟净乳油浸种，早稻用1000倍药液浸种48～72小时，晚稻用500倍药液浸种24小时。
-		
+		// 种子处理：播种前用40％多菌灵可湿性粉剂、70％甲基硫菌灵可湿性粉剂、40％异稻瘟净乳油浸种，早稻用1000倍药液浸种48～72小时，晚稻用500倍药液浸种24小时。
+
 		String petSoluDes = "种子处理：播种前用40％多菌灵可湿性粉剂、70％甲基硫菌灵可湿性粉剂、40％异稻瘟净乳油浸种，早稻用1000倍药液浸种48～72小时，晚稻用500倍药液浸种24小时。";
 		for (PetSolu petSolu : petSolus) {
 			if (petSolu.getPetSoluDes().equals(petSoluDes)) {
@@ -95,5 +95,5 @@ public class UpdateSolution {
 			}
 		}
 	}
-	
+
 }

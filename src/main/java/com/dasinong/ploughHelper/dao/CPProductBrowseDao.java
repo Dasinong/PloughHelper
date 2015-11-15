@@ -7,13 +7,12 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.CPProductBrowse;
 
+public class CPProductBrowseDao extends EntityHibernateDao<CPProductBrowse>implements ICPProductBrowseDao {
 
-public class CPProductBrowseDao extends EntityHibernateDao<CPProductBrowse> implements ICPProductBrowseDao{
-	
 	@Override
-	public List<CPProductBrowse> findByModel(String model){
-		List list = getHibernateTemplate().find("from CPProductBrowse where model=?",model);
-		if (list==null){
+	public List<CPProductBrowse> findByModel(String model) {
+		List list = getHibernateTemplate().find("from CPProductBrowse where model=?", model);
+		if (list == null) {
 			return new ArrayList<CPProductBrowse>();
 		}
 		return list;

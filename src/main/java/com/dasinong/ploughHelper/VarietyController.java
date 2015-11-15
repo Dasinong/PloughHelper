@@ -18,13 +18,12 @@ import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 import com.dasinong.ploughHelper.facade.IVarietyFacade;
 import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
-
 @Controller
 public class VarietyController extends BaseController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(VarietyController.class);
 
-	@RequestMapping(value = "/getVarietyList",produces="application/json")
+	@RequestMapping(value = "/getVarietyList", produces = "application/json")
 	@ResponseBody
 	public Object getVariety(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
@@ -32,27 +31,31 @@ public class VarietyController extends BaseController {
 		Long cropId = requestX.getLongOptional("cropId", null);
 		Long locationId = requestX.getLongOptional("locationId", null);
 		String province = requestX.getString("province");
-		
+
 		if (cropId != null && province != null && !province.equals("")) {
-			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext().getBean("varietyFacade");
+			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext()
+					.getBean("varietyFacade");
 			return vf.getVariety(cropId, province);
 		}
-		
+
 		if (cropId != null && locationId != null) {
-			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext().getBean("varietyFacade");
+			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext()
+					.getBean("varietyFacade");
 			return vf.getVariety(cropId, locationId);
 		}
-		
-		if (cropName != null && !cropName.equals("") && province!=null && !province.equals("")){
-			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext().getBean("varietyFacade");
+
+		if (cropName != null && !cropName.equals("") && province != null && !province.equals("")) {
+			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext()
+					.getBean("varietyFacade");
 			return vf.getVariety(cropName, province);
 		}
-		
+
 		if (cropName != null && !cropName.equals("") && locationId != null) {
-			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext().getBean("varietyFacade");
+			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext()
+					.getBean("varietyFacade");
 			return vf.getVariety(cropName, locationId);
 		}
-		
+
 		throw new MissingParameterException();
 	}
 

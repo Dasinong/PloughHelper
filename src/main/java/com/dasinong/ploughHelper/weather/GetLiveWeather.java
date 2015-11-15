@@ -4,55 +4,59 @@ import java.util.HashMap;
 import com.dasinong.ploughHelper.util.WISWeather;
 
 public class GetLiveWeather {
-	
+
 	private String areaId;
-	
-	public GetLiveWeather(){
+
+	public GetLiveWeather() {
 	}
-	public GetLiveWeather(String areaId){
-		this.areaId=areaId;
+
+	public GetLiveWeather(String areaId) {
+		this.areaId = areaId;
 	}
-	
-	public LiveWeatherData getLiveWeather(){
-        long currentTime = System.currentTimeMillis();
-        
-        //如果上次关于这个地方的天气请求距离这次不到20分钟，那么直接返回缓存的天气数据
-        if (GetLiveWeather._liveweatherdata.containsKey(this.areaId) && (currentTime - GetLiveWeather._liveweatherdata.get(this.areaId).timeStamp.getTime())<20*60*1000 )
-        	return GetLiveWeather._liveweatherdata.get(this.areaId);
-        
-        WISWeather wisw = new WISWeather(this.areaId,"observe");
+
+	public LiveWeatherData getLiveWeather() {
+		long currentTime = System.currentTimeMillis();
+
+		// 如果上次关于这个地方的天气请求距离这次不到20分钟，那么直接返回缓存的天气数据
+		if (GetLiveWeather._liveweatherdata.containsKey(this.areaId)
+				&& (currentTime - GetLiveWeather._liveweatherdata.get(this.areaId).timeStamp.getTime()) < 20 * 60
+						* 1000)
+			return GetLiveWeather._liveweatherdata.get(this.areaId);
+
+		WISWeather wisw = new WISWeather(this.areaId, "observe");
 		String result = wisw.Commute();
-		
-		 if (result.equals("key error")){
-			 System.out.println("areaID : "+this.areaId);
-			 if (_liveweatherdata.containsKey(this.areaId)){
-				 return _liveweatherdata.get(this.areaId);
-			 } else {
-				 LiveWeatherData initialWeatherData = new LiveWeatherData(this.areaId, 0, 0, 0, 0, "0", "0", "00:00");
-				 _liveweatherdata.put(this.areaId, initialWeatherData);
-				 return initialWeatherData;
-			 }
-		 } else {
-			 LiveWeatherData initialWeatherData = new LiveWeatherData(this.areaId, 0, 0, 0, 0, "0", "0", "00:00");
-			 try {
+
+		if (result.equals("key error")) {
+			System.out.println("areaID : " + this.areaId);
+			if (_liveweatherdata.containsKey(this.areaId)) {
+				return _liveweatherdata.get(this.areaId);
+			} else {
+				LiveWeatherData initialWeatherData = new LiveWeatherData(this.areaId, 0, 0, 0, 0, "0", "0", "00:00");
+				_liveweatherdata.put(this.areaId, initialWeatherData);
+				return initialWeatherData;
+			}
+		} else {
+			LiveWeatherData initialWeatherData = new LiveWeatherData(this.areaId, 0, 0, 0, 0, "0", "0", "00:00");
+			try {
 				initialWeatherData.parseHTTPResult(this.areaId, result);
-				 _liveweatherdata.put(this.areaId, initialWeatherData);
-			 } catch (Exception e) {
-				 System.out.println("Error happend when processing live weather data!");
-				 e.printStackTrace();
-			 }
-			 return initialWeatherData;
-		 }
+				_liveweatherdata.put(this.areaId, initialWeatherData);
+			} catch (Exception e) {
+				System.out.println("Error happend when processing live weather data!");
+				e.printStackTrace();
+			}
+			return initialWeatherData;
+		}
 	}
-	
-	private static HashMap<String,LiveWeatherData> _liveweatherdata = new HashMap<String,LiveWeatherData>();
-		
-	public static void main (String args[]){	
+
+	private static HashMap<String, LiveWeatherData> _liveweatherdata = new HashMap<String, LiveWeatherData>();
+
+	public static void main(String args[]) {
 		GetLiveWeather gh = new GetLiveWeather("101010100");
-		gh.getLiveWeather();		
+		gh.getLiveWeather();
 	}
+
 	public void setAreaId(String areaId) {
-		this.areaId=areaId;
+		this.areaId = areaId;
 	}
 
 }

@@ -37,15 +37,15 @@ public class InstitutionEmployeeApplicationController extends RequireUserLoginCo
 	public Object createInstitutionEmployeeApplication(HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		IInstitutionEmployeeApplicationFacade facade = (IInstitutionEmployeeApplicationFacade)
-				ContextLoader.getCurrentWebApplicationContext().getBean("institutionEmployeeApplicationFacade");
-		
+		IInstitutionEmployeeApplicationFacade facade = (IInstitutionEmployeeApplicationFacade) ContextLoader
+				.getCurrentWebApplicationContext().getBean("institutionEmployeeApplicationFacade");
+
 		User user = this.getLoginUser(request);
 		String cellphone = requestX.getString("cellphone");
 		String code = requestX.getString("code");
 		String title = requestX.getString("title");
 		String region = requestX.getString("region");
-		
+
 		return facade.create(user, cellphone, code, title, region);
 	}
 }

@@ -20,5 +20,5 @@ public class Recommendation {
 	public String toString() {
 		return "Recommendation [message=" + message + "]";
 	}
-	
+
 }

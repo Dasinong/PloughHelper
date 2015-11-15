@@ -25,12 +25,12 @@ public class StoreFacade implements IStoreFacade {
 			Double longtitude, String ownerName, String phone, StoreSource source, int type) throws Exception {
 		IStoreDao storeDao = (IStoreDao) ContextLoader.getCurrentWebApplicationContext().getBean("storeDao");
 		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
-		
+
 		// If store is added from registration flow, user type should be null.
 		if (source.equals(StoreSource.REGISTRATION) && user.getUserType() != null) {
 			throw new UserTypeAlreadyDefinedException(user.getUserId(), user.getUserType());
 		}
-		
+
 		Store store = new Store();
 		store.setName(name);
 		store.setDescription(desc);
@@ -47,7 +47,7 @@ public class StoreFacade implements IStoreFacade {
 		store.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 		store.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 		storeDao.save(store);
-		
+
 		// If store is added from registration flow, make user retailer
 		if (source.equals(StoreSource.REGISTRATION)) {
 			user.setUserType(UserType.RETAILER);

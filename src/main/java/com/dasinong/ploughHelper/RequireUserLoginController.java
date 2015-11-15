@@ -15,5 +15,5 @@ public class RequireUserLoginController extends BaseController {
 			throw new UserIsNotLoggedInException();
 		}
 	}
-	
+
 }

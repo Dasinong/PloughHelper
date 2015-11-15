@@ -3,10 +3,6 @@ package com.dasinong.ploughHelper.facade;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
-
-
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,82 +25,84 @@ import com.dasinong.ploughHelper.outputWrapper.TaskSpecWrapper;
 
 @Transactional
 public class TaskSpecFacade implements ITaskSpecFacade {
-	
+
 	ITaskSpecDao taskSpecDao;
 	IFieldDao fieldDao;
 	IStepDao stepDao;
-    IStepRegionDao stepRegionDao;
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.facade.ITaskSpecFacade#getTaskSpec(java.lang.Long)
+	IStepRegionDao stepRegionDao;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.dasinong.ploughHelper.facade.ITaskSpecFacade#getTaskSpec(java.lang.
+	 * Long)
 	 */
 	@Override
 	public Object getTaskSpec(Long taskSpecId) {
-		
-		//TODO: issue with this path. a.Too slow. b.Empty substage.
+
+		// TODO: issue with this path. a.Too slow. b.Empty substage.
 		taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
-		HashMap<String,Object> result = new HashMap<String,Object>();
-		try{
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		try {
 			TaskSpec taskspec = taskSpecDao.findById(taskSpecId);
 			TaskSpecWrapper tsw = new TaskSpecWrapper(taskspec);
-			result.put("respCode",200);
-			result.put("message","获得任务描述");
+			result.put("respCode", 200);
+			result.put("message", "获得任务描述");
 			result.put("data", tsw);
-			return result;	
-		}catch(Exception e){
-			result.put("respCode",500);
-			result.put("message",e.getMessage());
+			return result;
+		} catch (Exception e) {
+			result.put("respCode", 500);
+			result.put("message", e.getMessage());
 			return result;
 		}
 	}
-	
+
 	@Override
-	public List<StepWrapper> getSteps(Long taskSpecId,Long fieldId) {
+	public List<StepWrapper> getSteps(Long taskSpecId, Long fieldId) {
 		stepDao = (IStepDao) ContextLoader.getCurrentWebApplicationContext().getBean("stepDao");
 		fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
 		stepRegionDao = (IStepRegionDao) ContextLoader.getCurrentWebApplicationContext().getBean("stepRegionDao");
-		HashMap<String,Object> result = new HashMap<String,Object>();
-		
+		HashMap<String, Object> result = new HashMap<String, Object>();
+
 		List<Step> steps = stepDao.findByTaskSpecId(taskSpecId);
 		List<StepWrapper> vaildS = new ArrayList<StepWrapper>();
 		Set<String> pictures = new HashSet<String>();
-		if (fieldId==0){
-			for(Step s : steps){
+		if (fieldId == 0) {
+			for (Step s : steps) {
 				StepWrapper sw = new StepWrapper(s);
 				String[] pictureNames = s.getPicture().split(",");
-				if (pictureNames!=null && pictureNames.length>=1){
-					if (pictures.contains(pictureNames[0])){
+				if (pictureNames != null && pictureNames.length >= 1) {
+					if (pictures.contains(pictureNames[0])) {
 						sw.setPicture("");
-					}
-					else{
+					} else {
 						sw.setPicture(pictureNames[0]);
 						pictures.add(pictureNames[0]);
+					}
 				}
+				vaildS.add(sw);
 			}
-			vaildS.add(sw);
-			}				
-		}
-		else{
+		} else {
 			Field field = fieldDao.findById(fieldId);
-			if (steps==null){
+			if (steps == null) {
 				return vaildS;
 			}
-				
+
 			List<StepRegion> srl = stepRegionDao.findByStepRegion(field.getLocation().getRegion());
-	   		Set<Long> sIds = new HashSet<Long>();
-	   		for(StepRegion sr : srl){
-	   			sIds.add(sr.getStepId());
-	   		}
-    		
-	   		for (Step s :  steps){
-				//if (s.getFitRegion().contains(region)){
-				if(sIds.contains(s.getStepId())){
+			Set<Long> sIds = new HashSet<Long>();
+			for (StepRegion sr : srl) {
+				sIds.add(sr.getStepId());
+			}
+
+			for (Step s : steps) {
+				// if (s.getFitRegion().contains(region)){
+				if (sIds.contains(s.getStepId())) {
 					StepWrapper sw = new StepWrapper(s);
 					String[] pictureNames = s.getPicture().split(",");
-					if (pictureNames!=null && pictureNames.length>=1){
-						if (pictures.contains(pictureNames[0])){
+					if (pictureNames != null && pictureNames.length >= 1) {
+						if (pictures.contains(pictureNames[0])) {
 							sw.setPicture("");
-						}
-						else{
+						} else {
 							sw.setPicture(pictureNames[0]);
 							pictures.add(pictureNames[0]);
 						}
@@ -113,7 +111,7 @@ public class TaskSpecFacade implements ITaskSpecFacade {
 				}
 			}
 		}
-		return vaildS;	
+		return vaildS;
 	}
 
 }

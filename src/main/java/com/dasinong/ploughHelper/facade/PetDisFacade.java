@@ -15,20 +15,19 @@ import com.dasinong.ploughHelper.outputWrapper.PetDisSpecWrapper;
 
 @Transactional
 public class PetDisFacade implements IPetDisFacade {
-	
 
-	
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.facade.IPetDisFacade#getPetDisByLocation(java.lang.Long)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.dasinong.ploughHelper.facade.IPetDisFacade#getPetDisByLocation(java.
+	 * lang.Long)
 	 */
 	@Override
-	public Object getPetDisByLocation(Long locationId){
-		HashMap<String,Object> result = new HashMap<String,Object>();
-		//TODO: depends on region field content.
+	public Object getPetDisByLocation(Long locationId) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		// TODO: depends on region field content.
 		return result;
 	}
-	
-	
 
-	
 }

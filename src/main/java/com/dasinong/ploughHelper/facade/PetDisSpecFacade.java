@@ -26,77 +26,80 @@ public class PetDisSpecFacade implements IPetDisSpecFacade {
 	IPetDisSpecDao petDisSpecDao;
 	ISubStageDao subStageDao;
 	IVarietyDao varietyDao;
-	
-	/* (non-Javadoc)
-	 * @see com.dasinong.ploughHelper.facade.IPetDisSpecFacade#getPetDisBySubStage(java.lang.Long)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.dasinong.ploughHelper.facade.IPetDisSpecFacade#getPetDisBySubStage(
+	 * java.lang.Long)
 	 */
 	@Override
-	public Object getPetDisBySubStage(Long subStageId,Long varietyId){
-		HashMap<String,Object> result = new HashMap<String,Object>();
+	public Object getPetDisBySubStage(Long subStageId, Long varietyId) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
 		subStageDao = (ISubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
 		varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 		SubStage sb = subStageDao.findById(subStageId);
-		
+
 		List<PetDisSpecWrapper> pws = new ArrayList<PetDisSpecWrapper>();
 		List<PetDisSpec> pdlist = new ArrayList<PetDisSpec>();
-		if (sb.getPetDisSpecs()==null || sb.getPetDisSpecs().size()==0){
+		if (sb.getPetDisSpecs() == null || sb.getPetDisSpecs().size() == 0) {
 			Variety v = varietyDao.findById(varietyId);
-			if (v!=null &&  v.getCrop()!=null
-				&& v.getCrop().getPetDisSpecs()!=null 
-				&& v.getCrop().getPetDisSpecs().size()>0){
-				for (PetDisSpec pds: v.getCrop().getPetDisSpecs()){
+			if (v != null && v.getCrop() != null && v.getCrop().getPetDisSpecs() != null
+					&& v.getCrop().getPetDisSpecs().size() > 0) {
+				for (PetDisSpec pds : v.getCrop().getPetDisSpecs()) {
 					pdlist.add(pds);
 				}
-			}else{
+			} else {
 				result.put("respCode", 200);
 				result.put("message", "当前阶段无常见病虫草害");
 				result.put("data", pws);
 				return result;
 			}
-		}
-		else{	
-			for (PetDisSpec pds: sb.getPetDisSpecs()){
+		} else {
+			for (PetDisSpec pds : sb.getPetDisSpecs()) {
 				pdlist.add(pds);
 			}
 		}
 		Collections.sort(pdlist);
-		int count=0;
-		for(PetDisSpec pds: pdlist){
+		int count = 0;
+		for (PetDisSpec pds : pdlist) {
 			PetDisSpecWrapper pdsw = new PetDisSpecWrapper(pds);
 			pws.add(pdsw);
 			count++;
-			if (count>=4) break;
+			if (count >= 4)
+				break;
 		}
-		
-		result.put("respCode",200);
+
+		result.put("respCode", 200);
 		result.put("message", "获取常见病虫草害成功");
 		result.put("data", pws);
 		return result;
 	}
-	
+
 	@Override
-	public Object getPetDisDetail(Long petDisSpecId){
-		HashMap<String,Object> result = new HashMap<String,Object>();
+	public Object getPetDisDetail(Long petDisSpecId) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		petDisSpecDao = (IPetDisSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecDao");
 		PetDisSpec pds = petDisSpecDao.findById(petDisSpecId);
-		if (pds==null){
-			result.put("respCode",404);
-			result.put("message","该病虫草害不存在");
+		if (pds == null) {
+			result.put("respCode", 404);
+			result.put("message", "该病虫草害不存在");
 			return result;
 		}
-		HashMap<String,Object> data = new HashMap<String,Object>();
+		HashMap<String, Object> data = new HashMap<String, Object>();
 		PetDisSpecWrapper pdsw = new PetDisSpecWrapper(pds);
 		data.put("petDisSpec", pdsw);
-		if (pds.getPetSolus()!=null && pds.getPetSolus().size()!=0){
-			List<PetSoluWrapper> psws = new ArrayList<PetSoluWrapper>(); 
-			for (PetSolu ps : pds.getPetSolus()){
+		if (pds.getPetSolus() != null && pds.getPetSolus().size() != 0) {
+			List<PetSoluWrapper> psws = new ArrayList<PetSoluWrapper>();
+			for (PetSolu ps : pds.getPetSolus()) {
 				PetSoluWrapper psw = new PetSoluWrapper(ps);
 				psws.add(psw);
 			}
 			data.put("petSolutions", psws);
 		}
-		result.put("respCode",200);
+		result.put("respCode", 200);
 		result.put("message", "获取病虫草害详情成功");
 		result.put("data", data);
 		return result;

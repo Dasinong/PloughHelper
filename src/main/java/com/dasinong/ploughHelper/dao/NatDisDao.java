@@ -6,14 +6,13 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.dasinong.ploughHelper.model.NatDis;
 
-public class NatDisDao extends EntityHibernateDao<NatDis> implements INatDisDao{
-	
+public class NatDisDao extends EntityHibernateDao<NatDis>implements INatDisDao {
+
 	@Override
 	public NatDis findByNatDisName(String natDisName) {
 		@SuppressWarnings("rawtypes")
-		List list = getHibernateTemplate().find(
-				"from NatDis where natDisName=?",natDisName);
-		if (list==null||list.isEmpty()){
+		List list = getHibernateTemplate().find("from NatDis where natDisName=?", natDisName);
+		if (list == null || list.isEmpty()) {
 			return null;
 		}
 		return (NatDis) list.get(0);

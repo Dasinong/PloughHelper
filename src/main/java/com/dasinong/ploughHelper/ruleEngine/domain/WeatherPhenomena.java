@@ -8,5 +8,5 @@ package com.dasinong.ploughHelper.ruleEngine.domain;
  *
  */
 public enum WeatherPhenomena {
-	HardRain,Sunning
+	HardRain, Sunning
 }

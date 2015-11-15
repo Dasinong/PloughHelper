@@ -31,7 +31,7 @@ public class UpdateVariety {
 	public final static String SECTIONNAME_SEPARATOR = ":|：";
 	public Map<String, String> variety_cropMap = new HashMap<String, String>();
 
-	public void update(){
+	public void update() {
 		ICropDao cropDao = (ICropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
 		IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 		ArrayList<ArrayList<String>> blocks = LoadFileUtil.generateBlocks(SOURCEFILE, BLOCK_SEPARATOR);
@@ -39,43 +39,43 @@ public class UpdateVariety {
 			processBlock(blocks.get(i));
 			// variety_cropMap constructed
 		}
-		
+
 	}
 
-	public void run(){
+	public void run() {
 		ICropDao cropDao = (ICropDao) ContextLoader.getCurrentWebApplicationContext().getBean("cropDao");
 		IVarietyDao varietyDao = (IVarietyDao) ContextLoader.getCurrentWebApplicationContext().getBean("varietyDao");
 
 		try {
 			FileInputStream fr = new FileInputStream(FILE);
-			CSVReader reader = new CSVReader(new InputStreamReader(fr,"UTF-8"), ',', '\"',1);
+			CSVReader reader = new CSVReader(new InputStreamReader(fr, "UTF-8"), ',', '\"', 1);
 			List entries = reader.readAll();
 			for (int i = 0; i < entries.size(); i++) {
 				// create a subStage object for each entry
 				String items[] = (String[]) entries.get(i);
 				String cropName = items[1];
 				Crop crop = cropDao.findByCropName(cropName);
-				String varietyName = "通用"+cropName;
+				String varietyName = "通用" + cropName;
 				Variety variety = new Variety(varietyName, crop);
 				variety.setSubId("");
 				variety.setRegisterationId(varietyName);
 				varietyDao.save(variety);
 				if (cropName.equals("水稻")) {
-//					get all subStageIds
-					SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext().getBean("subStageDao");
+					// get all subStageIds
+					SubStageDao subStageDao = (SubStageDao) ContextLoader.getCurrentWebApplicationContext()
+							.getBean("subStageDao");
 					String hql = "from SubStage";
 					List list = subStageDao.getHibernateTemplate().find(hql);
 					for (int j = 0; j < list.size(); j++) {
-						SubStage subStage = (SubStage)list.get(j);
+						SubStage subStage = (SubStage) list.get(j);
 						subStage.getVarieties().add(variety);
 						subStageDao.update(subStage);
 					}
 				}
-				
+
 			}
 			reader.close();
-			
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
@@ -84,15 +84,15 @@ public class UpdateVariety {
 			e.printStackTrace();
 		}
 	}
-	
-	public void processBlock(ArrayList<String> block){
-// LINE 1: cropName and generate crop
+
+	public void processBlock(ArrayList<String> block) {
+		// LINE 1: cropName and generate crop
 		String lineSegments[] = block.get(0).split(SECTIONNAME_SEPARATOR, 2);
-		String cropName = lineSegments[lineSegments.length-1].trim();
-// LINE 3: registerationID
+		String cropName = lineSegments[lineSegments.length - 1].trim();
+		// LINE 3: registerationID
 		lineSegments = block.get(2).split(SECTIONNAME_SEPARATOR, 2);
-		String registerationID = lineSegments[lineSegments.length-1].trim();
+		String registerationID = lineSegments[lineSegments.length - 1].trim();
 		variety_cropMap.put(registerationID, cropName);
 	}
-	
+
 }

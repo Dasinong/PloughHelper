@@ -14,19 +14,18 @@ import com.dasinong.ploughHelper.model.MonitorLocation;
 import junit.framework.Assert;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
-								"file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
-								"file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml"
-								})
+@ContextConfiguration(locations = { "file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
+		"file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
+		"file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml" })
 public class MonitorLocationTest {
-	
+
 	@Autowired
 	private IMonitorLocationDao monitorLocationDao;
-	
+
 	@Test
 	public void findByCode() {
 		MonitorLocation m = monitorLocationDao.findByCode(101040100);
-		Assert.assertEquals(m.getCity(),"重庆");
+		Assert.assertEquals(m.getCity(), "重庆");
 		Assert.assertEquals(m.getCityDetail(), "重庆,重庆,重庆");
 		Assert.assertEquals(m.getCode(), 101040100);
 		Assert.assertEquals(m.getId(), 11);
@@ -34,11 +33,11 @@ public class MonitorLocationTest {
 		Assert.assertEquals(m.getLongitude(), 106.551557);
 		Assert.assertEquals(m.getPostCode(), 400000);
 	}
-	
+
 	@Test
-	public void dataCountCheck(){
+	public void dataCountCheck() {
 		@SuppressWarnings("unchecked")
 		List<MonitorLocation> monitorLocations = monitorLocationDao.findAll();
-		Assert.assertEquals(2027,monitorLocations.size());
+		Assert.assertEquals(2027, monitorLocations.size());
 	}
 }

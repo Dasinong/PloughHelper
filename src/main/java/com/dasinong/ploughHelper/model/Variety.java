@@ -5,10 +5,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Variety implements Serializable{
-	
+public class Variety implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long varietyId;
 	private String varietyName;
 	private String subId;
@@ -17,69 +17,74 @@ public class Variety implements Serializable{
 	private Set<SubStage> subStages = new HashSet<SubStage>();
 	private String cropName;
 	private Crop crop;
-	private Map<Long,QualityItemValue> qualityItemValues;
-// 	Data from source file, core variables lossless information	
+	private Map<Long, QualityItemValue> qualityItemValues;
+	// Data from source file, core variables lossless information
 	private String registerationId = "";
-//	private String yearOfRegisteration = "";
-    private int yearofReg = 0;
+	// private String yearOfRegisteration = "";
+	private int yearofReg = 0;
 	private String issuedBy = "";
-//	private String createdBy = "";
-    private String owner = "";
+	// private String createdBy = "";
+	private String owner = "";
 	private String varietySource = ""; // 品种来源
 	private boolean isTransgenic = false; // 是否转基因
 	private String suitableArea = "";
 	private String characteristics = ""; // 特征特性
 	private String yieldPerformance = ""; // 产量表现
-// 	Derived entries	
-    private String type = "";
-    private String genoType = "";
-    private String maturityType = "";
-    private int totalAccumulatedTempNeeded = 0;
-    private double fullCycleDuration = 0;
-    private int typicalYield = 0;
-    private String nationalStandard = "";
-    
-	
-	public Variety (){}
-	
-	public Variety (String varietyName, Crop crop){
+	// Derived entries
+	private String type = "";
+	private String genoType = "";
+	private String maturityType = "";
+	private int totalAccumulatedTempNeeded = 0;
+	private double fullCycleDuration = 0;
+	private int typicalYield = 0;
+	private String nationalStandard = "";
+
+	public Variety() {
+	}
+
+	public Variety(String varietyName, Crop crop) {
 		this.varietyName = varietyName;
 		this.crop = crop;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		String output = "";
-		output += "cropName: "+cropName+"\n";
-		output += "varietyName: "+varietyName+"\n";
-		output += "registerationId: "+registerationId+"\n";
-		output += "yearOfRegisteration: "+yearofReg+"\n";
-		output += "issuedBy: "+issuedBy+"\n";
-		output += "owner: "+owner+"\n";
-		output += "varietySource: "+varietySource+"\n";
-		output += "isTransgenic: "+isTransgenic+"\n";
-		output += "characteristics: "+characteristics+"\n";
-		output += "yieldPerformance: "+yieldPerformance+"\n";
-		output += "suitableArea: "+suitableArea+"\n";
+		output += "cropName: " + cropName + "\n";
+		output += "varietyName: " + varietyName + "\n";
+		output += "registerationId: " + registerationId + "\n";
+		output += "yearOfRegisteration: " + yearofReg + "\n";
+		output += "issuedBy: " + issuedBy + "\n";
+		output += "owner: " + owner + "\n";
+		output += "varietySource: " + varietySource + "\n";
+		output += "isTransgenic: " + isTransgenic + "\n";
+		output += "characteristics: " + characteristics + "\n";
+		output += "yieldPerformance: " + yieldPerformance + "\n";
+		output += "suitableArea: " + suitableArea + "\n";
 		output += "==========================================================================";
-		
+
 		return output;
 	}
-	
+
 	public Long getVarietyId() {
 		return varietyId;
 	}
+
 	public void setVarietyId(Long varietyId) {
 		this.varietyId = varietyId;
 	}
+
 	public String getVarietyName() {
 		return varietyName;
 	}
+
 	public void setVarietyName(String varietyName) {
 		this.varietyName = varietyName;
 	}
+
 	public Set<Field> getFields() {
 		return fields;
 	}
+
 	public void setFields(Set<Field> fields) {
 		this.fields = fields;
 	}
@@ -87,10 +92,11 @@ public class Variety implements Serializable{
 	public Crop getCrop() {
 		return crop;
 	}
+
 	public void setCrop(Crop crop) {
 		this.crop = crop;
 	}
-	
+
 	public String getCropName() {
 		return cropName;
 	}
@@ -98,17 +104,20 @@ public class Variety implements Serializable{
 	public void setCropName(String cropName) {
 		this.cropName = cropName;
 	}
-	
+
 	public Set<SubStage> getSubStages() {
 		return subStages;
 	}
+
 	public void setSubStages(Set<SubStage> subStages) {
 		this.subStages = subStages;
 	}
-	public Map<Long,QualityItemValue> getQualityItemValues() {
+
+	public Map<Long, QualityItemValue> getQualityItemValues() {
 		return qualityItemValues;
 	}
-	public void setQualityItemValues(Map<Long,QualityItemValue> qualityItemValues) {
+
+	public void setQualityItemValues(Map<Long, QualityItemValue> qualityItemValues) {
 		this.qualityItemValues = qualityItemValues;
 	}
 
@@ -247,5 +256,5 @@ public class Variety implements Serializable{
 	public void setYieldPerformance(String yieldPerformance) {
 		this.yieldPerformance = yieldPerformance;
 	}
-	
+
 }

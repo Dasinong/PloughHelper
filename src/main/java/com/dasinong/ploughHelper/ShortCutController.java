@@ -26,7 +26,6 @@ import com.dasinong.ploughHelper.outputWrapper.LocationWrapper;
 import com.dasinong.ploughHelper.util.GeoUtil;
 import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
-
 //Add some short cut here to check/sync frontend and backend status
 @Controller
 public class ShortCutController extends BaseController {
@@ -34,38 +33,38 @@ public class ShortCutController extends BaseController {
 
 	/**
 	 * Simply selects the home view to render by returning its name.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
-	@RequestMapping(value = "/checkIsLogin", produces="application/json")
+	@RequestMapping(value = "/checkIsLogin", produces = "application/json")
 	@ResponseBody
-	public Object checkLogin(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HashMap<String,Object> result = new HashMap<String,Object>();
+	public Object checkLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		User user = this.getLoginUser(request);
-		if (user==null){
+		if (user == null) {
 			result.put("respCode", 100);
-			result.put("message","尚未登陆");
-			result.put("data", false); //Check when this is used. Should deprecate this function.
+			result.put("message", "尚未登陆");
+			result.put("data", false); // Check when this is used. Should
+										// deprecate this function.
 			return result;
-		}
-		else{
+		} else {
 			result.put("respCode", 200);
-			result.put("message","用户已登陆");
-			result.put("data",true);
+			result.put("message", "用户已登陆");
+			result.put("data", true);
 			return result;
 		}
-		
+
 	}
-	
-	
-	@RequestMapping(value = "/getMonLocIdByGeo", produces="application/json")
+
+	@RequestMapping(value = "/getMonLocIdByGeo", produces = "application/json")
 	@ResponseBody
-	public Object getMonLocIdByGeo(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HashMap<String,Object> result = new HashMap<String,Object>();
+	public Object getMonLocIdByGeo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
+
 		double lat = requestX.getDouble("lat");
 		double lon = requestX.getDouble("lon");
-		
+
 		try {
 			Integer mlId = AllMonitorLocation.getInstance().getNearest(lat, lon);
 			result.put("respCode", 200);
@@ -73,16 +72,16 @@ public class ShortCutController extends BaseController {
 			result.put("data", mlId);
 			return result;
 		} catch (Exception e) {
-			throw new UnexpectedLatAndLonException(lat,lon);
+			throw new UnexpectedLatAndLonException(lat, lon);
 		}
-	}	
-	
+	}
+
 	@RequestMapping(value = "/searchLocationByLatAndLon", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Object searchLocationByLatAndLon(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
+
 		double lat = requestX.getDouble("lat");
 		double lon = requestX.getDouble("lon");
 
@@ -114,5 +113,5 @@ public class ShortCutController extends BaseController {
 
 		return result;
 	}
-	
+
 }

@@ -12,15 +12,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class LoadFileUtil {
-	public static ArrayList<ArrayList<String>> generateBlocks(File file, String BLOCK_SEPARATOR){
+	public static ArrayList<ArrayList<String>> generateBlocks(File file, String BLOCK_SEPARATOR) {
 		ArrayList<ArrayList<String>> blocks = new ArrayList<ArrayList<String>>();
 		try {
-			//FileReader fr = new FileReader(file); 
-			FileInputStream fr = new FileInputStream(file); 
-			BufferedReader br = new BufferedReader(new InputStreamReader(fr,"UTF-8"));
+			// FileReader fr = new FileReader(file);
+			FileInputStream fr = new FileInputStream(file);
+			BufferedReader br = new BufferedReader(new InputStreamReader(fr, "UTF-8"));
 			ArrayList<String> block = new ArrayList<String>();
 			String line;
-			while ((line=br.readLine())!=null) {
+			while ((line = br.readLine()) != null) {
 				if (!line.contains("exception")) {
 					block.add(line);
 				}
@@ -38,14 +38,14 @@ public class LoadFileUtil {
 		}
 		return blocks;
 	}
-	
-	public static void printBlock(ArrayList<String> lines){
+
+	public static void printBlock(ArrayList<String> lines) {
 		for (int i = 0; i < lines.size(); i++) {
 			System.out.println(lines.get(i));
 		}
 	}
-	
-	public static void generateSampleFile(File sourceFile, File sampleFile, String BLOCK_SEPARATOR){
+
+	public static void generateSampleFile(File sourceFile, File sampleFile, String BLOCK_SEPARATOR) {
 		try {
 			FileReader fr = new FileReader(sourceFile);
 			BufferedReader br = new BufferedReader(fr);
@@ -53,10 +53,10 @@ public class LoadFileUtil {
 			BufferedWriter bw = new BufferedWriter(fw);
 			int blockCount = 0;
 			int sampleSize = 1;
-			
+
 			String line;
-			while ( (line = br.readLine() )!=null) {
-				bw.write(line+"\n");
+			while ((line = br.readLine()) != null) {
+				bw.write(line + "\n");
 				if (line.equals(BLOCK_SEPARATOR)) {
 					blockCount++;
 					if (blockCount == sampleSize) {

@@ -25,27 +25,31 @@ public class UpdateStep implements IUpdateStep {
 
 	@Override
 	@Transactional
-	public void update(){
-		ITaskSpecDao taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
+	public void update() {
+		ITaskSpecDao taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("taskSpecDao");
 		TaskSpec taskSpec = taskSpecDao.findById(40L);
 		Step step = new Step("test", taskSpec);
 		System.out.println(taskSpec.getSteps().size());
 		taskSpec.getSteps().remove(1);
 		taskSpecDao.update(taskSpec);
-//		taskSpecDao.update(taskSpec);
+		// taskSpecDao.update(taskSpec);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.dasinong.ploughHelper.contentLoader.IUpdateStep#run()
 	 */
 	@Override
 	@Transactional
-	public void run(){
-		ITaskSpecDao taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecDao");
+	public void run() {
+		ITaskSpecDao taskSpecDao = (ITaskSpecDao) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("taskSpecDao");
 		Map<Long, TaskSpec> taskSpecMap = new LinkedHashMap<Long, TaskSpec>();
 		try {
 			FileInputStream fr = new FileInputStream(FILE);
-			CSVReader reader = new CSVReader(new InputStreamReader(fr,"UTF-8"), ',', '\"',1);
+			CSVReader reader = new CSVReader(new InputStreamReader(fr, "UTF-8"), ',', '\"', 1);
 			List entries = reader.readAll();
 			for (int i = 0; i < entries.size(); i++) {
 				// create a subStage object for each entry
@@ -63,8 +67,7 @@ public class UpdateStep implements IUpdateStep {
 					step.setPicture(picture);
 					taskSpec.getSteps().add(step);
 					taskSpecMap.put(taskSpecId, taskSpec);
-				}
-				else {
+				} else {
 					TaskSpec taskSpec = taskSpecMap.get(taskSpecId);
 					Step step = new Step(stepName, taskSpec);
 					step.setDescription(description);
@@ -73,13 +76,13 @@ public class UpdateStep implements IUpdateStep {
 					taskSpec.getSteps().add(step);
 				}
 			}
-			
+
 			for (Long id : taskSpecMap.keySet()) {
 				System.out.println(id);
 				TaskSpec taskSpec = taskSpecMap.get(id);
 				taskSpecDao.update(taskSpec);
 			}
-			
+
 			reader.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

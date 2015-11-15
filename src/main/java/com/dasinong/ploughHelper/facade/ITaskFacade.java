@@ -8,10 +8,8 @@ public interface ITaskFacade {
 
 	public abstract Object getCurrentTask(Long fieldId, Long currentStageId);
 
-	public abstract Object updateTasks(Long fieldId,
-			HashMap<Long, Boolean> tasks);
+	public abstract Object updateTasks(Long fieldId, HashMap<Long, Boolean> tasks);
 
-	public abstract Object updateTask(Long fieldId, Long taskid,
-			boolean taskStatus);
+	public abstract Object updateTask(Long fieldId, Long taskid, boolean taskStatus);
 
 }

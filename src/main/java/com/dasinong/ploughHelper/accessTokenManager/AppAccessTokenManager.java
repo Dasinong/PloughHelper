@@ -12,22 +12,22 @@ import com.dasinong.ploughHelper.model.DasinongApp;
 import com.dasinong.ploughHelper.util.AES;
 
 public class AppAccessTokenManager {
-	
+
 	private IDasinongAppDao appDao;
 
 	public AppAccessTokenManager() {
-		this.appDao =  (IDasinongAppDao) ContextLoader.getCurrentWebApplicationContext().getBean("dasinongAppDao");
+		this.appDao = (IDasinongAppDao) ContextLoader.getCurrentWebApplicationContext().getBean("dasinongAppDao");
 	}
-	
+
 	public AppAccessTokenManager(IDasinongAppDao appDao) {
 		this.appDao = appDao;
 	}
-	
+
 	public AppAccessToken generate(Long appId) throws GenerateAppAccessTokenException {
 		String appSecret;
-	    DasinongApp app;
-	    String token;
-	    
+		DasinongApp app;
+		String token;
+
 		try {
 			app = this.appDao.findById(appId);
 			appSecret = app.getAppSecret();
@@ -38,16 +38,16 @@ public class AppAccessTokenManager {
 			// just throw it!
 			throw new GenerateAppAccessTokenException(appId);
 		}
-		
+
 		return new AppAccessToken(appId, appSecret, token);
 	}
-	
+
 	public AppAccessToken parse(String token) throws InvalidAppAccessTokenException {
 		Long appId;
 		String appSecret;
-	    DasinongApp app;
-	    Long decryptedAppId;
-	    
+		DasinongApp app;
+		Long decryptedAppId;
+
 		try {
 			String[] tokens = token.split("\\|");
 			appId = Long.valueOf(tokens[0]);
@@ -59,11 +59,11 @@ public class AppAccessTokenManager {
 			// just throw it!
 			throw new InvalidAppAccessTokenException(token);
 		}
-		    
+
 		if (!appId.equals(decryptedAppId)) {
 			throw new InvalidAppAccessTokenException(token);
 		}
-		    
+
 		return new AppAccessToken(appId, appSecret, token);
 	}
 }

@@ -30,11 +30,12 @@ public class StoreController extends RequireUserLoginController {
 
 	@RequestMapping(value = "/stores", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Object reorderWeatherSubscriptions(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Object reorderWeatherSubscriptions(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		IStoreFacade facade = (IStoreFacade) ContextLoader.getCurrentWebApplicationContext().getBean("storeFacade");
 		User user = this.getLoginUser(request);
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
+
 		String name = requestX.getString("name");
 		String desc = requestX.getString("description");
 		Long locationId = requestX.getLong("locationId");
@@ -45,7 +46,8 @@ public class StoreController extends RequireUserLoginController {
 		String phone = requestX.getString("phone");
 		int type = requestX.getInt("type");
 		StoreSource source = StoreSource.values()[requestX.getInt("source")];
-		
-		return facade.create(user, name, desc, locationId, streetAndNumber, latitude, longtitude, ownerName, phone, source, type);
+
+		return facade.create(user, name, desc, locationId, streetAndNumber, latitude, longtitude, ownerName, phone,
+				source, type);
 	}
 }

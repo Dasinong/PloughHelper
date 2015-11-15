@@ -1,8 +1,8 @@
 package com.dasinong.ploughHelper.facade;
 
 public interface IDisasterReportFacade {
-	
-	public abstract Object 	insertDisasterReport(String cropName, Long fieldId, String disasterType,
-			String disasterName, String affectedArea,String eruptionTime, String disasterDist,
-			String fieldOperations, String imageFilenames);
+
+	public abstract Object insertDisasterReport(String cropName, Long fieldId, String disasterType, String disasterName,
+			String affectedArea, String eruptionTime, String disasterDist, String fieldOperations,
+			String imageFilenames);
 }

@@ -19,12 +19,11 @@ import com.dasinong.ploughHelper.facade.ITaskFacade;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
-
 @Controller
 public class TaskController extends RequireUserLoginController {
 	private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
-		
-	@RequestMapping(value = "/getAllTask", produces="application/json")
+
+	@RequestMapping(value = "/getAllTask", produces = "application/json")
 	@ResponseBody
 	public Object getAllTask(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
@@ -32,45 +31,43 @@ public class TaskController extends RequireUserLoginController {
 		ITaskFacade tf = (ITaskFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskFacade");
 		return tf.getAllTask(fId);
 	}
-	
-	@RequestMapping(value = "/getCurrentTask", produces="application/json")
+
+	@RequestMapping(value = "/getCurrentTask", produces = "application/json")
 	@ResponseBody
 	public Object getCurrentTask(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
+
 		Long fId = requestX.getLong("fieldId");
 		Long currentStageId = requestX.getLong("currentStageId");
 		ITaskFacade tf = (ITaskFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskFacade");
 		return tf.getCurrentTask(fId, currentStageId);
 	}
-	
-	@RequestMapping(value = "/updateTask", produces="application/json")
+
+	@RequestMapping(value = "/updateTask", produces = "application/json")
 	@ResponseBody
 	public Object updateTask(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		Long fieldId = requestX.getLong("fieldId");
-		
-		if (requestX.hasParameter("taskId") && requestX.hasParameter("taskStatus")){
+
+		if (requestX.hasParameter("taskId") && requestX.hasParameter("taskStatus")) {
 			Long id = requestX.getLong("taskId");
 			boolean status = requestX.getBool("taskStatus");
 			ITaskFacade tf = (ITaskFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskFacade");
 			return tf.updateTask(fieldId, id, status);
-		}
-		else if (requestX.hasParameter("taskIds") && requestX.hasParameter("taskStatuss")){
+		} else if (requestX.hasParameter("taskIds") && requestX.hasParameter("taskStatuss")) {
 			Long[] taskIds = requestX.getArrayOfLong("taskIds");
-			Boolean[] taskStatuss =requestX.getArrayOfBoolean("taskStatuss");
-		    if (taskIds.length!=taskStatuss.length){
-		    	throw new InvalidParameterException("taskIds","List<int>","taskStatuss","List<boolean>");
-		    }
-		    
-		    HashMap<Long,Boolean> tasks = new HashMap<Long,Boolean>();
-		    for (int i=0;i<taskIds.length;i++){
-		    	tasks.put(taskIds[i], taskStatuss[i]);
-		    }
+			Boolean[] taskStatuss = requestX.getArrayOfBoolean("taskStatuss");
+			if (taskIds.length != taskStatuss.length) {
+				throw new InvalidParameterException("taskIds", "List<int>", "taskStatuss", "List<boolean>");
+			}
+
+			HashMap<Long, Boolean> tasks = new HashMap<Long, Boolean>();
+			for (int i = 0; i < taskIds.length; i++) {
+				tasks.put(taskIds[i], taskStatuss[i]);
+			}
 			ITaskFacade tf = (ITaskFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskFacade");
 			return tf.updateTasks(fieldId, tasks);
-		}
-		else{
+		} else {
 			throw new MissingParameterException();
 		}
 	}

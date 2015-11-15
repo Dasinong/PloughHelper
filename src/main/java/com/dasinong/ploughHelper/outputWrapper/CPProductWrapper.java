@@ -4,19 +4,19 @@ import com.dasinong.ploughHelper.model.CPProduct;
 
 public class CPProductWrapper {
 	Long id;
-	String activeIngredient="";
-	String name="";
-	String type="";
-	String crop="";
-	String disease="";
-	String volumn="";
-	String method="";
-	String guideline="";
-	String registrationId="";
-	String manufacturer="";
-	String tip="";
-	String telephone="";
-	
+	String activeIngredient = "";
+	String name = "";
+	String type = "";
+	String crop = "";
+	String disease = "";
+	String volumn = "";
+	String method = "";
+	String guideline = "";
+	String registrationId = "";
+	String manufacturer = "";
+	String tip = "";
+	String telephone = "";
+
 	public CPProductWrapper(CPProduct cp) {
 		super();
 		this.activeIngredient = cp.getActiveIngredient();
@@ -129,13 +129,13 @@ public class CPProductWrapper {
 	public void setTip(String tip) {
 		this.tip = tip;
 	}
-	
+
 	public String getTelephone() {
 		return this.telephone;
 	}
-	
+
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-	
+
 }

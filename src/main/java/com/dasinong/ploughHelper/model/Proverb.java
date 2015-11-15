@@ -2,8 +2,8 @@ package com.dasinong.ploughHelper.model;
 
 import java.io.Serializable;
 
-public class Proverb implements Serializable{
-	
+public class Proverb implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	private Long proverbId;
@@ -11,10 +11,10 @@ public class Proverb implements Serializable{
 	private String weather;
 	private String month;
 	private String content = "";
-	
+
 	public Proverb() {
 	}
-	
+
 	public Proverb(String content) {
 		this.content = content;
 	}

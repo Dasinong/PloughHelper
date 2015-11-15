@@ -16,48 +16,47 @@ import com.dasinong.ploughHelper.outputWrapper.PetDisSpecWrapper;
 import com.dasinong.ploughHelper.outputWrapper.VarietyWrapper;
 
 public class BaiKeJspController extends BaseController implements Controller {
-	
+
 	IBaiKeFacade baiKeFacade;
-	
+
 	@Override
-	public ModelAndView handleRequest(HttpServletRequest request,
-			HttpServletResponse reponse) throws Exception {
+	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse reponse) throws Exception {
 		System.out.println(this.getViewerContext(request).getUserId());
 
 		System.out.println(this.getViewerContext(request).getAppId());
-    	ModelAndView mv = new ModelAndView();
-    	String type = request.getParameter("type");
-    	String id = request.getParameter("id");
-    	baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
-		HashMap<String,Object> result = new HashMap<String,Object>();
-    	try{
-	    	switch(type){
-	    	case "pest":
-	    		PetDisSpecWrapper  pdsw = baiKeFacade.getPetDisSpecById(Long.parseLong(id));
-	    		mv = handlePest(mv,pdsw);
-	    		break;
-	    	case "pesticide":
-	    		CPProductWrapper  cpw = baiKeFacade.getCPProductById(Long.parseLong(id));
-	    		mv = handlePesticide(mv, cpw);
-	    		break;
-	    	case "variety":	    		 
-	    		VarietyWrapper  vw = baiKeFacade.getVarietyById(Long.parseLong(id));
-	    		mv = handleVariety(mv, vw);
-	    		break;
-	    	}
-    	} catch (Exception e){
-    		e.printStackTrace();
-    		System.out.println("Error happened when handle BaiKeJsp Data!");
-    	}
-    	
+		ModelAndView mv = new ModelAndView();
+		String type = request.getParameter("type");
+		String id = request.getParameter("id");
+		baiKeFacade = (IBaiKeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("baiKeFacade");
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		try {
+			switch (type) {
+			case "pest":
+				PetDisSpecWrapper pdsw = baiKeFacade.getPetDisSpecById(Long.parseLong(id));
+				mv = handlePest(mv, pdsw);
+				break;
+			case "pesticide":
+				CPProductWrapper cpw = baiKeFacade.getCPProductById(Long.parseLong(id));
+				mv = handlePesticide(mv, cpw);
+				break;
+			case "variety":
+				VarietyWrapper vw = baiKeFacade.getVarietyById(Long.parseLong(id));
+				mv = handleVariety(mv, vw);
+				break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error happened when handle BaiKeJsp Data!");
+		}
+
 		return mv;
 	}
-	
-	public ModelAndView handlePest(ModelAndView mv, PetDisSpecWrapper  pdsw){
+
+	public ModelAndView handlePest(ModelAndView mv, PetDisSpecWrapper pdsw) {
 		String[] images = pdsw.getImagesPath();
 		mv.addObject("DisasterName", pdsw.getPetDisSpecName());
 		mv.addObject("Alias", pdsw.getAlias());
-		mv.addObject("ImagesCount", images.length); 
+		mv.addObject("ImagesCount", images.length);
 		mv.addObject("Images", images);
 		mv.addObject("Symptom", pdsw.getSympton());
 		mv.addObject("Morphology", pdsw.getForm());
@@ -66,8 +65,8 @@ public class BaiKeJspController extends BaseController implements Controller {
 		mv.setViewName("BaikeDisaster");
 		return mv;
 	}
-	
-	public ModelAndView handlePesticide(ModelAndView mv, CPProductWrapper cpw){
+
+	public ModelAndView handlePesticide(ModelAndView mv, CPProductWrapper cpw) {
 		mv.addObject("name", cpw.getName());
 		mv.addObject("activeIngredient", cpw.getActiveIngredient());
 		mv.addObject("type", cpw.getType());
@@ -82,8 +81,8 @@ public class BaiKeJspController extends BaseController implements Controller {
 		mv.setViewName("BaikePesticide");
 		return mv;
 	}
-	
-	public ModelAndView handleVariety(ModelAndView mv, VarietyWrapper vw){
+
+	public ModelAndView handleVariety(ModelAndView mv, VarietyWrapper vw) {
 		mv.addObject("Name", vw.getVarietyName());
 		mv.addObject("SubId", vw.getSubId());
 		mv.addObject("ExaminationNumber", vw.getRegistrationId());

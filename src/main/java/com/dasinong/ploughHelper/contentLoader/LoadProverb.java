@@ -18,23 +18,23 @@ import com.dasinong.ploughHelper.util.Env;
 
 public class LoadProverb {
 	public final File FILE = new File(Env.getEnv().WorkingDir, "sourcefiles/proverb.csv");
-	
-	public void readFile(){
+
+	public void readFile() {
 		IProverbDao proverbDao = (IProverbDao) ContextLoader.getCurrentWebApplicationContext().getBean("proverbDao");
 		try {
 			FileInputStream fr = new FileInputStream(FILE);
-			CSVReader reader = new CSVReader(new InputStreamReader(fr,"UTF-8"), ',', '\"',1);
+			CSVReader reader = new CSVReader(new InputStreamReader(fr, "UTF-8"), ',', '\"', 1);
 			List entries = reader.readAll();
 			for (int i = 0; i < entries.size(); i++) {
 				String items[] = (String[]) entries.get(i);
 				String necessaryCondition = items[1];
 				String content = items[2];
 				Proverb proverb = new Proverb();
-				//proverb.setNecessaryCondition(necessaryCondition);
+				// proverb.setNecessaryCondition(necessaryCondition);
 				proverb.setContent(content);
 				proverbDao.save(proverb);
 			}
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {

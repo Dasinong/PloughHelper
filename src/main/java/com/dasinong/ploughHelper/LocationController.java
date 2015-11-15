@@ -27,72 +27,64 @@ import com.dasinong.ploughHelper.outputWrapper.LocationWrapper;
 import com.dasinong.ploughHelper.util.GeoUtil;
 import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
-
 @Controller
 public class LocationController extends RequireUserLoginController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(LocationController.class);
-	
-	@RequestMapping(value = "/getLocation",
-					method = RequestMethod.GET,
-					produces = MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = "/getLocation", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Object getLocation(HttpServletRequest request, HttpServletResponse response) throws Exception
-	{
+	public Object getLocation(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		User user = this.getLoginUser(request);
-		Map<String,Object> result = new HashMap<String,Object>();
+		Map<String, Object> result = new HashMap<String, Object>();
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
 
 		String province = requestX.getString("province");
 		String city = requestX.getString("city");
 		String country = requestX.getString("country");
 		String district = requestX.getString("district");
-		
+
 		ILocationDao ld = (ILocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
-		List<Location> ls = (List<Location>) ld.getIdList(province, city, country,district);
+		List<Location> ls = (List<Location>) ld.getIdList(province, city, country, district);
 		Map<String, Long> idlist = new HashMap<String, Long>();
-		for(Location l:ls) {
-			if (!l.getCommunity().equals("")){
+		for (Location l : ls) {
+			if (!l.getCommunity().equals("")) {
 				idlist.put(l.getCommunity(), l.getLocationId());
 			} else {
 				idlist.put(l.getDistrict(), l.getLocationId());
 			}
 		}
-			
+
 		result.put("respCode", 200);
 		result.put("message", "获取成功");
 		result.put("data", idlist);
-			
+
 		return result;
 	}
-	
-	@RequestMapping(value = "/searchLocation",
-					method = RequestMethod.GET,
-					produces = MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = "/searchLocation", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Object searchLocation(
-		HttpServletRequest request, 
-		HttpServletResponse response
-	) throws Exception {
+	public Object searchLocation(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		User user = this.getLoginUser(request);
-		Map<String,Object> result = new HashMap<String,Object>();
+		Map<String, Object> result = new HashMap<String, Object>();
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
+
 		String province = requestX.getString("province");
 		String city = requestX.getString("city");
 		String country = requestX.getString("country");
 		Double lat = requestX.getDouble("lat");
 		Double lon = requestX.getDouble("lon");
-		
+
 		LocationDao ld = (LocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("locationDao");
-		List<Location> ls = (List<Location>) ld.getHibernateTemplate().find("from Location where province=? and city=? and country=?",province,city,country);
+		List<Location> ls = (List<Location>) ld.getHibernateTemplate()
+				.find("from Location where province=? and city=? and country=?", province, city, country);
 		GeoUtil geo = new GeoUtil(ls);
 		Location nearest = geo.getNearLoc(lat, lon);
 		LocationWrapper nearl = new LocationWrapper(nearest);
 		result.put("respCode", 200);
 		result.put("message", "获取成功");
 		result.put("data", nearl);
-			
+
 		return result;
 	}
 }

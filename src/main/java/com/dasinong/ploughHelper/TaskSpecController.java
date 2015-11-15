@@ -20,33 +20,33 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 @Controller
 public class TaskSpecController extends RequireUserLoginController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(TaskSpecController.class);
-	
+
 	ITaskSpecFacade tsf;
-	
-	@RequestMapping(value = "/getTaskSpec", produces="application/json")
+
+	@RequestMapping(value = "/getTaskSpec", produces = "application/json")
 	@ResponseBody
 	public Object getTaskSpec(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		tsf =  (ITaskSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecFacade");
+		tsf = (ITaskSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecFacade");
 		Long taskSpecId = requestX.getLong("taskSpecId");
 		return tsf.getTaskSpec(taskSpecId);
 	}
-	
-	@RequestMapping(value = "/getSteps", produces="application/json")
+
+	@RequestMapping(value = "/getSteps", produces = "application/json")
 	@ResponseBody
 	public Object getSteps(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HashMap<String,Object> result = new HashMap<String,Object>();
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
-		tsf =  (ITaskSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecFacade");
+
+		tsf = (ITaskSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("taskSpecFacade");
 		Long taskSpecId = requestX.getLong("taskSpecId");
 		Long fieldId = requestX.getLongOptional("fieldId", 0L);
-		List<StepWrapper> sw = tsf.getSteps(taskSpecId,fieldId);
-		
-		result.put("respCode",200);
-		result.put("message","任务列表获取成功");
+		List<StepWrapper> sw = tsf.getSteps(taskSpecId, fieldId);
+
+		result.put("respCode", 200);
+		result.put("message", "任务列表获取成功");
 		result.put("data", sw);
 		return result;
 	}

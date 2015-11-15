@@ -13,15 +13,15 @@ public class PetSoluWrapper {
 	public String petSoluDes = "";
 	public String providedBy = "";
 	public Long petDisSpecId;
-	
-	public boolean isRemedy = true; //true for cure, false for prevent
+
+	public boolean isRemedy = true; // true for cure, false for prevent
 	public boolean isCPSolu = true;
 	public int rank = 0;
 	public String subStageId;
 	public String snapshotCP;
 	private Set<String> cps = new HashSet<String>();
-	
-	public PetSoluWrapper(PetSolu ps){
+
+	public PetSoluWrapper(PetSolu ps) {
 		this.petSoluId = ps.getPetSoluId();
 		this.petSoluDes = ps.getPetSoluDes();
 		this.providedBy = ps.getProvidedBy();
@@ -31,17 +31,19 @@ public class PetSoluWrapper {
 		this.rank = ps.getRank();
 		this.subStageId = ps.getSubStageId();
 		StringBuilder ssCP = new StringBuilder();
-		for(CPProduct cp : ps.getcPProducts()){
+		for (CPProduct cp : ps.getcPProducts()) {
 			if (cp.getPriority() != CPProductPriority.HIGH) {
 				continue;
 			}
-			
-			if(!cps.contains(cp.getActiveIngredient())){
-				ssCP.append(cp.getActiveIngredient()+" ");
+
+			if (!cps.contains(cp.getActiveIngredient())) {
+				ssCP.append(cp.getActiveIngredient() + " ");
 				cps.add(cp.getActiveIngredient());
-				if (ssCP.length()>100) break;
+				if (ssCP.length() > 100)
+					break;
 			}
-		};
+		}
+		;
 		this.snapshotCP = ssCP.toString().trim();
 	}
 }

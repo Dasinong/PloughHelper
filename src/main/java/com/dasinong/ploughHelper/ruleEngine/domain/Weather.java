@@ -18,7 +18,7 @@ public class Weather {
 	private int windSpeed;
 	private Date date;
 	private List<WeatherPhenomena> phenomena = new ArrayList<>();
-	
+
 	public int getCurTemperature() {
 		return curTemperature;
 	}
@@ -47,8 +47,8 @@ public class Weather {
 		this.curTemperature = curTemperature;
 		this.date = date;
 	}
-	
-	public void addPhenomenon(WeatherPhenomena phenomena){
+
+	public void addPhenomenon(WeatherPhenomena phenomena) {
 		this.phenomena.add(phenomena);
 	}
 
@@ -75,10 +75,10 @@ public class Weather {
 	public void setWindSpeed(int windSpeed) {
 		this.windSpeed = windSpeed;
 	}
-	
-	public  boolean isGoingToRainInHours(int hours){
+
+	public boolean isGoingToRainInHours(int hours) {
 		return true;
-		
+
 	}
-	
+
 }

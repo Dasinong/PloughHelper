@@ -17,47 +17,47 @@ import com.dasinong.ploughHelper.facade.IPetDisSpecFacade;
 import com.dasinong.ploughHelper.facade.IPetSoluFacade;
 import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
-
 @Controller
 public class PetDisSpecController extends RequireUserLoginController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(PetDisSpecController.class);
 
 	IPetDisSpecFacade petDisSpecFacade;
 	IPetSoluFacade petSoluFacade;
-	
-	@RequestMapping(value = "/getPetDisBySubStage", produces="application/json")
+
+	@RequestMapping(value = "/getPetDisBySubStage", produces = "application/json")
 	@ResponseBody
-	public Object getPetDisBySubStage(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HashMap<String,Object> result = new HashMap<String,Object>();
+	public Object getPetDisBySubStage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
+
 		Long subStageId = requestX.getLong("sugStageId");
 		Long varietyId = requestX.getLongOptional("varietyId", -1L);
 
-		petDisSpecFacade = (IPetDisSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecFacade");
-		
-		return petDisSpecFacade.getPetDisBySubStage(subStageId,varietyId);
+		petDisSpecFacade = (IPetDisSpecFacade) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("petDisSpecFacade");
+
+		return petDisSpecFacade.getPetDisBySubStage(subStageId, varietyId);
 	}
-	
-	@RequestMapping(value = "/getPetDisSpecDetial", produces="application/json")
+
+	@RequestMapping(value = "/getPetDisSpecDetial", produces = "application/json")
 	@ResponseBody
 	public Object getPetDisSpecDetial(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
+
 		Long petDisSpecId = requestX.getLong("petDisSpecId");
 
-		petDisSpecFacade = (IPetDisSpecFacade) ContextLoader.getCurrentWebApplicationContext().getBean("petDisSpecFacade");
-		
+		petDisSpecFacade = (IPetDisSpecFacade) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("petDisSpecFacade");
+
 		return petDisSpecFacade.getPetDisDetail(petDisSpecId);
 	}
-	
-	
-	@RequestMapping(value = "/getPetSolu", produces="application/json")
+
+	@RequestMapping(value = "/getPetSolu", produces = "application/json")
 	@ResponseBody
-	public Object getPetSolu(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public Object getPetSolu(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
+
 		Long petSoluId = requestX.getLong("petSoluId");
 
 		petSoluFacade = (IPetSoluFacade) ContextLoader.getCurrentWebApplicationContext().getBean("petSoluFacade");

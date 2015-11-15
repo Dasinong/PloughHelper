@@ -10,11 +10,11 @@ import com.dasinong.ploughHelper.model.Task;
 import com.dasinong.ploughHelper.model.TaskSpec;
 
 //This class wraps what supposed to be seen by the view
-public class TaskWrapper implements Serializable{
+public class TaskWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private ITaskSpecDao taskSpecDao;
-	
+
 	private Long taskId;
 	private Long taskSpecId;
 	private Long fieldId;
@@ -23,18 +23,18 @@ public class TaskWrapper implements Serializable{
 	private Long subStageId;
 	private String subStageName;
 	private String stageName;
-	
-	public TaskWrapper(Task task, ITaskSpecDao  taskSpecDao){
-	   this.setTaskId(task.getTaskId());
-	   this.setTaskSpecId(task.getTaskSpecId());
-	   this.setFieldId(task.getFieldId());
-	   this.setTaskStatus(task.getTaskStatus());
-	   this.taskSpecDao = taskSpecDao;
-	   TaskSpec taskspec = taskSpecDao.findById(task.getTaskSpecId());
-	   this.setTaskSpecName(taskspec.getTaskSpecName());
-	   this.setSubStageId(taskspec.getSubStage().getSubStageId());
-	   this.setSubStageName(taskspec.getSubStage().getSubStageName());
-	   this.setStageName(taskspec.getSubStage().getStageName());
+
+	public TaskWrapper(Task task, ITaskSpecDao taskSpecDao) {
+		this.setTaskId(task.getTaskId());
+		this.setTaskSpecId(task.getTaskSpecId());
+		this.setFieldId(task.getFieldId());
+		this.setTaskStatus(task.getTaskStatus());
+		this.taskSpecDao = taskSpecDao;
+		TaskSpec taskspec = taskSpecDao.findById(task.getTaskSpecId());
+		this.setTaskSpecName(taskspec.getTaskSpecName());
+		this.setSubStageId(taskspec.getSubStage().getSubStageId());
+		this.setSubStageName(taskspec.getSubStage().getSubStageName());
+		this.setStageName(taskspec.getSubStage().getStageName());
 	}
 
 	public Long getTaskId() {
@@ -100,5 +100,5 @@ public class TaskWrapper implements Serializable{
 	public void setStageName(String stageName) {
 		this.stageName = stageName;
 	}
-	
+
 }

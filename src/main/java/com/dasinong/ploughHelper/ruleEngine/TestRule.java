@@ -25,29 +25,29 @@ import com.dasinong.ploughHelper.ruleEngine.domain.WeatherPhenomena;
 import com.dasinong.ploughHelper.ruleEngine.engine.RuleEngine;
 
 public class TestRule {
-	public long DAY_TIME = 24*3600*1000;
+	public long DAY_TIME = 24 * 3600 * 1000;
 	RuleEngine engine = new RuleEngine("com/dasinong/ploughHelper/ruleEngine/rules/rule.drl");
-	
+
 	@Test
-	public void testWhenEverythingIsOk(){
-		
+	public void testWhenEverythingIsOk() {
+
 		StatelessKieSession session = engine.getStatelessSession();
 		Stage stage = new Stage();
 		stage.setType(StageType.plant);
 		Date startDate = new Date();
-		Date recommendedDate = new Date(startDate.getTime()+10*DAY_TIME);
+		Date recommendedDate = new Date(startDate.getTime() + 10 * DAY_TIME);
 		Date nextDate1 = new Date(recommendedDate.getTime() + DAY_TIME);
-		Date nextDate2 = new Date(recommendedDate.getTime() + 2*DAY_TIME);
-		Weather recommendedDateW = new Weather(10,recommendedDate);
+		Date nextDate2 = new Date(recommendedDate.getTime() + 2 * DAY_TIME);
+		Weather recommendedDateW = new Weather(10, recommendedDate);
 		recommendedDateW.setMinTemperature(5);
-		Weather nextDate1W = new Weather(10,nextDate1);
+		Weather nextDate1W = new Weather(10, nextDate1);
 		nextDate1W.setMinTemperature(5);
-		Weather nextDate2W = new Weather(10,nextDate2);
+		Weather nextDate2W = new Weather(10, nextDate2);
 		nextDate2W.setMinTemperature(5);
 		Event event = new Event(EventType.CompletedVaritySelection);
 		stage.setStartDate(startDate);
 		Field field = new Field();
-		field.setGreenHouse(true); 
+		field.setGreenHouse(true);
 		List<Object> facts = new ArrayList<>();
 		facts.add(event);
 		facts.add(stage);
@@ -57,63 +57,63 @@ public class TestRule {
 		List<Command> cmds = new ArrayList<>();
 		cmds.add(CommandFactory.newInsertElements(facts));
 		List<Recommendation> recommendations = new ArrayList<>();
-		cmds.add(CommandFactory.newSetGlobal("recommends", recommendations ));
+		cmds.add(CommandFactory.newSetGlobal("recommends", recommendations));
 		List<Reminder> reminders = new ArrayList<>();
-		cmds.add(CommandFactory.newSetGlobal("reminders", reminders ));
-		cmds.add(CommandFactory.newSetGlobal("recommendedDate", recommendedDateW ));
+		cmds.add(CommandFactory.newSetGlobal("reminders", reminders));
+		cmds.add(CommandFactory.newSetGlobal("recommendedDate", recommendedDateW));
 		ExecutionResults rets = session.execute(CommandFactory.newBatchExecution(cmds));
 		System.out.println(recommendations);
-		assertEquals(1,recommendations.size() );
+		assertEquals(1, recommendations.size());
 	}
-	
+
 	@Test
-	public void testWhenHardRainIsComing(){
-		
+	public void testWhenHardRainIsComing() {
+
 		StatelessKieSession session = engine.getStatelessSession();
 		Stage stage = new Stage();
 		stage.setType(StageType.plant);
 		Date startDate = new Date();
-		Date recommendedDate = new Date(startDate.getTime()+10*DAY_TIME);
+		Date recommendedDate = new Date(startDate.getTime() + 10 * DAY_TIME);
 		Date nextDate1 = new Date(recommendedDate.getTime() + DAY_TIME);
-		Date nextDate2 = new Date(recommendedDate.getTime() + 2*DAY_TIME);
-		Weather recommendedDateW = new Weather(10,recommendedDate);
+		Date nextDate2 = new Date(recommendedDate.getTime() + 2 * DAY_TIME);
+		Weather recommendedDateW = new Weather(10, recommendedDate);
 		recommendedDateW.setMinTemperature(5);
 		recommendedDateW.addPhenomenon(WeatherPhenomena.HardRain);
-		Weather nextDate1W = new Weather(10,nextDate1);
+		Weather nextDate1W = new Weather(10, nextDate1);
 		nextDate1W.setMinTemperature(5);
-		Weather nextDate2W = new Weather(10,nextDate2);
+		Weather nextDate2W = new Weather(10, nextDate2);
 		nextDate2W.setMinTemperature(5);
 		Event event = new Event(EventType.CompletedVaritySelection);
 		stage.setStartDate(startDate);
 		Field field = new Field();
-		field.setGreenHouse(true); 
+		field.setGreenHouse(true);
 		List<Object> facts = new ArrayList<>();
 		facts.add(event);
 		facts.add(stage);
 		facts.add(field);
-		//facts.add(recommendedDateW);
+		// facts.add(recommendedDateW);
 		facts.add(nextDate1W);
 		facts.add(nextDate2W);
 		List<Command> cmds = new ArrayList<>();
 		cmds.add(CommandFactory.newInsertElements(facts));
 		List<Recommendation> recommendations = new ArrayList<>();
-		cmds.add(CommandFactory.newSetGlobal("recommends", recommendations ));
+		cmds.add(CommandFactory.newSetGlobal("recommends", recommendations));
 		List<Reminder> reminders = new ArrayList<>();
-		cmds.add(CommandFactory.newSetGlobal("reminders", reminders ));
-		cmds.add(CommandFactory.newSetGlobal("recommendedDate", recommendedDateW ));
+		cmds.add(CommandFactory.newSetGlobal("reminders", reminders));
+		cmds.add(CommandFactory.newSetGlobal("recommendedDate", recommendedDateW));
 		ExecutionResults rets = session.execute(CommandFactory.newBatchExecution(cmds));
 		System.out.println(recommendations);
-		assertEquals(0,recommendations.size() );
-	
+		assertEquals(0, recommendations.size());
+
 	}
-	
+
 	@Test
-	public void testInstruction1Fired() throws Exception{
+	public void testInstruction1Fired() throws Exception {
 		StatelessKieSession session = engine.getStatelessSession();
 		Stage stage = new Stage();
 		stage.setType(StageType.seedling);
 		Date now = new Date();
-		Weather weather = new Weather(36,now);
+		Weather weather = new Weather(36, now);
 		Event event = new Event(EventType.LoginHomePage);
 		stage.setStartDate(now);
 		List<Object> facts = new ArrayList<>();
@@ -124,21 +124,21 @@ public class TestRule {
 		cmds.add(CommandFactory.newInsertElements(facts));
 		List<Recommendation> recommendations = new ArrayList<>();
 		List<Reminder> reminders = new ArrayList<>();
-		cmds.add(CommandFactory.newSetGlobal("recommends", recommendations ));
-		cmds.add(CommandFactory.newSetGlobal("reminders", reminders ));
+		cmds.add(CommandFactory.newSetGlobal("recommends", recommendations));
+		cmds.add(CommandFactory.newSetGlobal("reminders", reminders));
 		ExecutionResults rets = session.execute(CommandFactory.newBatchExecution(cmds));
 		System.out.println(recommendations);
 		System.out.println(reminders);
-		assertEquals(1,recommendations.size());
-		assertEquals(1,reminders.size());
+		assertEquals(1, recommendations.size());
+		assertEquals(1, reminders.size());
 	}
-	
+
 	@Test
-	public void testInstruction2Fired() throws Exception{
+	public void testInstruction2Fired() throws Exception {
 		StatelessKieSession session = engine.getStatelessSession();
-	
+
 		Date now = new Date();
-		Weather weather = new Weather(36,now);
+		Weather weather = new Weather(36, now);
 		Event event = new Event(EventType.LoginHomePage);
 		List<Object> facts = new ArrayList<>();
 		facts.add(event);
@@ -147,11 +147,11 @@ public class TestRule {
 		cmds.add(CommandFactory.newInsertElements(facts));
 		List<Recommendation> recommendations = new ArrayList<>();
 		List<Reminder> reminders = new ArrayList<>();
-		cmds.add(CommandFactory.newSetGlobal("recommends", recommendations ));
-		cmds.add(CommandFactory.newSetGlobal("reminders", reminders ));
+		cmds.add(CommandFactory.newSetGlobal("recommends", recommendations));
+		cmds.add(CommandFactory.newSetGlobal("reminders", reminders));
 		ExecutionResults rets = session.execute(CommandFactory.newBatchExecution(cmds));
 		System.out.println(recommendations);
 		System.out.println(reminders);
-		assertEquals(1,recommendations.size());
+		assertEquals(1, recommendations.size());
 	}
 }

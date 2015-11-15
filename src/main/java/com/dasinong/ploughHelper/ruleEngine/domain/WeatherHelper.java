@@ -8,8 +8,8 @@ package com.dasinong.ploughHelper.ruleEngine.domain;
  *
  */
 public class WeatherHelper {
-	public static boolean isGoingToRainInHours(int hours){
+	public static boolean isGoingToRainInHours(int hours) {
 		return true;
-		
+
 	}
 }

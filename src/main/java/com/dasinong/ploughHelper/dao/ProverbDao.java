@@ -9,53 +9,49 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dasinong.ploughHelper.model.Proverb;
 
 @Transactional
-public class ProverbDao extends EntityHibernateDao<Proverb> implements IProverbDao{
-	
+public class ProverbDao extends EntityHibernateDao<Proverb>implements IProverbDao {
+
 	@Override
-	public Proverb findByLunarCalender(String lunar){
-		List list = getHibernateTemplate().find(
-				"from proverb where lunarCalender=?",lunar);
-		if (list==null||list.isEmpty()){
+	public Proverb findByLunarCalender(String lunar) {
+		List list = getHibernateTemplate().find("from proverb where lunarCalender=?", lunar);
+		if (list == null || list.isEmpty()) {
 			return null;
 		}
 		Random r = new Random();
 		return (Proverb) list.get(r.nextInt(list.size()));
 	}
-	
-	@Override	
-	public Proverb findByWeather(String weather){
-		List list = getHibernateTemplate().find(
-				"from Proverb where weather=?",weather);
-		if (list==null||list.isEmpty()){
-			return null;
-		}
-		Random r = new Random();
-		System.out.println("szc:proverbDao: weather:"+weather+" nongyan size:"+list.size());
-		return (Proverb) list.get(r.nextInt(list.size()));
-	}
-	
+
 	@Override
-	public Proverb findByMonth(String month){
-		List list = getHibernateTemplate().find(
-				"from Proverb where month like '%"+month+"%'");
-		if (list==null||list.isEmpty()){
+	public Proverb findByWeather(String weather) {
+		List list = getHibernateTemplate().find("from Proverb where weather=?", weather);
+		if (list == null || list.isEmpty()) {
 			return null;
 		}
 		Random r = new Random();
-		System.out.println("szc:proverbDao: month:"+month+" nongyan size:"+list.size());
+		System.out.println("szc:proverbDao: weather:" + weather + " nongyan size:" + list.size());
 		return (Proverb) list.get(r.nextInt(list.size()));
 	}
-	
+
 	@Override
-	public Proverb findByAccident(){
-		List list = getHibernateTemplate().find(
-				"from Proverb where month='' and lunarCalender='' and weather=''");
-		if (list==null||list.isEmpty()){
+	public Proverb findByMonth(String month) {
+		List list = getHibernateTemplate().find("from Proverb where month like '%" + month + "%'");
+		if (list == null || list.isEmpty()) {
 			return null;
 		}
 		Random r = new Random();
-		System.out.println("szc:proverbDao: random nongyan size:"+list.size());
+		System.out.println("szc:proverbDao: month:" + month + " nongyan size:" + list.size());
 		return (Proverb) list.get(r.nextInt(list.size()));
 	}
-	
+
+	@Override
+	public Proverb findByAccident() {
+		List list = getHibernateTemplate().find("from Proverb where month='' and lunarCalender='' and weather=''");
+		if (list == null || list.isEmpty()) {
+			return null;
+		}
+		Random r = new Random();
+		System.out.println("szc:proverbDao: random nongyan size:" + list.size());
+		return (Proverb) list.get(r.nextInt(list.size()));
+	}
+
 }

@@ -12,5 +12,4 @@ public interface IHomeFacade {
 
 	Object LoadHome(User user, Long fieldId, int taskType);
 
-
 }

@@ -25,27 +25,28 @@ import com.dasinong.ploughHelper.model.WeatherSubscriptionType;
 
 @Transactional
 public class CreateWeatherSubscriptionForFields {
-	
-	public static void main(String[] args) throws Exception{
+
+	public static void main(String[] args) throws Exception {
 		ApplicationContext applicationContext = new FileSystemXmlApplicationContext(
-		        "file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
-		        "file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
-		        "file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml"); 
-		
-		IPetDisSpecDao dao = (IPetDisSpecDao) applicationContext.getBean("petDisSpecDao");	
+				"file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
+				"file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
+				"file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml");
+
+		IPetDisSpecDao dao = (IPetDisSpecDao) applicationContext.getBean("petDisSpecDao");
 		IFieldDao fieldDao = (IFieldDao) applicationContext.getBean("fieldDao");
 		List<Field> fields = fieldDao.findAll();
-		IWeatherSubscriptionDao weatherSubsDao = (IWeatherSubscriptionDao) applicationContext.getBean("weatherSubscriptionDao");
-		
+		IWeatherSubscriptionDao weatherSubsDao = (IWeatherSubscriptionDao) applicationContext
+				.getBean("weatherSubscriptionDao");
+
 		for (Field field : fields) {
 			Location loc = field.getLocation();
 			WeatherSubscription subs = new WeatherSubscription();
-		    subs.setLocationId(loc.getLocationId());
-		    subs.setMonitorLocationId(field.getMonitorLocationId());
-		    subs.setLocationName(loc.toString());
-		    subs.setUserId(field.getUser().getUserId());
-		    subs.setType(WeatherSubscriptionType.FIELD);
-		    weatherSubsDao.save(subs);
-		 }
+			subs.setLocationId(loc.getLocationId());
+			subs.setMonitorLocationId(field.getMonitorLocationId());
+			subs.setLocationName(loc.toString());
+			subs.setUserId(field.getUser().getUserId());
+			subs.setType(WeatherSubscriptionType.FIELD);
+			weatherSubsDao.save(subs);
+		}
 	}
 }

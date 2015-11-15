@@ -12,24 +12,23 @@ import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
 import junit.framework.Assert;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
-								"file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
-								"file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml"
-								})
+@ContextConfiguration(locations = { "file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
+		"file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
+		"file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml" })
 
 public class AllMonitorLocationTest {
 	@Autowired
 	private IMonitorLocationDao monitorLocationDao;
-	
+
 	@Test
-	public void getNearest(){
+	public void getNearest() {
 		AllMonitorLocation.getInstance(monitorLocationDao);
-		int code = AllMonitorLocation.getInstance().getNearest(39,116);
+		int code = AllMonitorLocation.getInstance().getNearest(39, 116);
 		Assert.assertEquals(101090211, code);
-		code = AllMonitorLocation.getInstance().getNearest(31.2,121.5);
+		code = AllMonitorLocation.getInstance().getNearest(31.2, 121.5);
 		Assert.assertEquals(101020100, code);
-		code = AllMonitorLocation.getInstance().getNearest(39.9,116.3);
+		code = AllMonitorLocation.getInstance().getNearest(39.9, 116.3);
 		Assert.assertEquals(101010100, code);
 	}
-	
+
 }

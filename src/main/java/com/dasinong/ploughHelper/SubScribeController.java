@@ -20,16 +20,16 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 @Controller
 public class SubScribeController extends RequireUserLoginController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(SubScribeController.class);
 
-	@RequestMapping(value = "/insertSubScribeList", produces="application/json")
+	@RequestMapping(value = "/insertSubScribeList", produces = "application/json")
 	@ResponseBody
 	public Object insertSubScribeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		User user = this.getLoginUser(request);
-		Map<String,Object> result = new HashMap<String,Object>();
-		
+		Map<String, Object> result = new HashMap<String, Object>();
+
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		String targetName = requestX.getString("targetName");
 		String cellphone = requestX.getString("cellphone");
@@ -37,54 +37,55 @@ public class SubScribeController extends RequireUserLoginController {
 		String city = requestX.getString("city");
 		String country = requestX.getString("country");
 		String district = requestX.getString("district");
-		//Check parameter here
+		// Check parameter here
 		String cropName = requestX.getString("cropId");
-		//Long cropId = requestX.getString("");
+		// Long cropId = requestX.getString("");
 		double area = requestX.getDouble("area");
 		boolean isAgriWeather = requestX.getBool("isAgriWeather");
 		boolean isNatAlter = requestX.getBool("isNatAlter");
-		boolean isRiceHelper = requestX.getBool("isRiceHelper");;
-	
-		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
-		try{
+		boolean isRiceHelper = requestX.getBool("isRiceHelper");
+		;
+
+		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("subScribeFacade");
+		try {
 			Long cropId = Long.parseLong(cropName);
-			return ssf.insertSubScribeList(user, targetName, cellphone, province, city, country, 
-				district, area, cropId, isAgriWeather, isNatAlter, isRiceHelper);
-		}
-		catch (Exception e){
-			return ssf.insertSubScribeList(user, targetName, cellphone, province, city, country, 
-					district, area, cropName, isAgriWeather, isNatAlter, isRiceHelper);
+			return ssf.insertSubScribeList(user, targetName, cellphone, province, city, country, district, area, cropId,
+					isAgriWeather, isNatAlter, isRiceHelper);
+		} catch (Exception e) {
+			return ssf.insertSubScribeList(user, targetName, cellphone, province, city, country, district, area,
+					cropName, isAgriWeather, isNatAlter, isRiceHelper);
 		}
 	}
-	
-	@RequestMapping(value = "/getSubScribeLists", produces="application/json")
+
+	@RequestMapping(value = "/getSubScribeLists", produces = "application/json")
 	@ResponseBody
 	public Object getSubScribeLists(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		User user = this.getLoginUser(request);
-		Map<String,Object> result = new HashMap<String,Object>();
-		
-		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("subScribeFacade");
 		return ssf.getSubScribeLists(user);
 	}
-	
-	
-	@RequestMapping(value = "/loadSubScribeList", produces="application/json")
+
+	@RequestMapping(value = "/loadSubScribeList", produces = "application/json")
 	@ResponseBody
 	public Object loadSubScribeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
-		Long id = requestX.getLong("id");		
-		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
+
+		Long id = requestX.getLong("id");
+		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("subScribeFacade");
 		return ssf.loadSubScribeList(id);
 	}
-	
-	
-	@RequestMapping(value = "/updateSubScribeList", produces="application/json")
+
+	@RequestMapping(value = "/updateSubScribeList", produces = "application/json")
 	@ResponseBody
 	public Object updateSubScribeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		User user = this.getLoginUser(request);
-		
+
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		Long id = requestX.getLong("id");
 		String targetName = requestX.getString("targetName");
@@ -98,28 +99,27 @@ public class SubScribeController extends RequireUserLoginController {
 		boolean isAgriWeather = requestX.getBool("isAgriWeather");
 		boolean isNatAlter = requestX.getBool("isNatAlter");
 		boolean isRiceHelper = requestX.getBool("isRiceHelper");
-		
-		
-		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
-		try{
+
+		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("subScribeFacade");
+		try {
 			Long cropId = Long.parseLong(cropName);
-			return ssf.updateSubScribeList(id, user, targetName, cellphone, province, city, country,
-					district, area, cropId, isAgriWeather, isNatAlter, isRiceHelper);
-		}catch(Exception e){
-			return ssf.updateSubScribeList(id, user, targetName, cellphone, province, city, country,
-				district, area, cropName, isAgriWeather, isNatAlter, isRiceHelper);
+			return ssf.updateSubScribeList(id, user, targetName, cellphone, province, city, country, district, area,
+					cropId, isAgriWeather, isNatAlter, isRiceHelper);
+		} catch (Exception e) {
+			return ssf.updateSubScribeList(id, user, targetName, cellphone, province, city, country, district, area,
+					cropName, isAgriWeather, isNatAlter, isRiceHelper);
 		}
 	}
-	
-	
-	
-	@RequestMapping(value = "/deleteSubScribeList", produces="application/json")
+
+	@RequestMapping(value = "/deleteSubScribeList", produces = "application/json")
 	@ResponseBody
 	public Object deleteSubScribeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		
+
 		Long id = requestX.getLong("id");
-		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext().getBean("subScribeFacade");
+		ISubScribeFacade ssf = (ISubScribeFacade) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("subScribeFacade");
 		return ssf.deleteSubScribeList(id);
 	}
 }

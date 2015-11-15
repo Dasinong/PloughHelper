@@ -14,21 +14,15 @@ public class VersionInterceptor implements HandlerInterceptor {
 			throws Exception {
 		// TODO use a more proper parameter
 		/*
-		if ("IOS".equals(request.getParameter("clientVersion"))){
-			switch (request.getServletPath()){
-				case "/authRegLog": 
-					request.getRequestDispatcher("/nauthRegLog");
-				case "/login":
-					request.getRequestDispatcher("/nlogin");
-			}			
-		}
-		switch (request.getServletPath()){
-			case "/authRegLog": 
-				request.getRequestDispatcher("/nauthRegLog").forward(request, response);
-			case "/login":
-				request.getRequestDispatcher("/nlogin").forward(request, response);
-		}
-		*/			
+		 * if ("IOS".equals(request.getParameter("clientVersion"))){ switch
+		 * (request.getServletPath()){ case "/authRegLog":
+		 * request.getRequestDispatcher("/nauthRegLog"); case "/login":
+		 * request.getRequestDispatcher("/nlogin"); } } switch
+		 * (request.getServletPath()){ case "/authRegLog":
+		 * request.getRequestDispatcher("/nauthRegLog").forward(request,
+		 * response); case "/login":
+		 * request.getRequestDispatcher("/nlogin").forward(request, response); }
+		 */
 		return true;
 	}
 

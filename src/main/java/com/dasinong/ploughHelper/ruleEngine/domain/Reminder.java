@@ -27,5 +27,5 @@ public class Reminder {
 	public String toString() {
 		return "Reminder [message=" + message + "]";
 	}
-	
+
 }

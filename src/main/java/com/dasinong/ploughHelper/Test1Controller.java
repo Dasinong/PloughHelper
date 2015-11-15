@@ -21,88 +21,84 @@ import com.dasinong.ploughHelper.model.Field;
  */
 @Controller
 public class Test1Controller {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(Test1Controller.class);
-	
+
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET,produces="application/json")
+	@RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public String home(HttpServletRequest request, HttpServletResponse response) {
 		logger.info("Welcome home! The client locale is {}.");
-		
+
 		return "";
 	}
-	
-	
-	@RequestMapping(value = "/insertField", method = RequestMethod.GET,produces="application/json")
+
+	@RequestMapping(value = "/insertField", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Object insertField(HttpServletRequest request, HttpServletResponse response) {
 		logger.info("InsertField: ");
-		
+
 		IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
-		HashMap<String,Object> result = new HashMap<String,Object>();
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		Field field = new Field();
-		String fieldName = (request.getParameter("fieldName")!=null) ? request.getParameter("fieldName") : "GuangZhou";
+		String fieldName = (request.getParameter("fieldName") != null) ? request.getParameter("fieldName")
+				: "GuangZhou";
 		field.setFieldName(fieldName);
-		try{
+		try {
 			fieldDao.save(field);
 			result.put("status", "200");
 			result.put("field", field);
 			return result;
-		}
-		catch(Exception e){
-			result.put("status","300");
-			result.put("message",e.getMessage());
+		} catch (Exception e) {
+			result.put("status", "300");
+			result.put("message", e.getMessage());
 			return result;
 		}
 	}
-	
-	@RequestMapping(value = "/showFieldById", method = RequestMethod.GET,produces="application/json")
+
+	@RequestMapping(value = "/showFieldById", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Object showFieldById(HttpServletRequest request, HttpServletResponse response) {
 		logger.info("showField: ");
-		
+
 		IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
-		HashMap<String,Object> result = new HashMap<String,Object>();
-		String fieldName = (request.getParameter("fieldName")!=null) ? request.getParameter("fieldName") : "GuangZhou"; 
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		String fieldName = (request.getParameter("fieldName") != null) ? request.getParameter("fieldName")
+				: "GuangZhou";
 		try {
 			Field field = fieldDao.findByFieldName(fieldName);
-    		result.put("status", "200");
-    	    result.put("field", field);
-    	    return result;
-    	}
-    	catch(Exception e)
-    	{
-    		result.put("status", "300");
-    		result.put("message", e.getMessage());
-    		return result;
-    	}	
+			result.put("status", "200");
+			result.put("field", field);
+			return result;
+		} catch (Exception e) {
+			result.put("status", "300");
+			result.put("message", e.getMessage());
+			return result;
+		}
 	}
-	
-	@RequestMapping(value = "/deleteFieldById", method = RequestMethod.GET,produces="application/json")
+
+	@RequestMapping(value = "/deleteFieldById", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Object deleteFieldById(HttpServletRequest request, HttpServletResponse response) {
 		logger.info("DeleteFieldById: ");
-		
+
 		IFieldDao fieldDao = (IFieldDao) ContextLoader.getCurrentWebApplicationContext().getBean("fieldDao");
-		HashMap<String,Object> result = new HashMap<String,Object>();
-		String fieldName = (request.getParameter("fieldName")!=null) ? request.getParameter("fieldName") : "GuangZhou"; 
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		String fieldName = (request.getParameter("fieldName") != null) ? request.getParameter("fieldName")
+				: "GuangZhou";
 		try {
 			Field field = fieldDao.findByFieldName(fieldName);
 			fieldDao.delete(field);
-    		result.put("status", "200");
-    	    result.put("field", field);
-    	    return result;
-    	}
-    	catch(Exception e)
-    	{
-    		result.put("status", "300");
-    		result.put("message", e.getMessage());
-    		return result;
-    	}	
-		
+			result.put("status", "200");
+			result.put("field", field);
+			return result;
+		} catch (Exception e) {
+			result.put("status", "300");
+			result.put("message", e.getMessage());
+			return result;
+		}
 
 	}
 }
