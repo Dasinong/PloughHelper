@@ -274,54 +274,52 @@ public class UserController extends RequireUserLoginController {
 	@RequestMapping(value = "/setRef",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public Object setRef(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 		IUserDao userDao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 		IInstitutionDao institutionDao = (IInstitutionDao) ContextLoader.getCurrentWebApplicationContext().getBean("institutionDao");
 		HashMap<String,Object> result = new HashMap<String,Object>();
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
 		
 		User user = this.getLoginUser(request);
-		if (user==null){
-			throw new UserIsNotLoggedInException();
-		}else{
-			if (user.getRefuid()!=null){
-				result.put("respCode", 201);
-				result.put("message", "已设置过推荐人");
-				//result.put("data", user.getUserId());
-				return result;
-			}
-			String refcode = request.getParameter("refcode");
-			if ( refcode == null|| "".equals(refcode)){
-				throw new MissingParameterException("refcode");
-			}
-			else{
-				Long refuid = userDao.getUIDbyRef(refcode);
-				if (refuid==-1){
-					Institution ins = institutionDao.findByCode(refcode);
-					if (ins==null){
-						result.put("respCode", 300);
-						result.put("message", " 目标推荐码不存在");
-					}else{
-						user.setInstitutionId(ins.getId());
-						userDao.update(user);
-						result.put("respCode", 200);
-						result.put("message", "绑定机构码成功");
-						result.put("data", new UserWrapper(user));
-					}
-				return result;
-				}
-				else{
-					user.setRefuid(refuid);
-					User refuser = userDao.findById(refuid);	
-					user.setChannel(refuser.getChannel());
-					user.setInstitutionId(refuser.getInstitutionId());
-					userDao.update(user);
-					result.put("respCode", 200);
-					result.put("message", "推荐用户设置成功");
-					result.put("data", new UserWrapper(user));
-					return result;
-				}
-			}
+		if (user.getRefuid() != null) {
+			result.put("respCode", 201);
+			result.put("message", "已设置过推荐人");
+			// result.put("data", user.getUserId());
+			return result;
 		}
+		
+		String refcode = requestX.getString("refcode");
+		Long refuid = userDao.getUIDbyRef(refcode);
+		if (refuid == -1) {
+			Institution ins = institutionDao.findByCode(refcode);
+			if (ins == null) {
+				result.put("respCode", 300);
+				result.put("message", " 目标推荐码不存在");
+				return result;
+			}
+			
+			if (user.getUserType() != null) {
+				throw new UserTypeAlreadyDefinedException(user.getUserId(), user.getUserType());
+			}
+			
+			user.setInstitutionId(ins.getId());
+			user.setUserType(UserType.SALES);
+			userDao.update(user);
+			result.put("respCode", 200);
+			result.put("message", "绑定机构码成功");
+			result.put("data", new UserWrapper(user));
+			return result;
+		}
+		
+		// Referred by user
+		user.setRefuid(refuid);
+		User refuser = userDao.findById(refuid);
+		user.setChannel(refuser.getChannel());
+		user.setInstitutionId(refuser.getInstitutionId());
+		userDao.update(user);
+		result.put("respCode", 200);
+		result.put("message", "推荐用户设置成功");
+		result.put("data", new UserWrapper(user));
+		return result;
 	}
 	
 	@RequestMapping(value = "/setUserType", produces="application/json;charset=utf-8")

@@ -45,7 +45,6 @@ public class InstitutionEmployeeApplicationFacade implements IInstitutionEmploye
 		app.setRegion(region);
 		appDao.save(app);
 		
-		System.out.println(user.getUserId());
 		user.setInstitutionId(inst.getId());
 		user.setUserType(UserType.SALES);
 		userDao.update(user);
