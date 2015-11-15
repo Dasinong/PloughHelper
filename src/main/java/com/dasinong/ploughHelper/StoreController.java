@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.IStoreDao;
+import com.dasinong.ploughHelper.dao.IUserDao;
 import com.dasinong.ploughHelper.dao.IWeatherSubscriptionDao;
 import com.dasinong.ploughHelper.model.Store;
 import com.dasinong.ploughHelper.model.StoreSource;

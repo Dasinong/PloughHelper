@@ -18,6 +18,7 @@ import com.dasinong.ploughHelper.exceptions.GenerateUserAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.InvalidAppAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.InvalidUserAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.MultipleUserAccessTokenException;
+import com.dasinong.ploughHelper.exceptions.RequireUserTypeException;
 import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
 import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 import com.dasinong.ploughHelper.exceptions.ResourceNotFoundException;
@@ -209,7 +210,7 @@ public class BaseController {
 	@ResponseStatus(value=HttpStatus.OK)
 	@ExceptionHandler(UserTypeAlreadyDefinedException.class)
 	@ResponseBody
-	public Object handleResourceNotFound(
+	public Object handleUserTypeAlreadDefinedException(
 		HttpServletRequest req, 
 		UserTypeAlreadyDefinedException ex
 	) {
@@ -219,6 +220,21 @@ public class BaseController {
 		errorData.put("userId", ex.getUserId());
 		result.put("respCode", 600);
 		result.put("message", "用户的类型已经设置了");
+		result.put("data", errorData);
+		return result;
+	}
+	@ResponseStatus(value=HttpStatus.OK)
+	@ExceptionHandler(RequireUserTypeException.class)
+	@ResponseBody
+	public Object handleRequireUserTypeException(
+		HttpServletRequest req, 
+		RequireUserTypeException ex
+	) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		Map<String,Object> errorData = new HashMap<String,Object>();
+		errorData.put("userType", ex.getUserType());
+		result.put("respCode", 601);
+		result.put("message", "用户的类型必须是" + ex.getUserType());
 		result.put("data", errorData);
 		return result;
 	}

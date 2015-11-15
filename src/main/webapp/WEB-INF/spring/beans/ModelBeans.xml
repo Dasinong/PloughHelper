@@ -103,4 +103,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
    <bean id="storeDao" class="com.dasinong.ploughHelper.dao.StoreDao" >
         <property name="sessionFactory" ref="mySessionFactory"></property>
    </bean>
+   <bean id="institutionEmployeeApplicationDao" class="com.dasinong.ploughHelper.dao.InstitutionEmployeeApplicationDao" >
+        <property name="sessionFactory" ref="mySessionFactory"></property>
+   </bean>
 </beans>
