@@ -27,12 +27,12 @@ public class VarietyController extends BaseController {
 	@ResponseBody
 	public Object getVariety(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
-		String cropName = requestX.getString("cropName");
+		String cropName = requestX.getStringOptional("cropName", "");
 		Long cropId = requestX.getLongOptional("cropId", null);
 		Long locationId = requestX.getLongOptional("locationId", null);
-		String province = requestX.getString("province");
+		String province = requestX.getStringOptional("province", "");
 
-		if (cropId != null && province != null && !province.equals("")) {
+		if (cropId != null && !province.equals("")) {
 			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext()
 					.getBean("varietyFacade");
 			return vf.getVariety(cropId, province);
@@ -44,13 +44,13 @@ public class VarietyController extends BaseController {
 			return vf.getVariety(cropId, locationId);
 		}
 
-		if (cropName != null && !cropName.equals("") && province != null && !province.equals("")) {
+		if (!cropName.equals("") && !province.equals("")) {
 			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext()
 					.getBean("varietyFacade");
 			return vf.getVariety(cropName, province);
 		}
 
-		if (cropName != null && !cropName.equals("") && locationId != null) {
+		if (!cropName.equals("") && locationId != null) {
 			IVarietyFacade vf = (IVarietyFacade) ContextLoader.getCurrentWebApplicationContext()
 					.getBean("varietyFacade");
 			return vf.getVariety(cropName, locationId);
