@@ -67,14 +67,14 @@ public class LaoNongFacade implements ILaoNongFacade {
 		LaoNong laoNong = null;
 
 		if (!"".equals(DisasterInfo)) {
-			laoNong = new LaoNong(0, 2, "ohnoface.png", "农业预警", DisasterInfo, AgriURLTag);
+			laoNong = new LaoNong(0, LaoNongType.AGRICULTURE_WEATHER_ALERT, "ohnoface.png", "农业预警", DisasterInfo, AgriURLTag);
 			result.put("data", laoNong);
 			newLaoNong.add(laoNong);
 		}
 		if (wa != null) {
 			boolean first = true;
 			for (WeatherAlert w : wa) {
-				laoNong = new LaoNong(0, 2, "ohnoface.png", "天气预警", w.shortDescription(), w.urlTag());
+				laoNong = new LaoNong(0, LaoNongType.AGRICULTURE_WEATHER_ALERT, "ohnoface.png", "天气预警", w.shortDescription(), w.urlTag());
 				if (first) {
 					result.put("data", laoNong);
 					first = false;
@@ -94,16 +94,9 @@ public class LaoNongFacade implements ILaoNongFacade {
 
 		if (sml != null && user != null) {
 			for (SystemMessage sm : sml) {
-				if ((sm.getChannel().equalsIgnoreCase(user.getChannel()) || sm.getChannel().equalsIgnoreCase("所有"))
-						&& (sm.getStartTime().getTime() < (new Date()).getTime())) {
-					LaoNong ln = new LaoNong(sm.getId(), 1, sm.getPicUrl(), "系统广告", sm.getContent(),
-							sm.getLandingUrl());
-					result.put("data", ln);
-					newLaoNong.add(ln);
-				}
 				if ((sm.getInstitutionId() == user.getInstitutionId() || sm.getInstitutionId() == 0)
 						&& (sm.getStartTime().getTime() < (new Date()).getTime())) {
-					LaoNong ln = new LaoNong(sm.getId(), 1, sm.getPicUrl(), "系统广告", sm.getContent(),
+					LaoNong ln = new LaoNong(sm.getId(), LaoNongType.SYSTEM_MESSAGE, sm.getPicUrl(), "系统广告", sm.getContent(),
 							sm.getLandingUrl());
 					result.put("data", ln);
 					newLaoNong.add(ln);
@@ -113,7 +106,7 @@ public class LaoNongFacade implements ILaoNongFacade {
 
 		if (newLaoNong.size() == 0) {
 			Proverb proverb = NongYan.allNongYan().getNongYan(areaId);
-			laoNong = new LaoNong(1, 2, "closeeyelaugh.png", "每日农谚", proverb.getContent(), "");
+			laoNong = new LaoNong(1, LaoNongType.PROVERB, "closeeyelaugh.png", "每日农谚", proverb.getContent(), "");
 			result.put("data", laoNong);
 			newLaoNong.add(laoNong);
 		}
@@ -171,7 +164,7 @@ public class LaoNongFacade implements ILaoNongFacade {
 			for (SystemMessage sm : sml) {
 				if ((sm.getInstitutionId() == user.getInstitutionId() || sm.getInstitutionId() == 0)
 						&& (sm.getStartTime().getTime() < (new Date()).getTime())) {
-					LaoNong ln = new LaoNong(sm.getId(), 1, sm.getPicUrl(), "系统广告", sm.getContent(),
+					LaoNong ln = new LaoNong(sm.getId(), LaoNongType.SYSTEM_MESSAGE, sm.getPicUrl(), "系统广告", sm.getContent(),
 							sm.getLandingUrl());
 					laoNongs.add(ln);
 				}
@@ -180,7 +173,7 @@ public class LaoNongFacade implements ILaoNongFacade {
 
 		if (laoNongs.size() == 0) {
 			Proverb proverb = NongYan.allNongYan().getNongYan(areaId);
-			laoNong = new LaoNong(1, 2, "closeeyelaugh.png", "每日农谚", proverb.getContent(), "");
+			laoNong = new LaoNong(1, LaoNongType.PROVERB, "closeeyelaugh.png", "每日农谚", proverb.getContent(), "");
 			laoNongs.add(laoNong);
 		}
 
