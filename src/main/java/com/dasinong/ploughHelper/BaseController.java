@@ -208,6 +208,18 @@ public class BaseController {
 		result.put("data", errorData);
 		return result;
 	}
+	
+	@ResponseStatus(value = HttpStatus.OK)
+	@ExceptionHandler(SalesPeopleCannotBeReferredException.class)
+	@ResponseBody
+	public Object handleSalesPeopleCannotBeReferredException(HttpServletRequest req, RequireUserTypeException ex) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> errorData = new HashMap<String, Object>();
+		result.put("respCode", 602);
+		result.put("message", "合作公司的员工不能被推荐");
+		result.put("data", errorData);
+		return result;
+	}
 
 	/**
 	 * Range 1000 - 1100 is reserved for database exception

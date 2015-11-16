@@ -301,9 +301,11 @@ public class UserController extends RequireUserLoginController {
 		}
 
 		// Referred by user
+		if (user.getUserType() == UserType.SALES) {
+			throw new SalesPeopleCannotBeReferredException(user.getUserId());
+		}
 		user.setRefuid(refuid);
 		User refuser = userDao.findById(refuid);
-		user.setChannel(refuser.getChannel());
 		user.setInstitutionId(refuser.getInstitutionId());
 		userDao.update(user);
 		result.put("respCode", 200);
