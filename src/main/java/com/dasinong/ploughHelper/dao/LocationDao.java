@@ -32,4 +32,9 @@ public class LocationDao extends EntityHibernateDao<Location>implements ILocatio
 				+ (lat - range) + " and longtitude < " + (lon + range) + " and longtitude > " + (lon - range));
 	}
 
+	@Override
+	public List<Location> findEmptyLocations() {
+		return this.getHibernateTemplate().find("from Location where latitude='' and longtitude=''");
+	}
+
 }

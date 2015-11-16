@@ -12,4 +12,5 @@ public interface ILocationDao extends IEntityDao<Location> {
 
 	public abstract List<Location> findLocationsInRange(double lat, double lon, double range);
 
+	public abstract List<Location> findEmptyLocations();
 }
