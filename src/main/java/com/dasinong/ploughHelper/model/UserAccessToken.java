@@ -3,8 +3,8 @@ package com.dasinong.ploughHelper.model;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Base64;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.web.context.ContextLoader;
@@ -41,7 +41,7 @@ import com.dasinong.ploughHelper.util.AES;
  */
 public class UserAccessToken {
 
-	public static final String SALT = Base64.getEncoder().encodeToString("woShiZhaoRiTian!".getBytes());
+	public static final String SALT = Base64.encodeBase64String("woShiZhaoRiTian!".getBytes());
 
 	private Long id;
 	private Long userId;
