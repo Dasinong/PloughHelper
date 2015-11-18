@@ -1,20 +1,7 @@
 package com.dasinong.ploughHelper.util;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.sql.SQLException;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 // TODO: org.apache.commons.codec.binary.Base64的加密最后是回车，这个是不对的
@@ -44,7 +31,7 @@ public class AES {
 		cipher.init(Cipher.ENCRYPT_MODE, spec);
 		byte[] stringBytes = message.getBytes();
 		byte[] raw = cipher.doFinal(stringBytes);
-		return Base64.encodeBase64String(raw);
+		return Base64.encodeBase64String(raw).trim();
 	}
 
 	/**

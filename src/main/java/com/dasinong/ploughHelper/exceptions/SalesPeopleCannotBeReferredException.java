@@ -1,4 +1,4 @@
-package com.dasinong.ploughHelper;
+package com.dasinong.ploughHelper.exceptions;
 
 public class SalesPeopleCannotBeReferredException extends Exception {
 

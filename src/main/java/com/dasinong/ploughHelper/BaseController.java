@@ -22,6 +22,7 @@ import com.dasinong.ploughHelper.exceptions.RequireUserTypeException;
 import com.dasinong.ploughHelper.exceptions.InvalidParameterException;
 import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 import com.dasinong.ploughHelper.exceptions.ResourceNotFoundException;
+import com.dasinong.ploughHelper.exceptions.SalesPeopleCannotBeReferredException;
 import com.dasinong.ploughHelper.exceptions.UserIsNotLoggedInException;
 import com.dasinong.ploughHelper.exceptions.UserNotFoundInSessionException;
 import com.dasinong.ploughHelper.exceptions.UserTypeAlreadyDefinedException;
