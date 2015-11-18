@@ -35,6 +35,15 @@ if [[ ! $DB_URL =~ "120.26.208.198:3306" ]]; then
 fi
 echo "${GREEN}[Success]${NC}"
 
+# Maven install
+printf "mvn package\t"
+mvn package | grep "BUILD SUCCESS" &> /dev/null
+if [ $? -ne 0 ]; then
+	echo "${RED}[FAIL]${NC}"
+	exit
+fi
+echo "${GREEN}[SUCCESS]${NC}"
+
 # Verify if IKAnalyzer2012FF_u1.jar exits
 printf "Validate IKAnalyzer2012EF_u1.jar\t"
 IKANALYZER="target/ploughHelper-$VERSION/WEB-INF/lib/IKAnalyzer2012FF_u1.jar"
@@ -48,15 +57,6 @@ if [[ ! -f $IKANALYZER ]]; then
 	fi
 fi
 echo "${GREEN}[Success]${NC}"
-
-# Maven install
-printf "mvn package\t"
-mvn package | grep "BUILD SUCCESS" &> /dev/null
-if [ $? -ne 0 ]; then
-	echo "${RED}[FAIL]${NC}"
-	exit
-fi
-echo "${GREEN}[SUCCESS]${NC}"
 
 # Move war to server
 WARFILE="ploughHelper-${VERSION}.war"
