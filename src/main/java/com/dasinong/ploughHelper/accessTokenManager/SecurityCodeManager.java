@@ -27,7 +27,6 @@ public class SecurityCodeManager {
 		SecurityCode securityCode = new SecurityCode();
 		securityCode.setCode(code);
 		securityCode.setCreatedAt(createdAt);
-		securityCode.setCreatedAt(createdAt);
 		securityCode.setExpiredAt(expiredAt);
 
 		this.codeDao.save(securityCode);
