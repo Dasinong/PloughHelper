@@ -31,7 +31,7 @@ public class PetDisSpecController extends RequireUserLoginController {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
 
-		Long subStageId = requestX.getLong("sugStageId");
+		Long subStageId = requestX.getLong("subStageId");
 		Long varietyId = requestX.getLongOptional("varietyId", -1L);
 
 		petDisSpecFacade = (IPetDisSpecFacade) ContextLoader.getCurrentWebApplicationContext()
