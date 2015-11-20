@@ -13,7 +13,7 @@ import junit.framework.Assert;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
-		"file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
+		"file:./src/main/webapp/WEB-INF/spring/database/TestDataSource.xml",
 		"file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml" })
 
 public class AllMonitorLocationTest {
@@ -23,7 +23,7 @@ public class AllMonitorLocationTest {
 	@Test
 	public void getNearest() {
 		AllMonitorLocation.getInstance(monitorLocationDao);
-		int code = AllMonitorLocation.getInstance().getNearest(39, 116);
+		long code = AllMonitorLocation.getInstance().getNearest(39, 116);
 		Assert.assertEquals(101090211, code);
 		code = AllMonitorLocation.getInstance().getNearest(31.2, 121.5);
 		Assert.assertEquals(101020100, code);

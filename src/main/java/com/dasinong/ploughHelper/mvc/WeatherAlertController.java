@@ -9,8 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import com.dasinong.ploughHelper.BaseController;
-import com.dasinong.ploughHelper.modelTran.WeatherAlert;
 import com.dasinong.ploughHelper.weather.GetWeatherAlert;
+import com.dasinong.ploughHelper.weather.WeatherAlert;
 
 public class WeatherAlertController extends BaseController implements Controller {
 	@Override

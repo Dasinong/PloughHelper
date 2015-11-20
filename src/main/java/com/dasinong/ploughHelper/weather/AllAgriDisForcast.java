@@ -123,7 +123,7 @@ public class AllAgriDisForcast implements IWeatherBuffer {
 
 	private HashMap<Integer, AgriDisForcast> _alladf;
 
-	public AgriDisForcast getadf(Integer areaId) {
+	public AgriDisForcast getadf(Long areaId) {
 		return _alladf.get(areaId);
 	}
 

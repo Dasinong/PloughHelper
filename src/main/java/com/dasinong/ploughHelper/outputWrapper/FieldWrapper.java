@@ -23,7 +23,7 @@ public class FieldWrapper implements Serializable {
 	private long varietyId;
 	private long userId;
 	private long locationId;
-	private int monitorLocationId;
+	private long monitorLocationId;
 	private List<SubStageWrapper> stagelist = new ArrayList<SubStageWrapper>();
 	private List<TaskWrapper> taskws = new ArrayList<TaskWrapper>();
 	private List<PetDisWrapper> petdisws = new ArrayList<PetDisWrapper>();
@@ -259,11 +259,11 @@ public class FieldWrapper implements Serializable {
 		this.natdisws = natdisws;
 	}
 
-	public int getMonitorLocationId() {
+	public Long getMonitorLocationId() {
 		return monitorLocationId;
 	}
 
-	public void setMonitorLocationId(int monitorLocationId) {
+	public void setMonitorLocationId(Long monitorLocationId) {
 		this.monitorLocationId = monitorLocationId;
 	}
 

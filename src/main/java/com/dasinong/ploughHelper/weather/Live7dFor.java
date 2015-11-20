@@ -10,7 +10,7 @@ import com.dasinong.ploughHelper.util.WISWeather;
 
 public class Live7dFor {
 	Date timeStamp; // System cache update time;
-	int areaid;
+	Long areaid;
 	String country;
 	String city;
 	String provience;
@@ -24,7 +24,7 @@ public class Live7dFor {
 	public Date reportTime; // The report generate time;
 	public SevenDayNormal[] sevenDay = new SevenDayNormal[7];
 
-	public Live7dFor(String result, int areaid) {
+	public Live7dFor(String result, Long areaid) {
 		ObjectMapper mapper = new ObjectMapper();
 		this.areaid = areaid;
 		this.timeStamp = new Date();
@@ -64,7 +64,7 @@ public class Live7dFor {
 	public static void main(String[] args) {
 		WISWeather wisw = new WISWeather("101020100", "forecast7d");
 		String result = wisw.Commute();
-		Live7dFor l7df = new Live7dFor(result, 101020100);
+		Live7dFor l7df = new Live7dFor(result, 101020100L);
 		int i = 1;
 	};
 

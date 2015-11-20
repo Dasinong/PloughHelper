@@ -83,27 +83,27 @@ public class HomeController extends BaseController {
 		if (user == null) {
 			double lat = requestX.getDouble("lat");
 			double lon = requestX.getDouble("lon");
-			return lnf.getLaoNong(lat, lon, user);
+			return lnf.getLaoNongs_DEPRECATED(lat, lon, user);
 		}
 
 		if (user.getFields() == null || user.getFields().size() == 0) {
 			double lat = requestX.getDouble("lat");
 			double lon = requestX.getDouble("lon");
-			return lnf.getLaoNong(lat, lon, user);
+			return lnf.getLaoNongs_DEPRECATED(lat, lon, user);
 		}
 
-		Integer mlId = requestX.getIntOptional("monitorLocationId", null);
+		Long mlId = requestX.getLongOptional("monitorLocationId", null);
 		if (mlId == null) {
 			mlId = user.getFields().iterator().next().getMonitorLocationId(); // 用户没有指定田,默认使用第一片
 		}
 
 		// 如果没有田地,输入fieldId=-1;
-		if (mlId == -1) {
+		if (mlId == -1L) {
 			double lat = requestX.getDouble("lat");
 			double lon = requestX.getDouble("lon");
-			return lnf.getLaoNong(lat, lon, user);
+			return lnf.getLaoNongs_DEPRECATED(lat, lon, user);
 		}
-		return lnf.getLaoNong(mlId, user);
+		return lnf.getLaoNongs_DEPRECATED(mlId, user);
 	}
 
 	@RequestMapping(value = "/laonongs", produces = "application/json")
@@ -116,11 +116,11 @@ public class HomeController extends BaseController {
 		if (user == null) {
 			double lat = requestX.getDouble("lat");
 			double lon = requestX.getDouble("lon");
-			return lnf.getLaoNong(lat, lon, user);
+			return lnf.getLaoNongs(lat, lon, user);
 		}
 
-		Integer mlId = requestX.getInt("monitorLocationId");
-		return lnf.getLaoNong(mlId, user);
+		Long mlId = requestX.getLong("monitorLocationId");
+		return lnf.getLaoNongs(mlId, user);
 	}
 
 }

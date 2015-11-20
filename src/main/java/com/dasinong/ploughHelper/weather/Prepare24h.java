@@ -28,7 +28,7 @@ public class Prepare24h {
 		file.mkdir();
 		// for( int id : HourCity.HourCity){
 		try {
-			for (Integer id : AllMonitorLocation.getInstance()._allLocation.keySet()) {
+			for (Long id : AllMonitorLocation.getInstance()._allLocation.keySet()) {
 				wis.setAreaId("" + id);
 				String result = wis.Commute();
 				try {

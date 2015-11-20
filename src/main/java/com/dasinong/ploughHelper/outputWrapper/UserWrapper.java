@@ -26,7 +26,7 @@ public class UserWrapper implements Serializable {
 	private Long institutionId;
 
 	private List<Long> fields = new ArrayList<Long>();
-	private List<Integer> monitorLocationId = new ArrayList<Integer>();
+	private List<Long> monitorLocationId = new ArrayList<Long>();
 
 	public UserWrapper(User user) {
 		this.setIsPassSet(user.getIsPassSet());
@@ -116,11 +116,11 @@ public class UserWrapper implements Serializable {
 		this.telephone = telephone;
 	}
 
-	public List<Integer> getMonitorLocationId() {
+	public List<Long> getMonitorLocationId() {
 		return monitorLocationId;
 	}
 
-	public void setMonitorLocationId(List<Integer> monitorLocationId) {
+	public void setMonitorLocationId(List<Long> monitorLocationId) {
 		this.monitorLocationId = monitorLocationId;
 	}
 

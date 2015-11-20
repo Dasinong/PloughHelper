@@ -66,7 +66,7 @@ public class ShortCutController extends BaseController {
 		double lon = requestX.getDouble("lon");
 
 		try {
-			Integer mlId = AllMonitorLocation.getInstance().getNearest(lat, lon);
+			Long mlId = AllMonitorLocation.getInstance().getNearest(lat, lon);
 			result.put("respCode", 200);
 			result.put("message", "获得监控地址成功");
 			result.put("data", mlId);

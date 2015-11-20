@@ -17,7 +17,7 @@ public class AddThumbnailToPetDisSpecBrowse {
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = new FileSystemXmlApplicationContext(
 				"file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
-				"file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
+				"file:./src/main/webapp/WEB-INF/spring/database/ScriptDataSource.xml",
 				"file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml");
 
 		IPetDisSpecBrowseDao browseDao = (IPetDisSpecBrowseDao) applicationContext.getBean("petDisSpecBrowseDao");

@@ -21,7 +21,7 @@ public class FillEmpyLocationInfo {
 	public static void main(String[] args) throws Exception {
 		ApplicationContext applicationContext = new FileSystemXmlApplicationContext(
 				"file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
-				"file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
+				"file:./src/main/webapp/WEB-INF/spring/database/ScriptDataSource.xml",
 				"file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml");
 		
 		ILocationDao locDao = (ILocationDao) applicationContext.getBean("locationDao");

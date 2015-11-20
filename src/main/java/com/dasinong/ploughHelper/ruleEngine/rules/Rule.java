@@ -6,7 +6,7 @@ import com.dasinong.ploughHelper.weather.TwentyFourHourForcast;
 
 //This class is to define rules with direct data in hand.
 public class Rule {
-	public static int workable(int monitorLocationId) {
+	public static int workable(long monitorLocationId) {
 		int workable = 1;
 		TwentyFourHourForcast tfhf;
 		GetLive24h g24 = new GetLive24h("" + monitorLocationId);
@@ -25,7 +25,7 @@ public class Rule {
 		return workable;
 	}
 
-	public static int sprayable(int monitorLocationId) {
+	public static int sprayable(long monitorLocationId) {
 		int sprayable = 1;
 		TwentyFourHourForcast tfhf;
 		GetLive24h g24 = new GetLive24h("" + monitorLocationId);

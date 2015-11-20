@@ -16,7 +16,7 @@ public class MonitorLocationDao extends EntityHibernateDao<MonitorLocation>imple
 	 * String)
 	 */
 	@Override
-	public MonitorLocation findByCode(int code) {
+	public MonitorLocation findByCode(long code) {
 		@SuppressWarnings("rawtypes")
 		List list = getHibernateTemplate().find("from MonitorLocation where code=?", code);
 		if (list == null || list.isEmpty()) {

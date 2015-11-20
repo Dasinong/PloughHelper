@@ -18,7 +18,7 @@ public class AllMonitorLocation {
 
 	@SuppressWarnings("unchecked")
 	private AllMonitorLocation() {
-		_allLocation = new HashMap<Integer, MonitorLocation>();
+		_allLocation = new HashMap<Long, MonitorLocation>();
 		monitorLocationDao = (IMonitorLocationDao) ContextLoader.getCurrentWebApplicationContext()
 				.getBean("monitorLocationDao");
 
@@ -29,7 +29,7 @@ public class AllMonitorLocation {
 	}
 
 	private AllMonitorLocation(IMonitorLocationDao monitorLocationDao) {
-		_allLocation = new HashMap<Integer, MonitorLocation>();
+		_allLocation = new HashMap<Long, MonitorLocation>();
 		if (monitorLocationDao == null) {
 			monitorLocationDao = (IMonitorLocationDao) ContextLoader.getCurrentWebApplicationContext()
 					.getBean("monitorLocationDao");
@@ -64,9 +64,9 @@ public class AllMonitorLocation {
 
 	private static AllMonitorLocation allLocation;
 
-	public HashMap<Integer, MonitorLocation> _allLocation;
+	public HashMap<Long, MonitorLocation> _allLocation;
 
-	public int getNearest(double lat, double lon) {
+	public Long getNearest(double lat, double lon) {
 		MonitorLocation target = null;
 		double minDis = 100;
 		Iterator iter = _allLocation.entrySet().iterator();
@@ -83,7 +83,7 @@ public class AllMonitorLocation {
 		return target.getCode();
 	}
 
-	public MonitorLocation getMonitorLocation(int areaid) {
+	public MonitorLocation getMonitorLocation(long areaid) {
 		return _allLocation.get(areaid);
 	}
 

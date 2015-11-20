@@ -16,7 +16,7 @@ public class Field implements Serializable {
 	private Variety variety;
 	private User user;
 	private Location location;
-	private int monitorLocationId;
+	private long monitorLocationId;
 	private Map<Long, Task> tasks;
 	private Map<Long, PetDis> petDiss;
 	private Map<Long, NatDis> natDiss;
@@ -179,11 +179,11 @@ public class Field implements Serializable {
 		this.soilTestReports = soilTestReports;
 	}
 
-	public int getMonitorLocationId() {
+	public long getMonitorLocationId() {
 		return monitorLocationId;
 	}
 
-	public void setMonitorLocationId(int monitorLocationId) {
+	public void setMonitorLocationId(long monitorLocationId) {
 		this.monitorLocationId = monitorLocationId;
 	}
 

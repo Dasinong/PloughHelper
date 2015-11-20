@@ -157,7 +157,7 @@ public class All7d implements IWeatherBuffer {
 
 	private HashMap<Integer, SevenDayForcast> _all7d;
 
-	public SevenDayForcast get7d(Integer aid) {
+	public SevenDayForcast get7d(Long aid) {
 		return _all7d.get(aid);
 	}
 

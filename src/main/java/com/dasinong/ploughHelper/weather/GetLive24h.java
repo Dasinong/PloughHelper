@@ -32,7 +32,7 @@ public class GetLive24h {
 			if (_live24hdata.containsKey(this.areaId)) {
 				return _live24hdata.get(this.areaId);
 			} else {
-				TwentyFourHourForcast tfh = All24h.get24h().get24h(Integer.parseInt(this.areaId));
+				TwentyFourHourForcast tfh = All24h.get24h().get24h(Long.parseLong(this.areaId));
 				return tfh;
 			}
 		} else {

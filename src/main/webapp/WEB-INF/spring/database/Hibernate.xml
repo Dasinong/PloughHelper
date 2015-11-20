@@ -60,6 +60,7 @@
 			   <value>/com/dasinong/ploughHelper/model/Store.hbm.xml</value>
 			   <value>/com/dasinong/ploughHelper/model/SecurityCode.hbm.xml</value>
                <value>/com/dasinong/ploughHelper/model/InstitutionEmployeeApplication.hbm.xml</value>
+               <value>/com/dasinong/ploughHelper/model/SystemMessage.hbm.xml</value>
 			</list>
     	</property>	
     </bean>

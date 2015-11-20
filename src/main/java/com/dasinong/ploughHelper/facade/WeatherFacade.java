@@ -27,7 +27,7 @@ public class WeatherFacade implements IWeatherFacade {
 	@Override
 	public Object getWeather(double lat, double lon) {
 		try {
-			Integer mlId = AllMonitorLocation.getInstance().getNearest(lat, lon);
+			Long mlId = AllMonitorLocation.getInstance().getNearest(lat, lon);
 			return getWeather(mlId);
 		} catch (Exception e) {
 			HashMap<String, Object> result = new HashMap<String, Object>();
@@ -45,7 +45,7 @@ public class WeatherFacade implements IWeatherFacade {
 	 * Integer)
 	 */
 	@Override
-	public Object getWeather(Integer areaId) {
+	public Object getWeather(Long areaId) {
 
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		HashMap<String, Object> data = new HashMap<String, Object>();

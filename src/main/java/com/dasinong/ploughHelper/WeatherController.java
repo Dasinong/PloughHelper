@@ -51,8 +51,8 @@ public class WeatherController extends BaseController {
 			return wf.getWeather(lat, lon);
 		}
 
-		int mlid = requestX.getIntOptional("monitorLocationId", -1);
-		if (mlid == -1) {
+		Long mlid = requestX.getLongOptional("monitorLocationId", -1L);
+		if (mlid == -1L) {
 			double lat = requestX.getDouble("lat");
 			double lon = requestX.getDouble("lon");
 			return wf.getWeather(lat, lon);

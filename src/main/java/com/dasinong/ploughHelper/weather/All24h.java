@@ -109,7 +109,7 @@ public class All24h implements IWeatherBuffer {
 
 	HashMap<Integer, TwentyFourHourForcast> _all24h;
 
-	public TwentyFourHourForcast get24h(Integer areaId) {
+	public TwentyFourHourForcast get24h(Long areaId) {
 		return _all24h.get(areaId);
 	}
 

@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
 	<class name="com.dasinong.ploughHelper.model.MonitorLocation" table="monitorLocation" catalog="ploughHelper">
-        <id name="id" type="java.lang.Integer">
+        <id name="id" type="long">
             <column name="id" />
             <generator class="identity" />
         </id>
@@ -24,7 +24,7 @@
         <property name="longitude" type="double">
         	<column name="longitude" />
         </property>
-        <property name="code" type="java.lang.Integer">
+        <property name="code" type="long">
             <column name="code" />
         </property>
         

@@ -12,6 +12,6 @@ public interface IWeatherFacade {
 	public abstract Object getWeather(double lat, double lon)
 			throws IOException, ParseException, NumberFormatException, ParserConfigurationException, SAXException;
 
-	public abstract Object getWeather(Integer areaId);
+	public abstract Object getWeather(Long areaId);
 
 }

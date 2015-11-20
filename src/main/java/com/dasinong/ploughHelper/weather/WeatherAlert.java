@@ -1,4 +1,4 @@
-package com.dasinong.ploughHelper.modelTran;
+package com.dasinong.ploughHelper.weather;
 
 import java.io.IOException;
 import java.util.ArrayList;

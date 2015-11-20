@@ -6,19 +6,19 @@ public class MonitorLocation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private int id;
+	private long id;
 	private String city;
 	private int postCode;
 	private String cityDetail;
 	private double latitude;
 	private double longitude;
-	private int code;
+	private long code;
 
 	public MonitorLocation() {
 
 	}
 
-	public MonitorLocation(String city, int postCode, String cityDetail, double latitude, double longitude, int code) {
+	public MonitorLocation(String city, int postCode, String cityDetail, double latitude, double longitude, long code) {
 		super();
 		this.city = city;
 		this.postCode = postCode;
@@ -28,11 +28,11 @@ public class MonitorLocation implements Serializable {
 		this.code = code;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -76,11 +76,11 @@ public class MonitorLocation implements Serializable {
 		this.longitude = longitude;
 	}
 
-	public int getCode() {
+	public long getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(long code) {
 		this.code = code;
 	}
 

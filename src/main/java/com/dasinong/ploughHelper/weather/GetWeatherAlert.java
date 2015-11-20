@@ -3,7 +3,6 @@ package com.dasinong.ploughHelper.weather;
 import java.util.HashMap;
 import java.util.List;
 
-import com.dasinong.ploughHelper.modelTran.WeatherAlert;
 import com.dasinong.ploughHelper.util.WISWeather;
 
 public class GetWeatherAlert {

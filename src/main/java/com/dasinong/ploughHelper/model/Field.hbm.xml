@@ -24,7 +24,7 @@
         <many-to-one name="location" class="com.dasinong.ploughHelper.model.Location" fetch="select">
         	<column name="locationId" not-null="false"></column>
         </many-to-one>
-        <property name="monitorLocationId" type="java.lang.Integer">
+        <property name="monitorLocationId" type="long">
         	<column name="monitorLocationId"/>
         </property>
         <map name="tasks" cascade="all" lazy="false" inverse="false">

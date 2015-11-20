@@ -24,13 +24,12 @@ while true; do
 	esac
 done
 
-# Verify database configuration
-printf "Validate database conf\t"
-DB_CONFIG="src/main/webapp/WEB-INF/spring/properties/database.properties"
-DB_URL=`head -n 2 $DB_CONFIG | cut -d '=' -f 2`
-if [[ ! $DB_URL =~ "120.26.208.198:3306" ]]; then
+# Verify data source
+printf "Validate datasource\t"
+xml2 < src/main/webapp/WEB-INF/spring/root-context.xml | grep "/database/DataSource.xml" &> /dev/null
+if [ $? -ne 0 ]; then
 	echo "${RED}[Fail]${NC}"
-	echo "database url should be 120.26.208.198:3306"
+	echo "Please use production datasource"
 	exit
 fi
 echo "${GREEN}[Success]${NC}"

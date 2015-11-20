@@ -27,7 +27,7 @@ public class GetLive7d {
 		 */
 	}
 
-	public Live7dFor getLive7d(Integer areaId) {
+	public Live7dFor getLive7d(Long areaId) {
 		long currentTime = System.currentTimeMillis();
 		// 如果上次关于这个地方的天气请求距离这次不到live7dBufferTime分钟，那么直接返回缓存的天气数据
 		if (this._Live7dFor.containsKey(areaId)
@@ -49,10 +49,10 @@ public class GetLive7d {
 		return live7dFor;
 	}
 
-	private HashMap<Integer, Live7dFor> _Live7dFor = new HashMap<Integer, Live7dFor>();
+	private HashMap<Long, Live7dFor> _Live7dFor = new HashMap<Long, Live7dFor>();
 
 	public static void main(String args[]) {
 		GetLive7d gh = new GetLive7d();
-		gh.getLive7d(101010100);
+		gh.getLive7d(101010100L);
 	}
 }

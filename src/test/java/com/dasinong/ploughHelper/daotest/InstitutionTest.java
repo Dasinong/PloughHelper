@@ -14,7 +14,7 @@ import junit.framework.Assert;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
-		"file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
+		"file:./src/main/webapp/WEB-INF/spring/database/TestDataSource.xml",
 		"file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml" })
 public class InstitutionTest {
 

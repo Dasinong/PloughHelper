@@ -17,7 +17,7 @@ public class LoadMonitorLocation {
 		// This is the same with @ContextConfiguration
 		ApplicationContext applicationContext = new FileSystemXmlApplicationContext(
 				"file:./src/main/webapp/WEB-INF/spring/beans/ModelBeans.xml",
-				"file:./src/main/webapp/WEB-INF/spring/database/OneOffDataSource.xml",
+				"file:./src/main/webapp/WEB-INF/spring/database/ScriptDataSource.xml",
 				"file:./src/main/webapp/WEB-INF/spring/database/Hibernate.xml");
 		// This is the same with autowired.
 		IMonitorLocationDao monitorLocationDao = (IMonitorLocationDao) applicationContext.getBean("monitorLocationDao");
