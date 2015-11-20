@@ -29,7 +29,7 @@ public class All7d implements IWeatherBuffer {
 	}
 
 	private All7d() {
-		_all7d = new HashMap<Integer, SevenDayForcast>();
+		_all7d = new HashMap<Long, SevenDayForcast>();
 		try {
 			loadContent(latestSourceFile());
 		} catch (Exception e) {
@@ -47,8 +47,8 @@ public class All7d implements IWeatherBuffer {
 	// 强制更新
 	@Override
 	public void updateContent(String sourceFile) {
-		HashMap<Integer, SevenDayForcast> old7d = _all7d;
-		_all7d = new HashMap<Integer, SevenDayForcast>();
+		HashMap<Long, SevenDayForcast> old7d = _all7d;
+		_all7d = new HashMap<Long, SevenDayForcast>();
 		try {
 			loadContent(sourceFile);
 		} catch (Exception e) {
@@ -95,14 +95,14 @@ public class All7d implements IWeatherBuffer {
 		BufferedReader br = new BufferedReader(new InputStreamReader(fr, "UTF-8"));
 		String line;
 		br.readLine();
-		int currentCode = 0;
+		long currentCode = 0;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		while ((line = br.readLine()) != null) {
 			line = line.trim();
 			try {
 				String units[] = line.split("\t");
 				if (units.length == 9) {
-					int code = Integer.parseInt(units[0]);
+					long code = Long.parseLong(units[0]);
 					Date forcast_time = df.parse(units[1]);
 					short weather = Short.parseShort(units[2]);
 					double temp = Double.parseDouble(units[3]);
@@ -155,7 +155,7 @@ public class All7d implements IWeatherBuffer {
 		fr.close();
 	}
 
-	private HashMap<Integer, SevenDayForcast> _all7d;
+	private HashMap<Long, SevenDayForcast> _all7d;
 
 	public SevenDayForcast get7d(Long aid) {
 		return _all7d.get(aid);

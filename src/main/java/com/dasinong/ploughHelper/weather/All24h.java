@@ -30,7 +30,7 @@ public class All24h implements IWeatherBuffer {
 	}
 
 	private All24h() {
-		_all24h = new HashMap<Integer, TwentyFourHourForcast>();
+		_all24h = new HashMap<Long, TwentyFourHourForcast>();
 		try {
 			loadContent(latestSourceFile());
 		} catch (Exception e) {
@@ -49,8 +49,8 @@ public class All24h implements IWeatherBuffer {
 	// 强制更新
 	@Override
 	public void updateContent(String basefolder) {
-		// HashMap<Integer,TwentyFourHourForcast> old24h = _all24h;
-		// _all24h = new HashMap<Integer,TwentyFourHourForcast>();
+		// HashMap<Long,TwentyFourHourForcast> old24h = _all24h;
+		// _all24h = new HashMap<Long,TwentyFourHourForcast>();
 		try {
 			loadContent(basefolder);
 		} catch (Exception e) {
@@ -94,7 +94,7 @@ public class All24h implements IWeatherBuffer {
 			String[] filelist = f.list();
 			for (int i = 0; i < filelist.length; i++) {
 				try {
-					tfhf = new TwentyFourHourForcast(basefolder + "/" + filelist[i], Integer.parseInt(filelist[i]));
+					tfhf = new TwentyFourHourForcast(basefolder + "/" + filelist[i], Long.parseLong(filelist[i]));
 					_all24h.put(tfhf.code, tfhf);
 				} catch (Exception e) {
 					System.out.println("Load 24h for " + filelist[i] + "failed.");
@@ -107,7 +107,7 @@ public class All24h implements IWeatherBuffer {
 		SmsService.weatherAlert(sms);
 	}
 
-	HashMap<Integer, TwentyFourHourForcast> _all24h;
+	HashMap<Long, TwentyFourHourForcast> _all24h;
 
 	public TwentyFourHourForcast get24h(Long areaId) {
 		return _all24h.get(areaId);
@@ -124,7 +124,7 @@ public class All24h implements IWeatherBuffer {
 			return "No data found. Check whether initialize failed.";
 	}
 
-	public String updateLocation(int monitorLocationId) {
+	public String updateLocation(long monitorLocationId) {
 		GetLive24h gl24 = new GetLive24h();
 		gl24.setAreaId("" + monitorLocationId);
 		TwentyFourHourForcast tfhf = gl24.getLiveWeather();

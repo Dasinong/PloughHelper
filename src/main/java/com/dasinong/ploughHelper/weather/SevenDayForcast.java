@@ -51,12 +51,12 @@ public class SevenDayForcast {
 
 	private int rc = 0;
 	private int ac = 0;
-	public int code;
+	public long code;
 	public Date startDate;
 	public ForcastInfo[] rawData = new ForcastInfo[38];
 	public ForcastInfo[] aggregateData = new ForcastInfo[8];
 
-	public SevenDayForcast(int code, Date startDate) {
+	public SevenDayForcast(long code, Date startDate) {
 		this.code = code;
 		this.startDate = startDate;
 	}

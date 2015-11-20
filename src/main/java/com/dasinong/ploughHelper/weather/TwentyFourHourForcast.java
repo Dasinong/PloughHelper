@@ -34,7 +34,7 @@ import org.xml.sax.SAXException;
 */
 
 public class TwentyFourHourForcast {
-	int code;
+	long code;
 	Date startTime;
 	Date timeStamp;
 
@@ -44,7 +44,7 @@ public class TwentyFourHourForcast {
 	private int top;
 
 	// Used for rough
-	public TwentyFourHourForcast(int code) {
+	public TwentyFourHourForcast(long code) {
 		this.code = code;
 		this.timeStamp = new Date();
 		this.size = 0;
@@ -68,7 +68,7 @@ public class TwentyFourHourForcast {
 		// }
 	}
 
-	public TwentyFourHourForcast(String fileName, int code)
+	public TwentyFourHourForcast(String fileName, long code)
 			throws ParserConfigurationException, SAXException, IOException {
 		this.code = code;
 		this.timeStamp = new Date();
@@ -119,7 +119,7 @@ public class TwentyFourHourForcast {
 		this.padding();
 	}
 
-	public TwentyFourHourForcast(ByteArrayInputStream content, int code)
+	public TwentyFourHourForcast(ByteArrayInputStream content, long code)
 			throws ParserConfigurationException, SAXException, IOException {
 		this.code = code;
 		this.timeStamp = new Date();
