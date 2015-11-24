@@ -44,6 +44,7 @@ public class User implements Serializable {
 	private Long refuid;
 	private Long institutionId;
 	private String userType;
+	private Boolean isEmployee;
 
 	public User() {
 	}
@@ -238,6 +239,14 @@ public class User implements Serializable {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+	
+	public Boolean getIsEmployee() {
+		return this.isEmployee;
+	}
+	
+	public void setIsEmployee(boolean isEmployee) {
+		this.isEmployee = isEmployee;
 	}
 
 	public boolean validatePassword(String password) throws NoSuchAlgorithmException {

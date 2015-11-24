@@ -75,5 +75,8 @@
         <property name="encryptedPassword" type="string">
         	<column name="encryptedPassword" length="100" not-null="false"></column>
         </property>
+        <property name="isEmployee" type="boolean">
+            <column name="isEmployee" />
+        </property>
     </class>
 </hibernate-mapping>
