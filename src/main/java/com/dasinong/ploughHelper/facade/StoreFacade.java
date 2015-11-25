@@ -33,10 +33,10 @@ public class StoreFacade implements IStoreFacade {
 
 		Store store = new Store();
 		store.setName(name);
-		store.setDescription(desc);
+		store.setDesc(desc);
 		store.setLocationId(locationId);
 		store.setStreetAndNumber(streetAndNumber);
-		store.setOwnerName(ownerName);
+		store.setContactName(ownerName);
 		store.setOwnerId(user.getUserId());
 		store.setPhone(phone);
 		store.setLatitude(latitude);

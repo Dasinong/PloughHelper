@@ -46,7 +46,7 @@ public class StoreDaoTest {
 
 		// Assert the first store is created correctly
 		Assert.assertEquals(store.getName(), savedStore.getName());
-		Assert.assertEquals(store.getDescription(), savedStore.getDescription());
+		Assert.assertEquals(store.getDesc(), savedStore.getDesc());
 		Assert.assertEquals(store.getOwnerId(), savedStore.getOwnerId());
 		Assert.assertEquals(store.getLocationId(), savedStore.getLocationId());
 		Assert.assertEquals(store.getStreetAndNumber(), savedStore.getStreetAndNumber());

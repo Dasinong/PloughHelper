@@ -13,9 +13,9 @@ public class Store implements Serializable {
 
 	private Long id;
 	private String name;
-	private String description;
+	private String desc;
 	private Long ownerId;
-	private String ownerName;
+	private String contactName;
 	private Long locationId;
 	private String streetAndNumber;
 	private Double latitude;
@@ -47,12 +47,12 @@ public class Store implements Serializable {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return this.description;
+	public String getDesc() {
+		return this.desc;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	public Long getOwnerId() {
@@ -63,12 +63,12 @@ public class Store implements Serializable {
 		this.ownerId = ownerId;
 	}
 
-	public String getOwnerName() {
-		return this.ownerName;
+	public String getContactName() {
+		return this.contactName;
 	}
 
-	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
 	}
 
 	public Long getLocationId() {

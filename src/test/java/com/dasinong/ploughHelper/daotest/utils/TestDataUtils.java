@@ -28,7 +28,7 @@ public class TestDataUtils {
 		Timestamp now = TestDataUtils.getCurrentTimeInSeconds();
 
 		store.setName("断罪小学第" + rnd.nextInt(9999) + "分部");
-		store.setDescription("我是赵日天");
+		store.setDesc("我是赵日天");
 		store.setOwnerId(userId);
 		store.setLocationId(locationId);
 		store.setStreetAndNumber("学院路" + rnd.nextInt(9999) + "号");

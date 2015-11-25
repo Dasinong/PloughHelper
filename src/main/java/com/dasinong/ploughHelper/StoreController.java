@@ -37,17 +37,17 @@ public class StoreController extends RequireUserLoginController {
 		HttpServletRequestX requestX = new HttpServletRequestX(request);
 
 		String name = requestX.getString("name");
-		String desc = requestX.getString("description");
+		String desc = requestX.getString("desc");
 		Long locationId = requestX.getLong("locationId");
 		String streetAndNumber = requestX.getString("streetAndNumber");
 		Double latitude = requestX.getDoubleOptional("latitude", null);
 		Double longtitude = requestX.getDoubleOptional("longtitude", null);
-		String ownerName = requestX.getString("ownerName");
+		String contactName = requestX.getString("contactName");
 		String phone = requestX.getString("phone");
 		int type = requestX.getInt("type");
 		StoreSource source = StoreSource.values()[requestX.getInt("source")];
 
-		return facade.create(user, name, desc, locationId, streetAndNumber, latitude, longtitude, ownerName, phone,
+		return facade.create(user, name, desc, locationId, streetAndNumber, latitude, longtitude, contactName, phone,
 				source, type);
 	}
 }
