@@ -192,7 +192,7 @@ public class UserLoginController extends BaseController {
 
 			// @Xiyao
 			// Generally saying authRegLog should not be used as register entry
-			String channel = request.getParameter("channel");
+			String channel = requestX.getString("channel");
 			user.setChannel(channel);
 
 			Long institutionId = requestX.getLong("institutionId");
