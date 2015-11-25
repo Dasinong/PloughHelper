@@ -5,6 +5,26 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
+# Verify user inputs
+if [ "$#" -ne 1 ]; then
+    echo "${RED}Illegal number of parameters${NC}"
+	echo "Example usage: ./BashScripts/simpleDeploy.sh [stage|prod]"
+	exit
+fi
+
+if [ "$1" != "stage" ] && [ "$2" != "prod" ]; then
+	echo "${RED}Wrong parameter${NC}"
+	echo "Example usage: ./BashScripts/simpleDeploy.sh [stage|prod]"
+	exit
+fi
+
+# Determine server
+if [ "$1" == "prod" ]; then
+	SERVER="120.26.208.198"
+else
+	SERVER="182.254.129.101"
+fi
+
 # Check if script is run from directory root
 if [[ ! -f "./pom.xml" ]]; then
 	echo "${RED}You must run this script from the root of code base${NC}"
@@ -26,11 +46,20 @@ done
 
 # Verify data source
 printf "Validate datasource\t"
-xml2 < src/main/webapp/WEB-INF/spring/root-context.xml | grep "/database/DataSource.xml" &> /dev/null
-if [ $? -ne 0 ]; then
-	echo "${RED}[Fail]${NC}"
-	echo "Please use production datasource"
-	exit
+if [ "$1" == "prod" ]; then
+	xml2 < src/main/webapp/WEB-INF/spring/root-context.xml | grep "/database/DataSource.xml" &> /dev/null
+	if [ $? -ne 0 ]; then
+		echo "${RED}[Fail]${NC}"
+		echo "Please use production datasource"
+		exit
+	fi
+else
+	xml2 < src/main/webapp/WEB-INF/spring/root-context.xml | grep "/database/StageDataSource.xml" &> /dev/null
+	if [ $? -ne 0 ]; then
+		echo "${RED}[Fail]${NC}"
+		echo "Please use stage datasource"
+		exit
+	fi
 fi
 echo "${GREEN}[Success]${NC}"
 
@@ -60,7 +89,7 @@ echo "${GREEN}[Success]${NC}"
 # Move war to server
 WARFILE="ploughHelper-${VERSION}.war"
 printf "scp ${WARFILE}\t"
-scp target/$WARFILE root@120.26.208.198:~ &> /dev/null
+scp target/$WARFILE root@$SERVER:~ &> /dev/null
 if [ $? -ne 0 ]; then
 	echo "${RED}[FAIL]${NC}"
 	exit
@@ -71,6 +100,6 @@ echo "${GREEN}[SUCCESS]${NC}"
 UPLOADED_WAR_FILE="~/ploughHelper-${VERSION}.war"
 EXISTING_WAR_FILE="/usr/local/tomcat7/webapps/ploughHelper.war"
 TIMESTAMP=`date +'%Y-%m-%d-%H-%M-%S'`
-BACKUP_FILE="~/ploughHelperBackup/ploughHelper-${TIMESTAMP}.war" 
-ssh root@120.26.208.198 -t "sudo cp $EXISTING_WAR_FILE $BACKUP_FILE; sudo cp $UPLOADED_WAR_FILE $EXISTING_WAR_FILE"
+BACKUP_FILE="/data/ploughHelperBackup/ploughHelper-${TIMESTAMP}.war" 
+ssh root@$SERVER -t "sudo cp $EXISTING_WAR_FILE $BACKUP_FILE; sudo cp $UPLOADED_WAR_FILE $EXISTING_WAR_FILE"
 echo "Remote update ${GREEN}[SUCCESS]${NC}"
