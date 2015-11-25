@@ -245,7 +245,7 @@ public class User implements Serializable {
 		return this.isEmployee;
 	}
 	
-	public void setIsEmployee(boolean isEmployee) {
+	public void setIsEmployee(Boolean isEmployee) {
 		this.isEmployee = isEmployee;
 	}
 
