@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,7 +35,7 @@ import com.dasinong.ploughHelper.viewerContext.ViewerContext;
 
 public class BaseController {
 
-	// TODO (xiahonggao): make all controllers extend this controller
+	protected static final Logger logger = LoggerFactory.getLogger(BaseController.class);
 
 	public ViewerContext getViewerContext(HttpServletRequest request) throws Exception {
 		ViewerContext vc = (ViewerContext) request.getAttribute(ViewerContext.REQUEST_KEY);
@@ -260,6 +262,8 @@ public class BaseController {
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
 	public Object handleError(HttpServletRequest req, Exception exception) {
+		logger.error("Unknown Exception", exception);
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		Map<String, Object> errorData = new HashMap<String, Object>();
 		errorData.put("class", exception.getClass());

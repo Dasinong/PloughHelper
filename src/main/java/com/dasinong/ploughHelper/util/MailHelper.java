@@ -22,7 +22,6 @@ public class MailHelper {
 			HttpMethod method = postMethod(target, subject, content);
 			hc.executeMethod(method);
 			String response = new String(method.getResponseBodyAsString().getBytes("ISO-8859-1"));
-			System.out.println(response);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

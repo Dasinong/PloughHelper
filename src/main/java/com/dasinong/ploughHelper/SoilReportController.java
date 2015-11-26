@@ -23,8 +23,6 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 @Controller
 public class SoilReportController extends RequireUserLoginController {
 
-	private static final Logger logger = LoggerFactory.getLogger(SoilReportController.class);
-
 	@RequestMapping(value = "/insertSoilReport", produces = "application/json")
 	@ResponseBody
 	public Object insertSoilReport(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -39,8 +39,6 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 @Controller
 public class UserController extends RequireUserLoginController {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
 	@Autowired
 	ServletContext servletContext;
 
@@ -114,8 +112,6 @@ public class UserController extends RequireUserLoginController {
 	@RequestMapping(value = "/isAuth", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Object isAuth(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println(this.servletContext.getRealPath("/"));
-
 		HashMap<String, Object> result = new HashMap<String, Object>();
 
 		User user = this.getLoginUser(request);
@@ -173,14 +169,12 @@ public class UserController extends RequireUserLoginController {
 		if (user == null) {
 			throw new UserIsNotLoggedInException();
 		}
-		System.out.println(System.getProperty("user.dir"));
 		MultipartFile imgFile = request.getFile("file");
 
 		if (!imgFile.isEmpty()) {
 			String origFileName = imgFile.getOriginalFilename();
 			String[] imgt = origFileName.split("\\.");
 			String ext = "";
-			System.out.println(imgt.length);
 			if (imgt.length >= 2) {
 				ext = imgt[imgt.length - 1];
 			}
@@ -188,7 +182,6 @@ public class UserController extends RequireUserLoginController {
 			String filePath = this.servletContext.getRealPath("/");
 			Random rnd = new Random();
 			String fileName = user.getCellPhone() + rnd.nextInt(9999) + "." + ext;
-			System.out.println(filePath + "../avater/" + fileName);
 			File dest = new File(filePath + "../avater/" + fileName);
 			imgFile.transferTo(dest);
 			user.setPictureId(fileName);

@@ -4,6 +4,8 @@
 package com.dasinong.ploughHelper.weather;
 
 import org.codehaus.jackson.map.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.codehaus.jackson.*;
 
 import java.io.IOException;
@@ -25,6 +27,8 @@ public class LiveWeatherData {
 	public String l7;
 	public int daymin = -100;
 	public int daymax = -100;
+
+	private Logger logger = LoggerFactory.getLogger(LiveWeatherData.class);
 
 	/**
 	 * 
@@ -66,8 +70,7 @@ public class LiveWeatherData {
 			this.l7 = firstNode.get("l7").toString().replace('\"', ' ').trim();
 			this.timeStamp = new Date();
 		} catch (Exception e) {
-			System.out.println("Error happened when processing json live weather data!");
-			e.printStackTrace();
+			logger.error("Error happened when processing json live weather data!", e);
 		}
 
 	}

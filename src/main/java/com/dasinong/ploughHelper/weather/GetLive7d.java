@@ -2,12 +2,16 @@ package com.dasinong.ploughHelper.weather;
 
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dasinong.ploughHelper.util.Env;
 import com.dasinong.ploughHelper.util.WISWeather;
 
 public class GetLive7d {
 
 	private static GetLive7d live7d;
+	private Logger logger = LoggerFactory.getLogger(GetLive7d.class);
 
 	public static GetLive7d getAllLive7d() {
 		if (live7d == null) {
@@ -42,8 +46,7 @@ public class GetLive7d {
 			live7dFor = new Live7dFor(result, areaId);
 			_Live7dFor.put(areaId, live7dFor);
 		} catch (Exception e) {
-			System.out.println("Error happend when processing 7d live forcast!");
-			System.out.println(result);
+			logger.error("Error happend when processing 7d live forcast!", e);
 			this._Live7dFor.get(areaId);
 		}
 		return live7dFor;

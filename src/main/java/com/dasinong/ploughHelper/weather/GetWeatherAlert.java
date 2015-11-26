@@ -3,12 +3,17 @@ package com.dasinong.ploughHelper.weather;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dasinong.ploughHelper.util.WISWeather;
 
 public class GetWeatherAlert {
 
 	private String areaId;
 	private static HashMap<String, List<WeatherAlert>> _weatheralert = new HashMap<String, List<WeatherAlert>>();
+
+	private Logger logger = LoggerFactory.getLogger(GetWeatherAlert.class);
 
 	public GetWeatherAlert(String areaId) {
 		this.areaId = areaId;
@@ -37,8 +42,7 @@ public class GetWeatherAlert {
 				_weatheralert.remove(areaId);
 			}
 		} catch (Exception e) {
-			System.out.println("Error happened when parse HTTP get weather alert result!");
-			e.printStackTrace();
+			logger.error("Error happened when parse HTTP get weather alert result!", e);
 		}
 
 		return wa;

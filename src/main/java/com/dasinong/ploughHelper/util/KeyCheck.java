@@ -36,7 +36,6 @@ public class KeyCheck implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
 		String requestUrl = request.getRequestURI().replace(request.getContextPath(), "");
-		System.out.println(requestUrl);
 		if (null != allowUrls && allowUrls.length >= 1)
 			for (String url : allowUrls) {
 				if (requestUrl.contains(url)) {
@@ -61,8 +60,6 @@ public class KeyCheck implements HandlerInterceptor {
 			if (finalkey.equals(apikey))
 				return true;
 			else {
-				System.out.println("UserAgent: " + request.getHeader("user-agent"));
-				System.out.println("KeyError: " + request.getQueryString());
 				return true;
 			}
 		} else {
@@ -72,8 +69,6 @@ public class KeyCheck implements HandlerInterceptor {
 			 * System.out.println("warning: "+ request.getHeader("user-agent"));
 			 * return true; } }
 			 */
-			System.out.println("UserAgent: " + request.getHeader("user-agent"));
-			System.out.println("KeyError: " + request.getQueryString());
 			return true;
 		}
 	}
@@ -95,7 +90,6 @@ public class KeyCheck implements HandlerInterceptor {
 			// byte[] encodeBytes = Base64.getEncoder().encode(rawHmac);
 			String finalkey = new String(encodeBytes, "utf-8");
 			finalkey = URLEncoder.encode(finalkey, "utf-8");
-			System.out.println(finalkey);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

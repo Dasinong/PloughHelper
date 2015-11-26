@@ -17,8 +17,6 @@ import com.dasinong.ploughHelper.util.SmsService;
 @Controller
 public class ChannelController extends RequireUserLoginController {
 
-	private static final Logger logger = LoggerFactory.getLogger(BaiKeController.class);
-
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 * 

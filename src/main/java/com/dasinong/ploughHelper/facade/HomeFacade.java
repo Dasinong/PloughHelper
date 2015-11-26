@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
@@ -29,6 +31,8 @@ public class HomeFacade implements IHomeFacade {
 	// @Autowired
 	private ITaskSpecDao taskSpecDao;
 
+	private Logger logger = LoggerFactory.getLogger(HomeFacade.class);
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -52,7 +56,7 @@ public class HomeFacade implements IHomeFacade {
 		HashMap<String, Long> fieldList = new HashMap<String, Long>();
 		for (Field f : user.getFields()) {
 			if (fieldList.keySet().contains(f.getFieldName())) {
-				System.out.println("Duplicated field for same user");
+				this.logger.warn("Duplicated field for same user");
 			} else {
 				fieldList.put(f.getFieldName(), f.getFieldId());
 			}
@@ -93,7 +97,7 @@ public class HomeFacade implements IHomeFacade {
 				result.put("soilHum", soilHum);
 			}
 		} catch (Exception e) {
-			System.out.println("Load monitor location field or soilLiquid failed");
+			this.logger.warn("Load monitor location field or soilLiquid failed");
 		}
 
 		result.put("respCode", 200);
@@ -110,7 +114,7 @@ public class HomeFacade implements IHomeFacade {
 		try {
 			soilHum = SoilLiquid.getSoilLi().getSoil(lat, lon);
 		} catch (Exception e) {
-			System.out.println("Load soilHum failed");
+			this.logger.warn("Load soilHum failed");
 		}
 		result.put("soilHum", soilHum);
 		return result;

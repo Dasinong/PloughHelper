@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.util.Env;
@@ -17,6 +19,8 @@ import com.dasinong.ploughHelper.util.SmsService;
 public class SoilLiquid implements IWeatherBuffer {
 	private static SoilLiquid soilLiquid;
 	private Date timeStamp = new Date(10000000);
+
+	private Logger logger = LoggerFactory.getLogger(SoilLiquid.class);
 
 	public static SoilLiquid getSoilLi() {
 		if (soilLiquid == null) {
@@ -32,7 +36,7 @@ public class SoilLiquid implements IWeatherBuffer {
 		try {
 			loadContent(latestSourceFile());
 		} catch (Exception e) {
-			System.out.println("Initialize soilliquid failed.");
+			logger.error("Initialize soilliquid failed", e);
 			SmsService
 					.weatherAlert("Initialize soilliquid failed on " + new Date() + " with file " + latestSourceFile());
 		}
@@ -50,7 +54,7 @@ public class SoilLiquid implements IWeatherBuffer {
 		try {
 			loadContent(sourceFile);
 		} catch (Exception e) {
-			System.out.println("update soil liquid failed. " + e.getCause());
+			logger.error("update soil liquid failed", e);
 			SmsService.weatherAlert("Update soiliquid failed on " + new Date() + " with file " + sourceFile);
 			grid = oldgrid;
 		}
@@ -72,7 +76,6 @@ public class SoilLiquid implements IWeatherBuffer {
 				sourceFile = Env.getEnv().WorkingDir + "/data/ftp/trsd/soilliquid_" + df.format(date) + "00.txt";
 			}
 		}
-		System.out.println(sourceFile);
 		return sourceFile;
 	}
 
@@ -98,7 +101,7 @@ public class SoilLiquid implements IWeatherBuffer {
 					i++;
 				}
 			} catch (Exception e) {
-				System.out.println("Error happend while loading soil liquid " + line);
+				logger.error("Error happend while loading soil liquid " + line, e);
 				notification.append(line + " ");
 			}
 		}
@@ -125,8 +128,6 @@ public class SoilLiquid implements IWeatherBuffer {
 		}
 		end = i;
 		double minDis = 100;
-		System.out.println(start);
-		System.out.println(end);
 		for (i = start; i < end; i++) {
 			if ((grid[i][1] - lat) * (grid[i][1] - lat) + (grid[i][0] - lon) * (grid[i][0] - lon) < minDis) {
 				result = grid[i][2];

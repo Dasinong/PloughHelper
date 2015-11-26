@@ -45,8 +45,7 @@ public class BaiKeJspController extends BaseController implements Controller {
 				break;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Error happened when handle BaiKeJsp Data!");
+			this.logger.error("Error happened when handle BaiKeJsp Data!", e);
 		}
 
 		return mv;

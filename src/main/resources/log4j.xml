@@ -9,11 +9,33 @@
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
 	</appender>
+	<appender name="logFile" class="org.apache.log4j.RollingFileAppender">
+	   <param name="File" value="/var/log/ploughhelper/app.log" />
+	   <param name="MaxFileSize" value="500MB" />
+	   <param name="MaxBackupIndex" value="100" />
+	   <layout class="org.apache.log4j.PatternLayout">
+	       <param name="ConversionPattern" value="[%-5p] %d %c - %m%n" />
+	   </layout>
+	</appender>
+	<appender name="weatherLogFile" class="org.apache.log4j.RollingFileAppender">
+       <param name="File" value="/var/log/ploughhelper/weather.log" />
+       <param name="MaxFileSize" value="500MB" />
+       <param name="MaxBackupIndex" value="100" />
+       <layout class="org.apache.log4j.PatternLayout">
+           <param name="ConversionPattern" value="[%-5p] %d %c - %m%n" />
+       </layout>
+    </appender>
 	
 	<!-- Application Loggers -->
 	<logger name="com.dasinong.ploughHelper">
 		<level value="info" />
+		<appender-ref ref="logFile" />
 	</logger>
+	
+	<logger name="com.dasinong.ploughHelper.weather">
+        <level value="info" />
+        <appender-ref ref="weatherLogFile" />
+    </logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">

@@ -26,7 +26,6 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 @Controller
 public class FieldController extends RequireUserLoginController {
-	private static final Logger logger = LoggerFactory.getLogger(FieldController.class);
 
 	@RequestMapping(value = "/createField", produces = "application/json")
 	@ResponseBody

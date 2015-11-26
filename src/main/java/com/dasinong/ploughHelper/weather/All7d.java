@@ -10,6 +10,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.util.Env;
@@ -17,6 +19,7 @@ import com.dasinong.ploughHelper.util.SmsService;
 
 public class All7d implements IWeatherBuffer {
 	private static All7d all7d;
+	private Logger logger = LoggerFactory.getLogger(All7d.class);
 
 	public static All7d getAll7d() {
 		if (all7d == null) {
@@ -33,7 +36,7 @@ public class All7d implements IWeatherBuffer {
 		try {
 			loadContent(latestSourceFile());
 		} catch (Exception e) {
-			System.out.println("Initialize 7d failed");
+			logger.error("Initialize 7d failed", e);
 			SmsService.weatherAlert("Initialize 7d failed on " + new Date() + " with file " + latestSourceFile());
 		}
 	}
@@ -52,7 +55,7 @@ public class All7d implements IWeatherBuffer {
 		try {
 			loadContent(sourceFile);
 		} catch (Exception e) {
-			System.out.println("update 7d failed. " + e.getCause());
+			logger.error("update 7d failed", e);
 			SmsService.weatherAlert("update 7d failed on " + new Date() + " with file " + sourceFile);
 			_all7d = old7d;
 		}
@@ -78,7 +81,6 @@ public class All7d implements IWeatherBuffer {
 			}
 			sourceFile = Env.getEnv().WorkingDir + "/data/ftp/rforecast7days/" + filename;
 		}
-		System.out.println(sourceFile);
 		return sourceFile;
 	}
 
@@ -143,7 +145,7 @@ public class All7d implements IWeatherBuffer {
 					notification.append(units[0] + " ");
 				}
 			} catch (Exception e) {
-				System.out.println("Error happend while inserting 7 day forcast " + line);
+				logger.error("Error happend while inserting 7 day forcast " + line, e);
 				notification.append(line.substring(0, Math.min(line.length(), 10)) + " ");
 			}
 		}

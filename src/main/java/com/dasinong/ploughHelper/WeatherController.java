@@ -28,8 +28,6 @@ public class WeatherController extends BaseController {
 
 	IWeatherFacade wf;
 
-	private static final Logger logger = LoggerFactory.getLogger(WeatherController.class);
-
 	@RequestMapping(value = "/loadWeather", produces = "application/json")
 	@ResponseBody
 	public Object loadWeather(HttpServletRequest request, HttpServletResponse response) throws Exception {

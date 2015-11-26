@@ -7,11 +7,17 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
 import com.dasinong.ploughHelper.util.Env;
 import com.dasinong.ploughHelper.util.WISHourWeather;
 
 public class Prepare24h {
+	
+	private Logger logger = LoggerFactory.getLogger(Prepare24h.class);
+	
 	public void update24hFile() {
 		String basefolder = "";
 		Date date = new Date();
@@ -42,12 +48,11 @@ public class Prepare24h {
 					bw.close();
 					fw.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.error("Prepare24h update24hFile IO exception", e);
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Prepare24h update24hFile exception", e);
 		}
 	}
 

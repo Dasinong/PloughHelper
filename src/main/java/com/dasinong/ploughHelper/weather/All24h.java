@@ -10,6 +10,8 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoader;
 import org.xml.sax.SAXException;
 
@@ -18,6 +20,7 @@ import com.dasinong.ploughHelper.util.SmsService;
 
 public class All24h implements IWeatherBuffer {
 	private static All24h all24h;
+	private Logger logger = LoggerFactory.getLogger(All24h.class);
 
 	public static All24h get24h() {
 		if (all24h == null) {
@@ -34,7 +37,7 @@ public class All24h implements IWeatherBuffer {
 		try {
 			loadContent(latestSourceFile());
 		} catch (Exception e) {
-			System.out.println("Initialize 24h failed. " + e.getCause());
+			logger.error("Initialize 24h failed", e);
 			SmsService.weatherAlert("Initialize 24h failed on " + new Date() + " with file " + latestSourceFile());
 		}
 		all24h = this;
@@ -54,7 +57,7 @@ public class All24h implements IWeatherBuffer {
 		try {
 			loadContent(basefolder);
 		} catch (Exception e) {
-			System.out.println("update 24h failed. " + e.getCause());
+			logger.error("update 24h failed", e);
 			SmsService.weatherAlert("Update 24h failed on " + new Date() + " with file " + basefolder);
 			// _all24h = old24h;
 		}
@@ -79,14 +82,12 @@ public class All24h implements IWeatherBuffer {
 				basefolder = Env.getEnv().WorkingDir + "/data/weather/hour/" + df.format(date) + "20";
 			}
 		}
-		System.out.println(basefolder);
 		return basefolder;
 	}
 
 	private void loadContent(String basefolder) {
 		StringBuilder notification = new StringBuilder();
 		notification.append("load 24h on " + new Date() + ". Issue loading: ");
-		System.out.println("load Content of 24h called on " + new Date());
 		TwentyFourHourForcast tfhf = null;
 
 		File f = new File(basefolder);
@@ -97,9 +98,8 @@ public class All24h implements IWeatherBuffer {
 					tfhf = new TwentyFourHourForcast(basefolder + "/" + filelist[i], Long.parseLong(filelist[i]));
 					_all24h.put(tfhf.code, tfhf);
 				} catch (Exception e) {
-					System.out.println("Load 24h for " + filelist[i] + "failed.");
+					logger.error("Load 24h for " + filelist[i] + " failed", e);
 					notification.append(filelist[i] + " ");
-					System.out.println(e.getMessage());
 				}
 			}
 		}

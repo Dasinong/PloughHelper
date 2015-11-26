@@ -5,6 +5,8 @@ import java.util.Iterator;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.dasinong.ploughHelper.util.WISWeather;
 
@@ -23,6 +25,7 @@ public class Live7dFor {
 	String radar;
 	public Date reportTime; // The report generate time;
 	public SevenDayNormal[] sevenDay = new SevenDayNormal[7];
+	private Logger logger = LoggerFactory.getLogger(Live7dFor.class);
 
 	public Live7dFor(String result, Long areaid) {
 		ObjectMapper mapper = new ObjectMapper();
@@ -56,8 +59,7 @@ public class Live7dFor {
 			}
 			this.timeStamp = new Date();
 		} catch (Exception e) {
-			System.out.println("Error happened when processing json live weather data!");
-			e.printStackTrace();
+			logger.error("Error happened when processing json live weather data!", e);
 		}
 	}
 

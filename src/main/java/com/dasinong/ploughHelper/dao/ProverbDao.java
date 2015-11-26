@@ -28,7 +28,6 @@ public class ProverbDao extends EntityHibernateDao<Proverb>implements IProverbDa
 			return null;
 		}
 		Random r = new Random();
-		System.out.println("szc:proverbDao: weather:" + weather + " nongyan size:" + list.size());
 		return (Proverb) list.get(r.nextInt(list.size()));
 	}
 
@@ -39,7 +38,6 @@ public class ProverbDao extends EntityHibernateDao<Proverb>implements IProverbDa
 			return null;
 		}
 		Random r = new Random();
-		System.out.println("szc:proverbDao: month:" + month + " nongyan size:" + list.size());
 		return (Proverb) list.get(r.nextInt(list.size()));
 	}
 
@@ -50,7 +48,6 @@ public class ProverbDao extends EntityHibernateDao<Proverb>implements IProverbDa
 			return null;
 		}
 		Random r = new Random();
-		System.out.println("szc:proverbDao: random nongyan size:" + list.size());
 		return (Proverb) list.get(r.nextInt(list.size()));
 	}
 

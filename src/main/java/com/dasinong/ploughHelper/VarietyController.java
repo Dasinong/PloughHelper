@@ -21,8 +21,6 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 @Controller
 public class VarietyController extends BaseController {
 
-	private static final Logger logger = LoggerFactory.getLogger(VarietyController.class);
-
 	@RequestMapping(value = "/getVarietyList", produces = "application/json")
 	@ResponseBody
 	public Object getVariety(HttpServletRequest request, HttpServletResponse response) throws Exception {

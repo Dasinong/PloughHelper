@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.BaiKeController;
 import com.dasinong.ploughHelper.dao.IFieldDao;
 import com.dasinong.ploughHelper.dao.ILocationDao;
 import com.dasinong.ploughHelper.dao.IPetDisSpecDao;
@@ -49,7 +52,8 @@ public class FieldFacade implements IFieldFacade {
 	IPetDisSpecDao petDisSpecDao;
 	ITaskRegionDao taskRegionDao;
 	IWeatherSubscriptionDao weatherSubscriptionDao;
-
+	Logger logger = LoggerFactory.getLogger("ploughHelper");
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -266,8 +270,7 @@ public class FieldFacade implements IFieldFacade {
 		} else {
 			if (foundStage) {
 				if (computedStage < field.getCurrentStageID()) {
-					System.out.println(
-							"Warning: Field " + field.getFieldId() + "'s computedStage is less than currentStage");
+					logger.warn("Field" + field.getFieldId() + "'s computedStage is less than currentStage");
 				} else {
 					field.setCurrentStageID(computedStage);
 				}

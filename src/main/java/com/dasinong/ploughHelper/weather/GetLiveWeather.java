@@ -1,11 +1,16 @@
 package com.dasinong.ploughHelper.weather;
 
 import java.util.HashMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dasinong.ploughHelper.util.WISWeather;
 
 public class GetLiveWeather {
 
 	private String areaId;
+	private Logger logger = LoggerFactory.getLogger(GetLiveWeather.class);
 
 	public GetLiveWeather() {
 	}
@@ -41,8 +46,7 @@ public class GetLiveWeather {
 				initialWeatherData.parseHTTPResult(this.areaId, result);
 				_liveweatherdata.put(this.areaId, initialWeatherData);
 			} catch (Exception e) {
-				System.out.println("Error happend when processing live weather data!");
-				e.printStackTrace();
+				logger.error("Error happend when processing live weather data!", e);
 			}
 			return initialWeatherData;
 		}

@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.util.Env;
@@ -19,6 +21,7 @@ import com.dasinong.ploughHelper.util.SmsService;
 
 public class All7dHum implements IWeatherBuffer {
 	private static All7dHum all7dHum;
+	private Logger logger = LoggerFactory.getLogger(All7dHum.class);
 
 	public static All7dHum get7dHum() {
 		if (all7dHum == null) {
@@ -35,7 +38,7 @@ public class All7dHum implements IWeatherBuffer {
 		try {
 			loadContent(latestSourceFile());
 		} catch (Exception e) {
-			System.out.println("Initialize 7d hum failed");
+			logger.error("Initialize 7d hum failed", e);
 			SmsService.weatherAlert("Initialize 7dhum failed on " + new Date() + " with file " + latestSourceFile());
 		}
 	}
@@ -52,7 +55,7 @@ public class All7dHum implements IWeatherBuffer {
 		try {
 			loadContent(sourceFile);
 		} catch (Exception e) {
-			System.out.println("update 7d hum failed. " + e.getCause());
+			logger.error("update 7d hum failed", e);
 			SmsService.weatherAlert("Update 7d hum failed on " + new Date() + " with file " + sourceFile);
 			_all7dHum = old7dHum;
 		}
@@ -78,7 +81,6 @@ public class All7dHum implements IWeatherBuffer {
 			}
 			sourceFile = Env.getEnv().WorkingDir + "/data/ftp/rehumidity/" + filename;
 		}
-		System.out.println(sourceFile);
 		return sourceFile;
 	}
 
@@ -117,7 +119,7 @@ public class All7dHum implements IWeatherBuffer {
 					notification.append(units[0] + " ");
 				}
 			} catch (Exception e) {
-				System.out.println("Error happend while inserting 7 day humidity " + line);
+				logger.error("Error happend while inserting 7 day humidity " + line, e);
 				notification.append(line.substring(0, Math.min(line.length(), 10)) + " ");
 			}
 		}

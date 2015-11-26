@@ -1,4 +1,4 @@
-package com.dasinong.ploughHelper.oneoffScript;
+package com.dasinong.ploughHelper.script;
 
 import java.io.BufferedReader;
 import java.io.File;

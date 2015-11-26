@@ -3,6 +3,9 @@ package com.dasinong.ploughHelper.laonong;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dasinong.ploughHelper.model.LaoNongType;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.weather.AgriDisForcast;
@@ -11,6 +14,8 @@ import com.dasinong.ploughHelper.weather.GetWeatherAlert;
 import com.dasinong.ploughHelper.weather.WeatherAlert;
 
 public class WeatherAlertDataSource implements ILaoNongDataSource {
+	
+	private Logger logger = LoggerFactory.getLogger(WeatherAlertDataSource.class);
 
 	@Override
 	public List<LaoNong> genLaoNongs(User user, Long areaId) {
@@ -24,8 +29,7 @@ public class WeatherAlertDataSource implements ILaoNongDataSource {
 			if (agri != null)
 				disasterInfo = agri.getDisasterInfo();
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Error happend when get Agriculture Disaster Forcast");
+			this.logger.error("Error happend when get Agriculture Disaster Forcast", e);
 		}
 
 		System.out.println("szc: getLaoNong areaId : " + areaId);

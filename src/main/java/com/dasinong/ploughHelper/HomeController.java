@@ -23,8 +23,6 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 @Controller
 public class HomeController extends BaseController {
 
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
 	@RequestMapping(value = "/home", produces = "application/json")
 	@ResponseBody
 	public Object home(HttpServletRequest request, HttpServletResponse response) throws Exception {

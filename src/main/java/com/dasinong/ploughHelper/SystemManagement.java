@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dasinong.ploughHelper.exceptions.MissingParameterException;
 
 @Controller
-public class SystemManagement {
+public class SystemManagement extends BaseController {
+	
 	@RequestMapping(value = "/weatherIssue", produces = "application/json")
 	@ResponseBody
 	public Object insertSoilReport(HttpServletRequest request, HttpServletResponse response) {
@@ -23,7 +24,6 @@ public class SystemManagement {
 		if (issue == null || issue.equals("") || monitorLocationId == null || monitorLocationId.equals("")) {
 			throw new MissingParameterException();
 		}
-		System.out.println("Issue: " + issue + " on " + monitorLocationId);
 		result.put("message", "提交成功");
 		result.put("respCode", 200);
 		return result;

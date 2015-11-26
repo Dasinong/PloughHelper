@@ -3,11 +3,15 @@ package com.dasinong.ploughHelper.weather;
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dasinong.ploughHelper.util.WISHourWeather;
 
 public class GetLive24h {
 
 	private String areaId;
+	private Logger logger = LoggerFactory.getLogger(GetLive24h.class);
 
 	public GetLive24h() {
 	}
@@ -42,7 +46,7 @@ public class GetLive24h {
 				tfh = new TwentyFourHourForcast(content, Integer.parseInt(this.areaId));
 				_live24hdata.put(this.areaId, tfh);
 			} catch (Exception e) {
-				System.out.println("Error happend when processing 24h weather data!");
+				logger.error("Error happend when processing 24h weather data!", e);
 				e.printStackTrace();
 			}
 			return tfh;

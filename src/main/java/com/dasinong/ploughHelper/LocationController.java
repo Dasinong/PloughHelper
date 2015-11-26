@@ -30,8 +30,6 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 @Controller
 public class LocationController extends RequireUserLoginController {
 
-	private static final Logger logger = LoggerFactory.getLogger(LocationController.class);
-
 	@RequestMapping(value = "/getLocation", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Object getLocation(HttpServletRequest request, HttpServletResponse response) throws Exception {

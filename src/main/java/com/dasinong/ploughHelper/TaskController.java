@@ -21,7 +21,6 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 
 @Controller
 public class TaskController extends RequireUserLoginController {
-	private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
 
 	@RequestMapping(value = "/getAllTask", produces = "application/json")
 	@ResponseBody

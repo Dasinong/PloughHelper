@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.BaseController;
 import com.dasinong.ploughHelper.dao.IProverbDao;
 import com.dasinong.ploughHelper.model.LaoNongType;
 import com.dasinong.ploughHelper.model.Proverb;
@@ -19,6 +22,8 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 public class ProverbDataSource implements ILaoNongDataSource {
 	
 	private IProverbDao proverbDao;
+	
+	private Logger logger = LoggerFactory.getLogger(ProverbDataSource.class);
 	
 	public ProverbDataSource(IProverbDao proverbDao) {
 		this.proverbDao = proverbDao;
@@ -38,8 +43,7 @@ public class ProverbDataSource implements ILaoNongDataSource {
 				proverb = proverbDao.findByLunarCalender(jieqi);
 			}
 		} catch (Exception e) {
-			System.out.println("Error: Get LunarHelper Error in NongYan!");
-			e.printStackTrace();
+			logger.error("Get LunarHelper Error in NongYan!", e);
 		}
 
 		try {
@@ -66,8 +70,7 @@ public class ProverbDataSource implements ILaoNongDataSource {
 					proverb = proverbDao.findByWeather("大风");
 			}
 		} catch (Exception e) {
-			System.out.println("Error: GetLiveWeather error in NongYan!");
-			e.printStackTrace();
+			logger.error("GetLiveWeather Error in NongYan!", e);
 		}
 		
 		// 3. 如果既不是农历节气，也不是特殊天气，那么看当前月份，选择与当前月份关联的农谚显示

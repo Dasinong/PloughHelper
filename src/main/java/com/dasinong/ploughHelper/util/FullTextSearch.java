@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
@@ -35,6 +37,7 @@ import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
+import org.slf4j.LoggerFactory;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.mysql.jdbc.Connection;
@@ -46,6 +49,7 @@ public class FullTextSearch {
 	private SimpleHTMLFormatter highlightFormatter;
 	private String path;
 	private String tableName;
+	private Logger logger = LoggerFactory.getLogger(FullTextSearch.class);
 
 	public FullTextSearch(String tableName, String path) {
 		this.tableName = tableName;
@@ -67,8 +71,7 @@ public class FullTextSearch {
 			directory = FSDirectory.open(new File(this.path));
 			iwriter = getIndexWriter(directory, analyzer);
 		} catch (IOException e) {
-			System.out.println("open index file failed");
-			e.printStackTrace();
+			this.logger.error("open index file failed", e);
 		}
 
 		try {
@@ -150,8 +153,7 @@ public class FullTextSearch {
 			directory = FSDirectory.open(new File(this.path));
 			iwriter = getIndexWriter(directory, analyzer);
 		} catch (IOException e) {
-			System.out.println("open index file failed");
-			e.printStackTrace();
+			this.logger.error("open index file failed", e);
 		}
 
 		try {
@@ -244,8 +246,7 @@ public class FullTextSearch {
 			directory = FSDirectory.open(new File(this.path));
 			iwriter = getIndexWriter(directory, analyzer);
 		} catch (IOException e) {
-			System.out.println("open index file failed");
-			e.printStackTrace();
+			this.logger.error("open index file failed", e);
 		}
 
 		try {
@@ -421,8 +422,7 @@ public class FullTextSearch {
 			directory = FSDirectory.open(new File(this.path));
 			ireader = IndexReader.open(directory);
 		} catch (IOException e) {
-			System.out.println("search -- open index file failed");
-			e.printStackTrace();
+			this.logger.error("search -- open index file failed", e);
 		}
 		isearcher = new IndexSearcher(ireader);
 
@@ -476,12 +476,10 @@ public class FullTextSearch {
 		String[] b = { "varietyName", "varietyId", "varietySource" };
 		try {
 			HashMap[] h = bs.search("杭州", a, b);
-			System.out.println(h.length);
 			for (int k = 0; k < h.length; k++) {
 				if (h[k] == null) {
 					break;
 				}
-				System.out.println(h[k].toString());
 			}
 		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
 			// TODO Auto-generated catch block
@@ -518,15 +516,6 @@ public class FullTextSearch {
 			result.put("ill", ill);
 			result.put("pest", pest);
 			result.put("grass", grass);
-			for (HashMap<String, String> i : ill) {
-				System.out.println(i.toString());
-			}
-			for (HashMap<String, String> i : pest) {
-				System.out.println(i.toString());
-			}
-			for (HashMap<String, String> i : grass) {
-				System.out.println(i.toString());
-			}
 		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
 			e.printStackTrace();
 		}
@@ -546,12 +535,10 @@ public class FullTextSearch {
 			String[] b1 = { "cPProductName", "activeIngredient", "manufacturer", "crop", "cPProductId" };
 
 			HashMap<String, String>[] h = bs.search("玉米", a1, b1);
-			System.out.println(h.length);
 			for (int k = 0; k < h.length; k++) {
 				if (h[k] == null) {
 					break;
 				}
-				System.out.println(h[k].toString());
 			}
 
 		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {

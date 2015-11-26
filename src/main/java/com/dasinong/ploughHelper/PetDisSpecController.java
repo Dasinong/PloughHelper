@@ -20,8 +20,6 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 @Controller
 public class PetDisSpecController extends RequireUserLoginController {
 
-	private static final Logger logger = LoggerFactory.getLogger(PetDisSpecController.class);
-
 	IPetDisSpecFacade petDisSpecFacade;
 	IPetSoluFacade petSoluFacade;
 

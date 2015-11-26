@@ -304,18 +304,4 @@ public class LunarHelper {
 		return date;
 	}
 
-	public static void main(String[] args) throws ParseException {
-		Calendar today = Calendar.getInstance();
-		today.setTime(chineseDateFormat.parse("2015年6月22日"));
-		// today.setTime(new Date());
-		LunarHelper lunar = new LunarHelper(today);
-
-		System.out.println("北京时间：" + chineseDateFormat.format(today.getTime()) + "　农历" + lunar);
-		System.out.println(lunar.getFestival());
-		System.out.println(lunar.getJieQi());
-
-		Map<String, String> date = LunarHelper.getTodayLunar();
-		System.out.println(date);
-	}
-
 }

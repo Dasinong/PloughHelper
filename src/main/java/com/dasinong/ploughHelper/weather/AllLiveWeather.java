@@ -3,6 +3,9 @@ package com.dasinong.ploughHelper.weather;
 import java.io.IOException;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
 
 import java.text.ParseException;
@@ -10,7 +13,8 @@ import java.util.HashMap;
 
 public class AllLiveWeather {
 	private static AllLiveWeather allLiveWeather;
-
+	private Logger logger = LoggerFactory.getLogger(AllLiveWeather.class);
+	
 	public static AllLiveWeather getAllLiveWeather() throws InterruptedException {
 		if (allLiveWeather == null) {
 			allLiveWeather = new AllLiveWeather();
@@ -32,7 +36,7 @@ public class AllLiveWeather {
 		try {
 			loadContent();
 		} catch (Exception e) {
-			System.out.println("update LiveWeather failed. " + e.getCause());
+			logger.error("update LiveWeather failed", e);
 			_allLiveWeather = oldLiveWeather;
 		}
 	}

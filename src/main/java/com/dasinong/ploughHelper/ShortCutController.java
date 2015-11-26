@@ -29,7 +29,6 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 //Add some short cut here to check/sync frontend and backend status
 @Controller
 public class ShortCutController extends BaseController {
-	private static final Logger logger = LoggerFactory.getLogger(ShortCutController.class);
 
 	/**
 	 * Simply selects the home view to render by returning its name.

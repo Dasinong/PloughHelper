@@ -15,6 +15,8 @@ import java.util.Map.Entry;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoader;
 import org.xml.sax.SAXException;
 
@@ -24,6 +26,7 @@ import com.dasinong.ploughHelper.util.SmsService;
 public class AllAgriDisForcast implements IWeatherBuffer {
 
 	private static AllAgriDisForcast alladf;
+	private Logger logger = LoggerFactory.getLogger(AllAgriDisForcast.class);
 
 	public static AllAgriDisForcast getadf() {
 		if (alladf == null) {
@@ -40,7 +43,7 @@ public class AllAgriDisForcast implements IWeatherBuffer {
 		try {
 			loadContent(latestSourceFile());
 		} catch (Exception e) {
-			System.out.println("Initialize agriculture disaster forcast failed. " + latestSourceFile());
+			logger.error("Initialize agriculture disaster forcast failed. " + latestSourceFile(), e);
 			SmsService.weatherAlert("Initialize adf failed on " + new Date() + " with file " + latestSourceFile());
 		}
 	}
@@ -59,7 +62,7 @@ public class AllAgriDisForcast implements IWeatherBuffer {
 		try {
 			loadContent(sourceFile);
 		} catch (Exception e) {
-			System.out.println("update agriculture disaster forcast failed. " + e.getCause());
+			logger.error("update agriculture disaster forcast failed", e);
 			SmsService.weatherAlert("Update adf failed on " + new Date() + " with file " + sourceFile);
 			_alladf = oldadf;
 		}
@@ -75,7 +78,6 @@ public class AllAgriDisForcast implements IWeatherBuffer {
 			sourceFile = Env.getEnv().WorkingDir + "/data/ftp/agriculture_forcast/agriculture_forcast_24hours_"
 					+ df.format(new Date()) + ".txt";
 		}
-		System.out.println(sourceFile);
 		return sourceFile;
 	}
 
@@ -112,7 +114,7 @@ public class AllAgriDisForcast implements IWeatherBuffer {
 					notification.append(fields[0] + " ");
 				}
 			} catch (NumberFormatException e) {
-				System.out.println("parse line " + tempString + " failed.");
+				logger.error("parse line " + tempString + " failed", e);
 				notification.append(tempString.substring(0, Math.min(tempString.length(), 10)) + " ");
 			}
 		}

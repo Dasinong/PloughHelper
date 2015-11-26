@@ -39,8 +39,6 @@ import com.dasinong.ploughHelper.viewerContext.ViewerContext;
 @Controller
 public class UserLoginController extends BaseController {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
 	@RequestMapping(value = "/regUser", produces = "application/json")
 	@ResponseBody
 	public Object reg(HttpServletRequest request, HttpServletResponse response) throws Exception {

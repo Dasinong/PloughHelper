@@ -10,6 +10,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -42,6 +44,7 @@ public class TwentyFourHourForcast {
 
 	private int size = 0;
 	private int top;
+	private Logger logger = LoggerFactory.getLogger(TwentyFourHourForcast.class);
 
 	// Used for rough
 	public TwentyFourHourForcast(long code) {
@@ -83,7 +86,7 @@ public class TwentyFourHourForcast {
 		try {
 			this.startTime = sdf.parse(startTime);
 		} catch (ParseException e) {
-			System.out.println("Inproper start time while parsing twentyFourForcast for " + code);
+			logger.error("Inproper start time while parsing twentyFourForcast for " + code, e);
 		}
 		this.code = code;
 
@@ -110,7 +113,7 @@ public class TwentyFourHourForcast {
 					info[i] = fdi;
 				}
 			} catch (Exception e) {
-				System.out.println("Exception happend while parsing twentyFourForcast for " + code);
+				logger.error("Exception happend while parsing twentyFourForcast for " + code, e);
 			}
 		}
 		// Deal With missing data issue
@@ -135,7 +138,7 @@ public class TwentyFourHourForcast {
 		try {
 			this.startTime = sdf.parse(startTime);
 		} catch (ParseException e) {
-			System.out.println("Inproper start time while parsing twentyFourForcast for " + code);
+			logger.error("Inproper start time while parsing twentyFourForcast for " + code, e);
 		}
 		this.code = code;
 
@@ -162,7 +165,7 @@ public class TwentyFourHourForcast {
 					info[i] = fdi;
 				}
 			} catch (Exception e) {
-				System.out.println("Exception happend while parsing twentyFourForcast for " + code);
+				logger.error("Exception happend while parsing twentyFourForcast for " + code, e);
 			}
 		}
 		// Deal With missing data issue

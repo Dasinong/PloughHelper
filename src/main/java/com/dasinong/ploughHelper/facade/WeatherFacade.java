@@ -3,6 +3,9 @@ package com.dasinong.ploughHelper.facade;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
 import com.dasinong.ploughHelper.ruleEngine.rules.Rule;
 import com.dasinong.ploughHelper.util.LunarHelper;
@@ -18,6 +21,9 @@ import com.dasinong.ploughHelper.weather.SevenDayForcast.ForcastInfo;
 import com.dasinong.ploughHelper.weather.TwentyFourHourForcast;
 
 public class WeatherFacade implements IWeatherFacade {
+	
+	private Logger logger = LoggerFactory.getLogger(WeatherFacade.class);
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -98,7 +104,7 @@ public class WeatherFacade implements IWeatherFacade {
 
 				// 获得24小时降水概率
 				if (tfhf.getSize() <= 24) {
-					System.out.println("Not enough data to compute POP on area " + areaId);
+					this.logger.warn("Not enough data to compute POP on area " + areaId);
 				} else {
 					for (int i = 0; i < tfhf.getSize(); i++) {
 						if (tfhf.info[i].time.getHours() < 6)
@@ -120,11 +126,10 @@ public class WeatherFacade implements IWeatherFacade {
 					data.put("POP", pOP);
 				}
 			} catch (Exception e) {
-				System.out.println("Process 24h failed " + areaId);
-				System.out.println(e.getMessage());
+				this.logger.error("Process 24h failed " + areaId, e);
 			}
 		} else {
-			System.out.println("Get next 24h failed " + areaId);
+			this.logger.error("Get next 24h failed " + areaId);
 		}
 
 		// 获得7天预测
@@ -157,8 +162,7 @@ public class WeatherFacade implements IWeatherFacade {
 						lastDay.min_temp = l7d.sevenDay[i - 1].nightTemp;
 					}
 				} catch (Exception e) {
-					System.out.println("Not able to load normal 7d");
-					e.printStackTrace();
+					this.logger.error("Not able to load normal 7d", e);
 				}
 
 				ForcastInfo[] n7d = All7d.getAll7d().get7d(areaId).aggregateData;
@@ -166,8 +170,7 @@ public class WeatherFacade implements IWeatherFacade {
 				data.put("n7d", n7d);
 			}
 		} catch (Exception e) {
-			System.out.println("Get next 7d failed");
-			System.out.println(e.getMessage());
+			this.logger.error("Get next 7d failed", e);
 		}
 
 		try {
@@ -178,7 +181,7 @@ public class WeatherFacade implements IWeatherFacade {
 			data.put("workable", workable);
 			data.put("sprayable", sprayable);
 		} catch (Exception e) {
-			System.out.println("No detailed 24h statistic for location " + areaId);
+			this.logger.error("No detailed 24h statistic for location " + areaId, e);
 			result.put("workable", -1);
 			result.put("sprayable", -1);
 			data.put("workable", -1);

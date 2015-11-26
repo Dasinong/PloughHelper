@@ -25,9 +25,7 @@ import com.dasinong.ploughHelper.contentLoader.UpdateSolution;
 import com.dasinong.ploughHelper.contentLoader.UpdateVariety;
 
 @Controller
-public class ContentController {
-
-	private static final Logger logger = LoggerFactory.getLogger(Test1Controller.class);
+public class ContentController extends BaseController {
 
 	/**
 	 * Simply selects the home view to render by returning its name.

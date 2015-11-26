@@ -2,6 +2,9 @@ package com.dasinong.ploughHelper.weather;
 
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dasinong.ploughHelper.weather.SevenDayForcast.ForcastInfo;
 
 public class SevenDayHumidity {
@@ -22,6 +25,7 @@ public class SevenDayHumidity {
 	public int code;
 	public Date startDate;
 	public HumidityInfo[] humidity = new HumidityInfo[10];
+	private Logger logger = LoggerFactory.getLogger(SevenDayHumidity.class);
 
 	public SevenDayHumidity(int code, Date startDate) {
 		this.code = code;
@@ -36,7 +40,7 @@ public class SevenDayHumidity {
 			humidity[count] = hi;
 			count++;
 		} else {
-			System.out.println("Stack is full for city " + code);
+			logger.warn("Stack is full for city " + code);
 		}
 	}
 

@@ -17,6 +17,8 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.dasinong.ploughHelper.weather.LiveWeatherData;
 
@@ -30,6 +32,7 @@ public class WISWeather {
 	private String date;
 	private String areaId;
 	private String type;
+	private Logger logger = LoggerFactory.getLogger(WISHourWeather.class);
 
 	public WISWeather(String areaId, String type) {
 		this.areaId = areaId;
@@ -65,12 +68,8 @@ public class WISWeather {
 			while ((line = in.readLine()) != null) {
 				result += line;
 			}
-			System.out.println(result);
-			if (result.equals("key error"))
-				System.out.println("Error happened with the server when decoding url key!");
 		} catch (Exception e) {
-			System.out.println("发送GET请求出现异常！" + e);
-			e.printStackTrace();
+			logger.error("WISWeather发送GET请求出现异常", e);
 		} finally {
 			try {
 				if (in != null) {

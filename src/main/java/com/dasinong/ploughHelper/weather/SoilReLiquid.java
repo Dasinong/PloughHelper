@@ -10,10 +10,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dasinong.ploughHelper.util.Env;
 
 public class SoilReLiquid {
 	private static SoilReLiquid soilReLiquid;
+	
+	private Logger logger = LoggerFactory.getLogger(SoilReLiquid.class);
 
 	public static SoilReLiquid getAllSoilLi() {
 		if (soilReLiquid == null) {
@@ -58,13 +63,13 @@ public class SoilReLiquid {
 						reLiquid.put(code, hum);
 					}
 				} catch (Exception e) {
-					System.out.println("Error happend while loading relative soil liquid " + line);
+					logger.error("Error happend while loading relative soil liquid " + line, e);
 				}
 			}
 			br.close();
 			fr.close();
 		} catch (IOException e) {
-			System.out.println("Process relative soil liquid file faild");
+			logger.error("Process relative soil liquid file faild", e);
 		}
 
 	}

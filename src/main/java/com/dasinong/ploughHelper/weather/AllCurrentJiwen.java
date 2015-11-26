@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.util.Env;
@@ -19,6 +21,7 @@ import com.dasinong.ploughHelper.util.SmsService;
 
 public class AllCurrentJiwen implements IWeatherBuffer {
 	private static AllCurrentJiwen allCurrentJiwen;
+	private Logger logger = LoggerFactory.getLogger(AllCurrentJiwen.class);
 
 	Date timeStamp = new Date(10000000);
 
@@ -38,7 +41,7 @@ public class AllCurrentJiwen implements IWeatherBuffer {
 		try {
 			loadContent(latestSourceFile());
 		} catch (Exception e) {
-			System.out.println("Initialize current Jiwen failed.");
+			logger.error("Initialize current Jiwen failed", e);
 			SmsService.weatherAlert("Initialize jiwen failed on " + new Date() + " with file " + latestSourceFile());
 		}
 	}
@@ -57,7 +60,7 @@ public class AllCurrentJiwen implements IWeatherBuffer {
 		try {
 			loadContent(sourceFile);
 		} catch (Exception e) {
-			System.out.println("update jiwen failed. " + e.getCause());
+			logger.error("update jiwen failed", e);
 			SmsService.weatherAlert("Update jiwen failed on " + new Date() + " with file " + sourceFile);
 			_allCurrentJiwen = oldJiwen;
 		}
@@ -76,7 +79,6 @@ public class AllCurrentJiwen implements IWeatherBuffer {
 			filename = "jw_" + df.format(date) + ".csv";
 			sourceFile = Env.getEnv().WorkingDir + "/data/ftp/jiwen/" + filename;
 		}
-		System.out.println(sourceFile);
 		return sourceFile;
 	}
 
@@ -102,7 +104,7 @@ public class AllCurrentJiwen implements IWeatherBuffer {
 				units = line.split(",");
 				_allCurrentJiwen.put(Integer.parseInt(units[0]), Integer.parseInt(units[2]));
 			} catch (Exception e) {
-				System.out.println("Error happend while inserting jiwen " + line);
+				logger.error("Error happend while inserting jiwen " + line);
 				notification.append(line.substring(0, Math.min(line.length(), 10)) + " ");
 			}
 		}

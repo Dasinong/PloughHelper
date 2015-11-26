@@ -15,37 +15,15 @@ import java.util.List;
 import java.util.Random;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SmsService {
 	public static final String ACCOUNT_NAME = "dldasi00";
 	public static final String PASSWORD = "MF3o9AFn";
 	public static final int maxLength = 120;
 	public static final ArrayList<String> weatherAdmin = new ArrayList<String>();
-
-	public static void test() throws UnsupportedEncodingException {
-		String content = "近期天气良好，请抓紧打药。【大司农】";
-		ArrayList<String> numbers = new ArrayList<String>();
-		numbers.add("18602195820"); // 小张
-		numbers.add("18910423016"); // 娘娘
-		numbers.add("18663377860");
-		numbers.add("13792016926");
-		String numbersString = URLEncoder.encode(convertNumbers(numbers), "UTF-8");
-		System.out.println(numbersString);
-		System.out.println(groupSMS(content, numbers));
-	}
-
-	@Test
-	public void run() {
-		String xiaoZhangCell = "18602195820";
-		String securityCode = generateSecurityCode(6);
-		System.out.println(securityCode);
-		System.out.println(securityCodeSMS(securityCode, xiaoZhangCell));
-
-		String niangniangCell = "18910423016";
-		securityCode = generateSecurityCode(6);
-		System.out.println(securityCode);
-		System.out.println(securityCodeSMS(securityCode, niangniangCell));
-	}
+	private static final Logger logger = LoggerFactory.getLogger(SmsService.class);
 
 	public String generateSecurityCode(int numberOfDigits) {
 		String securityCode = "";
@@ -73,7 +51,7 @@ public class SmsService {
 			String response = SMS(postData, postUrl);
 			return response;
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			logger.error("Unsupported encoding", e);
 		}
 		return "";
 	}
@@ -87,7 +65,7 @@ public class SmsService {
 			String response = SMS(postData, postUrl);
 			return response;
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			logger.error("Unsupported encoding", e);
 		}
 		return "";
 	}
@@ -101,8 +79,7 @@ public class SmsService {
 						+ number + "&smsg=" + URLEncoder.encode(content, "UTF-8");
 				SMS(postData, postUrl);
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("Unsupported encoding", e);
 			}
 
 		}
@@ -139,7 +116,7 @@ public class SmsService {
 				SMS(postData, postUrl);
 				return "OK";
 			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
+				logger.error("Unsupported encoding", e);
 				return "Exceptione";
 			}
 		}
@@ -177,7 +154,7 @@ public class SmsService {
 
 			// 获取响应状态
 			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-				System.out.println("connect failed!");
+				logger.error("connect failed");
 				return "";
 			}
 			// 获取响应内容体
@@ -187,22 +164,10 @@ public class SmsService {
 				result += line + "\n";
 			}
 			in.close();
-			System.out.println();
 			return result;
 		} catch (IOException e) {
-			e.printStackTrace(System.out);
+			logger.error("SMS IO error", e);
 		}
 		return "";
-	}
-
-	public static void main(String[] args) {
-		/// SmsService sms = new SmsService();
-		// String xiyaoCell = "13120128328";
-		// String xiyaoCell = "13162881998";
-		// String securityCode = sms.generateSecurityCode(6);
-		// System.out.println(securityCode);
-		// System.out.println(securityCodeSMS(securityCode, xiyaoCell));
-		// System.out.println(SmsService.weatherAlert("load 24h failed"));
-		SmsService.sendref("abc", new String[] { "13162881998" });
 	}
 }

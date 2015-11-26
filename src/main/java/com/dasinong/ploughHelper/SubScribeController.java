@@ -21,8 +21,6 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 @Controller
 public class SubScribeController extends RequireUserLoginController {
 
-	private static final Logger logger = LoggerFactory.getLogger(SubScribeController.class);
-
 	@RequestMapping(value = "/insertSubScribeList", produces = "application/json")
 	@ResponseBody
 	public Object insertSubScribeList(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -16,6 +16,8 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GetHourWeather {
 
@@ -27,6 +29,8 @@ public class GetHourWeather {
 
 	private String areaId;
 
+	private Logger logger = LoggerFactory.getLogger(AllLiveWeather.class);
+	
 	public GetHourWeather(String areaId) {
 		this.areaId = areaId;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -60,8 +64,7 @@ public class GetHourWeather {
 			}
 			System.out.println(result);
 		} catch (Exception e) {
-			System.out.println("发送GET请求出现异常！" + e);
-			e.printStackTrace();
+			logger.error("GetHourWeather发送GET请求出现异常", e);
 		} finally {
 			try {
 				if (in != null) {

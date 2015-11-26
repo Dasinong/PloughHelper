@@ -21,8 +21,6 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 @Controller
 public class TaskSpecController extends RequireUserLoginController {
 
-	private static final Logger logger = LoggerFactory.getLogger(TaskSpecController.class);
-
 	ITaskSpecFacade tsf;
 
 	@RequestMapping(value = "/getTaskSpec", produces = "application/json")

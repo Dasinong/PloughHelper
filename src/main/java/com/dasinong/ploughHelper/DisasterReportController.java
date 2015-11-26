@@ -26,8 +26,6 @@ import com.dasinong.ploughHelper.util.HttpServletRequestX;
 @Controller
 public class DisasterReportController extends BaseController {
 
-	private static final Logger logger = LoggerFactory.getLogger(DisasterReportController.class);
-
 	@Autowired
 	ServletContext servletContext;
 
@@ -51,7 +49,6 @@ public class DisasterReportController extends BaseController {
 		String imageFilenames = ""; // 存放图片文件名，多个文件名用逗号分隔，最多六张图片
 
 		try {
-			System.out.println("szc:" + System.getProperty("user.dir"));
 			Map<String, MultipartFile> imgFiles = request.getFileMap();
 			MultipartFile imgFile;
 			if (!imgFiles.isEmpty()) {
@@ -73,17 +70,14 @@ public class DisasterReportController extends BaseController {
 					fileName = fileName + rnd.nextInt(9999);
 					// fileName = fileName +user.getUserId()+"."+ext;
 					fileName = fileName + "." + ext;
-					System.out.println(filePath + "../userPetDis/" + fileName);
 					File dest = new File(filePath + "../userPetDis/" + fileName);
 					imgFile.transferTo(dest);
 					imageFilenames += fileName + ",";
 				}
 				imageFilenames = imageFilenames.substring(0, imageFilenames.length() - 1);
-				System.out.println(imageFilenames);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("pictures upload error!");
 			result.put("respCode", 100);
 			result.put("message", "图片上传失败");
 			return result;

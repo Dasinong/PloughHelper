@@ -34,8 +34,6 @@ public class BaiKeController extends BaseController {
 
 	IBaiKeFacade baiKeFacade;
 
-	private static final Logger logger = LoggerFactory.getLogger(BaiKeController.class);
-
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -101,12 +99,10 @@ public class BaiKeController extends BaseController {
 		String[] b = { "varietyName", "varietyId", "varietySource" };
 		try {
 			HashMap[] h = bs.search("玉米", a, b);
-			System.out.println(h.length);
 			for (int k = 0; k < h.length; k++) {
 				if (h[k] == null) {
 					break;
 				}
-				System.out.println(h[k].toString());
 			}
 		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
 			e.printStackTrace();
@@ -130,12 +126,10 @@ public class BaiKeController extends BaseController {
 		String[] result = { "petDisSpecName", "petDisSpecId", "cropName", "sympthon", "type" };
 		try {
 			HashMap[] h = bs.search("玉米", resource, result);
-			System.out.println(h.length);
 			for (int k = 0; k < h.length; k++) {
 				if (h[k] == null) {
 					break;
 				}
-				System.out.println(h[k].toString());
 			}
 		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
 			// TODO Auto-generated catch block
@@ -160,12 +154,10 @@ public class BaiKeController extends BaseController {
 		String[] result = { "cPProductName", "manufacturer", "crop", "cPProductId" };
 		try {
 			HashMap[] h = bs.search("玉米", resource, result);
-			System.out.println(h.length);
 			for (int k = 0; k < h.length; k++) {
 				if (h[k] == null) {
 					break;
 				}
-				System.out.println(h[k].toString());
 			}
 		} catch (ParseException | IOException | InvalidTokenOffsetsException e) {
 			// TODO Auto-generated catch block
