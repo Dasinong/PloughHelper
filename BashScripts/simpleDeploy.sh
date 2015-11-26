@@ -12,7 +12,7 @@ if [ "$#" -ne 1 ]; then
 	exit
 fi
 
-if [ "$1" != "stage" ] && [ "$2" != "prod" ]; then
+if [ "$1" != "stage" ] && [ "$1" != "prod" ]; then
 	echo "${RED}Wrong parameter${NC}"
 	echo "Example usage: ./BashScripts/simpleDeploy.sh [stage|prod]"
 	exit
