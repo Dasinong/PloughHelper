@@ -24,6 +24,7 @@ public class UserWrapper implements Serializable {
 	private String refcode;
 	private Long refuid;
 	private Long institutionId;
+	private String userType;
 	private Boolean isEmployee = false;
 
 	private List<Long> fields = new ArrayList<Long>();
@@ -52,6 +53,7 @@ public class UserWrapper implements Serializable {
 		this.refuid = user.getRefuid() == null ? -1 : user.getRefuid();
 		this.institutionId = user.getInstitutionId();
 		this.isEmployee = user.getIsEmployee();
+		this.userType = user.getUserType();
 	}
 
 	public Long getUserId() {
@@ -188,6 +190,14 @@ public class UserWrapper implements Serializable {
 	
 	public void setIsEmployee(Boolean isEmployee) {
 		this.isEmployee = isEmployee;
+	}
+	
+	public String getUserType() {
+		return this.userType;
+	}
+	
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 
 }
