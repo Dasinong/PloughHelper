@@ -24,7 +24,7 @@ public class UserWrapper implements Serializable {
 	private String refcode;
 	private Long refuid;
 	private Long institutionId;
-	private boolean isEmployee = false;
+	private Boolean isEmployee = false;
 
 	private List<Long> fields = new ArrayList<Long>();
 	private List<Long> monitorLocationId = new ArrayList<Long>();
@@ -182,11 +182,11 @@ public class UserWrapper implements Serializable {
 		this.institutionId = institutionId;
 	}
 	
-	public boolean getIsEmployee() {
+	public Boolean getIsEmployee() {
 		return this.isEmployee;
 	}
 	
-	public void setIsEmployee(boolean isEmployee) {
+	public void setIsEmployee(Boolean isEmployee) {
 		this.isEmployee = isEmployee;
 	}
 

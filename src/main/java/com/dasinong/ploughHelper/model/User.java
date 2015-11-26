@@ -44,7 +44,7 @@ public class User implements Serializable {
 	private Long refuid;
 	private Long institutionId;
 	private String userType;
-	private Boolean isEmployee;
+	private Boolean isEmployee = false;
 
 	public User() {
 	}
