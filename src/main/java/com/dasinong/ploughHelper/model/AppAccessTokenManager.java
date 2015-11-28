@@ -1,4 +1,4 @@
-package com.dasinong.ploughHelper.accessTokenManager;
+package com.dasinong.ploughHelper.model;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -7,8 +7,6 @@ import org.springframework.web.context.ContextLoader;
 import com.dasinong.ploughHelper.dao.IDasinongAppDao;
 import com.dasinong.ploughHelper.exceptions.GenerateAppAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.InvalidAppAccessTokenException;
-import com.dasinong.ploughHelper.model.AppAccessToken;
-import com.dasinong.ploughHelper.model.DasinongApp;
 import com.dasinong.ploughHelper.util.AES;
 
 public class AppAccessTokenManager {

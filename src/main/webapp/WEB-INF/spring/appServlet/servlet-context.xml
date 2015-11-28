@@ -11,8 +11,7 @@
 		http://www.springframework.org/schema/context/spring-context.xsd">
 	 
 	<interceptors>
-		<beans:bean class="com.dasinong.ploughHelper.util.KeyCheck" />
-		<beans:bean class="com.dasinong.ploughHelper.util.VersionInterceptor" />
+		<beans:bean class="com.dasinong.ploughHelper.interceptor.VersionInterceptor" />
 		<beans:bean class="com.dasinong.ploughHelper.interceptor.ViewerContextInitializer" />
 	</interceptors>
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->

@@ -19,16 +19,15 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.dasinong.ploughHelper.accessTokenManager.SecurityCodeManager;
-import com.dasinong.ploughHelper.accessTokenManager.UserAccessTokenManager;
 import com.dasinong.ploughHelper.dao.ISecurityCodeDao;
 import com.dasinong.ploughHelper.dao.IUserAccessTokenDao;
 import com.dasinong.ploughHelper.dao.IUserDao;
 import com.dasinong.ploughHelper.dao.UserDao;
-import com.dasinong.ploughHelper.inputParser.UserParser;
 import com.dasinong.ploughHelper.model.SecurityCode;
+import com.dasinong.ploughHelper.model.SecurityCodeManager;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.UserAccessToken;
+import com.dasinong.ploughHelper.model.UserAccessTokenManager;
 import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
 import com.dasinong.ploughHelper.sms.SecurityCodeShortMessage;
 import com.dasinong.ploughHelper.sms.SMS;
@@ -46,13 +45,29 @@ public class UserLoginController extends BaseController {
 		ViewerContext vc = this.getViewerContext(request);
 		IUserDao userdao = (IUserDao) ContextLoader.getCurrentWebApplicationContext().getBean("userDao");
 		UserAccessTokenManager tokenManager = new UserAccessTokenManager();
-
 		HashMap<String, Object> result = new HashMap<String, Object>();
+		HttpServletRequestX requestX = new HttpServletRequestX(request);
+		
+		String userName = requestX.getStringOptional("username", "");
+		String password = requestX.getNonEmptyString("password");
+		String cellPhone = requestX.getNonEmptyString("cellphone");
+		String address = requestX.getStringOptional("address", null);
+		String deviceId = requestX.getStringOptional("deviceId", null);
+		String channel = requestX.getStringOptional("channel", null);
+		Long institutionId = requestX.getLongOptional("institutionId", 0L);
 
-		User user = (new UserParser(request)).getUser();
+		User user = new User();
+		user.setUserName(userName);
+		user.setAndEncryptPassword(password);
+		user.setCellPhone(cellPhone);
+		user.setAddress(address);
+		user.setDeviceId(deviceId);
+		user.setChannel(channel);
+		user.setInstitutionId(institutionId);
 		user.setIsPassSet(false);
 		user.setAuthenticated(true);
 		user.setCreateAt(new Date());
+		
 		String refcode;
 		do {
 			refcode = Refcode.GenerateRefcode();
@@ -86,8 +101,7 @@ public class UserLoginController extends BaseController {
 		UserAccessTokenManager tokenManager = new UserAccessTokenManager();
 
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		// TODO (xiahonggao): remove this code when android native
-		// starts passing cellphone
+
 		User user = this.getLoginUser(request);
 		if (user != null) {
 			result.put("respCode", 200);
@@ -148,8 +162,6 @@ public class UserLoginController extends BaseController {
 			result.put("data", userWrapper);
 			UserAccessToken token = null;
 
-			// TODO (xiahonggao): remove if block once android frontend starts
-			// passing appId;
 			if (vc.getAppId() != null)
 				token = tokenManager.generate(user.getUserId(), vc.getAppId());
 			if (token != null)
@@ -194,7 +206,7 @@ public class UserLoginController extends BaseController {
 			String channel = requestX.getString("channel");
 			user.setChannel(channel);
 
-			Long institutionId = requestX.getLong("institutionId");
+			Long institutionId = requestX.getLongOptional("institutionId", 0L);
 			user.setInstitutionId(institutionId);
 
 			user.setUserName("");
@@ -450,7 +462,7 @@ public class UserLoginController extends BaseController {
 
 			String channel = requestX.getString("channel");
 			user.setChannel(channel);
-			Long institutionId = requestX.getLong("institutionId");
+			Long institutionId = requestX.getLongOptional("institutionId", 0L);
 			user.setInstitutionId(institutionId);
 
 			String refcode;
@@ -533,7 +545,7 @@ public class UserLoginController extends BaseController {
 			String channel = requestX.getString("channel");
 			user.setChannel(channel);
 
-			Long institutionId = requestX.getLong("institutionId");
+			Long institutionId = requestX.getLongOptional("institutionId", 0L);
 			user.setInstitutionId(institutionId);
 
 			userDao.save(user);

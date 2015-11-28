@@ -1,4 +1,4 @@
-package com.dasinong.ploughHelper.accessTokenManager;
+package com.dasinong.ploughHelper.model;
 
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -7,7 +7,6 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.IDasinongAppDao;
 import com.dasinong.ploughHelper.dao.IUserAccessTokenDao;
-import com.dasinong.ploughHelper.model.DasinongApp;
 
 public class DasinongAppManager {
 

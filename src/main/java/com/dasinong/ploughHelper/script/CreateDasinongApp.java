@@ -3,8 +3,8 @@ package com.dasinong.ploughHelper.script;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.dasinong.ploughHelper.accessTokenManager.DasinongAppManager;
 import com.dasinong.ploughHelper.dao.IDasinongAppDao;
+import com.dasinong.ploughHelper.model.DasinongAppManager;
 
 public class CreateDasinongApp {
 

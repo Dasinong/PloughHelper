@@ -1,4 +1,4 @@
-package com.dasinong.ploughHelper.accessTokenManager;
+package com.dasinong.ploughHelper.model;
 
 import java.net.URLEncoder;
 import java.sql.Timestamp;
@@ -11,8 +11,6 @@ import com.dasinong.ploughHelper.dao.IUserAccessTokenDao;
 import com.dasinong.ploughHelper.exceptions.GenerateUserAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.InvalidUserAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.UserAccessTokenExpiredException;
-import com.dasinong.ploughHelper.model.DasinongApp;
-import com.dasinong.ploughHelper.model.UserAccessToken;
 import com.dasinong.ploughHelper.util.AES;
 import com.dasinong.ploughHelper.util.Env;
 

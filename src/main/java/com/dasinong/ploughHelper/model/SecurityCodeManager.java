@@ -1,4 +1,4 @@
-package com.dasinong.ploughHelper.accessTokenManager;
+package com.dasinong.ploughHelper.model;
 
 import java.sql.Timestamp;
 import java.util.Random;
@@ -7,7 +7,6 @@ import org.springframework.web.context.ContextLoader;
 
 import com.dasinong.ploughHelper.dao.IDasinongAppDao;
 import com.dasinong.ploughHelper.dao.ISecurityCodeDao;
-import com.dasinong.ploughHelper.model.SecurityCode;
 
 public class SecurityCodeManager {
 

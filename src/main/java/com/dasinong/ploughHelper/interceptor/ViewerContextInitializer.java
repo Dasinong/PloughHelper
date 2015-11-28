@@ -11,15 +11,15 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.dasinong.ploughHelper.accessTokenManager.AppAccessTokenManager;
-import com.dasinong.ploughHelper.accessTokenManager.UserAccessTokenManager;
 import com.dasinong.ploughHelper.dao.IUserAccessTokenDao;
 import com.dasinong.ploughHelper.exceptions.InvalidAppAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.InvalidUserAccessTokenException;
 import com.dasinong.ploughHelper.exceptions.UserAccessTokenExpiredException;
 import com.dasinong.ploughHelper.model.AppAccessToken;
+import com.dasinong.ploughHelper.model.AppAccessTokenManager;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.UserAccessToken;
+import com.dasinong.ploughHelper.model.UserAccessTokenManager;
 import com.dasinong.ploughHelper.viewerContext.ViewerContext;
 
 /**

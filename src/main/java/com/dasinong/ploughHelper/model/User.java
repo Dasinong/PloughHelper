@@ -20,9 +20,6 @@ public class User implements Serializable {
 	private String userName;
 	private String cellPhone;
 
-	// TODO (xiahonggao): remove password field right after
-	// encryption change is live.
-	private String password;
 	private String encryptedPassword;
 	private String address;
 	private boolean isPassSet;
@@ -49,10 +46,9 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(String userName, String password, String cellPhone, String address) {
+	public User(String userName, String cellPhone, String address) {
 		super();
 		this.userName = userName;
-		this.password = password;
 		this.cellPhone = cellPhone;
 		this.address = address;
 	}
@@ -73,19 +69,8 @@ public class User implements Serializable {
 		this.userName = userName;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
 	public String getEncryptedPassword() {
 		return this.encryptedPassword;
-	}
-
-	// TODO (xiahonggao): DO NOT USE THIS METHOD SINCE IT WILL BE DELETED VERY
-	// SOON.
-	// Use setAndEncryptPassword instead.
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public void setAndEncryptPassword(String rawPassword) throws NoSuchAlgorithmException {

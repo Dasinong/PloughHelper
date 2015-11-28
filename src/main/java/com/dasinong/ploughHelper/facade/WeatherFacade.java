@@ -56,15 +56,12 @@ public class WeatherFacade implements IWeatherFacade {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		HashMap<String, Object> data = new HashMap<String, Object>();
 
-		// TODO (xiahonggao): fix respcode typo
-		result.put("respcode", 200);
 		result.put("respCode", 200);
 		result.put("message", "获取成功");
 
 		// 获得当前天气
 		GetLiveWeather glw = new GetLiveWeather(areaId.toString());
 		LiveWeatherData lwd = glw.getLiveWeather();
-		result.put("current", lwd);
 		data.put("current", lwd);
 
 		// 获得12小时天气
@@ -94,7 +91,6 @@ public class WeatherFacade implements IWeatherFacade {
 				;
 				lwd.daymax = Math.max(max, lwd.l1);
 				lwd.daymin = Math.min(min, lwd.l1);
-				result.put("n12h", n24h);
 				data.put("n24h", n24h);
 
 				int p1 = 0;
@@ -122,7 +118,6 @@ public class WeatherFacade implements IWeatherFacade {
 					pOP.put("noon", p2);
 					pOP.put("night", p3);
 					pOP.put("nextmidnight", p4);
-					result.put("POP", pOP);
 					data.put("POP", pOP);
 				}
 			} catch (Exception e) {
@@ -166,7 +161,6 @@ public class WeatherFacade implements IWeatherFacade {
 				}
 
 				ForcastInfo[] n7d = All7d.getAll7d().get7d(areaId).aggregateData;
-				result.put("n7d", n7d);
 				data.put("n7d", n7d);
 			}
 		} catch (Exception e) {
@@ -176,20 +170,15 @@ public class WeatherFacade implements IWeatherFacade {
 		try {
 			int workable = Rule.workable(areaId);
 			int sprayable = Rule.sprayable(areaId);
-			result.put("workable", workable);
-			result.put("sprayable", sprayable);
 			data.put("workable", workable);
 			data.put("sprayable", sprayable);
 		} catch (Exception e) {
 			this.logger.error("No detailed 24h statistic for location " + areaId, e);
-			result.put("workable", -1);
-			result.put("sprayable", -1);
 			data.put("workable", -1);
 			data.put("sprayable", -1);
 		}
 
 		data.put("date", LunarHelper.getTodayLunar());
-
 		result.put("data", data);
 		return result;
 

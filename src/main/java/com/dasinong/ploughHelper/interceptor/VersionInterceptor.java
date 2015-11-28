@@ -1,4 +1,4 @@
-package com.dasinong.ploughHelper.util;
+package com.dasinong.ploughHelper.interceptor;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
