@@ -3,7 +3,6 @@ package com.dasinong.ploughHelper.sms;
 import java.util.HashMap;
 
 import com.dasinong.ploughHelper.model.Institution;
-import com.dasinong.ploughHelper.util.SmsService;
 
 public class RefAppShortMessage extends PersistentShortMessageBase {
 	

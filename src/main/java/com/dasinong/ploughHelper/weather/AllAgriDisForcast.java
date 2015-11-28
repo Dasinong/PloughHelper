@@ -20,8 +20,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoader;
 import org.xml.sax.SAXException;
 
+import com.dasinong.ploughHelper.sms.SMS;
+import com.dasinong.ploughHelper.sms.WeatherDataShortMessage;
 import com.dasinong.ploughHelper.util.Env;
-import com.dasinong.ploughHelper.util.SmsService;
+import com.dasinong.ploughHelper.util.WeatherAdmins;
 
 public class AllAgriDisForcast implements IWeatherBuffer {
 
@@ -44,7 +46,8 @@ public class AllAgriDisForcast implements IWeatherBuffer {
 			loadContent(latestSourceFile());
 		} catch (Exception e) {
 			logger.error("Initialize agriculture disaster forcast failed. " + latestSourceFile(), e);
-			SmsService.weatherAlert("Initialize adf failed on " + new Date() + " with file " + latestSourceFile());
+			String content = "Initialize adf failed on " + new Date() + " with file " + latestSourceFile();
+			SMS.sendSafe(new WeatherDataShortMessage(content), WeatherAdmins.getSubscribers());
 		}
 	}
 
@@ -63,7 +66,8 @@ public class AllAgriDisForcast implements IWeatherBuffer {
 			loadContent(sourceFile);
 		} catch (Exception e) {
 			logger.error("update agriculture disaster forcast failed", e);
-			SmsService.weatherAlert("Update adf failed on " + new Date() + " with file " + sourceFile);
+			String content = "Update adf failed on " + new Date() + " with file " + sourceFile;
+			SMS.sendSafe(new WeatherDataShortMessage(content), WeatherAdmins.getSubscribers());
 			_alladf = oldadf;
 		}
 	}
@@ -118,8 +122,8 @@ public class AllAgriDisForcast implements IWeatherBuffer {
 				notification.append(tempString.substring(0, Math.min(tempString.length(), 10)) + " ");
 			}
 		}
-		String sms = notification.substring(0, Math.min(notification.length(), SmsService.maxLength));
-		SmsService.weatherAlert(sms);
+		
+		SMS.sendSafe(new WeatherDataShortMessage(notification.toString()), WeatherAdmins.getSubscribers());
 		reader.close();
 	}
 

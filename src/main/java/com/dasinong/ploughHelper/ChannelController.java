@@ -15,7 +15,6 @@ import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.sms.RefAppShortMessage;
 import com.dasinong.ploughHelper.sms.SMS;
 import com.dasinong.ploughHelper.util.HttpServletRequestX;
-import com.dasinong.ploughHelper.util.SmsService;
 
 @Controller
 public class ChannelController extends RequireUserLoginController {

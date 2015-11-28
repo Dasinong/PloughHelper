@@ -99,12 +99,10 @@ public class WeatherAlert implements Comparable<WeatherAlert> {
 		}
 
 		try {
-			System.out.println("szc:" + result);
 			JsonNode node = mapper.readTree(result);
 			JsonNode alarm = node.get("alarm");
 			JsonNode areaAlarm = alarm.get(areaId);
 			JsonNode warnings = areaAlarm.get("w");
-			System.out.println("areaId:" + areaId);
 			if (warnings == null)
 				return null;
 			Iterator<JsonNode> warningNodes = warnings.getElements();

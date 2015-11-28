@@ -16,8 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.sms.SMS;
+import com.dasinong.ploughHelper.sms.WeatherDataShortMessage;
 import com.dasinong.ploughHelper.util.Env;
-import com.dasinong.ploughHelper.util.SmsService;
+import com.dasinong.ploughHelper.util.WeatherAdmins;
 
 public class AllCurrentJiwen implements IWeatherBuffer {
 	private static AllCurrentJiwen allCurrentJiwen;
@@ -42,7 +44,8 @@ public class AllCurrentJiwen implements IWeatherBuffer {
 			loadContent(latestSourceFile());
 		} catch (Exception e) {
 			logger.error("Initialize current Jiwen failed", e);
-			SmsService.weatherAlert("Initialize jiwen failed on " + new Date() + " with file " + latestSourceFile());
+			String content = "Initialize jiwen failed on " + new Date() + " with file " + latestSourceFile();
+			SMS.sendSafe(new WeatherDataShortMessage(content), WeatherAdmins.getSubscribers());
 		}
 	}
 
@@ -61,7 +64,8 @@ public class AllCurrentJiwen implements IWeatherBuffer {
 			loadContent(sourceFile);
 		} catch (Exception e) {
 			logger.error("update jiwen failed", e);
-			SmsService.weatherAlert("Update jiwen failed on " + new Date() + " with file " + sourceFile);
+			String content = "Update jiwen failed on " + new Date() + " with file " + sourceFile;
+			SMS.sendSafe(new WeatherDataShortMessage(content), WeatherAdmins.getSubscribers());
 			_allCurrentJiwen = oldJiwen;
 		}
 	}
@@ -108,8 +112,7 @@ public class AllCurrentJiwen implements IWeatherBuffer {
 				notification.append(line.substring(0, Math.min(line.length(), 10)) + " ");
 			}
 		}
-		String sms = notification.substring(0, Math.min(notification.length(), SmsService.maxLength));
-		SmsService.weatherAlert(sms);
+		SMS.sendSafe(new WeatherDataShortMessage(notification.toString()), WeatherAdmins.getSubscribers());
 		br.close();
 		fr.close();
 	}

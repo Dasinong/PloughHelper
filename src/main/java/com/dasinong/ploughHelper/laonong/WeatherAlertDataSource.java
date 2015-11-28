@@ -32,7 +32,6 @@ public class WeatherAlertDataSource implements ILaoNongDataSource {
 			this.logger.error("Error happend when get Agriculture Disaster Forcast", e);
 		}
 
-		System.out.println("szc: getLaoNong areaId : " + areaId);
 		LaoNong laoNong = null;
 
 		if (!"".equals(disasterInfo)) {

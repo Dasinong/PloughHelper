@@ -15,8 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoader;
 import org.xml.sax.SAXException;
 
+import com.dasinong.ploughHelper.sms.SMS;
+import com.dasinong.ploughHelper.sms.WeatherDataShortMessage;
 import com.dasinong.ploughHelper.util.Env;
-import com.dasinong.ploughHelper.util.SmsService;
+import com.dasinong.ploughHelper.util.WeatherAdmins;
 
 public class All24h implements IWeatherBuffer {
 	private static All24h all24h;
@@ -38,7 +40,8 @@ public class All24h implements IWeatherBuffer {
 			loadContent(latestSourceFile());
 		} catch (Exception e) {
 			logger.error("Initialize 24h failed", e);
-			SmsService.weatherAlert("Initialize 24h failed on " + new Date() + " with file " + latestSourceFile());
+			String content = "Initialize 24h failed on " + new Date() + " with file " + latestSourceFile();
+			SMS.sendSafe(new WeatherDataShortMessage(content), WeatherAdmins.getSubscribers());
 		}
 		all24h = this;
 	}
@@ -58,8 +61,8 @@ public class All24h implements IWeatherBuffer {
 			loadContent(basefolder);
 		} catch (Exception e) {
 			logger.error("update 24h failed", e);
-			SmsService.weatherAlert("Update 24h failed on " + new Date() + " with file " + basefolder);
-			// _all24h = old24h;
+			String content = "Update 24h failed on " + new Date() + " with file " + basefolder;
+			SMS.sendSafe(new WeatherDataShortMessage(content), WeatherAdmins.getSubscribers());
 		}
 	}
 
@@ -103,8 +106,8 @@ public class All24h implements IWeatherBuffer {
 				}
 			}
 		}
-		String sms = notification.substring(0, Math.min(notification.length(), SmsService.maxLength));
-		SmsService.weatherAlert(sms);
+		
+		SMS.sendSafe(new WeatherDataShortMessage(notification.toString()), WeatherAdmins.getSubscribers());
 	}
 
 	HashMap<Long, TwentyFourHourForcast> _all24h;

@@ -53,6 +53,14 @@ public class SMS {
 		}
 	}
 	
+	public static void sendSafe(IShortMessage message, String cellphone) {
+		try {
+			send(message, cellphone);
+		} catch (Exception ex) {
+			// ignore
+		}
+	}
+	
 	public static void send(IShortMessage message, String[] cellphones) throws Exception {
 		String productId = message.getSmsProductId();
 		
@@ -83,8 +91,24 @@ public class SMS {
 		}
 	}
 	
+	public static void sendSafe(IShortMessage message, String[] cellphones) {
+		try {
+			send(message, cellphones);
+		} catch (Exception ex) {
+			// ignore
+		}
+	}
+	
 	public static void send(IShortMessage message, List<String> cellphones) throws Exception {
 		send(message, convertNumbers(cellphones));
+	}
+	
+	public static void sendSafe(IShortMessage message, List<String> cellphones) {
+		try {
+			send(message, cellphones);
+		} catch (Exception ex) {
+			// ignore
+		}
 	}
 	
 	public static String convertNumbers(List<String> numbers) {

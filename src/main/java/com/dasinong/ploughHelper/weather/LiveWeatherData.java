@@ -58,7 +58,6 @@ public class LiveWeatherData {
 		try {
 			JsonNode node = mapper.readTree(result);
 			JsonNode observe = node.get("observe");
-			System.out.println("code:" + code);
 			JsonNode areaWeather = observe.get(code);
 			JsonNode firstNode = areaWeather.get("l");
 			this.l1 = Integer.parseInt(firstNode.get("l1").toString().replace('\"', ' ').trim());
