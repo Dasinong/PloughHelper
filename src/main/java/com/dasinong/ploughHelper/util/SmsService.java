@@ -22,69 +22,7 @@ public class SmsService {
 	public static final String ACCOUNT_NAME = "dldasi00";
 	public static final String PASSWORD = "MF3o9AFn";
 	public static final int maxLength = 120;
-	public static final ArrayList<String> weatherAdmin = new ArrayList<String>();
 	private static final Logger logger = LoggerFactory.getLogger(SmsService.class);
-
-	public String generateSecurityCode(int numberOfDigits) {
-		String securityCode = "";
-		Random generator = new Random();
-		for (int i = 0; i < numberOfDigits; i++) {
-			securityCode = securityCode + generator.nextInt(10);
-		}
-		return securityCode;
-	}
-
-	public static String securityCodeSMS(String securityCode, String number) {
-		// Random generator = new Random();
-		// String securityCode =
-		// String.valueOf(generator.nextInt(10))+String.valueOf(generator.nextInt(10))
-		// +String.valueOf(generator.nextInt(10))+String.valueOf(generator.nextInt(10));
-		String content = "临时登录密码" + securityCode + "，请妥善保管，不要泄露给他人。登陆成功后记得及时修改密码。此临时密码将于3小时后失效。【今日农事】";
-		return triggeredSMS(content, number);
-	}
-
-	public static String triggeredSMS(String content, String number) {
-		String postUrl = "http://cf.51welink.com/submitdata/Service.asmx/g_Submit";
-		try {
-			String postData = "sname=" + ACCOUNT_NAME + "&spwd=" + PASSWORD + "&scorpid=&sprdid=1012818&sdst=" + number
-					+ "&smsg=" + URLEncoder.encode(content, "UTF-8");
-			String response = SMS(postData, postUrl);
-			return response;
-		} catch (UnsupportedEncodingException e) {
-			logger.error("Unsupported encoding", e);
-		}
-		return "";
-	}
-
-	public static String groupSMS(String content, ArrayList<String> numbers) {
-		String postUrl = "http://cf.51welink.com/submitdata/Service.asmx/g_Submit";
-		try {
-			String numbersString = URLEncoder.encode(convertNumbers(numbers), "UTF-8");
-			String postData = "sname=" + ACCOUNT_NAME + "&spwd=" + PASSWORD + "&sprdid=1012808&sdst=" + numbersString
-					+ "&smsg=" + URLEncoder.encode(content, "UTF-8");
-			String response = SMS(postData, postUrl);
-			return response;
-		} catch (UnsupportedEncodingException e) {
-			logger.error("Unsupported encoding", e);
-		}
-		return "";
-	}
-
-	public static synchronized String sendref(String content, String[] target) {
-		String postUrl = "http://cf.51welink.com/submitdata/Service.asmx/g_Submit";
-		for (String number : target) {
-			content = content + "【今日农事】";
-			try {
-				String postData = "sname=" + ACCOUNT_NAME + "&spwd=" + PASSWORD + "&scorpid=&sprdid=1012818&sdst="
-						+ number + "&smsg=" + URLEncoder.encode(content, "UTF-8");
-				SMS(postData, postUrl);
-			} catch (UnsupportedEncodingException e) {
-				logger.error("Unsupported encoding", e);
-			}
-
-		}
-		return "OK";
-	}
 
 	public static synchronized String weatherAlert(String content) {
 		if (Env.getEnv().weatherAlert) {

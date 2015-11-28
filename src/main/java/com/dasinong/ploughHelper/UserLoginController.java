@@ -30,10 +30,11 @@ import com.dasinong.ploughHelper.model.SecurityCode;
 import com.dasinong.ploughHelper.model.User;
 import com.dasinong.ploughHelper.model.UserAccessToken;
 import com.dasinong.ploughHelper.outputWrapper.UserWrapper;
+import com.dasinong.ploughHelper.sms.SecurityCodeShortMessage;
+import com.dasinong.ploughHelper.sms.SMS;
 import com.dasinong.ploughHelper.util.Env;
 import com.dasinong.ploughHelper.util.HttpServletRequestX;
 import com.dasinong.ploughHelper.util.Refcode;
-import com.dasinong.ploughHelper.util.SmsService;
 import com.dasinong.ploughHelper.viewerContext.ViewerContext;
 
 @Controller
@@ -307,13 +308,11 @@ public class UserLoginController extends BaseController {
 		String cellphone = request.getParameter("cellphone");
 		User user = userDao.findByCellphone(cellphone);
 		if (user != null) {
-			SmsService sms = new SmsService();
-			String securityCode = sms.generateSecurityCode(6);
-			SmsService.securityCodeSMS(securityCode, cellphone);
-
 			// TODO (xiahonggao): deprecate session
-			SecurityCode codeObj = codeManager.generate(securityCode);
-			request.getSession().setAttribute("securityCode", securityCode);
+			SecurityCode codeObj = codeManager.generate();
+			request.getSession().setAttribute("securityCode", codeObj.getCode());
+
+			SMS.send(new SecurityCodeShortMessage(codeObj.getCode()), cellphone);
 
 			result.put("respCode", 200);
 			result.put("message", "临时密码已经发送");

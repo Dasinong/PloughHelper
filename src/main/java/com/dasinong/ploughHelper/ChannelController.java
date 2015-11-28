@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dasinong.ploughHelper.model.User;
+import com.dasinong.ploughHelper.sms.RefAppShortMessage;
+import com.dasinong.ploughHelper.sms.SMS;
+import com.dasinong.ploughHelper.util.HttpServletRequestX;
 import com.dasinong.ploughHelper.util.SmsService;
 
 @Controller
@@ -27,29 +30,9 @@ public class ChannelController extends RequireUserLoginController {
 	public Object refapp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		User user = this.getLoginUser(request);
 		String cellphone = request.getParameter("cellPhones");
-		String normalUrl = "http://t.im/rctw";
-		// String dowsUrl = "http://jinrinongshi.com/dows.html";
-		String dowsUrl = "http://t.im/sh3v";
-		String bsfUrl = "http://jinrinongshi.com/bsf.html";
-		String content;
 		if (cellphone != null && !"".equals(cellphone)) {
 			String[] target = cellphone.split(",");
-			if (user == null || user.getChannel() == null) {
-				content = "哇朋友向你推荐“今日农事”软件！手机种田好帮手，查天气病虫草害一键搞定，马上免费下载" + normalUrl + " 回T退订";
-				SmsService.sendref(content, target);
-			} else {
-				if (user.getChannel().equals("陶氏")) {
-					content = "哇朋友向你推荐“今日农事”软件！手机种田好帮手，查天气病虫草害一键搞定，马上免费下载" + dowsUrl + " 回T推定";
-					SmsService.sendref(content, target);
-				} else if (user.getChannel().equals("巴士甫")) {
-					content = "哇朋友向你推荐“今日农事”软件！手机种田好帮手，查天气病虫草害一键搞定，马上免费下载" + bsfUrl + " 回T退订";
-					SmsService.sendref(content, target);
-					SmsService.sendref(content, target);
-				} else {
-					content = "哇朋友向你推荐“今日农事”软件！手机种田好帮手，查天气病虫草害一键搞定，马上免费下载" + normalUrl + " 回T退订";
-					SmsService.sendref(content, target);
-				}
-			}
+			SMS.send(new RefAppShortMessage(user.getInstitutionId()), target);
 		}
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		result.put("respCode", "200");
