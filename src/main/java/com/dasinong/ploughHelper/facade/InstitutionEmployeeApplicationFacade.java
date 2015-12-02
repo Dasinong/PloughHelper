@@ -20,7 +20,7 @@ import com.dasinong.ploughHelper.model.UserType;
 public class InstitutionEmployeeApplicationFacade implements IInstitutionEmployeeApplicationFacade {
 
 	@Override
-	public Object create(User user, String cellphone, String code, String title, String region) throws Exception {
+	public Object create(User user, String contactName, String cellphone, String code, String title, String region) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
 		IInstitutionEmployeeApplicationDao appDao = (IInstitutionEmployeeApplicationDao) ContextLoader
 				.getCurrentWebApplicationContext().getBean("institutionEmployeeApplicationDao");
@@ -38,6 +38,7 @@ public class InstitutionEmployeeApplicationFacade implements IInstitutionEmploye
 		}
 
 		InstitutionEmployeeApplication app = new InstitutionEmployeeApplication();
+		app.setContactName(contactName);
 		app.setCellphone(cellphone);
 		app.setInstitutionId(inst.getId());
 		app.setTitle(title);

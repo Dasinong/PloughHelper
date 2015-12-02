@@ -41,11 +41,12 @@ public class InstitutionEmployeeApplicationController extends RequireUserLoginCo
 				.getCurrentWebApplicationContext().getBean("institutionEmployeeApplicationFacade");
 
 		User user = this.getLoginUser(request);
+		String contactName = requestX.getString("contactName");
 		String cellphone = requestX.getString("cellphone");
 		String code = requestX.getString("code");
 		String title = requestX.getString("title");
 		String region = requestX.getString("region");
 
-		return facade.create(user, cellphone, code, title, region);
+		return facade.create(user, contactName, cellphone, code, title, region);
 	}
 }

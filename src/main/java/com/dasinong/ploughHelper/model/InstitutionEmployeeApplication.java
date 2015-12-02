@@ -3,12 +3,21 @@ package com.dasinong.ploughHelper.model;
 public class InstitutionEmployeeApplication {
 
 	private Long id;
+	private String contactName;
 	private Long institutionId;
 	private String cellphone;
 	private String title;
 	private String region;
 
 	public InstitutionEmployeeApplication() {
+	}
+	
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
+	
+	public String getContactName() {
+		return this.contactName;
 	}
 
 	public void setId(Long id) {
