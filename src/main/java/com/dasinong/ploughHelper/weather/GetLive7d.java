@@ -46,7 +46,7 @@ public class GetLive7d {
 			live7dFor = new Live7dFor(result, areaId);
 			_Live7dFor.put(areaId, live7dFor);
 		} catch (Exception e) {
-			logger.error("Error happend when processing 7d live forcast!", e);
+			logger.error("Error happend when processing 7d live forcast: " + result, e);
 			this._Live7dFor.get(areaId);
 		}
 		return live7dFor;

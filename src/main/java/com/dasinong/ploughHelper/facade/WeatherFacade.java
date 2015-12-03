@@ -17,6 +17,7 @@ import com.dasinong.ploughHelper.weather.GetLive7d;
 import com.dasinong.ploughHelper.weather.GetLiveWeather;
 import com.dasinong.ploughHelper.weather.Live7dFor;
 import com.dasinong.ploughHelper.weather.LiveWeatherData;
+import com.dasinong.ploughHelper.weather.SevenDayForcast;
 import com.dasinong.ploughHelper.weather.SevenDayForcast.ForcastInfo;
 import com.dasinong.ploughHelper.weather.TwentyFourHourForcast;
 
@@ -130,16 +131,6 @@ public class WeatherFacade implements IWeatherFacade {
 		// 获得7天预测
 		try {
 			if (All7d.getAll7d().get7d(areaId) != null) {
-				// Fix the missing last day data;
-				int i = 0;
-				ForcastInfo lastDay = null;
-				for (ForcastInfo f : All7d.getAll7d().get7d(areaId).aggregateData) {
-					if (f != null) {
-						i++;
-						lastDay = f;
-					}
-				}
-
 				try {
 					Live7dFor l7d = GetLive7d.getAllLive7d().getLive7d(areaId);
 					Long sunrise = l7d.sevenDay[0].sunrise.getTime();
@@ -148,16 +139,10 @@ public class WeatherFacade implements IWeatherFacade {
 					Long sunset = l7d.sevenDay[0].sunset.getTime();
 					if (System.currentTimeMillis() > sunset)
 						sunset = sunset + 24 * 60 * 60 * 1000;
-					result.put("sunrise", sunrise);
-					result.put("sunset", sunset);
 					data.put("sunrise", sunrise);
 					data.put("sunset", sunset);
-					if (lastDay != null) {
-						lastDay.max_temp = l7d.sevenDay[i - 1].dayTemp;
-						lastDay.min_temp = l7d.sevenDay[i - 1].nightTemp;
-					}
 				} catch (Exception e) {
-					this.logger.error("Not able to load normal 7d", e);
+					this.logger.error("Not able to load normal 7d: " + areaId, e);
 				}
 
 				ForcastInfo[] n7d = All7d.getAll7d().get7d(areaId).aggregateData;

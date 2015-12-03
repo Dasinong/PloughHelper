@@ -46,7 +46,7 @@ public class GetLive24h {
 				tfh = new TwentyFourHourForcast(content, Integer.parseInt(this.areaId));
 				_live24hdata.put(this.areaId, tfh);
 			} catch (Exception e) {
-				logger.error("Error happend when processing 24h weather data!", e);
+				logger.error("Error happend when processing 24h weather data: " + result, e);
 				e.printStackTrace();
 			}
 			return tfh;

@@ -69,7 +69,7 @@ public class LiveWeatherData {
 			this.l7 = firstNode.get("l7").toString().replace('\"', ' ').trim();
 			this.timeStamp = new Date();
 		} catch (Exception e) {
-			logger.error("Error happened when processing json live weather data!", e);
+			logger.error("Error happened when processing json live weather data: " + code, e);
 		}
 
 	}

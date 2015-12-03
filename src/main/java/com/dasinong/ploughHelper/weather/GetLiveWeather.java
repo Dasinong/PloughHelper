@@ -46,7 +46,7 @@ public class GetLiveWeather {
 				initialWeatherData.parseHTTPResult(this.areaId, result);
 				_liveweatherdata.put(this.areaId, initialWeatherData);
 			} catch (Exception e) {
-				logger.error("Error happend when processing live weather data!", e);
+				logger.error("Error happend when processing live weather data: " + result, e);
 			}
 			return initialWeatherData;
 		}
