@@ -5,8 +5,11 @@ import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.ContextLoader;
 
+import com.dasinong.ploughHelper.dao.IMonitorLocationDao;
 import com.dasinong.ploughHelper.datapool.AllMonitorLocation;
+import com.dasinong.ploughHelper.model.MonitorLocation;
 import com.dasinong.ploughHelper.ruleEngine.rules.Rule;
 import com.dasinong.ploughHelper.util.LunarHelper;
 import com.dasinong.ploughHelper.weather.All24h;
@@ -17,8 +20,8 @@ import com.dasinong.ploughHelper.weather.GetLive7d;
 import com.dasinong.ploughHelper.weather.GetLiveWeather;
 import com.dasinong.ploughHelper.weather.Live7dFor;
 import com.dasinong.ploughHelper.weather.LiveWeatherData;
-import com.dasinong.ploughHelper.weather.SevenDayForcast;
 import com.dasinong.ploughHelper.weather.SevenDayForcast.ForcastInfo;
+import com.dasinong.ploughHelper.weather.SoilLiquid;
 import com.dasinong.ploughHelper.weather.TwentyFourHourForcast;
 
 public class WeatherFacade implements IWeatherFacade {
@@ -52,7 +55,7 @@ public class WeatherFacade implements IWeatherFacade {
 	 * Integer)
 	 */
 	@Override
-	public Object getWeather(Long areaId) {
+	public Object getWeather(Long areaId, double lat, double lon) {
 
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		HashMap<String, Object> data = new HashMap<String, Object>();
@@ -162,10 +165,32 @@ public class WeatherFacade implements IWeatherFacade {
 			data.put("workable", -1);
 			data.put("sprayable", -1);
 		}
+		
+		double soilHum = 0;
+		try {
+			soilHum = SoilLiquid.getSoilLi().getSoil(lat, lon);
+		} catch (Exception e) {
+			this.logger.error("Load soilHum failed", e);
+		}
+		data.put("soilHum", soilHum);
 
 		data.put("date", LunarHelper.getTodayLunar());
 		result.put("data", data);
 		return result;
 
+	}
+	
+	@Override
+	public Object getWeather(Long areaId) {
+		try {
+			IMonitorLocationDao locDao = (IMonitorLocationDao) ContextLoader.getCurrentWebApplicationContext().getBean("monitorLocationDao");
+			MonitorLocation loc = locDao.findByCode(areaId);
+			return getWeather(areaId, loc.getLatitude(), loc.getLongitude());
+		} catch (Exception e) {
+			HashMap<String, Object> result = new HashMap<String, Object>();
+			result.put("respCode", 405);
+			result.put("message", "初始化检测地址列表出错");
+			return result;
+		}
 	}
 }
