@@ -169,6 +169,7 @@ public class WeatherFacade implements IWeatherFacade {
 		double soilHum = 0;
 		try {
 			soilHum = SoilLiquid.getSoilLi().getSoil(lat, lon);
+			soilHum = Math.round(100 * soilHum) / 100.0;
 		} catch (Exception e) {
 			this.logger.error("Load soilHum failed", e);
 		}
