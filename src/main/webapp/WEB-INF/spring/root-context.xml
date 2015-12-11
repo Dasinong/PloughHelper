@@ -47,7 +47,6 @@
 				<ref bean="myJobTrigger3" />
 				<ref bean="myJobTrigger4" />
 				<ref bean="myJobTrigger5" />
-				<ref bean="myJobTrigger6" />
 			</list>
 		</property>
 	</bean>
